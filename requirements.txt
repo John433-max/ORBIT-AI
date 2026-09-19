@@ -1,0 +1,24 @@
+# ORBIT-100B prototype — Python dependencies
+#
+# Core (required — the API, training, tests, and CLI scripts will not run
+# without these):
+numpy>=1.26
+PyYAML>=6.0
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.5
+httpx>=0.27          # used by FastAPI's TestClient (test suite + local API smoke tests)
+
+# Testing (only needed if you plan to run the test suite):
+pytest>=8.0
+hypothesis>=6.100   # property-based/fuzz tests (test_fuzz.py)
+
+# Optional — document chat / RAG (documents.py). Without these, PDF/DOCX
+# upload is simply unavailable; txt/md/csv/json work with no extra
+# dependencies at all. Install only if you want PDF/DOCX support:
+pypdf>=5.0            # optional: PDF text extraction
+python-docx>=1.1      # optional: DOCX text extraction
+
+# Everything else the project uses (sqlite3, json, re, threading, ast, csv,
+# hashlib, statistics, math, argparse, etc.) is Python's standard library —
+# no separate install needed.

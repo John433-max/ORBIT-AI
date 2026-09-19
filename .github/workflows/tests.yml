@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-torch.txt || true
+      - name: Agent tests
+        run: PYTHONPATH=. pytest test_agents.py -q --tb=line
+      - name: TinyLM tests
+        run: PYTHONPATH=. pytest tests/tinylm -q --tb=line
