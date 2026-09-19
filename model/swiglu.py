@@ -1,2 +1,7 @@
-"""SwiGLU feed-forward."""
-from model.swiglu import SwiGLU  # re-export if defined below
+"""SwiGLU feed-forward block."""
+
+from __future__ import annotations
+
+from model_numpy_legacy import SwiGLUMLP
+
+__all__ = ["SwiGLUMLP"]
