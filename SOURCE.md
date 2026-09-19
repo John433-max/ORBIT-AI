@@ -1,23 +1,36 @@
 # Full source
 
-This GitHub repo is being filled from the ORBIT project workspace.
+**GitHub:** https://github.com/John433-max/ORBIT-AI
 
-**Complete source archive** (no large `.npz` weights):
+## Complete archive
 
-- Local path in the Grok project: `artifacts/ORBIT-AI-source.zip` (~352 KB)
-- Extract, then from that folder:
+Project workspace: `artifacts/ORBIT-AI-source.zip` (~352 KB)
 
-```bash
-pip install -r requirements.txt
-python run_orbit.py
+Includes the full ORBIT tree **except** large `.npz` weight files (gitignored).
+
+## Cycles 70–79 (local, 2026-09-19)
+
+| Cycle | Change |
+|-------|--------|
+| 70 | Unit conversion (km/m, °C/°F, kg/g) |
+| 71 | Thinking routes science/units |
+| 72 | OrbitAI.status: thinking + persona ckpt |
+| 73 | Persona chat lines |
+| 74 | Calculator natural voice |
+| 75 | test_science_math_units |
+| 76–79 | Tests green (118), GitHub docs + launcher |
+
+## Smoke
+
+```text
+100 km to m          → 100 km = 100000 m
+0 celsius to fahrenheit → 0 °C = 32 °F
 ```
 
-Large checkpoint `.npz` files are intentionally gitignored (see `.gitignore`).
+## Upload full tree
 
-## Already on this branch
+1. Download `ORBIT-AI-source.zip` from the Grok project folder
+2. Unzip over a clone of this repo
+3. `git add -A && git commit -m "Full ORBIT source" && git push`
 
-- README, UNIFIED, requirements, CI workflow
-- Package stubs: agent/, chat/, api_routes/
-- run_orbit.py launcher
-
-More modules (agents.py, tinylm/, tools/, webui/, tests/) are in the zip and can be pushed in follow-up commits.
+Or drag-and-drop the unzipped files on GitHub → Add file → Upload files.
