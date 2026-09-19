@@ -11,3 +11,6 @@ __pycache__/
 venv/
 dist/
 build/
+checkpoints/**/*.npz
+data/raw/
+data/cleaned/
