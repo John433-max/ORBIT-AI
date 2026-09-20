@@ -23,6 +23,18 @@ try:
 except ImportError:
     resource = None  # type: ignore
 
+# ResearchAgent imports AutoSearchProvider from this package.
+try:
+    from tools.web import (  # noqa: F401
+        AutoSearchProvider,
+        StubSearchProvider,
+        DuckDuckGoSearchProvider,
+    )
+except Exception:
+    AutoSearchProvider = MockSearchProvider
+    StubSearchProvider = MockSearchProvider
+    DuckDuckGoSearchProvider = MockSearchProvider
+
 
 def default_registry(permission_level: str = "SAFE") -> ToolRegistry:
     """Build a registry with whichever concrete tools are importable."""
@@ -73,6 +85,9 @@ __all__ = [
     "read_sandboxed_file",
     "MockSearchProvider",
     "SearchProvider",
+    "AutoSearchProvider",
+    "StubSearchProvider",
+    "DuckDuckGoSearchProvider",
     "AUDIT_LOG",
     "_audit",
     "_static_check",
