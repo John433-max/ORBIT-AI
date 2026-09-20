@@ -325,12 +325,12 @@ ROUTES = [
     (re.compile(r"^\s*-?\d+\.?\d*\s*[\+\-\*/%]|\bcalculate\b|\bderivative\b|\bintegral\b", re.I), "calculator"),
     (re.compile(r"\b(document|pdf|docx|extract text|summarize document)\b", re.I), "document"),
     (re.compile(r"\b(tinylm|gqa|swiglu|kv cache|tok/s|bench)\b", re.I), "lab"),
+    (re.compile(r"^remember:|\bmy name is\b|\bwhat(?:'s| is) my name\b", re.I), "memory"),
     (re.compile(r"\b(search|look up|who is|what is|explain|define)\b", re.I), "research"),
     (re.compile(r"\b(mean|average|std|statistics)\b", re.I), "data"),
     (re.compile(r"\b(trade|backtest|portfolio|pnl|sma)\b", re.I), "finance"),
     (re.compile(r"\b(layout|design|wireframe|ui)\b", re.I), "design"),
     (re.compile(r"\b(read|open) [^\s]+\.\w+", re.I), "file"),
-    (re.compile(r"^remember:|\bmy name is\b|\bwhat(?:'s| is) my name\b", re.I), "memory"),
 ]
 
 
