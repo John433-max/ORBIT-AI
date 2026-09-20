@@ -8,9 +8,7 @@ from __future__ import annotations
 
 import re
 import hashlib
-from typing import Any, Dict, Optional
-
-import numpy as np
+from typing import Any, Dict
 
 try:
     from tools import (
