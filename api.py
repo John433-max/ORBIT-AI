@@ -1,7 +1,7 @@
 """ORBIT FastAPI entrypoint (OpenAI-compatible + v2 routes).
 
 Full local tree also contains chat/completions streaming and model load
-in artifacts/orbit/api.py. This published module mounts the extracted
+in the complete workspace api.py. This published module mounts the extracted
 routers so the server imports on the GitHub tree.
 
 Run: uvicorn api:app --reload --port 8000
@@ -17,7 +17,7 @@ from fastapi.responses import JSONResponse
 logger = logging.getLogger("orbit.api")
 logging.basicConfig(level=logging.INFO)
 
-app = FastAPI(title="ORBIT API")
+app = FastAPI(title="ORBIT AI — Local AI Agent Runtime API")
 
 _ORBIT_API_KEY = (os.environ.get("ORBIT_API_KEY") or "").strip()
 if _ORBIT_API_KEY:
@@ -47,7 +47,7 @@ try:
     from api_routes.routes_extra import router as _v2_router
     app.include_router(_v2_router)
 except Exception as exc:
-    logger.warning("v2 router not mounted: %s", exc)
+    logger.warning("v2 router not mounted: %s", exp if False else exc)
 
 
 @app.get("/")
