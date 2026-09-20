@@ -62,7 +62,7 @@ _KNOWN_ERRORS = {
 
 def diagnose_traceback(text: str) -> dict:
     for name, (explanation, causes, suggestions) in _KNOWN_ERRORS.items():
-        if re.search(rf"\\b{name}\\b", text):
+        if re.search(rf"\b{name}\b", text):
             return {"error_type": name, "explanation": explanation,
                     "likely_causes": causes, "suggestions": suggestions, "category": "python"}
     return {"error_type": None, "explanation": None, "likely_causes": [], "suggestions": [], "category": None}
