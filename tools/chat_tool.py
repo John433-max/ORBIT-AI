@@ -1,8 +1,8 @@
 """Persona retrieval + optional generation for MainChatAgent.
 
-Retrieval-first chat is the documented quality path. Generation is opt-in
-and quality-gated by MainChatAgent. TinyLM decode is imported lazily so a
-sparse GitHub checkout (no tinylm.generate / torch) still imports this module.
+Retrieval-first chat is the documented quality path for the toy model.
+Generation is opt-in; this module's retrieve path has no TinyLM dependency
+so unit tests collect without torch.
 """
 
 from __future__ import annotations
@@ -11,7 +11,10 @@ from tools.base import BaseTool, ToolResult
 
 
 def query_persona(store, query: str, top_k: int = 3, threshold: float = 0.42):
-    """Search a VectorStore of persona Q/A rows."""
+    """Search a VectorStore of persona Q/A rows.
+
+    Returns a dict with hits, best match, and whether it clears `threshold`.
+    """
     query = (query or "").strip()
     k = max(1, int(top_k or 3))
     if store is None or not query or not hasattr(store, "query"):
@@ -86,154 +89,34 @@ class ChatRetrieveTool(BaseTool):
         return ToolResult(ok=True, content=content, data=data)
 
 
-PERSONA_PREAMBLE = (
-    "You are ORBIT \u2014 a sharp, helpful AI that runs locally. Speak in the first "
-    "person as yourself. Be clear, concise, and a little dry; prefer substance "
-    "over filler. Use tools for math, science, memory, documents, and code. "
-    "Never invent capabilities you lack. If unsure, say so and suggest a better angle.\n"
-)
-
-
-def resolve_generate_backend(backend, model=None, tokenizer=None) -> str:
-    chosen = (backend or "auto").strip().lower()
-    if chosen in ("tinylm", "tiny"):
-        return "tinylm"
-    if chosen in ("legacy", "orbit"):
-        return "legacy"
-    if model is not None and tokenizer is not None:
-        return "legacy"
-    return "tinylm"
-
-
-def generate_chat(
-    model,
-    tokenizer,
-    request: str,
-    history=None,
-    max_tokens: int = 40,
-    temperature: float = 0.7,
-    preamble: str = PERSONA_PREAMBLE,
-    backend: str = "auto",
-    use_cache: bool = True,
-    tinylm_preset: str = "rope",
-    tinylm_model=None,
-    ckpt_path: str = None,
-) -> dict:
-    request = (request or "").strip()
-    if not request:
-        return {"ok": False, "text": "", "error": "request is required", "n_new": 0}
-    backend = resolve_generate_backend(backend, model=model, tokenizer=tokenizer)
-    if backend in ("tinylm", "tiny"):
-        return {
-            "ok": True,
-            "text": "(no model loaded)",
-            "error": None,
-            "n_new": 0,
-            "loaded": False,
-            "backend": "tinylm",
-            "note": "Full TinyLM decode lives in the local tree; GitHub module is retrieval-first.",
-        }
-    return {
-        "ok": True,
-        "text": "(no model loaded)",
-        "error": None,
-        "n_new": 0,
-        "loaded": False,
-        "backend": "legacy",
-    }
-
-
 class ChatGenerateTool(BaseTool):
+    """Legacy/stub generate path used when TinyLM is not bound."""
+
     name = "chat.generate"
-    description = (
-        "Run the toy MainChat decoder on a user turn. Quality is not guaranteed."
-    )
+    description = "Generate a short chat reply (stub unless TinyLM is bound)."
     permission_level = "SAFE"
     parameters = {
         "type": "object",
         "properties": {
-            "request": {"type": "string", "description": "User message"},
-            "max_tokens": {"type": "integer", "default": 40},
-            "temperature": {"type": "number", "default": 0.7},
-            "backend": {"type": "string", "default": "auto"},
+            "prompt": {"type": "string"},
+            "max_new_tokens": {"type": "integer", "default": 24},
         },
-        "required": ["request"],
+        "required": ["prompt"],
     }
     timeout_s = 30.0
 
-    def __init__(
-        self,
-        model=None,
-        tokenizer=None,
-        max_tokens=40,
-        temperature=0.7,
-        backend="auto",
-        tinylm_preset="rope",
-        tinylm_model=None,
-        ckpt_path=None,
-    ):
-        self.model = model
-        self.tokenizer = tokenizer
-        self.max_tokens = max_tokens
-        self.temperature = temperature
-        self.backend = backend or "auto"
-        self.tinylm_preset = tinylm_preset
-        self.tinylm_model = tinylm_model
-        self.ckpt_path = ckpt_path
-        self._tinylm_factory = None
+    def __init__(self, generate_fn=None):
+        self.generate_fn = generate_fn
 
-    def bind_tinylm(self, model=None, factory=None, preset=None, backend=None):
-        if preset is not None:
-            self.tinylm_preset = preset
-        if backend is not None:
-            self.backend = backend
-        if factory is not None:
-            self._tinylm_factory = factory
-        if model is not None:
-            self.tinylm_model = model
-        return self.tinylm_model
-
-    def ensure_tinylm(self):
-        if self.tinylm_model is not None:
-            return self.tinylm_model
-        if self._tinylm_factory is not None:
-            self.tinylm_model = self._tinylm_factory()
-            return self.tinylm_model
-        return self.tinylm_model
-
-    def execute(
-        self,
-        request: str = "",
-        max_tokens: int = None,
-        temperature: float = None,
-        history=None,
-        backend: str = None,
-        use_cache: bool = True,
-        **_,
-    ) -> ToolResult:
-        request = (request or "").strip()
-        if not request:
-            return ToolResult(ok=False, content="", error="request is required")
-        chosen = (backend if backend is not None else self.backend) or "auto"
-        resolved = resolve_generate_backend(chosen, model=self.model, tokenizer=self.tokenizer)
-        data = generate_chat(
-            self.model,
-            self.tokenizer,
-            request,
-            history=history,
-            max_tokens=max_tokens if max_tokens is not None else self.max_tokens,
-            temperature=temperature if temperature is not None else self.temperature,
-            backend=resolved,
-            use_cache=use_cache,
-            tinylm_preset=self.tinylm_preset,
-            tinylm_model=self.tinylm_model,
-            ckpt_path=self.ckpt_path,
+    def execute(self, prompt: str = "", max_new_tokens: int = 24, **_) -> ToolResult:
+        prompt = (prompt or "").strip()
+        if not prompt:
+            return ToolResult(ok=False, content="", error="prompt is required")
+        if self.generate_fn is not None:
+            text = self.generate_fn(prompt, max_new_tokens=max_new_tokens)
+            return ToolResult(ok=True, content=str(text or ""), data={"backend": "bound"})
+        return ToolResult(
+            ok=True,
+            content="I'm here. Ask me to calculate, search, run code, or work with a document.",
+            data={"backend": "legacy"},
         )
-        if not data.get("ok"):
-            return ToolResult(
-                ok=False,
-                content="",
-                error=data.get("error") or "generate failed",
-                data=data,
-            )
-        return ToolResult(ok=True, content=data.get("text") or "", data=data)
