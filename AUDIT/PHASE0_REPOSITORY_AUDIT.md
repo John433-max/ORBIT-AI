@@ -1,36 +1,35 @@
-# Phase 0 — Repository Audit (2026-09-20)
+# PHASE 0 — Repository audit notes
 
-## Source of truth
-- **Local full tree:** project workspace `orbit/` (complete implementation)
-- **GitHub:** `John433-max/ORBIT-AI` (partial publish; growing toward parity)
-- README is **not** assumed correct until verified against code
+## Product identity
 
-## Architecture (actual)
+ORBIT AI is a **modular local AI agent runtime** (agents, tools, RAG, memory, ModelProvider backends).
 
-| Layer | Location | Status |
-|-------|----------|--------|
-| CLI / launcher | `run_orbit.py` | WORKING — doctor, serve, chat, status |
-| Facade | `orbit_ai.py` | WORKING |
-| Orchestrator | `agents.py` | WORKING — rule-based routing + agents |
-| Model providers | `orbit/models/*` | WORKING — base, echo, ollama, openai, tinylm, gguf, resilient, router |
-| Config | `orbit/core/config.py` | WORKING — env-driven |
-| State machine | `orbit/core/state.py` | WORKING — RunState enum + AgentRun |
-| Tools | `tools/*` + `tools/base.py` | WORKING — ToolRegistry + permissions |
-| API | `api.py` + `api_routes/*` | WORKING — FastAPI, SSE, OpenAI-compat |
-| Web UI | `webui/index.html` | WORKING |
-| Memory | `memory_store.py` | WORKING — hash-embed + SQLite |
-| RAG/docs | `documents.py` | WORKING — extractive, not generative |
-| TinyLM lab | `tinylm/*`, `model.py` | WORKING — educational toy-scale |
+It is **not** a shipped 100-billion-parameter model. Any discussion of large-scale training in `DESIGN.md` is **historical / research** only.
 
-## 100B terminology
-Product-facing strings cleaned. DESIGN.md labeled HISTORICAL. Tests that assert ORBIT is not a 100B model kept.
+## Historical “100B” terminology
 
-## Entry points
-```bash
-pip install -r requirements.txt
-python run_orbit.py doctor
-python run_orbit.py serve
-```
+| Location | Treatment |
+|----------|-----------|
+| `DESIGN.md` | HISTORICAL — labeled at top; not product claims |
+| Honesty tests (`test_agents.py`, `test_tools.py`) | **Kept** — they assert ORBIT is not a 100B model |
+| README / SETUP | State runtime identity only |
 
-## Principle
-ORBIT is a modular local AI agent runtime — not defined by parameter count.
+## Implemented surfaces (summary)
+
+- `agents.Orchestrator` + specialized agents
+- `tools.ToolRegistry` + permission levels
+- `documents.DocumentStore` (hash embeddings)
+- `memory_store` vector/SQLite stores
+- `orbit/models/*` providers (tinylm, ollama, openai, echo, resilient, optional gguf)
+- FastAPI `api.py` + `api_routes/`
+- `run_orbit.py` CLI
+- Educational `tinylm/` lab
+
+## Known limitations
+
+- Python sandbox is best-effort, not security-grade isolation
+- RAG uses hash embeddings, not neural embedders
+- MCP is an adapter surface, not a full server product
+- GGUF requires optional `llama-cpp-python`
+
+See current [README.md](../README.md) for the documentation of record.

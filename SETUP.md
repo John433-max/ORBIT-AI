@@ -1,104 +1,85 @@
 # Running ORBIT on Windows, macOS, and Ubuntu/Linux
 
-ORBIT is pure Python + NumPy with no compiled extensions and no GPU
-requirement, so setup is the same shape on every platform: get Python 3.10+,
-create a virtual environment, install `requirements.txt`, run.
+Preferred launcher: `python run_orbit.py` (`doctor` / `serve` / `chat`).  
+You can also run `uvicorn api:app --port 8000`.
 
-Tested during development against **Python 3.12** on Linux. Python 3.10 or
-newer should work; anything older is untested and not recommended.
+ORBIT is pure Python + NumPy with no required GPU, so setup is the same shape on every platform: get Python 3.10+, create a virtual environment, install `requirements.txt`, run.
 
----
-
-## macOS
-
-1. **Install Python 3.10+** if you don't already have it.
-   - Easiest: [python.org](https://www.python.org/downloads/macos/) installer, or
-   - Via Homebrew: `brew install python@3.12`
-   - Check what you have: `python3 --version`
-
-2. **Clone/unzip the project**, then from a Terminal in the project folder:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
-
-3. **Run the tests** (optional, confirms everything works):
-   ```bash
-   python3 -m pytest -q
-   ```
-
-4. **Train the default small model**:
-   ```bash
-   python3 train.py
-   ```
-
-5. **Start the API**:
-   ```bash
-   uvicorn api:app --reload --port 8000
-   ```
+Tested during development against **Python 3.12** on Linux. Python 3.10 or newer should work.
 
 ---
 
-## Ubuntu / Linux (including WSL2)
+## All platforms (short path)
 
-1. **Install Python 3.10+ and venv support:**
-   ```bash
-   sudo apt update
-   sudo apt install python3 python3-venv python3-pip -y
-   python3 --version
-   ```
+```bash
+git clone https://github.com/John433-max/ORBIT-AI.git
+cd ORBIT-AI
+python3 -m venv venv
+source venv/bin/activate          # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python run_orbit.py doctor
+python run_orbit.py               # http://127.0.0.1:8000/
+```
 
-2. **From the project folder:**
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
-
-3. **Test, train, run:**
-   ```bash
-   python3 -m pytest -q
-   python3 train.py
-   uvicorn api:app --reload --port 8000
-   ```
-
----
-
-## Windows
-
-### Option A — WSL2 (recommended)
-
-1. Install WSL2 from elevated PowerShell: `wsl --install`
-2. Inside Ubuntu/WSL, follow the Ubuntu/Linux instructions above.
-3. Prefer the WSL filesystem (`~/orbit`) over `/mnt/c/...`.
-4. API is reachable from Windows at `http://localhost:8000`.
-
-### Option B — Native Windows (PowerShell)
-
-1. Install Python 3.10+ from python.org (check "Add to PATH").
-2. From the project folder:
-   ```powershell
-   python -m venv venv
-   venv\Scripts\Activate.ps1
-   pip install -r requirements.txt
-   python -m pytest -q
-   python train.py
-   uvicorn api:app --reload --port 8000
-   ```
-
----
-
-## Optional: PyTorch backend
+Optional Torch extras for TinyLM torch backend:
 
 ```bash
 pip install -r requirements-torch.txt
-python3 train_torch.py
 ```
 
-Not installed by default — API, agents, RAG, and memory work without it.
+---
 
-## Common notes
+## macOS notes
 
-- Optional PDF/DOCX support via `pypdf` / `python-docx` in requirements.txt.
-- No GPU/CUDA required — CPU-first NumPy path.
+- Install Python 3.10+ from python.org or `brew install python@3.12`
+- Use `python3` / `pip` inside the venv after `source venv/bin/activate`
+
+---
+
+## Ubuntu / Debian notes
+
+```bash
+sudo apt update
+sudo apt install python3 python3-venv python3-pip
+```
+
+Then the same venv + `pip install -r requirements.txt` steps.
+
+---
+
+## Windows notes
+
+- Install Python 3.10+ from python.org and check **Add to PATH**
+- In PowerShell or cmd:
+
+```bat
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python run_orbit.py doctor
+python run_orbit.py
+```
+
+WSL2 is supported: use the Linux instructions inside WSL.
+
+---
+
+## Configuration
+
+Copy `.env.example` to `.env` and set provider variables as needed (`ORBIT_MODEL_PROVIDER`, Ollama/OpenAI URLs, optional `ORBIT_API_KEY`).
+
+See the main [README.md](README.md) configuration table.
+
+---
+
+## Tests
+
+```bash
+PYTHONPATH=. pytest tests/unit -q
+```
+
+---
+
+## Honesty
+
+ORBIT is a **modular local AI agent runtime**. It is not a 100-billion-parameter model. Attach larger models through ModelProvider backends (Ollama, OpenAI-compatible, optional GGUF) when you need stronger generation.
