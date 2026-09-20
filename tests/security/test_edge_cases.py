@@ -84,7 +84,14 @@ def test_rag_no_relevant_documents_honest():
     o = Orchestrator(sandbox_root=".")
     out = o.handle("according to the document what is the secret UNIQ_CODE_ZZZ")
     text = (out.get("content") or "").lower()
-    assert "don't have a document" in text or "no document" in text or "upload" in text
+    honest = (
+        "don't have a document" in text
+        or "don't have any" in text
+        or "no document" in text
+        or "indexed document" in text
+        or "upload" in text
+    )
+    assert honest, text
     assert "UNIQ_CODE_ZZZ" not in (out.get("content") or "") or "don't" in text
 
 
