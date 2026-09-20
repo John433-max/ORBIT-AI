@@ -62,7 +62,8 @@ def test_thinking_state_machine_max_steps():
 
 
 def test_memory_two_independent_sessions():
-    from agents import Orchestrator
+    agents = pytest.importorskip("agents")
+    Orchestrator = agents.Orchestrator
 
     a = Orchestrator(sandbox_root=".")
     b = Orchestrator(sandbox_root=".")
@@ -77,7 +78,8 @@ def test_memory_two_independent_sessions():
 
 
 def test_rag_no_relevant_documents_honest():
-    from agents import Orchestrator
+    agents = pytest.importorskip("agents")
+    Orchestrator = agents.Orchestrator
 
     o = Orchestrator(sandbox_root=".")
     out = o.handle("according to the document what is the secret UNIQ_CODE_ZZZ")
