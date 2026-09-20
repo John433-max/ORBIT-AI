@@ -1,0 +1,22 @@
+# ORBIT tiny configuration (~913k params class)
+model:
+  d_model: 128
+  n_layers: 4
+  n_heads: 8
+  n_kv_heads: 4
+  context_length: 128
+  vocab_size: 1500
+  ffn_multiplier: 2.6666666666666665
+  rope_theta: 10000.0
+  norm_epsilon: 1.0e-6
+  dropout: 0.0
+  tie_embeddings: true
+  seed: 0
+training:
+  batch_size: 8
+  learning_rate: 0.0003
+  max_steps: 500
+  lr_scheduler: cosine
+runtime:
+  device: cpu
+  dtype: float32

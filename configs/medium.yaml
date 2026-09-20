@@ -1,0 +1,21 @@
+# ORBIT medium configuration
+model:
+  d_model: 384
+  n_layers: 8
+  n_heads: 8
+  n_kv_heads: 4
+  context_length: 512
+  vocab_size: 5000
+  ffn_multiplier: 2.6666666666666665
+  rope_theta: 10000.0
+  dropout: 0.0
+  tie_embeddings: true
+training:
+  batch_size: 2
+  gradient_accumulation: 4
+  learning_rate: 0.0002
+  max_steps: 5000
+  lr_scheduler: cosine
+runtime:
+  device: cpu
+  dtype: float32

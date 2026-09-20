@@ -1,0 +1,33 @@
+# ORBIT development / fast-iteration configuration
+model:
+  d_model: 64
+  n_layers: 2
+  n_heads: 4
+  n_kv_heads: 2
+  context_length: 64
+  vocab_size: 1000
+  ffn_multiplier: 2.6666666666666665
+  rope_theta: 10000.0
+  norm_epsilon: 1.0e-6
+  dropout: 0.0
+  tie_embeddings: true
+  use_recursive_reasoning: false
+  n_sup: 4
+  seed: 0
+  emb_init_std: 0.02
+training:
+  batch_size: 4
+  gradient_accumulation: 1
+  learning_rate: 0.001
+  weight_decay: 0.01
+  warmup_steps: 10
+  max_steps: 100
+  eval_interval: 20
+  save_interval: 50
+  seed: 0
+  grad_clip: 1.0
+  lr_scheduler: cosine
+  min_lr_ratio: 0.1
+runtime:
+  device: cpu
+  dtype: float32
