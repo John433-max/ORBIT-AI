@@ -90,6 +90,18 @@ def _is_capability(text: str) -> bool:
     ))
 
 
+def _is_self_identity(text: str) -> bool:
+    """Questions about ORBIT's own name/identity — not user profile, not web research."""
+    return bool(
+        re.search(
+            r"\bwhat(?:'s| is) your name\b|\btell me (about )?yourself\b|"
+            r"\bintroduce yourself\b|\byour name\b",
+            text or "",
+            re.I,
+        )
+    )
+
+
 def _is_name_profile(text: str) -> bool:
     return bool(
         re.search(
@@ -118,7 +130,7 @@ class Thinker:
 
     def classify(self, request: str) -> str:
         r = request.strip()
-        if _is_capability(r):
+        if _is_capability(r) or _is_self_identity(r):
             return "chat"
         if _is_name_profile(r) or r.lower().startswith("remember:"):
             return "memory"
