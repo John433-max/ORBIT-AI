@@ -11,6 +11,21 @@ __pycache__/
 venv/
 dist/
 build/
-checkpoints/**/*.npz
-data/raw/
-data/cleaned/
+
+# model / binary weights
+*.gguf
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.n4m
+*.onnx
+
+# databases
+*.sqlite
+*.sqlite3
+
+# logs / coverage
+*.log
+.coverage
+htmlcov/
