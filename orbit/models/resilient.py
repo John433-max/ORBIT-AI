@@ -18,7 +18,7 @@ import os
 import threading
 import time
 from collections import OrderedDict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Iterator, List, Optional, Sequence
 
 from orbit.models.base import GenerateRequest, GenerateResult, ModelInfo, ModelProvider
@@ -201,7 +201,11 @@ class ResilientProvider(ModelProvider):
                 result = slot.provider.generate(request)
             except Exception as e:
                 result = GenerateResult(
-                    text="", ok=False, error=str(e), provider=label, model=getattr(slot.provider, "model", "")
+                    text="",
+                    ok=False,
+                    error=str(e),
+                    provider=label,
+                    model=getattr(slot.provider, "model", ""),
                 )
 
             if result.ok and result.text is not None:
@@ -211,12 +215,15 @@ class ResilientProvider(ModelProvider):
                     self.cache.put(key, result)
                 if attempt > 0:
                     self.failover_count += 1
-                    logger.info("resilient failover succeeded via %s after %d attempt(s)", label, attempt + 1)
+                    logger.info(
+                        "resilient failover succeeded via %s after %d attempt(s)",
+                        label,
+                        attempt + 1,
+                    )
                 return result
 
             errors.append(f"{label}: {result.error or 'empty/failed'}")
             if not _is_retryable(result) and attempt + 1 >= n:
-                # Non-retryable from every tried backend — stop early.
                 break
             logger.warning("resilient: backend %s failed (%s); trying next", label, result.error)
 
@@ -267,7 +274,9 @@ def build_failover_chain(cfg=None) -> ResilientProvider:
         for p in (os.environ.get("ORBIT_FAILOVER_PROVIDERS") or "openai,ollama,tinylm,echo").split(",")
         if p.strip()
     ]
-    keys = _split_keys(os.environ.get("ORBIT_OPENAI_API_KEY") or os.environ.get("OPENAI_API_KEY") or cfg.openai_api_key)
+    keys = _split_keys(
+        os.environ.get("ORBIT_OPENAI_API_KEY") or os.environ.get("OPENAI_API_KEY") or cfg.openai_api_key
+    )
     if not keys:
         keys = [""]
 
