@@ -1,0 +1,1 @@
+"""TinyLM NumPy checkpoint save/load (Cycle 67).\n\nFormat: <stem>.npz of float32 arrays + <stem>.json config.\nTorch models dump via TinyLMTorch.dump_numpy_state() then save_numpy.\n"""\n
