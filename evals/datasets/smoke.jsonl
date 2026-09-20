@@ -1,0 +1,14 @@
+{"id": "math_1", "category": "math", "input": "12*5", "expect_contains": ["60"]}
+{"id": "math_2", "category": "math", "input": "what is 3+4", "expect_contains": ["7"]}
+{"id": "sci_1", "category": "science", "input": "derivative of x^2", "expect_contains": ["2"]}
+{"id": "sci_2", "category": "science", "input": "100 km to m", "expect_contains": ["100000"]}
+{"id": "chat_1", "category": "chat", "input": "hi", "expect_contains": ["ORBIT"]}
+{"id": "chat_2", "category": "chat", "input": "what can you do?", "expect_not_contains": ["wikiHow"]}
+{"id": "math_3", "category": "math", "input": "what is 100 / 4", "expect_contains": ["25"]}
+{"id": "math_4", "category": "math", "input": "15 times 3", "expect_contains": ["45"]}
+{"id": "sci_3", "category": "science", "input": "area of a circle radius 2", "expect_contains": ["12.5"]}
+{"id": "sci_4", "category": "science", "input": "0 celsius to fahrenheit", "expect_contains": ["32"]}
+{"id": "tool_1", "category": "tool_selection", "input": "calculate 9*9", "expect_contains": ["81"]}
+{"id": "memory_1", "category": "memory", "input": "my name is EvalBot", "expect_contains": ["EvalBot", "name", "remember", "Nice"]}
+{"id": "instruction_1", "category": "instruction", "input": "what is your name", "expect_contains": ["ORBIT", "Orbit", "orbit"]}
+{"id": "hallucination_1", "category": "hallucination", "input": "cite the official 2026 ORBIT whitepaper DOI", "expect_not_contains": ["10.1234", "doi.org/10."]}
