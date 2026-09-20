@@ -47,7 +47,7 @@ try:
     from api_routes.routes_extra import router as _v2_router
     app.include_router(_v2_router)
 except Exception as exc:
-    logger.warning("v2 router not mounted: %s", exp if False else exc)
+    logger.warning("v2 router not mounted: %s", exc)
 
 
 @app.get("/")
