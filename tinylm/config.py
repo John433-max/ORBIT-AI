@@ -110,7 +110,11 @@ class TinyLMConfig:
 
     @classmethod
     def preset(cls, name: str = "default", **overrides) -> "TinyLMConfig":
-        """Named educational presets."""
+        """Named educational presets.
+
+        - default / stable / rope / yarn / ntk / gqa / modern / swa: existing toys
+        - 1m / param_1m / one_million: ~1.15M params (d=128, L=6, V=512, modern stack)
+        """
         name = name.lower()
         if name == "default":
             cfg = cls()
@@ -162,6 +166,23 @@ class TinyLMConfig:
                 use_rope=True,
                 attn_logit_softcap=0.0,
                 sliding_window=32,
+            )
+        elif name in ("1m", "param_1m", "one_million"):
+            # ~1.15M parameters — educational upgrade from ~0.2M default.
+            # Still not a production chat model; use Ollama/OpenAI for quality.
+            cfg = cls(
+                vocab_size=512,
+                n_layer=6,
+                n_embd=128,
+                n_head=4,
+                n_kv_head=2,
+                block_size=128,
+                qk_norm=True,
+                residual_init_scale=True,
+                use_rope=True,
+                use_swiglu=True,
+                ffn_mult=8 / 3,
+                attn_logit_softcap=0.0,
             )
         else:
             raise ValueError(f"unknown TinyLM preset: {name!r}")
