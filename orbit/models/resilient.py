@@ -18,14 +18,13 @@ import os
 import threading
 import time
 from collections import OrderedDict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Iterator, List, Optional, Sequence
 
 from orbit.models.base import GenerateRequest, GenerateResult, ModelInfo, ModelProvider
 
 logger = logging.getLogger("orbit.models.resilient")
 
-# Status / error signals that justify trying the next provider or key.
 _RETRYABLE_MARKERS = (
     "429",
     "rate limit",
@@ -114,7 +113,7 @@ class ProviderSlot:
 
     provider: ModelProvider
     label: str = ""
-    api_key: Optional[str] = None  # if set, applied before generate when supported
+    api_key: Optional[str] = None
 
 
 class ResilientProvider(ModelProvider):
@@ -174,7 +173,6 @@ class ResilientProvider(ModelProvider):
     def _apply_key(self, slot: ProviderSlot) -> None:
         if slot.api_key is None:
             return
-        # OpenAICompatibleProvider and similar keep api_key as a public attr.
         if hasattr(slot.provider, "api_key"):
             setattr(slot.provider, "api_key", slot.api_key)
 
@@ -216,7 +214,6 @@ class ResilientProvider(ModelProvider):
 
             errors.append(f"{label}: {result.error or 'empty/failed'}")
             if not _is_retryable(result) and attempt + 1 >= n:
-                # Non-retryable from every tried backend — stop early.
                 break
             logger.warning("resilient: backend %s failed (%s); trying next", label, result.error)
 
@@ -229,7 +226,6 @@ class ResilientProvider(ModelProvider):
         )
 
     def stream(self, request: GenerateRequest) -> Iterator[str]:
-        # Stream from first healthy slot; on failure fall back to generate().
         for slot in self.slots:
             try:
                 self._apply_key(slot)
@@ -248,13 +244,6 @@ def _split_keys(raw: str) -> List[str]:
 
 
 def build_failover_chain(cfg=None) -> ResilientProvider:
-    """Build ResilientProvider from OrbitConfig / environment.
-
-    Env knobs:
-      ORBIT_OPENAI_API_KEY or OPENAI_API_KEY — comma-separated keys to rotate
-      ORBIT_FAILOVER_PROVIDERS — comma list: openai,ollama,tinylm,echo
-      ORBIT_CACHE_TTL_S / ORBIT_CACHE_MAX — response cache
-    """
     from orbit.core.config import load_config
     from orbit.models.echo import EchoProvider
     from orbit.models.ollama import OllamaProvider

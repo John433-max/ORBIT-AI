@@ -11,7 +11,6 @@ Every tool must define:
 from __future__ import annotations
 
 import time
-import traceback
 import collections
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
