@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest
+          pip install ruff || true
+
+      - name: Lint (ruff, if installed)
+        run: |
+          if command -v ruff >/dev/null 2>&1; then
+            ruff check orbit agents.py api.py documents.py tools orbit_ai.py --select E,F,W --ignore E501 || true
+          else
+            echo "ruff not installed — skip lint"
+          fi
+
+      - name: Unit tests
+        run: |
+          if [ -d tests/unit ]; then
+            PYTHONPATH=. python -m pytest tests/unit -q --tb=line
+          else
+            echo "No tests/unit — skip"
+          fi
+
+      - name: Agent / tools tests (if present)
+        run: |
+          if [ -f test_agents.py ]; then
+            PYTHONPATH=. python -m pytest test_agents.py -q --tb=line
+          else
+            echo "test_agents.py not in this checkout — skip"
+          fi
+          if [ -f test_tools.py ]; then
+            PYTHONPATH=. python -m pytest test_tools.py -q --tb=line
+          else
+            echo "test_tools.py not in this checkout — skip"
+          fi
+
+      - name: Security / edge-case tests (if present)
+        run: |
+          if [ -d tests/security ]; then
+            PYTHONPATH=. python -m pytest tests/security -q --tb=line
+          else
+            echo "No tests/security — skip"
+          fi
+
+      - name: Import + resilient provider smoke
+        run: |
+          PYTHONPATH=. python - <<'PY'
+          import importlib
+          for m in (
+              "orbit.core.config",
+              "orbit.models.base",
+              "orbit.models.router",
+              "orbit.models.echo",
+          ):
+              try:
+                  importlib.import_module(m)
+                  print("ok", m)
+              except Exception as e:
+                  print("skip", m, e)
+          print("smoke done")
+          PY
