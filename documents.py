@@ -77,7 +77,8 @@ def load_pdf(raw_bytes: bytes):
     pages, full = [], []
     for i, page in enumerate(reader.pages, start=1):
         t = page.extract_text() or ""
-        pages.append((i, t)); full.append(t)
+        pages.append((i, t))
+        full.append(t)
     return "\n".join(full), pages
 
 def load_docx(raw_bytes: bytes):
@@ -95,7 +96,8 @@ def load_pptx(raw_bytes: bytes):
     for i, slide in enumerate(prs.slides, start=1):
         parts = [s.text for s in slide.shapes if hasattr(s, "text") and s.text]
         page_text = "\n".join(parts)
-        pages.append((i, page_text)); full.append(page_text)
+        pages.append((i, page_text))
+        full.append(page_text)
     return "\n\n".join(full), pages
 
 _LOADERS = {
@@ -150,9 +152,11 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 80) -> list:
             for s in reversed(current):
                 if tail_len + len(s) > overlap:
                     break
-                tail.insert(0, s); tail_len += len(s)
+                tail.insert(0, s)
+                tail_len += len(s)
             current, current_len = tail, tail_len
-        current.append(sent); current_len += len(sent)
+        current.append(sent)
+        current_len += len(sent)
     if current:
         chunks.append(" ".join(current))
     return chunks
