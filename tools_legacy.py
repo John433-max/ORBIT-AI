@@ -1,16 +1,18 @@
-"""Prototype Python sandbox used by tools.python.PythonTool."""
+"""Agent sandbox tools used by CI and the tools package shim."""
+from __future__ import annotations
+
 import ast
 import collections
 import logging
+import os
 import platform
 import subprocess
 import sys
-import threading
 import time
 
 IS_WINDOWS = platform.system() == "Windows"
 if not IS_WINDOWS:
-    import resource
+    import resource  # noqa: F401
 
 AUDIT_LOG = collections.deque(maxlen=1000)
 _security_logger = logging.getLogger("orbit.security")
@@ -49,83 +51,71 @@ def _static_check(code: str):
     return None
 
 
-def _read_stream_bounded(stream, max_bytes, chunks, stop_event):
-    total = 0
-    try:
-        while not stop_event.is_set():
-            chunk = stream.read(4096)
-            if not chunk:
-                break
-            chunks.append(chunk)
-            total += len(chunk)
-            if total >= max_bytes:
-                break
-    except (ValueError, OSError):
-        pass
-
-
 def python_sandbox(code: str, timeout: float = 3.0, mem_limit_mb: int = 128,
-                    max_stdout_bytes: int = 1_000_000, max_stderr_bytes: int = 1_000_000):
+                   max_stdout_bytes: int = 1_000_000, max_stderr_bytes: int = 1_000_000):
     checked = _static_check(code)
     if checked:
         error_type, reason = checked
         _audit("python_sandbox.blocked", reason=reason)
         return {"ok": False, "error_type": error_type, "error": f"rejected before execution: {reason}"}
-
-    if IS_WINDOWS:
-        preexec_fn = None
-    else:
-        def preexec_fn():
-            resource.setrlimit(resource.RLIMIT_CPU, (int(timeout) + 1, int(timeout) + 1))
-            resource.setrlimit(resource.RLIMIT_AS, (mem_limit_mb * 1024 * 1024, mem_limit_mb * 1024 * 1024))
-
     try:
-        proc = subprocess.Popen(
+        proc = subprocess.run(
             [sys.executable, "-I", "-c", code],
-            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            text=True, preexec_fn=preexec_fn,
+            capture_output=True,
+            text=True,
+            timeout=max(0.1, float(timeout)),
+            stdin=subprocess.DEVNULL,
         )
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "error_type": "timeout", "error": f"timed out after {timeout}s"}
     except Exception as e:
         return {"ok": False, "error_type": "sandbox_error", "error": f"failed to start sandbox process: {e}"}
+    if proc.returncode != 0:
+        return {
+            "ok": False,
+            "error_type": "runtime_error",
+            "error": (proc.stderr or proc.stdout or "runtime error").strip(),
+            "stdout": proc.stdout,
+            "stderr": proc.stderr,
+            "returncode": proc.returncode,
+        }
+    return {"ok": True, "stdout": proc.stdout, "stderr": proc.stderr, "returncode": proc.returncode}
 
-    stdout_chunks, stderr_chunks = [], []
-    stop_event = threading.Event()
-    t_out = threading.Thread(target=_read_stream_bounded, args=(proc.stdout, max_stdout_bytes, stdout_chunks, stop_event))
-    t_err = threading.Thread(target=_read_stream_bounded, args=(proc.stderr, max_stderr_bytes, stderr_chunks, stop_event))
-    t_out.start()
-    t_err.start()
 
-    deadline = time.time() + timeout
-    output_limit_hit = False
-    while True:
-        if proc.poll() is not None:
-            break
-        if sum(len(c) for c in stdout_chunks) >= max_stdout_bytes or sum(len(c) for c in stderr_chunks) >= max_stderr_bytes:
-            output_limit_hit = True
-            break
-        if time.time() >= deadline:
-            break
-        time.sleep(0.02)
+def web_search_stub(query: str):
+    _audit("web_search_stub.call", query=query)
+    return {
+        "ok": False,
+        "note": "no live web access in this prototype process",
+        "query": query,
+        "results": [],
+    }
 
-    timed_out = not output_limit_hit and proc.poll() is None
-    if timed_out or output_limit_hit:
-        stop_event.set()
-        proc.kill()
-        try:
-            proc.wait(timeout=2)
-        except subprocess.TimeoutExpired:
-            pass
 
-    t_out.join(timeout=2)
-    t_err.join(timeout=2)
-    stdout = "".join(stdout_chunks)
-    stderr = "".join(stderr_chunks)
-    returncode = proc.poll()
+class SearchProvider:
+    def search(self, query: str) -> dict:
+        raise NotImplementedError
 
-    if output_limit_hit:
-        return {"ok": False, "error_type": "output_limit", "error": "output exceeded the configured limit", "stdout": stdout, "stderr": stderr}
-    if timed_out:
-        return {"ok": False, "error_type": "timeout", "error": f"timed out after {timeout}s", "stdout": stdout, "stderr": stderr}
-    if returncode != 0:
-        return {"ok": False, "error_type": "runtime_error", "error": stderr or "nonzero exit", "stdout": stdout, "stderr": stderr, "returncode": returncode}
-    return {"ok": True, "stdout": stdout, "stderr": stderr, "returncode": returncode}
+
+class MockSearchProvider(SearchProvider):
+    def search(self, query: str) -> dict:
+        return web_search_stub(query)
+
+
+def read_sandboxed_file(path: str, root: str = "."):
+    root_real = os.path.realpath(root)
+    target_real = os.path.realpath(os.path.join(root, path))
+    try:
+        if os.path.commonpath([root_real, target_real]) != root_real:
+            raise ValueError
+    except ValueError:
+        _audit("file_read.blocked", path=path)
+        return {"ok": False, "error": "path escapes sandbox root"}
+    try:
+        with open(target_real) as f:
+            content = f.read(4096)
+        _audit("file_read.ok", path=path)
+        return {"ok": True, "content": content}
+    except OSError as e:
+        _audit("file_read.error", path=path, error=str(e))
+        return {"ok": False, "error": str(e)}
