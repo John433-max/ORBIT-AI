@@ -26,8 +26,9 @@ jobs:
 
       - name: Unit tests (always)
         run: |
+          python -m pytest --version
           if [ -d tests/unit ]; then
-            PYTHONPATH=. python -m pytest tests/unit -q --tb=line
+            PYTHONPATH=. python -m pytest tests/unit -q --tb=short --maxfail=8
           else
             echo "No tests/unit yet — skip"
           fi
@@ -35,7 +36,7 @@ jobs:
       - name: Agent tests (if present)
         run: |
           if [ -f test_agents.py ]; then
-            PYTHONPATH=. python -m pytest test_agents.py -q --tb=line
+            PYTHONPATH=. python -m pytest test_agents.py -q --tb=short
           else
             echo "test_agents.py not in this checkout — skip (upload full source zip)"
           fi
@@ -44,7 +45,7 @@ jobs:
         run: |
           PYTHONPATH=. python - <<'PY'
           import importlib
-          for m in ("orbit.core.config", "orbit.models.echo", "orbit.models.router"):
+          for m in ("orbit.core.config", "orbit.models.echo", "orbit.models.router", "memory_store"):
               try:
                   importlib.import_module(m)
                   print("ok", m)
