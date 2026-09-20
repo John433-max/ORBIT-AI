@@ -1,14 +1,4 @@
-"""Multi-provider failover + simple in-process response cache.
-
-Wraps one or more ModelProvider instances and:
-  - retries / fails over on HTTP 429, 5xx, timeouts, and transport errors
-  - rotates among providers and optional API-key list
-  - optionally caches identical GenerateRequest results (LRU, TTL)
-
-Does not invent cloud providers: it only chains whatever providers you pass
-(or that build_failover_chain() constructs from OrbitConfig / env).
-"""
-
+"""Multi-provider failover + simple in-process response cache."""
 from __future__ import annotations
 
 import hashlib
@@ -18,14 +8,13 @@ import os
 import threading
 import time
 from collections import OrderedDict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, Iterator, List, Optional, Sequence
 
 from orbit.models.base import GenerateRequest, GenerateResult, ModelInfo, ModelProvider
 
 logger = logging.getLogger("orbit.models.resilient")
 
-# Status / error signals that justify trying the next provider or key.
 _RETRYABLE_MARKERS = (
     "429",
     "rate limit",
@@ -69,8 +58,6 @@ class _CacheEntry:
 
 
 class LRUResponseCache:
-    """Thread-safe LRU with TTL for identical generation requests."""
-
     def __init__(self, max_entries: int = 256, ttl_s: float = 300.0):
         self.max_entries = max(1, max_entries)
         self.ttl_s = max(1.0, ttl_s)
@@ -110,16 +97,12 @@ class LRUResponseCache:
 
 @dataclass
 class ProviderSlot:
-    """One callable backend, optionally with a dedicated API key override."""
-
     provider: ModelProvider
     label: str = ""
-    api_key: Optional[str] = None  # if set, applied before generate when supported
+    api_key: Optional[str] = None
 
 
 class ResilientProvider(ModelProvider):
-    """Failover across ProviderSlot list; optional LRU cache."""
-
     name = "resilient"
 
     def __init__(
@@ -174,7 +157,6 @@ class ResilientProvider(ModelProvider):
     def _apply_key(self, slot: ProviderSlot) -> None:
         if slot.api_key is None:
             return
-        # OpenAICompatibleProvider and similar keep api_key as a public attr.
         if hasattr(slot.provider, "api_key"):
             setattr(slot.provider, "api_key", slot.api_key)
 
@@ -216,7 +198,6 @@ class ResilientProvider(ModelProvider):
 
             errors.append(f"{label}: {result.error or 'empty/failed'}")
             if not _is_retryable(result) and attempt + 1 >= n:
-                # Non-retryable from every tried backend — stop early.
                 break
             logger.warning("resilient: backend %s failed (%s); trying next", label, result.error)
 
@@ -229,7 +210,6 @@ class ResilientProvider(ModelProvider):
         )
 
     def stream(self, request: GenerateRequest) -> Iterator[str]:
-        # Stream from first healthy slot; on failure fall back to generate().
         for slot in self.slots:
             try:
                 self._apply_key(slot)
@@ -248,13 +228,6 @@ def _split_keys(raw: str) -> List[str]:
 
 
 def build_failover_chain(cfg=None) -> ResilientProvider:
-    """Build ResilientProvider from OrbitConfig / environment.
-
-    Env knobs:
-      ORBIT_OPENAI_API_KEY or OPENAI_API_KEY — comma-separated keys to rotate
-      ORBIT_FAILOVER_PROVIDERS — comma list: openai,ollama,tinylm,echo
-      ORBIT_CACHE_TTL_S / ORBIT_CACHE_MAX — response cache
-    """
     from orbit.core.config import load_config
     from orbit.models.echo import EchoProvider
     from orbit.models.ollama import OllamaProvider
