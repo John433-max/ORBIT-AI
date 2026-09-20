@@ -1,0 +1,55 @@
+# ORBIT ~1M-parameter educational configuration
+# TinyLM preset "1m": d_model=128, n_layers=6, vocab=512, modern stack
+# (RoPE + GQA + SwiGLU + QK-Norm). Estimate ≈ 1.15M parameters.
+# Still toy-scale for chat quality — use Ollama/OpenAI providers for stronger models.
+
+model:
+  d_model: 128
+  n_layers: 6
+  n_heads: 4
+  n_kv_heads: 2
+  context_length: 128
+  vocab_size: 512
+  ffn_multiplier: 2.6666666666666665   # ~8/3 SwiGLU
+  rope_theta: 10000.0
+  norm_epsilon: 1.0e-6
+  dropout: 0.0
+  attention_dropout: 0.0
+  residual_dropout: 0.0
+  tie_embeddings: true
+  bias: false
+  use_recursive_reasoning: false
+  n_sup: 4
+  seed: 0
+  emb_init_std: 0.02
+
+training:
+  batch_size: 4
+  gradient_accumulation: 2
+  learning_rate: 0.0003
+  weight_decay: 0.1
+  warmup_steps: 100
+  max_steps: 2000
+  eval_interval: 100
+  save_interval: 200
+  seed: 0
+  grad_clip: 1.0
+  lr_scheduler: cosine
+  min_lr_ratio: 0.1
+  optimizer: adamw
+  betas: [0.9, 0.95]
+
+runtime:
+  device: cpu
+  dtype: float32
+  threads: null
+  max_memory: null
+
+dataset_mix:
+  books: 0.40
+  code: 0.20
+  documentation: 0.15
+  instruction: 0.10
+  math: 0.05
+  filipino: 0.05
+  tool_use: 0.05
