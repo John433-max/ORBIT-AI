@@ -85,7 +85,6 @@ class TinyBlock(nn.Module):
         self.wv = nn.Linear(c.n_embd, kv_dim, bias=False)
         self.wo = nn.Linear(c.n_embd, c.n_embd, bias=False)
         if c.use_swiglu:
-            # gate and up fused into w1: (2*ff, d)
             self.w1 = nn.Linear(c.n_embd, 2 * ff, bias=False)
             self.w2 = nn.Linear(ff, c.n_embd, bias=False)
         else:
@@ -107,7 +106,6 @@ class TinyLMTorch(nn.Module):
         self.config = config
         c = config
         self.tok_emb = nn.Embedding(c.vocab_size, c.n_embd)
-        # Learned absolute positions only when not using RoPE (Cycle 21).
         if c.use_rope:
             self.pos_emb = None
         else:
@@ -140,7 +138,6 @@ class TinyLMTorch(nn.Module):
                 tl.k_norm.copy_(torch.from_numpy(nl["k_norm"]))
 
     def dump_numpy_state(self) -> dict:
-        """Export Torch weights in NumPy layout (Cycle 67). Linear weights are transposed."""
         sd = {
             "tok_emb": self.tok_emb.weight.detach().cpu().numpy().astype("float32"),
             "ln_f_w": self.ln_f_w.detach().cpu().numpy().astype("float32"),
@@ -163,7 +160,6 @@ class TinyLMTorch(nn.Module):
         return sd
 
     def alloc_kv_caches(self, batch: int, max_len: int, device=None) -> list:
-        """Preallocated KV. Cycle 54: cap = min(max_len, W) when SWA is on."""
         c = self.config
         device = device or next(self.parameters()).device
         cap = int(max_len)
@@ -233,7 +229,6 @@ class TinyLMTorch(nn.Module):
         if win_trim > 0 and t == 1 and k.size(2) > win_trim:
             k = k[:, :, -win_trim:]
             v = v[:, :, -win_trim:]
-        # GQA: expand KV heads to match Q heads
         if kvh != h:
             rep = h // kvh
             k = k.repeat_interleave(rep, dim=1)

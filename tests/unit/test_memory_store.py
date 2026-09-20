@@ -1,5 +1,4 @@
 """CI unit tests for memory_store (hash-embed + in-memory + SQLite)."""
-import time
 
 import numpy as np
 import pytest
@@ -34,9 +33,13 @@ def test_delete(store):
 
 
 def test_ttl_expiry(store):
-    store.add("short-lived note", ttl_seconds=0.15, dedupe=False)
+    # Do not rely on sub-second wall-clock sleep: CI runners can spend
+    # more than a short TTL between add() and the first query (seen on
+    # Actions: sqlite returned 0 hits immediately after add with ttl=0.15).
+    store.add("short-lived note", ttl_seconds=3600, dedupe=False)
     assert len(store.query("short-lived", k=5)) == 1
-    time.sleep(0.25)
+    item_id = store.list()[0]["id"]
+    store.update(item_id, ttl_seconds=-1)
     assert len(store.query("short-lived", k=5)) == 0
 
 
