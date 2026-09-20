@@ -8,7 +8,13 @@ from orbit.models.base import (
 )
 from orbit.models.router import ModelRouter, get_default_provider
 from orbit.models.gguf import GGUFProvider
-from orbit.models.resilient import ResilientProvider, build_failover_chain
+
+# Optional extras: a missing sibling file must not break EchoProvider imports in CI.
+try:
+    from orbit.models.resilient import ResilientProvider, build_failover_chain
+except ImportError:  # pragma: no cover
+    ResilientProvider = None  # type: ignore[misc, assignment]
+    build_failover_chain = None  # type: ignore[misc, assignment]
 
 __all__ = [
     "GenerateRequest",
