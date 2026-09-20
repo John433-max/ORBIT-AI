@@ -1,20 +1,5 @@
 """
-Minimal RAG / long-term-memory store (spec Part 11 + the "Evidence Store"
-from Part 9's research-agent diagram — implemented as one reusable component
-since they're the same underlying primitive: embed text, store it, retrieve
-by similarity).
-
-Embedding function: feature-hashed character trigrams -> a fixed-size dense
-vector, L2-normalized. This is a real, well-established technique (the
-"hashing trick" / HashingVectorizer) — not a placeholder — but it is
-explicitly NOT a trained embedding model. It captures character-overlap
-similarity, not semantic similarity. A production system needs a real
-trained (or at minimum pretrained, e.g. a sentence-embedding model) encoder;
-using this repo's own toy TinyLM's token embeddings would be worse, not
-better, since those are trained on ~600 bytes of text and are close to
-random. This module exists to make the retrieval *mechanics* (store,
-cosine-rank, metadata, expiration, delete) real and testable, per
-DESIGN.md's implemented-vs-proposed distinction.
+Minimal RAG / long-term-memory store (hashing-trick embeddings + cosine retrieval).
 """
 import time
 import hashlib
@@ -165,9 +150,12 @@ class SQLiteVectorStore(VectorStore):
         cur = self._conn.execute("SELECT id, text, metadata, created_at, expires_at, importance FROM memories")
         for item_id, text, metadata_json, created_at, expires_at, importance in cur.fetchall():
             self._items[item_id] = {
-                "text": text, "vec": hash_embed(text, self.dim),
+                "text": text,
+                "vec": hash_embed(text, self.dim),
                 "metadata": json.loads(metadata_json),
-                "created_at": created_at, "expires_at": expires_at, "importance": importance,
+                "created_at": created_at,
+                "expires_at": expires_at,
+                "importance": importance,
             }
             self._next_id = max(self._next_id, item_id + 1)
 
