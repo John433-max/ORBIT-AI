@@ -37,7 +37,6 @@ class OrbitAI:
         self.conversation_id = conversation_id
         self.use_thinking = use_thinking
 
-        # Cycle 53: default on-disk stores under .orbit_data/
         if persist:
             data = self.root / ".orbit_data"
             data.mkdir(parents=True, exist_ok=True)
@@ -86,7 +85,6 @@ class OrbitAI:
             except Exception:
                 continue
 
-    # ---- chat / agents ----
     def chat(self, message: str, history: Optional[List[dict]] = None) -> Dict[str, Any]:
         if history is None and self.orch.conversations is not None:
             try:
@@ -112,7 +110,6 @@ class OrbitAI:
     def metrics(self) -> Dict[str, Any]:
         return self.orch.metrics() if hasattr(self.orch, "metrics") else {}
 
-    # ---- documents / RAG ----
     def add_document(self, filename: str, raw: bytes) -> dict:
         return self.orch.documents.add_document(filename, raw)
 
@@ -122,7 +119,6 @@ class OrbitAI:
     def query_documents(self, question: str) -> str:
         return self.ask(f"according to the document: {question}")
 
-    # ---- TinyLM lab (educational stack) ----
     def lab_status(self) -> dict:
         try:
             from tinylm import TinyLMConfig
@@ -148,7 +144,6 @@ class OrbitAI:
         tps = bench_numpy(m, prompt_len=8, n_new=n_new, use_cache=True)
         return {"preset": preset, "numpy_tok_s": tps, "params": cfg.estimate_parameters()}
 
-    # ---- status ----
     def status(self) -> dict:
         agents = list(self.orch.agents.keys())
         persona_ckpt = self.root / "checkpoints" / "tinylm_persona.npz"
