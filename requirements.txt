@@ -1,7 +1,7 @@
-# ORBIT-100B prototype — Python dependencies
+# ORBIT AI — core runtime dependencies
+# (Modular local AI agent runtime — not a fixed model size.)
 #
-# Core (required — the API, training, tests, and CLI scripts will not run
-# without these):
+# Core (required — the API, CLI, tests, and launcher will not run without these):
 numpy>=1.26
 PyYAML>=6.0
 fastapi>=0.110
