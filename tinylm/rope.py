@@ -28,7 +28,8 @@ def rope_inv_freq(
     scaling = (scaling or "none").lower()
     if factor <= 1.0 or scaling in ("none", "", "off"):
         return inv.astype(np.float32)
-    if scaling == "linear":n        return (inv / factor).astype(np.float32)
+    if scaling == "linear":
+        return (inv / factor).astype(np.float32)
     if scaling == "ntk":
         theta_s = theta * (factor ** (d / (d - 2.0)))
         return (theta_s ** (-dim_ids / d)).astype(np.float32)

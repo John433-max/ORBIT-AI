@@ -1,8 +1,7 @@
 """ORBIT tools package (v2).
 
-Re-exports BaseTool primitives and legacy sandbox helpers. Concrete tool
-classes are imported lazily so a sparse GitHub checkout can still collect
-unit tests that only need tools.base.
+Re-exports BaseTool primitives, concrete tools when importable, and legacy
+sandbox helpers. Optional imports keep sparse checkouts usable for unit tests.
 """
 
 from tools.base import BaseTool, ToolResult, ToolCall, ToolRegistry
@@ -23,52 +22,49 @@ try:
 except ImportError:
     resource = None  # type: ignore
 
-# ResearchAgent imports AutoSearchProvider from this package.
-try:
-    from tools.web import (  # noqa: F401
-        AutoSearchProvider,
-        StubSearchProvider,
-        DuckDuckGoSearchProvider,
-    )
-except Exception:
+# Optional concrete tools (export names for agents.py imports)
+_optional_exports = {}
+
+def _try(mod_name: str, *names: str) -> None:
+    try:
+        mod = __import__(mod_name, fromlist=list(names))
+        for n in names:
+            _optional_exports[n] = getattr(mod, n)
+            globals()[n] = getattr(mod, n)
+    except Exception:
+        for n in names:
+            globals().setdefault(n, None)
+
+_try("tools.web", "WebSearchTool", "WebFetchTool", "AutoSearchProvider", "StubSearchProvider", "DuckDuckGoSearchProvider")
+_try("tools.calculator", "CalculatorTool")
+_try("tools.filesystem", "FilesystemTool")
+_try("tools.python", "PythonTool")
+_try("tools.memory_tool", "MemoryAddTool", "MemorySearchTool")
+_try("tools.document_tool", "DocumentListTool", "DocumentTextTool", "DocumentSummarizeTool", "DocumentAnswerTool")
+_try("tools.tinylm_lab", "TinyLMLabTool")
+_try("tools.finance_tool", "FinanceBacktestTool")
+_try("tools.debug_tool", "DebugDiagnoseTool")
+_try("tools.file_tool", "FileReadTool")
+_try("tools.data_tool", "DataStatsTool")
+_try("tools.design_tool", "DesignLayoutTool")
+_try("tools.chat_tool", "ChatRetrieveTool", "ChatGenerateTool")
+
+# Fallbacks if web providers failed
+if globals().get("AutoSearchProvider") is None:
     AutoSearchProvider = MockSearchProvider
+if globals().get("StubSearchProvider") is None:
     StubSearchProvider = MockSearchProvider
+if globals().get("DuckDuckGoSearchProvider") is None:
     DuckDuckGoSearchProvider = MockSearchProvider
 
 
 def default_registry(permission_level: str = "SAFE") -> ToolRegistry:
     """Build a registry with whichever concrete tools are importable."""
     reg = ToolRegistry(permission_level=permission_level)
-    _optional = (
-        ("tools.calculator", "CalculatorTool"),
-        ("tools.filesystem", "FilesystemTool"),
-        ("tools.python", "PythonTool"),
-        ("tools.web", "WebSearchTool"),
-        ("tools.web", "WebFetchTool"),
-        ("tools.memory_tool", "MemoryAddTool"),
-        ("tools.memory_tool", "MemorySearchTool"),
-        ("tools.document_tool", "DocumentListTool"),
-        ("tools.document_tool", "DocumentTextTool"),
-        ("tools.document_tool", "DocumentSummarizeTool"),
-        ("tools.document_tool", "DocumentAnswerTool"),
-        ("tools.tinylm_lab", "TinyLMLabTool"),
-        ("tools.finance_tool", "FinanceBacktestTool"),
-        ("tools.debug_tool", "DebugDiagnoseTool"),
-        ("tools.file_tool", "FileReadTool"),
-        ("tools.data_tool", "DataStatsTool"),
-        ("tools.design_tool", "DesignLayoutTool"),
-        ("tools.chat_tool", "ChatRetrieveTool"),
-        ("tools.chat_tool", "ChatGenerateTool"),
-    )
-    seen = set()
-    for mod_name, cls_name in _optional:
-        key = (mod_name, cls_name)
-        if key in seen:
+    for name, cls in list(_optional_exports.items()):
+        if name.endswith("Provider") or cls is None:
             continue
-        seen.add(key)
         try:
-            mod = __import__(mod_name, fromlist=[cls_name])
-            cls = getattr(mod, cls_name)
             reg.register(cls())
         except Exception:
             continue
@@ -88,6 +84,15 @@ __all__ = [
     "AutoSearchProvider",
     "StubSearchProvider",
     "DuckDuckGoSearchProvider",
+    "MemoryAddTool",
+    "MemorySearchTool",
+    "DocumentListTool",
+    "DocumentTextTool",
+    "DocumentSummarizeTool",
+    "DocumentAnswerTool",
+    "ChatRetrieveTool",
+    "ChatGenerateTool",
+    "CalculatorTool",
     "AUDIT_LOG",
     "_audit",
     "_static_check",
