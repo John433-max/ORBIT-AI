@@ -11,8 +11,17 @@ Usage:
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+
+def _env_bool(name: str, default: bool) -> bool:
+    """Parse common truthy/falsey env values; empty → default."""
+    raw = os.environ.get(name)
+    if raw is None or str(raw).strip() == "":
+        return default
+    return str(raw).strip().lower() in ("1", "true", "yes", "on")
 
 
 class OrbitAI:
@@ -27,7 +36,7 @@ class OrbitAI:
         load_model: bool = True,
         persist: bool = True,
         conversation_id: str = "default",
-        use_thinking: bool = True,
+        use_thinking: Optional[bool] = None,
     ):
         self.root = Path(sandbox_root).resolve()
         self.model = None
@@ -35,8 +44,12 @@ class OrbitAI:
         self.model_loaded = False
         self.active_checkpoint = None
         self.conversation_id = conversation_id
-        self.use_thinking = use_thinking
+        # Cycle 94: ORBIT_THINK env overrides default when use_thinking is omitted
+        if use_thinking is None:
+            use_thinking = _env_bool("ORBIT_THINK", True)
+        self.use_thinking = bool(use_thinking)
 
+        # Cycle 53: default on-disk stores under .orbit_data/
         if persist:
             data = self.root / ".orbit_data"
             data.mkdir(parents=True, exist_ok=True)
@@ -85,6 +98,7 @@ class OrbitAI:
             except Exception:
                 continue
 
+    # ---- chat / agents ----
     def chat(self, message: str, history: Optional[List[dict]] = None) -> Dict[str, Any]:
         if history is None and self.orch.conversations is not None:
             try:
@@ -110,6 +124,7 @@ class OrbitAI:
     def metrics(self) -> Dict[str, Any]:
         return self.orch.metrics() if hasattr(self.orch, "metrics") else {}
 
+    # ---- documents / RAG ----
     def add_document(self, filename: str, raw: bytes) -> dict:
         return self.orch.documents.add_document(filename, raw)
 
@@ -119,6 +134,7 @@ class OrbitAI:
     def query_documents(self, question: str) -> str:
         return self.ask(f"according to the document: {question}")
 
+    # ---- TinyLM lab (educational stack) ----
     def lab_status(self) -> dict:
         try:
             from tinylm import TinyLMConfig
@@ -126,9 +142,11 @@ class OrbitAI:
 
             reg = run_regression()
             cfg = TinyLMConfig.preset("modern")
+            cfg_1m = TinyLMConfig.preset("1m")
             return {
                 "available": True,
                 "modern_params": cfg.estimate_parameters(),
+                "param_1m": cfg_1m.estimate_parameters(),
                 "regression_ok": reg.get("ok"),
             }
         except Exception as e:
@@ -144,9 +162,27 @@ class OrbitAI:
         tps = bench_numpy(m, prompt_len=8, n_new=n_new, use_cache=True)
         return {"preset": preset, "numpy_tok_s": tps, "params": cfg.estimate_parameters()}
 
+    # ---- status ----
     def status(self) -> dict:
         agents = list(self.orch.agents.keys())
         persona_ckpt = self.root / "checkpoints" / "tinylm_persona.npz"
+        provider = None
+        try:
+            if getattr(self.orch, "model_router", None) is not None:
+                p = self.orch.model_router.provider
+                provider = {
+                    "name": getattr(p, "name", type(p).__name__),
+                    "health": p.health_check() if hasattr(p, "health_check") else None,
+                }
+        except Exception as e:
+            provider = {"error": str(e)}
+        tinylm_preset = os.environ.get("ORBIT_TINYLM_PRESET") or "rope"
+        try:
+            from tinylm.config import TinyLMConfig
+
+            _1m = TinyLMConfig.preset("1m").estimate_parameters()
+        except Exception:
+            _1m = None
         return {
             "product": "ORBIT unified AI",
             "model_loaded": self.model_loaded,
@@ -155,7 +191,11 @@ class OrbitAI:
             "agents": agents,
             "tinylm_lab": self.lab_status(),
             "tinylm_persona_ckpt": persona_ckpt.exists(),
+            "tinylm_preset": tinylm_preset,
+            "tinylm_1m_params": _1m,
+            "model_provider": provider,
             "use_thinking": bool(getattr(self, "use_thinking", True)),
+            "orbit_think_env": os.environ.get("ORBIT_THINK"),
             "webui": (self.root / "webui" / "index.html").exists(),
             "api": "uvicorn api:app  OR  python run_orbit.py",
             "metrics": self.metrics(),
