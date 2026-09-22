@@ -23,6 +23,7 @@ class TinyLMConfig:
     rms_eps: float = 1e-6
     init_std: float = 0.02
     sliding_window: int = 0  # 0 = full causal; >0 = attend only last W keys (Cycle 51)
+    attn_sinks: int = 0  # Cycle 105: StreamingLLM sinks kept with SWA (0 disables)
     resid_pdrop: float = 0.0  # Cycle 32: residual dropout (train only)
     attn_pdrop: float = 0.0  # Cycle 32: attention weight dropout (torch path)
 
@@ -41,10 +42,22 @@ class TinyLMConfig:
             raise ValueError("n_layer, vocab_size, block_size must be positive")
         if self.sliding_window < 0:
             raise ValueError("sliding_window must be >= 0 (0 disables)")
+        if self.attn_sinks < 0:
+            raise ValueError("attn_sinks must be >= 0 (0 disables)")
+        if self.attn_sinks and self.sliding_window == 0:
+            self.attn_sinks = 0
 
     @property
     def head_dim(self) -> int:
         return self.n_embd // self.n_head
+
+    def kv_window_cap(self, max_len: int) -> int:
+        """Allocated KV length: full seq, or W+sinks when SWA is on."""
+        cap = int(max_len)
+        w = int(self.sliding_window)
+        if w > 0:
+            cap = min(cap, w + max(0, int(self.attn_sinks)))
+        return max(1, cap)
 
     @property
     def n_kv_heads(self) -> int:
@@ -80,7 +93,6 @@ class TinyLMConfig:
         return 1.0 / (2 * self.n_layer) ** 0.5
 
     def max_seq_len(self) -> int:
-        """Hard length cap. Learned pos is block_size; RoPE can extend."""
         if not self.use_rope:
             return self.block_size
         factor = max(float(self.rope_factor), 1.0)
@@ -95,7 +107,6 @@ class TinyLMConfig:
         return cls(**fields)
 
     def to_json(self, path: str) -> None:
-        """Cycle 29: persist config as JSON."""
         import json
         from pathlib import Path
 
@@ -110,11 +121,7 @@ class TinyLMConfig:
 
     @classmethod
     def preset(cls, name: str = "default", **overrides) -> "TinyLMConfig":
-        """Named educational presets.
-
-        - default / stable / rope / yarn / ntk / gqa / modern / swa: existing toys
-        - 1m / param_1m / one_million: ~1.15M params (d=128, L=6, V=512, modern stack)
-        """
+        """Named educational presets including 1m and 100m scale targets."""
         name = name.lower()
         if name == "default":
             cfg = cls()
@@ -124,65 +131,45 @@ class TinyLMConfig:
             cfg = cls(qk_norm=True, residual_init_scale=True, use_rope=True, attn_logit_softcap=0.0)
         elif name == "yarn":
             cfg = cls(
-                qk_norm=True,
-                residual_init_scale=True,
-                use_rope=True,
-                rope_scaling="yarn",
-                rope_factor=2.0,
-                attn_logit_softcap=0.0,
+                qk_norm=True, residual_init_scale=True, use_rope=True,
+                rope_scaling="yarn", rope_factor=2.0, attn_logit_softcap=0.0,
             )
         elif name == "ntk":
             cfg = cls(
-                qk_norm=True,
-                residual_init_scale=True,
-                use_rope=True,
-                rope_scaling="ntk",
-                rope_factor=2.0,
-                attn_logit_softcap=0.0,
+                qk_norm=True, residual_init_scale=True, use_rope=True,
+                rope_scaling="ntk", rope_factor=2.0, attn_logit_softcap=0.0,
             )
         elif name == "gqa":
-            cfg = cls(
-                qk_norm=True,
-                residual_init_scale=True,
-                use_rope=True,
-                n_kv_head=0,
-                attn_logit_softcap=0.0,
-            )
+            cfg = cls(qk_norm=True, residual_init_scale=True, use_rope=True, n_kv_head=0, attn_logit_softcap=0.0)
             cfg.n_kv_head = max(1, cfg.n_head // 2)
         elif name == "modern":
             cfg = cls(
-                qk_norm=True,
-                residual_init_scale=True,
-                use_rope=True,
-                use_swiglu=True,
-                ffn_mult=8 / 3,
-                attn_logit_softcap=0.0,
+                qk_norm=True, residual_init_scale=True, use_rope=True,
+                use_swiglu=True, ffn_mult=8 / 3, attn_logit_softcap=0.0,
             )
             cfg.n_kv_head = max(1, cfg.n_head // 2)
         elif name == "swa":
             cfg = cls(
-                qk_norm=True,
-                residual_init_scale=True,
-                use_rope=True,
-                attn_logit_softcap=0.0,
-                sliding_window=32,
+                qk_norm=True, residual_init_scale=True, use_rope=True,
+                attn_logit_softcap=0.0, sliding_window=32,
+            )
+        elif name in ("swa_sink", "streaming"):
+            cfg = cls(
+                qk_norm=True, residual_init_scale=True, use_rope=True,
+                attn_logit_softcap=0.0, sliding_window=32, attn_sinks=4,
             )
         elif name in ("1m", "param_1m", "one_million"):
-            # ~1.15M parameters — educational upgrade from ~0.2M default.
-            # Still not a production chat model; use Ollama/OpenAI for quality.
             cfg = cls(
-                vocab_size=512,
-                n_layer=6,
-                n_embd=128,
-                n_head=4,
-                n_kv_head=2,
-                block_size=128,
-                qk_norm=True,
-                residual_init_scale=True,
-                use_rope=True,
-                use_swiglu=True,
-                ffn_mult=8 / 3,
-                attn_logit_softcap=0.0,
+                vocab_size=512, n_layer=6, n_embd=128, n_head=4, n_kv_head=2, block_size=128,
+                qk_norm=True, residual_init_scale=True, use_rope=True, use_swiglu=True,
+                ffn_mult=8 / 3, attn_logit_softcap=0.0,
+            )
+        elif name in ("100m", "param_100m", "one_hundred_million"):
+            # ~100.1M params — architecture only; no shipped trained weights
+            cfg = cls(
+                vocab_size=32000, n_layer=12, n_embd=768, n_head=12, n_kv_head=4, block_size=1024,
+                qk_norm=True, residual_init_scale=True, use_rope=True, use_swiglu=True,
+                ffn_mult=8 / 3, attn_logit_softcap=0.0,
             )
         else:
             raise ValueError(f"unknown TinyLM preset: {name!r}")
