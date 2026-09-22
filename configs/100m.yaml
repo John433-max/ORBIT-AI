@@ -1,0 +1,60 @@
+# ORBIT ~100M-parameter educational configuration
+# TinyLM preset "100m": d_model=768, n_layers=12, vocab=32000, modern stack
+# (RoPE + GQA n_kv=4 + SwiGLU + QK-Norm). Estimate ≈ 100.1M parameters.
+#
+# HONEST SCOPE:
+# - Architecture/config only — ORBIT does not ship trained 100M weights.
+# - Training needs large corpora + substantial compute.
+# - FP32 weights ≈ 400 MB RAM; training needs several× that.
+# - For quality chat, use Ollama / OpenAI-compatible ModelProvider backends.
+
+model:
+  d_model: 768
+  n_layers: 12
+  n_heads: 12
+  n_kv_heads: 4
+  context_length: 1024
+  vocab_size: 32000
+  ffn_multiplier: 2.6666666666666665
+  rope_theta: 10000.0
+  norm_epsilon: 1.0e-6
+  dropout: 0.0
+  attention_dropout: 0.0
+  residual_dropout: 0.0
+  tie_embeddings: true
+  bias: false
+  use_recursive_reasoning: false
+  n_sup: 4
+  seed: 0
+  emb_init_std: 0.02
+
+training:
+  batch_size: 1
+  gradient_accumulation: 16
+  learning_rate: 0.00015
+  weight_decay: 0.1
+  warmup_steps: 1000
+  max_steps: 50000
+  eval_interval: 500
+  save_interval: 1000
+  seed: 0
+  grad_clip: 1.0
+  lr_scheduler: cosine
+  min_lr_ratio: 0.1
+  optimizer: adamw
+  betas: [0.9, 0.95]
+
+runtime:
+  device: cpu
+  dtype: float32
+  threads: null
+  max_memory: null
+
+dataset_mix:
+  books: 0.35
+  code: 0.20
+  documentation: 0.15
+  instruction: 0.15
+  math: 0.05
+  filipino: 0.05
+  tool_use: 0.05
