@@ -43,25 +43,30 @@ def _wants_code_written(request: str) -> bool:
 
 
 def _synthesize_python(request: str) -> str:
-    low = (request or "").lower()
-    if re.search(r"add(s|ing)?\b.{0,20}\b(two|2)\b.{0,20}\b(number|int|value)", low) or "adds two" in low:
+    try:
+        from code_synth import synthesize_python
+
+        return synthesize_python(request)
+    except Exception:
+        low = (request or "").lower()
+        if re.search(r"add(s|ing)?\b.{0,20}\b(two|2)\b.{0,20}\b(number|int|value)", low) or "adds two" in low:
+            return (
+                "def add(a, b):\n"
+                '    """Return the sum of a and b."""\n'
+                "    return a + b\n"
+            )
+        if re.search(r"\b(multiply|product of)\b.{0,20}\b(two|2)\b", low):
+            return (
+                "def multiply(a, b):\n"
+                '    """Return the product of a and b."""\n'
+                "    return a * b\n"
+            )
+        slug = re.sub(r"[^a-z0-9]+", "_", low)[:40].strip("_") or "solve"
         return (
-            "def add(a, b):\n"
-            '    """Return the sum of a and b."""\n'
-            "    return a + b\n"
+            f"def {slug}(*args, **kwargs):\n"
+            f'    """Draft from: {(request or "").strip()[:120]}"""\n'
+            "    raise NotImplementedError('Paste a fenced snippet to run it.')\n"
         )
-    if re.search(r"\b(multiply|product of)\b.{0,20}\b(two|2)\b", low):
-        return (
-            "def multiply(a, b):\n"
-            '    """Return the product of a and b."""\n'
-            "    return a * b\n"
-        )
-    slug = re.sub(r"[^a-z0-9]+", "_", low)[:40].strip("_") or "solve"
-    return (
-        f"def {slug}(*args, **kwargs):\n"
-        f'    """Draft from: {(request or "").strip()[:120]}"""\n'
-        "    raise NotImplementedError('Paste a fenced snippet to run it.')\n"
-    )
 
 
 class CodeAgent:
