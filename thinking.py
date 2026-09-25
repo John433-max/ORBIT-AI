@@ -67,7 +67,7 @@ def _is_math(text: str) -> bool:
         pass
     return bool(
         re.search(
-            r"\d+\s*[\+\-\*/×÷%^xX]\s*\d+"
+            r"\d+\s*[\+\-\*/×ö%^xX]\s*\d+"
             r"|%\s*of|sqrt\s*\(|what is \d"
             r"|\d+\s*(times|plus|minus|divided\s+by|divide|multiplied\s+by|modulo|mod)\s*\d+"
             r"|(calculate|what is|what\'s)\s+\d"
@@ -79,7 +79,29 @@ def _is_math(text: str) -> bool:
 
 
 def _is_code(text: str) -> bool:
-    return bool(re.search(r"```|^\s*def |import |print\(|write (a |some )?code", text, re.I))
+    return bool(
+        re.search(
+            r"```|^\s*def |import |print\(|"
+            r"write (a |some )?code|"
+            r"\b(write|implement|create|define|make)\b.{0,80}\b("
+            r"function|def |class |script|program|module|code)\b|"
+            r"\bpython function\b|"
+            r"\bimplement\b.{0,40}\bin python\b",
+            text,
+            re.I,
+        )
+    )
+
+
+def _is_search(text: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(search|look up|look this up|research|news about|"
+            r"find (out|information) (about|on)|google)\b",
+            text or "",
+            re.I,
+        )
+    )
 
 
 def _is_capability(text: str) -> bool:
@@ -138,6 +160,8 @@ class Thinker:
             return "calc"
         if _is_code(r):
             return "code"
+        if _is_search(r):
+            return "search"
         if _wants_extract(r) or re.search(r"\b(document|pdf|docx|summarize)\b", r, re.I):
             return "docs"
         if _is_question(r):
@@ -155,6 +179,8 @@ class Thinker:
             return ["calc", "search"]
         if kind == "code":
             return ["code"]
+        if kind == "search":
+            return ["search"]
         if kind == "docs":
             return ["docs"]
         if kind == "chat":
@@ -212,9 +238,18 @@ class Thinker:
 
             if not text:
                 continue
-            if not ok and step in ("calc", "code", "memory", "docs", "search", "memory_check", "docs_check"):
+            if not ok and step in ("calc", "code", "memory", "docs", "memory_check", "docs_check"):
                 thoughts.append(Thought("reject", f"{step} not ok — continue"))
                 continue
+            if not ok and step == "search":
+                if text and (
+                    "don't have live web" in text.lower()
+                    or "can't complete this search" in text.lower()
+                ):
+                    thoughts.append(Thought("observe", "search: honest no-live-web"))
+                else:
+                    thoughts.append(Thought("reject", "search not ok — continue"))
+                    continue
 
             weak = any(
                 w in text.lower()
