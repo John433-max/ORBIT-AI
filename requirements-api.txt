@@ -1,0 +1,6 @@
+# Optional HTTP API / Web UI extras.
+# Core runtime (agents, TinyLM, eval) does not need these.
+# Doctor reports missing FastAPI/uvicorn as a warning, not a hard fail.
+fastapi>=0.110
+uvicorn>=0.27
+httpx>=0.27
