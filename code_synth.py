@@ -219,6 +219,76 @@ def _templates() -> list[Template]:
             ),
             ((([1, 2, 3],), 6), (([],), 0)),
         ),
+        Template(
+            "lcm",
+            "def lcm(a, b):\n"
+            '    """Return the least common multiple of a and b."""\n'
+            "    a, b = abs(int(a)), abs(int(b))\n"
+            "    if a == 0 or b == 0:\n"
+            "        return 0\n"
+            "    x, y = a, b\n"
+            "    while y:\n"
+            "        x, y = y, x % y\n"
+            "    return a // x * b\n",
+            lambda low: bool(re.search(r"\b(lcm|least common multiple)\b", low)),
+            (((4, 6), 12), ((0, 5), 0)),
+        ),
+        Template(
+            "flatten",
+            "def flatten(items):\n"
+            '    """Flatten one level of nested lists."""\n'
+            "    out = []\n"
+            "    for x in items:\n"
+            "        if isinstance(x, (list, tuple)):\n"
+            "            out.extend(x)\n"
+            "        else:\n"
+            "            out.append(x)\n"
+            "    return out\n",
+            lambda low: bool(re.search(r"\bflatten(?:s|ed|ing)?\b.{0,40}\b(list|array|nested)\b|\bnested\b.{0,24}\bflatten", low)),
+            ((([1, [2, 3], 4],), [1, 2, 3, 4]), (([],), [])),
+        ),
+        Template(
+            "count_words",
+            "def count_words(s):\n"
+            '    """Return the number of whitespace-separated words in s."""\n'
+            "    return len(str(s).split())\n",
+            lambda low: bool(re.search(r"\bcount(?:s|ing)?\b.{0,32}\bwords?\b|\bnumber of words\b|\bword count\b", low)),
+            ((("hello world",), 2), (("  ",), 0)),
+        ),
+        Template(
+            "clamp",
+            "def clamp(x, lo, hi):\n"
+            '    """Return x clipped to [lo, hi]."""\n'
+            "    if lo > hi:\n"
+            "        lo, hi = hi, lo\n"
+            "    if x < lo:\n"
+            "        return lo\n"
+            "    if x > hi:\n"
+            "        return hi\n"
+            "    return x\n",
+            lambda low: bool(re.search(r"\bclamp(?:s|ed|ing)?\b|\bclip(?:s|ping)?\b.{0,24}\b(range|min|max|bound)", low)),
+            (((5, 0, 10), 5), ((-1, 0, 3), 0), ((9, 1, 4), 4)),
+        ),
+        Template(
+            "is_prime",
+            "def is_prime(n):\n"
+            '    """Return True if n is a prime integer."""\n'
+            "    n = int(n)\n"
+            "    if n < 2:\n"
+            "        return False\n"
+            "    if n < 4:\n"
+            "        return True\n"
+            "    if n % 2 == 0 or n % 3 == 0:\n"
+            "        return False\n"
+            "    i = 5\n"
+            "    while i * i <= n:\n"
+            "        if n % i == 0 or n % (i + 2) == 0:\n"
+            "            return False\n"
+            "        i += 6\n"
+            "    return True\n",
+            lambda low: bool(re.search(r"\b(is_prime|prime number|check(?:s|ing)? if .{0,16}prime)\b|\bis prime\b", low)),
+            (((2,), True), ((1,), False), ((9,), False), ((13,), True)),
+        ),
     ]
 
 

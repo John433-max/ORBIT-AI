@@ -65,3 +65,30 @@ def test_odd_and_sum_list():
     assert odd["verified"] is True
     sl = synthesize_and_verify("write a python function that sums a list")
     assert sl["verified"] is True
+
+
+def test_lcm_flatten_words_clamp_prime():
+    assert "def lcm" in synthesize_python(
+        "write a python function that computes the lcm of two numbers"
+    )
+    assert "out.extend" in synthesize_python(
+        "write a python function that flattens a nested list"
+    )
+    assert "split()" in synthesize_python(
+        "write a python function that counts words in a string"
+    )
+    assert "def clamp" in synthesize_python(
+        "write a python function that clamps a number to a range"
+    )
+    assert "def is_prime" in synthesize_python(
+        "write a python function that checks if a number is prime"
+    )
+    for q in (
+        "write a python function that computes the lcm of two numbers",
+        "write a python function that flattens a nested list",
+        "write a python function that counts words in a string",
+        "write a python function that clamps a number to a range",
+        "write a python function that checks if a number is prime",
+    ):
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)

@@ -21,6 +21,9 @@
 {"id": "code_7", "category": "coding", "input": "implement a python function for the nth fibonacci number", "expect_contains": ["def fibonacci", "Verified"]}
 {"id": "code_8", "category": "coding", "input": "write a python function that checks if a number is odd", "expect_contains": ["def is_odd", "Verified"]}
 {"id": "code_9", "category": "coding", "input": "write a python function that sums a list of numbers", "expect_contains": ["def sum_list", "Verified"]}
+{"id": "code_10", "category": "coding", "input": "write a python function that computes the lcm of two numbers", "expect_contains": ["def lcm", "Verified"]}
+{"id": "code_11", "category": "coding", "input": "write a python function that flattens a nested list", "expect_contains": ["def flatten", "Verified"]}
+{"id": "code_12", "category": "coding", "input": "write a python function that checks if a number is prime", "expect_contains": ["def is_prime", "Verified"]}
 {"id": "search_1", "category": "search", "input": "search for recent news about fusion energy", "expect_not_contains": ["I remember:", "toy-scale"]}
 {"id": "search_2", "category": "search", "input": "look up news about tokamak reactors", "expect_not_contains": ["toy-scale", "I remember:"]}
 {"id": "rag_empty_1", "category": "rag", "input": "summarize document #99", "expect_not_contains": ["wikiHow"]}
