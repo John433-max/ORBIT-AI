@@ -78,6 +78,25 @@ def synthesize_python(request: str) -> str:
             '    """Return base raised to exp."""\n'
             "    return base ** exp\n"
         )
+    if re.search(r"\b(sort(?:s|ing)?|sorted)\b.{0,40}\b(list|array|numbers|items)\b", low):
+        return (
+            "def sort_list(items):\n"
+            '    """Return a new list with items in ascending order."""\n'
+            "    return sorted(items)\n"
+        )
+    if re.search(r"\bpalindrome\b", low):
+        return (
+            "def is_palindrome(s):\n"
+            '    """Return True if s reads the same forwards and backwards."""\n'
+            "    t = ''.join(ch.lower() for ch in str(s) if ch.isalnum())\n"
+            "    return t == t[::-1]\n"
+        )
+    if re.search(r"\b(even|is_even|even number)\b", low):
+        return (
+            "def is_even(n):\n"
+            '    """Return True if n is even."""\n'
+            "    return n % 2 == 0\n"
+        )
     slug = re.sub(r"[^a-z0-9]+", "_", low)[:40].strip("_") or "solve"
     return (
         f"def {slug}(*args, **kwargs):\n"

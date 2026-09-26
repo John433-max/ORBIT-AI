@@ -19,3 +19,15 @@ def test_divide_average_abs_power():
     assert "def average" in synthesize_python("write a python function that averages two numbers")
     assert "def absolute" in synthesize_python("write a python function for the absolute value")
     assert "def power" in synthesize_python("write a python function that raises a number to a power")
+
+
+def test_sort_palindrome_even():
+    assert "return sorted(items)" in synthesize_python(
+        "write a python function that sorts a list"
+    )
+    assert "def is_palindrome" in synthesize_python(
+        "implement a python function that checks if a string is a palindrome"
+    )
+    assert "n % 2 == 0" in synthesize_python(
+        "write a python function that checks if a number is even"
+    )

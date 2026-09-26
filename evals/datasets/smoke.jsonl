@@ -16,6 +16,7 @@
 {"id": "code_2", "category": "coding", "input": "implement a python function that multiplies two numbers", "expect_contains": ["def multiply", "return a * b"]}
 {"id": "code_3", "category": "coding", "input": "write a python function that subtracts two numbers", "expect_contains": ["def subtract", "return a - b"]}
 {"id": "code_4", "category": "coding", "input": "write a python function that divides two numbers", "expect_contains": ["def divide", "return a / b"]}
+{"id": "code_5", "category": "coding", "input": "write a python function that sorts a list", "expect_contains": ["def sort_list", "return sorted(items)"]}
 {"id": "search_1", "category": "search", "input": "search for recent news about fusion energy", "expect_not_contains": ["I remember:", "toy-scale"]}
 {"id": "search_2", "category": "search", "input": "look up news about tokamak reactors", "expect_not_contains": ["toy-scale", "I remember:"]}
 {"id": "rag_empty_1", "category": "rag", "input": "summarize document #99", "expect_not_contains": ["wikiHow"]}
