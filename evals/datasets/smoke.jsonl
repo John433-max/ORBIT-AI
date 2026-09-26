@@ -81,6 +81,12 @@
 {"id": "code_67", "category": "coding", "input": "write a python function that reverses the order of words in a string", "expect_contains": ["def reverse_words", "Verified"]}
 {"id": "code_68", "category": "coding", "input": "write a python function that finds the index of the first occurrence of a needle", "expect_contains": ["def str_str", "Verified"]}
 {"id": "code_69", "category": "coding", "input": "write a python function that generates valid parentheses", "expect_contains": ["def generate_parentheses", "Verified"]}
+{"id": "code_70", "category": "coding", "input": "implement a function that computes the nth ugly number", "expect_contains": ["def ugly_number", "Verified"]}
+{"id": "code_71", "category": "coding", "input": "write a function to detect a cycle in a linked list", "expect_contains": ["def has_cycle", "Verified"]}
+{"id": "code_72", "category": "coding", "input": "write a python function that builds pascal's triangle", "expect_contains": ["def pascal_triangle", "Verified"]}
+{"id": "code_73", "category": "coding", "input": "write a python function that returns a matrix in spiral order", "expect_contains": ["def spiral_order", "Verified"]}
+{"id": "code_74", "category": "coding", "input": "write a python function that sets matrix zeroes", "expect_contains": ["def set_zeroes", "Verified"]}
+{"id": "code_75", "category": "coding", "input": "write a python function for the longest palindrome that can be built", "expect_contains": ["def longest_palindrome", "Verified"]}
 {"id": "search_1", "category": "search", "input": "search for recent news about fusion energy", "expect_not_contains": ["I remember:", "toy-scale"]}
 {"id": "search_2", "category": "search", "input": "look up news about tokamak reactors", "expect_not_contains": ["toy-scale", "I remember:"]}
 {"id": "rag_empty_1", "category": "rag", "input": "summarize document #99", "expect_not_contains": ["wikiHow"]}
