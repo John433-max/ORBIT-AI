@@ -24,6 +24,11 @@
 {"id": "code_10", "category": "coding", "input": "write a python function that computes the lcm of two numbers", "expect_contains": ["def lcm", "Verified"]}
 {"id": "code_11", "category": "coding", "input": "write a python function that flattens a nested list", "expect_contains": ["def flatten", "Verified"]}
 {"id": "code_12", "category": "coding", "input": "write a python function that checks if a number is prime", "expect_contains": ["def is_prime", "Verified"]}
+{"id": "code_13", "category": "coding", "input": "write a python function that computes the median of a list", "expect_contains": ["def median", "Verified"]}
+{"id": "code_14", "category": "coding", "input": "write a python function that checks if a year is a leap year", "expect_contains": ["def is_leap_year", "Verified"]}
+{"id": "code_15", "category": "coding", "input": "write a python function for fizzbuzz", "expect_contains": ["def fizzbuzz", "Verified"]}
+{"id": "code_16", "category": "coding", "input": "write a python function that binary searches a sorted list", "expect_contains": ["def binary_search", "Verified"]}
+{"id": "code_17", "category": "coding", "input": "write a python function that transposes a matrix", "expect_contains": ["def transpose", "Verified"]}
 {"id": "search_1", "category": "search", "input": "search for recent news about fusion energy", "expect_not_contains": ["I remember:", "toy-scale"]}
 {"id": "search_2", "category": "search", "input": "look up news about tokamak reactors", "expect_not_contains": ["toy-scale", "I remember:"]}
 {"id": "rag_empty_1", "category": "rag", "input": "summarize document #99", "expect_not_contains": ["wikiHow"]}
