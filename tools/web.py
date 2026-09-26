@@ -5,6 +5,9 @@ Providers:
   - DuckDuckGoSearchProvider  — live HTML search (no API key)
   - StubSearchProvider        — honest offline message
   - AutoSearchProvider        — try live, fall back to stub
+
+Default for tools is AutoSearchProvider so agents get real results when
+the network works, without lying when it does not.
 """
 
 from __future__ import annotations
@@ -15,6 +18,8 @@ import re
 import urllib.error
 import urllib.parse
 import urllib.request
+import socket
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, asdict
 from typing import Any, Dict, List, Optional
@@ -25,7 +30,40 @@ USER_AGENT = (
     "Mozilla/5.0 (compatible; ORBIT/2.0; +https://github.com/local/orbit) "
     "AppleWebKit/537.36 (KHTML, like Gecko)"
 )
-HTTP_TIMEOUT = 12
+HTTP_TIMEOUT = 8
+# Cycle 205: skip live HTTP when the egress probe fails. Cache the miss
+# briefly so a burst of "search …" queries does not stack 8–20s timeouts.
+PROBE_HOST = "html.duckduckgo.com"
+PROBE_PORT = 443
+PROBE_TIMEOUT_S = 0.4
+OFFLINE_TTL_S = 20.0
+_offline_until = 0.0
+
+
+def reset_web_offline_cache() -> None:
+    global _offline_until
+    _offline_until = 0.0
+
+
+def mark_web_offline(ttl: float = OFFLINE_TTL_S) -> None:
+    global _offline_until
+    _offline_until = time.monotonic() + max(0.0, float(ttl))
+
+
+def web_is_offline() -> bool:
+    return time.monotonic() < _offline_until
+
+
+def probe_live_web(timeout: float = PROBE_TIMEOUT_S) -> bool:
+    """Cheap TCP probe. False means skip DuckDuckGo this call."""
+    if web_is_offline():
+        return False
+    try:
+        with socket.create_connection((PROBE_HOST, PROBE_PORT), timeout=timeout):
+            return True
+    except OSError:
+        mark_web_offline()
+        return False
 
 
 @dataclass
@@ -46,10 +84,13 @@ class SearchProvider(ABC):
         ...
 
     def fetch(self, url: str) -> SearchResult:
+        """Optional: fetch full page content. Default returns empty."""
         return SearchResult(title="", url=url, snippet="", content="", source="unsupported")
 
 
 class StubSearchProvider(SearchProvider):
+    """Honest stub — no live network."""
+
     def search(self, query: str, max_results: int = 5) -> List[SearchResult]:
         return [
             SearchResult(
@@ -92,6 +133,13 @@ def _strip_tags(text: str) -> str:
 
 
 class DuckDuckGoSearchProvider(SearchProvider):
+    """
+    Live web search via DuckDuckGo HTML (no API key).
+
+    Primary: html.duckduckgo.com/html/
+    Bonus:   api.duckduckgo.com/?q=...&format=json (Instant Answer)
+    """
+
     source_name = "duckduckgo"
 
     def search(self, query: str, max_results: int = 5) -> List[SearchResult]:
@@ -99,13 +147,17 @@ class DuckDuckGoSearchProvider(SearchProvider):
         if not query:
             return [
                 SearchResult(
-                    title="[empty query]", url="",
-                    snippet="Provide a non-empty search query.", source=self.source_name,
+                    title="[empty query]",
+                    url="",
+                    snippet="Provide a non-empty search query.",
+                    source=self.source_name,
                 )
             ]
+
         results: List[SearchResult] = []
         results.extend(self._instant_answer(query))
         results.extend(self._html_results(query, max_results=max_results))
+
         seen = set()
         unique: List[SearchResult] = []
         for r in results:
@@ -116,6 +168,7 @@ class DuckDuckGoSearchProvider(SearchProvider):
             unique.append(r)
             if len(unique) >= max_results:
                 break
+
         if not unique:
             raise RuntimeError(f"DuckDuckGo returned no results for {query!r}")
         return unique
@@ -123,30 +176,43 @@ class DuckDuckGoSearchProvider(SearchProvider):
     def _instant_answer(self, query: str) -> List[SearchResult]:
         out: List[SearchResult] = []
         try:
-            url = "https://api.duckduckgo.com/?" + urllib.parse.urlencode({
-                "q": query, "format": "json", "no_redirect": "1",
-                "no_html": "1", "skip_disambig": "1",
-            })
-            data = json.loads(_http_get(url, timeout=8))
+            url = "https://api.duckduckgo.com/?" + urllib.parse.urlencode(
+                {
+                    "q": query,
+                    "format": "json",
+                    "no_redirect": "1",
+                    "no_html": "1",
+                    "skip_disambig": "1",
+                }
+            )
+            data = json.loads(_http_get(url, timeout=min(HTTP_TIMEOUT, 5)))
             heading = (data.get("Heading") or "").strip()
             abstract = (data.get("AbstractText") or "").strip()
             abs_url = (data.get("AbstractURL") or "").strip()
             if abstract:
-                out.append(SearchResult(
-                    title=heading or query, url=abs_url,
-                    snippet=abstract[:500], content=abstract,
-                    source=self.source_name + "+ia",
-                ))
+                out.append(
+                    SearchResult(
+                        title=heading or query,
+                        url=abs_url,
+                        snippet=abstract[:500],
+                        content=abstract,
+                        source=self.source_name + "+ia",
+                    )
+                )
             for topic in (data.get("RelatedTopics") or [])[:3]:
                 if not isinstance(topic, dict):
                     continue
                 text = (topic.get("Text") or "").strip()
                 first = topic.get("FirstURL") or ""
                 if text:
-                    out.append(SearchResult(
-                        title=text[:80], url=first, snippet=text[:300],
-                        source=self.source_name + "+ia",
-                    ))
+                    out.append(
+                        SearchResult(
+                            title=text[:80],
+                            url=first,
+                            snippet=text[:300],
+                            source=self.source_name + "+ia",
+                        )
+                    )
         except Exception:
             pass
         return out
@@ -156,10 +222,12 @@ class DuckDuckGoSearchProvider(SearchProvider):
         url = "https://html.duckduckgo.com/html/?" + urllib.parse.urlencode({"q": query})
         page = _http_get(url)
         link_pat = re.compile(
-            r'<a[^>]*class="result__a"[^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.I | re.S,
+            r'<a[^>]*class="result__a"[^>]*href="([^"]+)"[^>]*>(.*?)</a>',
+            re.I | re.S,
         )
         snip_pat = re.compile(
-            r'class="result__snippet"[^>]*>(.*?)</(?:a|td|div|span)', re.I | re.S,
+            r'class="result__snippet"[^>]*>(.*?)</(?:a|td|div|span)',
+            re.I | re.S,
         )
         links = list(link_pat.finditer(page))
         snips = list(snip_pat.finditer(page))
@@ -185,59 +253,88 @@ class DuckDuckGoSearchProvider(SearchProvider):
                 snip_i += 1
             if not title and not snippet:
                 continue
-            out.append(SearchResult(
-                title=title or real_url, url=real_url,
-                snippet=snippet[:400], source=self.source_name,
-            ))
+            out.append(
+                SearchResult(
+                    title=title or real_url,
+                    url=real_url,
+                    snippet=snippet[:400],
+                    source=self.source_name,
+                )
+            )
         return out
 
     def fetch(self, url: str) -> SearchResult:
         url = (url or "").strip()
         if not url.startswith(("http://", "https://")):
             return SearchResult(
-                title="", url=url,
+                title="",
+                url=url,
                 snippet="URL must start with http:// or https://",
-                content="", source=self.source_name,
+                content="",
+                source=self.source_name,
             )
         try:
             page = _http_get(url, timeout=15)
             title_m = re.search(r"(?is)<title[^>]*>(.*?)</title>", page)
             title = _strip_tags(title_m.group(1)) if title_m else url
             text = _strip_tags(page)
+            content = text[:6000]
+            snippet = text[:400]
             return SearchResult(
-                title=title, url=url, snippet=text[:400],
-                content=text[:6000], source=self.source_name + "+fetch",
+                title=title,
+                url=url,
+                snippet=snippet,
+                content=content,
+                source=self.source_name + "+fetch",
             )
         except Exception as e:
             return SearchResult(
-                title="", url=url, snippet=f"Fetch failed: {e}",
-                content="", source=self.source_name + "+fetch",
+                title="",
+                url=url,
+                snippet=f"Fetch failed: {e}",
+                content="",
+                source=self.source_name + "+fetch",
             )
 
 
 class AutoSearchProvider(SearchProvider):
+    """Try live DuckDuckGo; fall back to stub with the error message."""
+
     def __init__(self):
         self.live = DuckDuckGoSearchProvider()
         self.stub = StubSearchProvider()
 
+    def _offline_hits(self, query: str, reason: str) -> List[SearchResult]:
+        results = self.stub.search(query)
+        results[0].snippet = f"{reason} Query was: {query!r}"
+        results[0].source = "stub+error"
+        return results
+
     def search(self, query: str, max_results: int = 5) -> List[SearchResult]:
+        if not probe_live_web():
+            return self._offline_hits(
+                query,
+                "Live web search skipped (no reachable search host).",
+            )
         try:
             return self.live.search(query, max_results=max_results)
         except Exception as e:
-            results = self.stub.search(query, max_results=max_results)
-            results[0].snippet = (
-                f"Live web search failed ({type(e).__name__}: {e}). Query was: {query!r}"
+            mark_web_offline()
+            return self._offline_hits(
+                query,
+                f"Live web search failed ({type(e).__name__}: {e}).",
             )
-            results[0].source = "stub+error"
-            return results
 
     def fetch(self, url: str) -> SearchResult:
         try:
             return self.live.fetch(url)
         except Exception as e:
             return SearchResult(
-                title="", url=url, snippet=f"Fetch failed: {e}",
-                content="", source="stub+error",
+                title="",
+                url=url,
+                snippet=f"Fetch failed: {e}",
+                content="",
+                source="stub+error",
             )
 
 
@@ -245,7 +342,9 @@ class WebSearchTool(BaseTool):
     name = "web.search"
     description = (
         "Search the public web for up-to-date information. "
-        "Args: query (required string), max_results (optional int, default 5)."
+        "Args: query (required string), max_results (optional int, default 5). "
+        "Returns numbered titles, snippets, and URLs from DuckDuckGo. "
+        "Use when the user asks for news, facts, or anything beyond local memory."
     )
     permission_level = "NETWORK"
     parameters = {
