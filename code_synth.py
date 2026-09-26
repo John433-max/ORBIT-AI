@@ -46,13 +46,37 @@ def synthesize_python(request: str) -> str:
     if re.search(r"\bfactorial\b", low):
         return (
             "def factorial(n):\n"
-            '    """Return n! for n >= 0."""\n'
+            "    \"\"\"Return n! for n >= 0.\"\"\"\n"
             "    if n < 0:\n"
             "        raise ValueError('n must be >= 0')\n"
             "    out = 1\n"
             "    for i in range(2, n + 1):\n"
             "        out *= i\n"
             "    return out\n"
+        )
+    if re.search(r"\b(divid(?:e|es|ing)|quotient of)\b.{0,40}\b" + two, low):
+        return (
+            "def divide(a, b):\n"
+            '    """Return a / b. Raises ZeroDivisionError if b is 0."""\n'
+            "    return a / b\n"
+        )
+    if re.search(r"\b(averag(?:e|es|ing)|mean)\b.{0,40}\b(two|2|list|numbers)\b", low):
+        return (
+            "def average(a, b):\n"
+            '    """Return the arithmetic mean of a and b."""\n'
+            "    return (a + b) / 2\n"
+        )
+    if re.search(r"absolute value|\babs\b", low):
+        return (
+            "def absolute(n):\n"
+            '    """Return the absolute value of n."""\n'
+            "    return n if n >= 0 else -n\n"
+        )
+    if re.search(r"\b(power|exponent|raise .+ to)\b", low):
+        return (
+            "def power(base, exp):\n"
+            '    """Return base raised to exp."""\n'
+            "    return base ** exp\n"
         )
     slug = re.sub(r"[^a-z0-9]+", "_", low)[:40].strip("_") or "solve"
     return (
@@ -62,4 +86,5 @@ def synthesize_python(request: str) -> str:
     )
 
 
+# alias used by agents.py
 _synthesize_python = synthesize_python

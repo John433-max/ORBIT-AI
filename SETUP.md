@@ -15,3 +15,16 @@ pip install -r requirements-api.txt
 # or: pip install fastapi uvicorn
 python run_orbit.py serve
 ```
+
+ORBIT is pure Python + NumPy. Python 3.10+ required (developed on 3.12).
+
+```bash
+python3 -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python run_orbit.py doctor
+python run_orbit.py eval
+```
+
+Optional PyTorch extras: `pip install -r requirements-torch.txt`.
+No GPU or compiled extensions are required for the agent runtime.
