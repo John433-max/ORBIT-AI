@@ -74,9 +74,27 @@ class CodeAgent:
 
     def run(self, request: str, context=None) -> AgentResult:
         if _wants_code_written(request):
-            src = _synthesize_python(request)
-            content = "Here is a Python function for that request:\n\n```python\n" + src + "```"
-            return AgentResult(self.name, True, content, raw={"source": "synthesize", "code": src})
+            verified = False
+            n_ex = 0
+            name = None
+            try:
+                from code_synth import synthesize_and_verify
+
+                bundle = synthesize_and_verify(request)
+                src = bundle.get("source") or _synthesize_python(request)
+                verified = bool(bundle.get("verified"))
+                n_ex = int(bundle.get("checked") or 0)
+                name = bundle.get("name")
+            except Exception:
+                src = _synthesize_python(request)
+            note = f"\n\nVerified against {n_ex} example(s)." if verified and n_ex else ""
+            content = "Here is a Python function for that request:\n\n```python\n" + src + "```" + note
+            return AgentResult(
+                self.name,
+                True,
+                content,
+                raw={"source": "synthesize", "code": src, "verified": verified, "checked": n_ex, "name": name},
+            )
         code = request
         m = re.search(r"```(?:python)?\s*(.*?)```", request or "", re.S)
         if m:
