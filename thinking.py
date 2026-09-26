@@ -70,7 +70,7 @@ def _is_math(text: str) -> bool:
             r"\d+\s*[\+\-\*/×÷%^xX]\s*\d+"
             r"|%\s*of|sqrt\s*\(|what is \d"
             r"|\d+\s*(times|plus|minus|divided\s+by|divide|multiplied\s+by|modulo|mod)\s*\d+"
-            r"|(calculate|what is|what's)\s+\d"
+            r"|(calculate|what is|what\'s)\s+\d"
             r"|\d+\s*(km|m|kg|celsius|fahrenheit|°c|°f)\b",
             text,
             re.I,
@@ -102,6 +102,7 @@ def _is_search(text: str) -> bool:
             re.I,
         )
     )
+
 
 
 def _is_capability(text: str) -> bool:
@@ -193,6 +194,7 @@ class Thinker:
             return "question"
         if re.match(r"^(hi|hello|hey|thanks|thank you|bye|good (morning|night))\b", r, re.I):
             return "chat"
+        # short statements the user is telling us
         if not _is_question(r) and len(r.split()) < 40:
             return "statement"
         return "question"
@@ -201,7 +203,7 @@ class Thinker:
         if kind == "memory":
             return ["memory"]
         if kind == "calc":
-            return ["calc", "search"]
+            return ["calc", "search"]  # fall back to research for conceptual science
         if kind == "code":
             return ["code"]
         if kind == "search":
@@ -214,6 +216,7 @@ class Thinker:
             return ["deny"]
         if kind == "statement":
             return ["memory", "chat"]
+        # question: try memory → docs → search → chat
         return ["memory_check", "docs_check", "search", "chat"]
 
     def think(self, request: str, context: Optional[dict] = None) -> ThinkResult:
@@ -269,9 +272,11 @@ class Thinker:
 
             if not text:
                 continue
+            # Failed tool results should not stick as the final answer
             if not ok and step in ("calc", "code", "memory", "docs", "memory_check", "docs_check"):
                 thoughts.append(Thought("reject", f"{step} not ok — continue"))
                 continue
+            # Search may be ok=False (no live web) but the honest message is the answer.
             if not ok and step == "search":
                 if text and (
                     "don't have live web" in text.lower()
@@ -282,6 +287,7 @@ class Thinker:
                     thoughts.append(Thought("reject", "search not ok — continue"))
                     continue
 
+            # Reject weak chat hedges when we can try the next step
             weak = any(
                 w in text.lower()
                 for w in (
@@ -310,6 +316,7 @@ class Thinker:
 
             answer = text
             used.append(step)
+            # stop early on strong specialized answers
             if step in ("calc", "code", "memory", "docs") and ok and not weak:
                 thoughts.append(Thought("decide", f"use {step}"))
                 break
