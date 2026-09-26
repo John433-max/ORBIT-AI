@@ -17,6 +17,10 @@
 {"id": "code_3", "category": "coding", "input": "write a python function that subtracts two numbers", "expect_contains": ["def subtract", "return a - b"]}
 {"id": "code_4", "category": "coding", "input": "write a python function that divides two numbers", "expect_contains": ["def divide", "return a / b"]}
 {"id": "code_5", "category": "coding", "input": "write a python function that sorts a list", "expect_contains": ["def sort_list", "return sorted(items)"]}
+{"id": "code_6", "category": "coding", "input": "write a python function that computes the gcd of two numbers", "expect_contains": ["def gcd", "Verified"]}
+{"id": "code_7", "category": "coding", "input": "implement a python function for the nth fibonacci number", "expect_contains": ["def fibonacci", "Verified"]}
+{"id": "code_8", "category": "coding", "input": "write a python function that checks if a number is odd", "expect_contains": ["def is_odd", "Verified"]}
+{"id": "code_9", "category": "coding", "input": "write a python function that sums a list of numbers", "expect_contains": ["def sum_list", "Verified"]}
 {"id": "search_1", "category": "search", "input": "search for recent news about fusion energy", "expect_not_contains": ["I remember:", "toy-scale"]}
 {"id": "search_2", "category": "search", "input": "look up news about tokamak reactors", "expect_not_contains": ["toy-scale", "I remember:"]}
 {"id": "rag_empty_1", "category": "rag", "input": "summarize document #99", "expect_not_contains": ["wikiHow"]}
