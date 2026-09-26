@@ -1,4 +1,4 @@
-from code_synth import synthesize_python
+from code_synth import synthesize_and_verify, synthesize_python, verify_source, TEMPLATES
 
 
 def test_add_multiply_subtract():
@@ -31,3 +31,37 @@ def test_sort_palindrome_even():
     assert "n % 2 == 0" in synthesize_python(
         "write a python function that checks if a number is even"
     )
+
+
+def test_gcd_fib_vowels_unique():
+    assert "while b:" in synthesize_python("write a python function that computes the gcd of two numbers")
+    assert "def fibonacci" in synthesize_python("implement a python function for the nth fibonacci number")
+    assert "aeiou" in synthesize_python("write a python function that counts vowels in a string")
+    assert "seen" in synthesize_python("write a python function that returns unique items from a list")
+
+
+def test_all_templates_verify():
+    assert TEMPLATES
+    for tmpl in TEMPLATES:
+        check = verify_source(tmpl.source, tmpl.examples)
+        assert check["ok"], (tmpl.name, check)
+
+
+def test_synthesize_and_verify_add():
+    bundle = synthesize_and_verify("write a python function that adds two numbers")
+    assert bundle["verified"] is True
+    assert bundle["checked"] >= 2
+    assert "return a + b" in bundle["source"]
+
+
+def test_odd_and_sum_list():
+    assert "n % 2 != 0" in synthesize_python(
+        "write a python function that checks if a number is odd"
+    )
+    assert "def sum_list" in synthesize_python(
+        "write a python function that sums a list of numbers"
+    )
+    odd = synthesize_and_verify("write a python function that checks if a number is odd")
+    assert odd["verified"] is True
+    sl = synthesize_and_verify("write a python function that sums a list")
+    assert sl["verified"] is True
