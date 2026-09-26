@@ -29,6 +29,58 @@
 {"id": "code_15", "category": "coding", "input": "write a python function for fizzbuzz", "expect_contains": ["def fizzbuzz", "Verified"]}
 {"id": "code_16", "category": "coding", "input": "write a python function that binary searches a sorted list", "expect_contains": ["def binary_search", "Verified"]}
 {"id": "code_17", "category": "coding", "input": "write a python function that transposes a matrix", "expect_contains": ["def transpose", "Verified"]}
+{"id": "code_18", "category": "coding", "input": "write a python function that solves two sum", "expect_contains": ["def two_sum", "Verified"]}
+{"id": "code_19", "category": "coding", "input": "write a python function that checks if two strings are anagrams", "expect_contains": ["def is_anagram", "Verified"]}
+{"id": "code_20", "category": "coding", "input": "write a python function that computes the dot product of two lists", "expect_contains": ["def dot_product", "Verified"]}
+{"id": "code_21", "category": "coding", "input": "write a python function that reverses a list", "expect_contains": ["def reverse_list", "Verified"]}
+{"id": "code_22", "category": "coding", "input": "write a python function that merges two sorted lists", "expect_contains": ["def merge_sorted", "Verified"]}
+{"id": "code_23", "category": "coding", "input": "write a python function that returns the intersection of two lists", "expect_contains": ["def intersection", "Verified"]}
+{"id": "code_24", "category": "coding", "input": "write a python function that rotates a list", "expect_contains": ["def rotate_list", "Verified"]}
+{"id": "code_25", "category": "coding", "input": "write a python function that computes hamming distance", "expect_contains": ["def hamming_distance", "Verified"]}
+{"id": "code_26", "category": "coding", "input": "write a python function that applies a caesar shift", "expect_contains": ["def caesar_shift", "Verified"]}
+{"id": "code_27", "category": "coding", "input": "write a python function that finds the majority element", "expect_contains": ["def majority_element", "Verified"]}
+{"id": "code_28", "category": "coding", "input": "write a python function that checks balanced parentheses", "expect_contains": ["def valid_parentheses", "Verified"]}
+{"id": "code_29", "category": "coding", "input": "write a python function that finds the longest common prefix", "expect_contains": ["def longest_common_prefix", "Verified"]}
+{"id": "code_30", "category": "coding", "input": "write a python function that checks if a list is sorted", "expect_contains": ["def is_sorted", "Verified"]}
+{"id": "code_31", "category": "coding", "input": "write a python function that chunks a list", "expect_contains": ["def chunk_list", "Verified"]}
+{"id": "code_32", "category": "coding", "input": "write a python function that returns the union of two lists", "expect_contains": ["def list_union", "Verified"]}
+{"id": "code_33", "category": "coding", "input": "write a python function that returns the difference of two lists", "expect_contains": ["def list_difference", "Verified"]}
+{"id": "code_34", "category": "coding", "input": "write a python function that computes the running sum of a list", "expect_contains": ["def running_sum", "Verified"]}
+{"id": "code_35", "category": "coding", "input": "write a python function that checks if a list contains duplicates", "expect_contains": ["def contains_duplicate", "Verified"]}
+{"id": "code_36", "category": "coding", "input": "write a python function that finds the missing number", "expect_contains": ["def missing_number", "Verified"]}
+{"id": "code_37", "category": "coding", "input": "write a python function that checks if a number is a power of two", "expect_contains": ["def is_power_of_two", "Verified"]}
+{"id": "code_38", "category": "coding", "input": "write a python function that returns the length of the last word", "expect_contains": ["def length_of_last_word", "Verified"]}
+{"id": "code_39", "category": "coding", "input": "write a python function that plus one a digit list", "expect_contains": ["def plus_one", "Verified"]}
+{"id": "code_40", "category": "coding", "input": "write a python function that computes the maximum subarray sum", "expect_contains": ["def max_subarray", "Verified"]}
+{"id": "code_41", "category": "coding", "input": "write a python function that climbs stairs", "expect_contains": ["def climb_stairs", "Verified"]}
+{"id": "code_42", "category": "coding", "input": "write a python function that finds the single number", "expect_contains": ["def single_number", "Verified"]}
+{"id": "code_43", "category": "coding", "input": "write a python function that moves zeroes to the end", "expect_contains": ["def move_zeroes", "Verified"]}
+{"id": "code_44", "category": "coding", "input": "write a python function that converts a roman numeral", "expect_contains": ["def roman_to_int", "Verified"]}
+{"id": "code_45", "category": "coding", "input": "write a python function that finds the first unique character", "expect_contains": ["def first_unique_char", "Verified"]}
+{"id": "code_46", "category": "coding", "input": "write a python function that computes max profit on a stock", "expect_contains": ["def max_profit", "Verified"]}
+{"id": "code_47", "category": "coding", "input": "write a python function for the house robber", "expect_contains": ["def house_robber", "Verified"]}
+{"id": "code_48", "category": "coding", "input": "write a python function for the jump game", "expect_contains": ["def can_jump", "Verified"]}
+{"id": "code_49", "category": "coding", "input": "write a python function that removes duplicates from a sorted list", "expect_contains": ["def remove_duplicates", "Verified"]}
+{"id": "code_50", "category": "coding", "input": "write a python function that computes the product except self", "expect_contains": ["def product_except_self", "Verified"]}
+{"id": "code_51", "category": "coding", "input": "write a python function that finds a peak element", "expect_contains": ["def find_peak", "Verified"]}
+{"id": "code_52", "category": "coding", "input": "write a python function that computes coin change", "expect_contains": ["def coin_change", "Verified"]}
+{"id": "code_53", "category": "coding", "input": "write a python function for the longest increasing subsequence", "expect_contains": ["def lis", "Verified"]}
+{"id": "code_54", "category": "coding", "input": "write a python function that computes the minimum path sum", "expect_contains": ["def min_path_sum", "Verified"]}
+{"id": "code_55", "category": "coding", "input": "write a python function that counts unique paths on a grid", "expect_contains": ["def unique_paths", "Verified"]}
+{"id": "code_56", "category": "coding", "input": "write a python function that solves word break", "expect_contains": ["def word_break", "Verified"]}
+{"id": "code_57", "category": "coding", "input": "write a python function that searches a rotated sorted array", "expect_contains": ["def search_rotated", "Verified"]}
+{"id": "code_58", "category": "coding", "input": "write a python function that solves three sum", "expect_contains": ["def three_sum", "Verified"]}
+{"id": "code_59", "category": "coding", "input": "write a python function that computes edit distance", "expect_contains": ["def edit_distance", "Verified"]}
+{"id": "code_60", "category": "coding", "input": "write a python function for the course schedule", "expect_contains": ["def course_schedule", "Verified"]}
+{"id": "code_61", "category": "coding", "input": "write a python function that computes combination sum", "expect_contains": ["def combination_sum", "Verified"]}
+{"id": "code_62", "category": "coding", "input": "write a python function that groups anagrams", "expect_contains": ["def group_anagrams", "Verified"]}
+{"id": "code_63", "category": "coding", "input": "write a python function that merges overlapping intervals", "expect_contains": ["def merge_intervals", "Verified"]}
+{"id": "code_64", "category": "coding", "input": "write a python function that checks if a string is a subsequence of another", "expect_contains": ["def is_subsequence", "Verified"]}
+{"id": "code_65", "category": "coding", "input": "write a python function that checks a happy number", "expect_contains": ["def happy_number", "Verified"]}
+{"id": "code_66", "category": "coding", "input": "write a python function that adds two binary strings", "expect_contains": ["def add_binary", "Verified"]}
+{"id": "code_67", "category": "coding", "input": "write a python function that reverses the order of words in a string", "expect_contains": ["def reverse_words", "Verified"]}
+{"id": "code_68", "category": "coding", "input": "write a python function that finds the index of the first occurrence of a needle", "expect_contains": ["def str_str", "Verified"]}
+{"id": "code_69", "category": "coding", "input": "write a python function that generates valid parentheses", "expect_contains": ["def generate_parentheses", "Verified"]}
 {"id": "search_1", "category": "search", "input": "search for recent news about fusion energy", "expect_not_contains": ["I remember:", "toy-scale"]}
 {"id": "search_2", "category": "search", "input": "look up news about tokamak reactors", "expect_not_contains": ["toy-scale", "I remember:"]}
 {"id": "rag_empty_1", "category": "rag", "input": "summarize document #99", "expect_not_contains": ["wikiHow"]}
