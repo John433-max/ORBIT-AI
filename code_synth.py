@@ -26,11 +26,18 @@ _TWO = r"(two|2|a pair of)"
 
 
 def _templates() -> list[Template]:
-    """Load split packs (Cycle 244). Lazy to avoid import cycles."""
+    """Load split packs (Cycle 244). Lazy to avoid import cycles.
+
+    Missing packs (GitHub until packs land) yield an empty list so
+    import of this module still succeeds; matchers then fall back.
+    """
     import importlib
     out: list[Template] = []
     for name in ("code_synth_p1", "code_synth_p2", "code_synth_p3"):
-        mod = importlib.import_module(name)
+        try:
+            mod = importlib.import_module(name)
+        except ImportError:
+            continue
         out.extend(mod.templates())
     return out
 
