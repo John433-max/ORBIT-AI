@@ -1,27 +1,12 @@
-# Eval baseline — 2026-09-20
+# Eval baseline
 
-## Smoke suite (`evals/datasets/smoke.jsonl`)
+Smoke suite tracks math, science, chat, coding, search, RAG, permission, lab.
 
-| Metric | Value |
-|--------|------:|
-| Accuracy | **100%** (14/14) |
-| Math | 4/4 |
-| Science | 4/4 |
-| Chat | 2/2 |
-| Tool selection | 1/1 |
-| Memory | 1/1 |
-| Instruction | 1/1 |
-| Hallucination guard | 1/1 |
+## 2026-09-27 — educational ML + factorial + lab routing
 
-## Fixes this cycle
-1. **Doctor severity** — Ollama/fastapi optional warnings no longer force NOT READY
-2. **Identity routing** — `what is your name` → chat (not web research / movie results)
-3. **Thinker** — `_is_self_identity` skips search pipeline for self questions
-4. **Persona** — removed product “ORBIT-100B” claims from `persona_chat.jsonl`
-5. **Smoke expectations** — fairer needles
+- `examples/ml_from_scratch/` demos (one neuron → next-token)
+- LabAgent teaches gradient descent, backprop, XOR, overfitting from local demos
+- factorial via science_math
+- Smoke **186/186 (100%)**, unit tests **99 passed**
 
-## Unit tests
-`tests/unit`: **37 passed**
-
-## Principle
 ORBIT is a modular local AI agent runtime — not a fixed model size.
