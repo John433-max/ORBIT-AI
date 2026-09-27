@@ -11,6 +11,7 @@ def none(z: float) -> float:
 
 
 def sigmoid(z: float) -> float:
+    # stable-ish
     if z >= 0:
         return 1.0 / (1.0 + math.exp(-z))
     e = math.exp(z)
@@ -27,12 +28,14 @@ def neuron(x: List[float], w: List[float], b: float, act: Callable[[float], floa
 
 
 def run() -> Dict[str, Any]:
+    # Fixed toy weights: show different activations on same linear sum
     w = [1.0, -1.0]
     b = 0.0
     xs = [[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]
     table = {}
     for name, act in [("none", none), ("sigmoid", sigmoid), ("relu", relu)]:
         table[name] = [round(neuron(x, w, b, act), 4) for x in xs]
+
     return {
         "ok": table["relu"][0] == 0.0 and table["sigmoid"][0] == 0.5,
         "metric": f"relu[0]={table['relu'][0]} sigmoid[0]={table['sigmoid'][0]}",

@@ -12,6 +12,7 @@ def run(seed: int = 1, rounds: int = 500) -> Dict[str, Any]:
     vocab = sorted(set(words))
     index = {w: i for i, w in enumerate(vocab)}
     n = len(vocab)
+    # W[a][b] = score for predicting b after a
     W = [[0.0] * n for _ in range(n)]
 
     def chances(a: str) -> List[float]:
@@ -32,9 +33,11 @@ def run(seed: int = 1, rounds: int = 500) -> Dict[str, Any]:
                 W[ia][c] -= 0.1 * (P[c] - target)
 
     random.seed(seed)
+    # Generate a short chain starting from "the"
     out = ["the"]
     for _ in range(8):
         P = chances(out[-1])
+        # weighted sample
         r = random.random()
         cum = 0.0
         chosen = vocab[0]
@@ -46,6 +49,7 @@ def run(seed: int = 1, rounds: int = 500) -> Dict[str, Any]:
         out.append(chosen)
 
     text = " ".join(out)
+    # After training, P("the" → "bird"|"cat"|"mat") should dominate vs random
     p_the = chances("the")
     top = sorted(zip(vocab, p_the), key=lambda t: -t[1])[:3]
     ok = top[0][1] > 0.2
