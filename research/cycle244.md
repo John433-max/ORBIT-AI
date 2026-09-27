@@ -1,5 +1,13 @@
-# Improvement Cycle 244
+# Cycle 244 — GitHub code_synth parity
 
-Local code_synth 198	o204 templates (build_tree, house_robber_iii, longest_increasing_path, word_break_ii, min_cost_connect_points, num_trees).
-Smoke 216/216 coding 189/189. pytest synth+agents+thinking 83 passed.
-GitHub code_synth still slim vs local; agents.py/thinking.py not overwritten.
+Date: 2026-09-27
+
+## Baseline
+- doctor READY; smoke 216/216 coding 189
+- probes pass (code/search/identity)
+- GH code_synth ~18KB vs local 232KB / 204 templates
+- Local tests: test_code_synth+thinking+agents 83 passed
+
+## Chosen priority
+Push full local `code_synth.py` + smoke + unit tests when payload size allows.
+This note records the measured baseline.
