@@ -51,7 +51,6 @@ def get_templates() -> list[Template]:
     return loaded
 
 
-
 def __getattr__(name: str):
     if name == "TEMPLATES":
         return get_templates()
@@ -76,3 +75,75 @@ def fallback_source(request: str) -> str:
         f'    """Draft from: {(request or "").strip()[:120]}"""\n'
         "    raise NotImplementedError('Paste a fenced snippet to run it, or specify the function body.')\n"
     )
+
+
+def synthesize_python(request: str) -> str:
+    tmpl = match_template(request)
+    if tmpl is None:
+        return fallback_source(request)
+    return tmpl.source
+
+
+def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[str, Any]:
+    """Exec a trusted template and check (args, expected) pairs.
+
+    Used only on code_synth templates, never on raw user code.
+    """
+    ns: dict[str, Any] = {}
+    try:
+        exec(source, ns, ns)  # noqa: S102 — static templates only
+    except Exception as exc:
+        return {"ok": False, "error": str(exc), "checked": 0}
+    fn = None
+    for name, val in ns.items():
+        if name.startswith("_"):
+            continue
+        if callable(val):
+            fn = val
+            break
+    if fn is None:
+        return {"ok": False, "error": "no function defined", "checked": 0}
+    if not examples:
+        return {"ok": True, "checked": 0, "name": getattr(fn, "__name__", "?")}
+    checked = 0
+    try:
+        for args, expected in examples:
+            got = fn(*args)
+            if got != expected:
+                return {
+                    "ok": False,
+                    "error": f"{getattr(fn, '__name__', '?')}{args} -> {got!r} != {expected!r}",
+                    "checked": checked,
+                    "name": getattr(fn, "__name__", "?"),
+                }
+            checked += 1
+    except Exception as exc:
+        return {
+            "ok": False,
+            "error": str(exc),
+            "checked": checked,
+            "name": getattr(fn, "__name__", "?"),
+        }
+    return {"ok": True, "checked": checked, "name": getattr(fn, "__name__", "?")}
+
+
+def synthesize_and_verify(request: str) -> dict[str, Any]:
+    """Match a template, emit source, and self-check examples when present."""
+    tmpl = match_template(request)
+    if tmpl is None:
+        return {
+            "source": fallback_source(request),
+            "verified": False,
+            "fallback": True,
+            "checked": 0,
+            "name": None,
+        }
+    check = verify_source(tmpl.source, tmpl.examples)
+    return {
+        "source": tmpl.source,
+        "verified": bool(check.get("ok")),
+        "fallback": False,
+        "checked": int(check.get("checked") or 0),
+        "name": check.get("name") or tmpl.name,
+        "error": check.get("error"),
+    }
