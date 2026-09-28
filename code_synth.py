@@ -30,7 +30,7 @@ def _templates() -> list[Template]:
     import importlib
     out: list[Template] = []
     seen: set[str] = set()
-    for name in ("code_synth_p1", "code_synth_p1b", "code_synth_p2", "code_synth_p3"):
+    for name in ("code_synth_p1", "code_synth_p1b", "code_synth_p2", "code_synth_p3", "code_synth_p4"):
         try:
             mod = importlib.import_module(name)
         except Exception:
