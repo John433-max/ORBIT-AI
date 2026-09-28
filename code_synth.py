@@ -30,7 +30,21 @@ def _templates() -> list[Template]:
     import importlib
     out: list[Template] = []
     seen: set[str] = set()
-    for name in ("code_synth_p1", "code_synth_p1b", "code_synth_p2", "code_synth_p3", "code_synth_p4"):
+    for name in (
+        "code_synth_p1",
+        "code_synth_p1b",
+        "code_synth_p2",
+        "code_synth_p3",
+        "code_synth_p4",
+        "code_synth_p5",
+        "code_synth_p6",
+        "code_synth_p7",
+        "code_synth_p8",
+        "code_synth_p9",
+        "code_synth_p10",
+        "code_synth_p11",
+        "code_synth_p12",
+    ):
         try:
             mod = importlib.import_module(name)
         except Exception:
@@ -57,6 +71,7 @@ def get_templates() -> list[Template]:
     globals()["_TEMPLATES_CACHE"] = loaded
     TEMPLATES = loaded
     return loaded
+
 
 
 def __getattr__(name: str):
