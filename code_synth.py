@@ -29,14 +29,22 @@ def _templates() -> list[Template]:
     """Load split packs (Cycle 244). Missing packs are skipped so CI still collects."""
     import importlib
     out: list[Template] = []
-    for name in ("code_synth_p1", "code_synth_p2", "code_synth_p3"):
+    seen: set[str] = set()
+    for name in ("code_synth_p1", "code_synth_p1b", "code_synth_p2", "code_synth_p3"):
         try:
             mod = importlib.import_module(name)
         except Exception:
             continue
         fn = getattr(mod, "templates", None)
-        if callable(fn):
-            out.extend(fn())
+        if not callable(fn):
+            continue
+        for tmpl in fn():
+            key = getattr(tmpl, "name", None)
+            if key in seen:
+                continue
+            if key:
+                seen.add(key)
+            out.append(tmpl)
     return out
 
 
