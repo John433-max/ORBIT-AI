@@ -111,7 +111,7 @@ def fallback_source(request: str) -> str:
     return (
         f"def {slug}(*args, **kwargs):\n"
         f'    """Draft from: {(request or "").strip()[:120]}"""\n'
-        "    raise NotImplementedError('\''Paste a fenced snippet to run it, or specify the function body.')\n"
+        "    raise NotImplementedError('Paste a fenced snippet to run it, or specify the function body.')\n"
     )
 
 
