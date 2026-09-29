@@ -63,7 +63,12 @@ def _templates() -> list[Template]:
         fn = getattr(mod, "templates", None)
         if not callable(fn):
             continue
-        for tmpl in fn():
+        try:
+            pack = list(fn())
+        except Exception:
+            # One malformed pack must not break CI collection / chat routing.
+            continue
+        for tmpl in pack:
             key = getattr(tmpl, "name", None)
             if key in seen:
                 continue
@@ -106,7 +111,7 @@ def fallback_source(request: str) -> str:
     return (
         f"def {slug}(*args, **kwargs):\n"
         f'    """Draft from: {(request or "").strip()[:120]}"""\n'
-        "    raise NotImplementedError('Paste a fenced snippet to run it, or specify the function body.')\n"
+        "    raise NotImplementedError('\''Paste a fenced snippet to run it, or specify the function body.')\n"
     )
 
 

@@ -84,7 +84,7 @@ def templates() -> list[Template]:
                     low,
                 )
             ),
-            (("aA", "aAAbbbb"), 3), (("z", "ZZ"), 0),
+            ((("aA", "aAAbbbb"), 3), (("z", "ZZ"), 0)),
         ),
         T(
             "unique_morse_representations",
