@@ -49,6 +49,9 @@ def _templates() -> list[Template]:
         "code_synth_p15",
         "code_synth_p16",
         "code_synth_p17",
+        "code_synth_p18",
+        "code_synth_p19",
+        "code_synth_p20",
     ):
         try:
             mod = importlib.import_module(name)
@@ -76,7 +79,6 @@ def get_templates() -> list[Template]:
     globals()["_TEMPLATES_CACHE"] = loaded
     TEMPLATES = loaded
     return loaded
-
 
 
 def __getattr__(name: str):
