@@ -53,6 +53,8 @@ def _templates() -> list[Template]:
         "code_synth_p19",
         "code_synth_p20",
         "code_synth_p21",
+        "code_synth_p22",
+        "code_synth_p23",
     ):
         try:
             mod = importlib.import_module(name)
@@ -116,10 +118,7 @@ def synthesize_python(request: str) -> str:
 
 
 def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[str, Any]:
-    """Exec a trusted template and check (args, expected) pairs.
-
-    Used only on code_synth templates, never on raw user code.
-    """
+    """Exec a trusted template and check (args, expected) pairs.\n\n    Used only on code_synth templates, never on raw user code.\n    """
     ns: dict[str, Any] = {}
     try:
         exec(source, ns, ns)  # noqa: S102 — static templates only
