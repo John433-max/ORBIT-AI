@@ -73,6 +73,8 @@ def _templates() -> list[Template]:
         "code_synth_p38",
         "code_synth_p39",
         "code_synth_p40",
+        "code_synth_p41",
+        "code_synth_p42",
     ):
         try:
             mod = importlib.import_module(name)
