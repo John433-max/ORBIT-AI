@@ -1,16 +1,22 @@
-# Improvement Cycle 320
+# Cycle 320 — GitHub code_synth pack parity
+
+Date: 2026-09-30
 
 ## Problem
-GitHub main still missing later code_synth packs; local eval had 588/588 while
-smoke.jsonl had grown. Need another Easy pack plus GH pack parity.
+Local coding path is healthy (smoke 630/630, 623 verified templates).
+GitHub main is missing packs: p2, p3, p28–p32, p44, p47, p49, p52–p57, p59.
+Remote loader only listed through p50.
 
-## Implementation
-- New pack `code_synth_p58.py` (6 Easy templates).
-- Loader includes p58.
-- Smoke code_585–code_590.
-- `minimum_number_game` matcher requires "alice bob" / snake / 2974 so
-  existing `number_game` row (code_475) stays intact.
+## Plan
+Push loader (p1–p59, skip-missing) plus small missing packs.
+Do not push 88KB p2 / 187KB p3 in this commit.
 
-## Result
-Local templates 611 → 617. Probes coding/search/identity still pass.
-Eval 630/630 after disambiguating code_475 vs code_585.
+## Local baseline
+- doctor: READY (fastapi/uvicorn warning, Ollama optional)
+- smoke: 630/630 accuracy 1.0
+- probes: coding_agent add(); research_agent fusion news; identity ORBIT
+- templates: 623, verify_source fail=0
+
+## Next
+Push remaining missing packs p28–p32, p44, p47, p49, p53–p57, p59, then p2/p3.
+Keep full local agents.py off remote until slim-parity is planned.
