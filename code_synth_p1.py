@@ -135,9 +135,9 @@ Template(
             "def divide(a, b):\n"
             '    """Return a / b. Raises ZeroDivisionError if b is 0."""\n'
             "    return a / b\n",
-            lambda low: bool(re.search(r"\b(divid(?:e|es|ing)|quotient of)\b.{0,40}\b" + _TWO, low))
+            lambda low: bool(re.search(r"\b(divid(?:e|es|ing)|quotient of)\b.{0,40}\b" + _TWO + r"\b", low))
             and "digits that divide" not in low
-            and "leetcode 2520" not in low
+            and "2520" not in low
             and "count_digits" not in low,
             (((10, 4), 2.5), ((9, 3), 3.0)),
         ),
