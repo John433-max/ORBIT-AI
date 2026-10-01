@@ -2502,6 +2502,8 @@ def templates():
                 )
                 and "kids" not in low
                 and "greatest number of candies" not in low
+                and "among children" not in low
+                and "limit" not in low
             ),
             ((((1, 0, 2),), 5), (((1, 2, 2),), 4), (([],), 0)),
         ),

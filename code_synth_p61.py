@@ -29,7 +29,7 @@ def templates() -> list[Template]:
             ),
             (
                 (("L_RL__R",), 3),
-                (("_" ,), 1),
+                (("_",), 1),
             ),
         ),
         T(

@@ -1,4 +1,4 @@
-"""Cycle 322: faulty keyboard / take gifts / min common value /
+"""Cycle 322: faulty keyboard / max achievable number / neither min nor max /
 remove trailing zeros / row with max ones / alternating digit sum."""
 
 from __future__ import annotations

@@ -23,9 +23,9 @@ def templates() -> list[Template]:
             "    return out\n",
             lambda low: bool(
                 re.search(
-                    r"\\bminimum_number_game\\b|"
-                    r"\\balice[_ ]bob[_ ]minimum[_ ]number[_ ]game\\b|"
-                    r"\\bleetcode[_ ]2974\\b",
+                    r"\bminimum_number_game\b|"
+                    r"\balice[_ ]bob[_ ]minimum[_ ]number[_ ]game\b|"
+                    r"\bleetcode[_ ]2974\b",
                     low,
                 )
             )
@@ -46,9 +46,9 @@ def templates() -> list[Template]:
             "    return out\n",
             lambda low: bool(
                 re.search(
-                    r"\\bseparate[_ ]the[_ ]digits[_ ]in[_ ]an[_ ]array\\b|"
-                    r"\\bseparate[_ ]the[_ ]digits\\b|"
-                    r"\\bseparate_digits_in_array\\b",
+                    r"\bseparate[_ ]the[_ ]digits[_ ]in[_ ]an[_ ]array\b|"
+                    r"\bseparate[_ ]the[_ ]digits\b|"
+                    r"\bseparate_digits_in_array\b",
                     low,
                 )
             )
@@ -77,9 +77,9 @@ def templates() -> list[Template]:
             "    )\n",
             lambda low: bool(
                 re.search(
-                    r"\\bnumber[_ ]of[_ ]beautiful[_ ]pairs\\b|"
-                    r"\\bbeautiful[_ ]pairs\\b|"
-                    r"\\bbeautiful_pairs\\b",
+                    r"\bnumber[_ ]of[_ ]beautiful[_ ]pairs\b|"
+                    r"\bbeautiful[_ ]pairs\b|"
+                    r"\bbeautiful_pairs\b",
                     low,
                 )
             )
@@ -98,9 +98,9 @@ def templates() -> list[Template]:
             "    return color(coordinate1) == color(coordinate2)\n",
             lambda low: bool(
                 re.search(
-                    r"\\bcheck[_ ]if[_ ]two[_ ]chessboard[_ ]squares[_ ]have[_ ]the[_ ]same[_ ]color\\b|"
-                    r"\\bsame[_ ]color[_ ]chessboard\\b|"
-                    r"\\bsame_color_chessboard\\b",
+                    r"\bcheck[_ ]if[_ ]two[_ ]chessboard[_ ]squares[_ ]have[_ ]the[_ ]same[_ ]color\b|"
+                    r"\bsame[_ ]color[_ ]chessboard\b|"
+                    r"\bsame_color_chessboard\b",
                     low,
                 )
             ),
@@ -120,9 +120,9 @@ def templates() -> list[Template]:
             "    return 0\n",
             lambda low: bool(
                 re.search(
-                    r"\\bfind[_ ]champion[_ ]i\\b|"
-                    r"\\bfind[_ ]the[_ ]champion\\b|"
-                    r"\\bfind_champion\\b",
+                    r"\bfind[_ ]champion[_ ]i\b|"
+                    r"\bfind[_ ]the[_ ]champion\b|"
+                    r"\bfind_champion\b",
                     low,
                 )
             )
@@ -146,9 +146,9 @@ def templates() -> list[Template]:
             "    )\n",
             lambda low: bool(
                 re.search(
-                    r"\\bcount[_ ]pairs[_ ]that[_ ]form[_ ]a[_ ]complete[_ ]day\\b|"
-                    r"\\bcount[_ ]complete[_ ]day[_ ]pairs\\b|"
-                    r"\\bcount_complete_day_pairs\\b",
+                    r"\bcount[_ ]pairs[_ ]that[_ ]form[_ ]a[_ ]complete[_ ]day\b|"
+                    r"\bcount[_ ]complete[_ ]day[_ ]pairs\b|"
+                    r"\bcount_complete_day_pairs\b",
                     low,
                 )
             ),

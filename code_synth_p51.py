@@ -112,7 +112,9 @@ def templates() -> list[Template]:
             "    return c\n",
             lambda low: bool(
                 re.search(
-                    r"\bcount[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:a[_ ])?number\b|"
+                    r"\bcount[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:(?:a|the)[_ ])?number\b|"
+                    r"\bdigits[_ ]that[_ ]divide[_ ]the[_ ]number\b|"
+                    r"\bleetcode[_ ]2520\b|"
                     r"\bcount_digits\b",
                     low,
                 )

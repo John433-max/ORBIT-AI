@@ -1,4 +1,4 @@
-"""Cycle 296: shuffle string / max power / good rectangles / goal parser / busy student / visit points."""
+"""Cycle 296: shuffle string / consecutive char power / kth missing / goal parser / busy student / visit points."""
 
 from __future__ import annotations
 

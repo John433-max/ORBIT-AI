@@ -1,4 +1,4 @@
-"""Cycle 300: tested devices / employees target / difference of sums / L-R diffs / min number game / k-set-bit indices."""
+"""Cycle 300: altitude / employees target / difference of sums / L-R diffs / min number game / k-set-bit indices."""
 
 from __future__ import annotations
 
@@ -22,8 +22,9 @@ def templates() -> list[Template]:
             lambda low: bool(
                 re.search(
                     r"\bcount[_ ]tested[_ ]devices\b|"
+                    r"\bcount[_ ]the[_ ]number[_ ]of[_ ]tested[_ ]devices\b|"
                     r"\bcount tested devices after test operations\b|"
-                    r"\bcount (?:the )?tested devices\b",
+                    r"\bcount (?:the )?(?:number of )?tested devices\b",
                     low,
                 )
             ),
@@ -55,7 +56,7 @@ def templates() -> list[Template]:
         T(
             "difference_of_sums",
             "def difference_of_sums(n, m):\n"
-            '    """Sum of [1..n] not divisible by m minus those that are (LeetCode 2535/2894)."""\n'
+            '    """Sum of [1..n] not divisible by m minus those that are (LeetCode 2894)."""\n'
             "    total = n * (n + 1) // 2\n"
             "    k = n // m\n"
             "    div = m * k * (k + 1) // 2\n"
@@ -63,12 +64,12 @@ def templates() -> list[Template]:
             lambda low: bool(
                 re.search(
                     r"\bdifference[_ ]of[_ ]sums\b|"
-                    r"\bdifference between element sum and digit sum\b|"
                     r"\bdifference of sums divisible by\b|"
                     r"\bdivisible and non-divisible sums difference\b",
                     low,
                 )
             )
+            and "digit sum" not in low
             and "two arrays" not in low,
             (
                 ((10, 3), 19),

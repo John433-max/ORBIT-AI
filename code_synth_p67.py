@@ -1,5 +1,5 @@
 """Cycle 329: unused Easy — days together / four-digit min sum /
-pivot integer / min average / div vs non-div / odd binary."""
+pivot integer / pairs sum < target / div vs non-div / odd binary."""
 
 from __future__ import annotations
 
@@ -125,6 +125,7 @@ def templates() -> list[Template]:
                 re.search(
                     r"\bdivisible_and_non_divisible\b|"
                     r"\bdivisible[_ ]and[_ ]non[_ ]divisible\b|"
+                    r"\bdifference[_ ]of[_ ]sums\b|"
                     r"\bleetcode[_ ]2894\b",
                     low,
                 )
