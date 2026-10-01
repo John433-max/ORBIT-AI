@@ -512,7 +512,7 @@
 {"id": "code_472", "category": "coding", "input": "write a python function that number of employees who met target", "expect_contains": ["def number_of_employees_who_met_target", "Verified"]}
 {"id": "code_473", "category": "coding", "input": "write a python function that difference of sums", "expect_contains": ["def difference_of_sums", "Verified"]}
 {"id": "code_474", "category": "coding", "input": "write a python function that left and right sum differences", "expect_contains": ["def left_right_difference", "Verified"]}
-{"id": "code_475", "category": "coding", "input": "write a python function that minimum number game", "expect_contains": ["def number_game", "Verified"]}
+{"id": "code_475", "category": "coding", "input": "write a python function that minimum number game", "expect_contains": ["def minimum_number_game", "Verified"]}
 {"id": "code_476", "category": "coding", "input": "write a python function that sum of values at indices with k set bits", "expect_contains": ["def sum_indices_with_k_set_bits", "Verified"]}
 {"id": "code_477", "category": "coding", "input": "write a python function that first palindrome", "expect_contains": ["def first_palindrome", "Verified"]}
 {"id": "code_478", "category": "coding", "input": "write a python function that smallest even multiple", "expect_contains": ["def smallest_even_multiple", "Verified"]}
