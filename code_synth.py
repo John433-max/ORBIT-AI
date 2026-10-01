@@ -123,6 +123,7 @@ def _templates() -> list[Template]:
         try:
             pack = list(fn())
         except Exception:
+            # One malformed pack must not break CI collection / chat routing.
             continue
         for tmpl in pack:
             key = getattr(tmpl, "name", None)
@@ -145,13 +146,30 @@ def get_templates() -> list[Template]:
     return loaded
 
 
+
 def __getattr__(name: str):
     if name == "TEMPLATES":
         return get_templates()
     raise AttributeError(name)
 
 
-_STOP = frozenset({"a", "an", "the", "of", "to", "in", "on", "for", "and", "or", "is"})
+_STOP = frozenset(
+    {
+        "a",
+        "an",
+        "the",
+        "of",
+        "to",
+        "in",
+        "on",
+        "for",
+        "and",
+        "or",
+        "is",
+        "a",
+    }
+)
+
 _ROMAN = {"ii": "2", "iii": "3", "iv": "4"}
 
 
@@ -168,6 +186,7 @@ def _name_tokens(name: str) -> list[str]:
 
 
 def score_template(request: str, tmpl: Template) -> float:
+    """How many distinctive name tokens appear in the request."""
     low = _low(request)
     tokens = _name_tokens(getattr(tmpl, "name", "") or "")
     if not tokens:
@@ -188,6 +207,12 @@ def iter_matching(request: str) -> list[Template]:
 
 
 def match_template(request: str) -> Template | None:
+    """First match, then upgrade to a token-superset sibling.
+
+    Cycle 283: pack order stays the default (smoke depends on it). If a later
+    hit's name tokens strictly contain the winner's tokens *and* the extra
+    tokens appear in the request, prefer the more specific sibling.
+    """
     hits = iter_matching(request)
     if not hits:
         return None
@@ -220,9 +245,13 @@ def synthesize_python(request: str) -> str:
 
 
 def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[str, Any]:
+    """Exec a trusted template and check (args, expected) pairs.
+
+    Used only on code_synth templates, never on raw user code.
+    """
     ns: dict[str, Any] = {}
     try:
-        exec(source, ns, ns)
+        exec(source, ns, ns)  # noqa: S102 — static templates only
     except Exception as exc:
         return {"ok": False, "error": str(exc), "checked": 0}
     fn = None
@@ -249,13 +278,32 @@ def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[
                 }
             checked += 1
     except Exception as exc:
-        return {"ok": False, "error": str(exc), "checked": checked, "name": getattr(fn, "__name__", "?")}
+        return {
+            "ok": False,
+            "error": str(exc),
+            "checked": checked,
+            "name": getattr(fn, "__name__", "?"),
+        }
     return {"ok": True, "checked": checked, "name": getattr(fn, "__name__", "?")}
 
 
 def synthesize_and_verify(request: str) -> dict[str, Any]:
+    """Match a template, emit source, and self-check examples when present."""
     tmpl = match_template(request)
     if tmpl is None:
-        return {"source": fallback_source(request), "verified": False, "fallback": True, "checked": 0, "name": None}
+        return {
+            "source": fallback_source(request),
+            "verified": False,
+            "fallback": True,
+            "checked": 0,
+            "name": None,
+        }
     check = verify_source(tmpl.source, tmpl.examples)
-    return {"source": tmpl.source, "verified": bool(check.get("ok")), "fallback": False, "checked": int(check.get("checked") or 0), "name": check.get("name") or tmpl.name, "error": check.get("error")}
+    return {
+        "source": tmpl.source,
+        "verified": bool(check.get("ok")),
+        "fallback": False,
+        "checked": int(check.get("checked") or 0),
+        "name": check.get("name") or tmpl.name,
+        "error": check.get("error"),
+    }

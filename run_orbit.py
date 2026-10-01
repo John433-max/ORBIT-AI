@@ -53,6 +53,7 @@ def cmd_doctor(_args=None) -> int:
     print("ORBIT Doctor")
     print("─" * 40)
 
+    # severity: critical | error | warning | optional | info
     results: list[tuple[str, bool, str, str]] = []
 
     def row(name: str, ok: bool, detail: str = "", severity: str = "error"):
@@ -62,18 +63,24 @@ def cmd_doctor(_args=None) -> int:
         extra = f"  {detail}" if detail else ""
         print(f"{name:<16} {mark}{sev}{extra}")
 
+    # Python (critical)
     row("Python", sys.version_info >= (3, 10), f"{sys.version.split()[0]}", "critical")
 
+    # Deps — missing fastapi/uvicorn is a non-blocking warning (serve only).
+    # Report API deps on their own row so a missing core package cannot
+    # promote them to a blocking error (SETUP.md).
     problems = check_environment()
     missing_core = [x for x in problems if "not installed" in x and "fastapi" not in x and "uvicorn" not in x]
     missing_api = [x for x in problems if "fastapi" in x or "uvicorn" in x]
-    if missing_core:
-        row("Dependencies", False, "; ".join(missing_core + missing_api), "error")
-    elif missing_api:
-        row("Dependencies", False, "; ".join(missing_api) + " (needed for serve)", "warning")
+    other = [x for x in problems if x not in missing_core and x not in missing_api]
+    if missing_core or other:
+        row("Dependencies", False, "; ".join(missing_core + other), "error")
     else:
         row("Dependencies", True, "ok", "info")
+    if missing_api:
+        row("API deps", False, "; ".join(missing_api) + " (needed for serve)", "warning")
 
+    # Config / primary provider (critical for runtime)
     try:
         from orbit.core.config import load_config
         from orbit.models.router import build_provider
@@ -91,6 +98,7 @@ def cmd_doctor(_args=None) -> int:
     except Exception as e:
         row("ModelProvider", False, str(e), "critical")
 
+    # TinyLM educational backend (warning if broken and not primary)
     try:
         from orbit.models.tinylm_provider import TinyLMProvider
 
@@ -99,6 +107,7 @@ def cmd_doctor(_args=None) -> int:
     except Exception as e:
         row("TinyLM", False, str(e), "warning")
 
+    # Ollama optional local backend
     try:
         from orbit.models.ollama import OllamaProvider
 
@@ -112,6 +121,7 @@ def cmd_doctor(_args=None) -> int:
     except Exception as e:
         row("Ollama", False, str(e), "optional")
 
+    # Tools / agents (error if broken)
     try:
         from tools.base import ToolRegistry
         from tools import CalculatorTool
@@ -155,6 +165,7 @@ def cmd_doctor(_args=None) -> int:
     return 1
 
 
+
 def cmd_status(_args=None) -> int:
     try:
         from orbit.core.config import load_config
@@ -182,6 +193,7 @@ def cmd_chat(args) -> int:
     if not msg:
         print("Usage: python run_orbit.py chat \"your message\"")
         return 2
+    # Prefer provider path when ORBIT_MODEL_PROVIDER set; always use OrbitAI for tools
     from orbit_ai import OrbitAI
 
     ai = OrbitAI(persist=not getattr(args, "no_persist", False))
@@ -261,8 +273,10 @@ def cmd_eval(args) -> int:
 
 
 def main(argv=None):
+
     argv = list(sys.argv[1:] if argv is None else argv)
 
+    # Legacy flags without subcommand
     if not argv or argv[0].startswith("-"):
         p = argparse.ArgumentParser(description="ORBIT one-command launcher")
         p.add_argument("--host", default=None)
