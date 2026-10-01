@@ -228,6 +228,7 @@ class Thinker:
         thoughts.append(Thought("plan", " → ".join(steps)))
         if kind == "deny":
             thoughts.append(Thought("decide", "refuse destructive filesystem request"))
+            thoughts.append(Thought("answer", "steps used: ['deny']"))
             return ThinkResult(answer=DENY_FS_MSG, thoughts=thoughts, plan=steps, ok=True)
 
         answer = ""
@@ -249,12 +250,17 @@ class Thinker:
             else:
                 text = str(result or "").strip()
                 ok = bool(text)
+            thoughts.append(
+                Thought("observe", f"{step}: {'ok' if ok and text else 'empty'} ({len(text)} chars)")
+            )
             if not text:
                 continue
             if not ok and step in ("calc", "code", "memory", "docs", "memory_check", "docs_check"):
+                thoughts.append(Thought("reject", f"{step} not ok — continue"))
                 continue
             if not ok and step == "search":
                 if "don't have live web" not in text.lower() and "can't complete this search" not in text.lower():
+                    thoughts.append(Thought("reject", "search not ok — continue"))
                     continue
             weak = any(
                 w in text.lower()
@@ -270,17 +276,24 @@ class Thinker:
                 )
             )
             if step in ("memory_check", "docs_check") and weak:
+                thoughts.append(Thought("reject", f"{step} weak — continue"))
                 continue
             if step == "chat" and weak and answer:
+                thoughts.append(Thought("reject", "chat hedge — keep prior"))
                 continue
             answer = text
             used.append(step)
-            if step in ("calc", "code", "memory", "docs", "search") and (ok or step == "search"):
+            if step in ("calc", "code", "memory", "docs") and ok and not weak:
+                thoughts.append(Thought("decide", f"use {step}"))
+                break
+            if step == "search" and (ok or not weak):
+                thoughts.append(Thought("decide", "use search"))
                 break
         if not answer:
             answer = (
                 "I'm still thinking that through, but I don't have a solid answer yet. "
                 "Try rephrasing, or point me at code, math, a document, or something to remember."
             )
+            thoughts.append(Thought("fallback", "empty pipeline"))
         thoughts.append(Thought("answer", f"steps used: {used or ['fallback']}"))
         return ThinkResult(answer=answer, thoughts=thoughts, plan=steps, ok=bool(answer))
