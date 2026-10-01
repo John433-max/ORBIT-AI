@@ -154,7 +154,7 @@ class MainChatAgent:
         return AgentResult(
             self.name,
             True,
-            "I'm ORBIT. I don't have a solid answer for that in my head \u2014 my persona notes are limited, and the neural net under me is still toy-scale.",
+            "I'm ORBIT. I don't have a solid answer for that in my head — my persona notes are limited, and the neural net under me is still toy-scale.",
             raw={"source": "generation_fallback"},
         )
 
@@ -196,7 +196,7 @@ class MemoryAgent:
             return AgentResult(self.name, True, "I don't know your name yet.")
         if low.startswith("remember:"):
             self._facts.append(text.split(":", 1)[1].strip())
-            return AgentResult(self.name, True, "Got it \u2014 I'll remember that.")
+            return AgentResult(self.name, True, "Got it — I'll remember that.")
         return AgentResult(self.name, False, "I don't have anything stored about that yet.")
 
 
@@ -224,8 +224,9 @@ def _looks_like_question(request: str) -> bool:
 
 
 class Orchestrator:
-    def __init__(self, model_router=None, search_provider=None, **kwargs):
+    def __init__(self, model_router=None, search_provider=None, sandbox_root=".", **kwargs):
         self.model_router = model_router
+        self.sandbox_root = sandbox_root
         self.route_log = []
         self.agents = {
             "code": CodeAgent(),
@@ -236,17 +237,34 @@ class Orchestrator:
             "document": DocumentAgent(),
             "file": _Generic("file_agent"),
         }
-
-    def generate_via_provider(self, request: str, max_tokens=160, temperature=0.7):
         if self.model_router is None:
-            return {"ok": False, "text": ""}
+            try:
+                from orbit.core.config import load_config
+                from orbit.models.router import ModelRouter
+                self.model_router = ModelRouter(cfg=load_config())
+            except Exception:
+                self.model_router = None
+
+    def generate_via_provider(self, prompt, max_tokens=128, temperature=0.7):
+        if self.model_router is None:
+            return {"ok": False, "text": "", "error": "no model_router"}
         try:
-            out = self.model_router.generate(request, max_tokens=max_tokens, temperature=temperature)
-            if isinstance(out, dict):
-                return out
-            return {"ok": True, "text": str(out)}
-        except Exception as e:
-            return {"ok": False, "text": "", "error": str(e)}
+            from orbit.models.base import GenerateRequest
+            res = self.model_router.provider.generate(
+                GenerateRequest(prompt=prompt, max_tokens=max_tokens, temperature=temperature)
+            )
+            return res.to_dict()
+        except Exception:
+            try:
+                prov = getattr(self.model_router, "provider", self.model_router)
+                res = prov.generate(prompt)
+                if hasattr(res, "to_dict"):
+                    return res.to_dict()
+                if isinstance(res, dict):
+                    return res
+                return {"ok": True, "text": str(res)}
+            except Exception as e:
+                return {"ok": False, "text": "", "error": str(e)}
 
     def route_with_scores(self, request: str):
         text = request or ""
