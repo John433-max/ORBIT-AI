@@ -2369,3 +2369,35 @@ def test_p81_freq_typed_varsum_setbits_ball_triples():
         bundle = synthesize_and_verify(q)
         assert bundle["verified"] is True, (q, bundle)
 
+
+def test_p82_string_value_swap_or_indices_distinct_monotonic():
+    cases = {
+        "write a python function maximum value of a string in an array leetcode 2496": "def maximum_value",
+        "write a python function lexicographically smallest string after a swap leetcode 3216": "def get_smallest_string",
+        "write a python function check if bitwise or has trailing zeros leetcode 2980": "def has_trailing_zeros",
+        "write a python function find indices with index and value difference i leetcode 2903": "def find_indices",
+        "write a python function subarrays distinct element sum of squares i leetcode 2913": "def sum_counts",
+        "write a python function longest monotonic subarray leetcode 3105": "def longest_monotonic_subarray",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+
+def test_p83_chessboards_diff_collect_box_digits_kdistant():
+    cases = {
+        "write a python function check if two chessboards have the same color leetcode 3274": "def check_two_chessboards",
+        "write a python function maximum difference between increasing elements leetcode 2016": "def maximum_difference",
+        "write a python function minimum operations to collect elements leetcode 2869": "def min_operations",
+        "write a python function categorize box according to criteria leetcode 2525": "def categorize_box",
+        "write a python function check if number has equal digit count and digit value leetcode 2283": "def digit_count",
+        "write a python function find all k-distant indices in an array leetcode 2200": "def find_k_distant_indices",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
