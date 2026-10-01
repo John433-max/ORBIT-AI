@@ -772,3 +772,9 @@
 {"id": "code_731", "category": "coding", "input": "write a python function smallest number with all set bits leetcode 3370", "expect_contains": ["def smallest_number_all_set_bits", "Verified"]}
 {"id": "code_732", "category": "coding", "input": "write a python function find the child who has the ball after k seconds leetcode 3178", "expect_contains": ["def child_with_ball", "Verified"]}
 {"id": "code_733", "category": "coding", "input": "write a python function count square sum triples leetcode 1925", "expect_contains": ["def count_square_sum_triples", "Verified"]}
+{"id": "code_734", "category": "coding", "input": "write a python function maximum value of a string in an array leetcode 2496", "expect_contains": ["def maximum_value", "Verified"]}
+{"id": "code_735", "category": "coding", "input": "write a python function lexicographically smallest string after a swap leetcode 3216", "expect_contains": ["def get_smallest_string", "Verified"]}
+{"id": "code_736", "category": "coding", "input": "write a python function check if bitwise or has trailing zeros leetcode 2980", "expect_contains": ["def has_trailing_zeros", "Verified"]}
+{"id": "code_737", "category": "coding", "input": "write a python function find indices with index and value difference i leetcode 2903", "expect_contains": ["def find_indices", "Verified"]}
+{"id": "code_738", "category": "coding", "input": "write a python function subarrays distinct element sum of squares i leetcode 2913", "expect_contains": ["def sum_counts", "Verified"]}
+{"id": "code_739", "category": "coding", "input": "write a python function longest monotonic subarray leetcode 3105", "expect_contains": ["def longest_monotonic_subarray", "Verified"]}
