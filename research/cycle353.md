@@ -10,7 +10,7 @@ Official problem statements define the functions. Matching stays first-hit plus 
 `code_synth_p83.py` with six verified templates. Loader lists `code_synth_p83`. Unit test `test_p83_chessboards_diff_collect_box_digits_kdistant`. Smoke rows `code_740`–`code_745`.
 
 ## Tests
-Direct execution of the new unit test and the p82 test: both passed. Collision probes (array-increasing ops, ancestor diff, count digits, find indices, chessboard square color) still hit the older templates. Subset eval of the six new rows: 6/6.
+Direct execution of the new unit test and the p82 test: both passed. Collision probes (array-increasing ops, ancestor diff, count digits, find indices, chessboard square color) still hit the older templates. Subset eval of the six new rows: 6/6. Full smoke: 785/785 (was 779/779).
 
 ## Benchmark
 
@@ -18,7 +18,7 @@ Direct execution of the new unit test and the p82 test: both passed. Collision p
 |---|---:|---:|---:|
 | templates | 746 | 752 | +6 |
 | p83 prompts verified | 0/6 (fallback) | 6/6 | +6 |
-| subset smoke | — | 6/6 | new rows |
+| smoke accuracy | 779/779 | 785/785 | +6 rows, still 100% |
 | p82 regression | pass | pass | unchanged |
 
 ## Result
