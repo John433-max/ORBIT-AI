@@ -32,6 +32,7 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p84",
         "code_synth_p1",
         "code_synth_p1c",
         "code_synth_p1b",
@@ -224,12 +225,22 @@ def match_template(request: str) -> Template | None:
     low = _low(request)
     best = hits[0]
     best_tok = set(_name_tokens(best.name))
+    best_score = score_template(request, best)
     for tmpl in hits[1:]:
         tok = set(_name_tokens(tmpl.name))
         extra = tok - best_tok
+        score = score_template(request, tmpl)
         if extra and best_tok <= tok and all(t in low for t in extra):
             best = tmpl
             best_tok = tok
+            best_score = score
+            continue
+        # Later pack with strictly more name tokens in the request beats a
+        # broad early hit (sort_list vs sort_array_by_parity).
+        if score > best_score and score >= 2:
+            best = tmpl
+            best_tok = tok
+            best_score = score
     return best
 
 
