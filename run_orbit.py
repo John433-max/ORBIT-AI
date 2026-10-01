@@ -28,7 +28,7 @@ def check_environment() -> list[str]:
     try:
         import yaml  # noqa: F401
     except ImportError:
-        problems.append("PyYAML not installed (pip install PyYAML)")
+        problems.append("PyYAML not installed; yaml_lite loads configs/*.yaml")
     try:
         import fastapi  # noqa: F401
         import uvicorn  # noqa: F401
@@ -70,13 +70,19 @@ def cmd_doctor(_args=None) -> int:
     # Report API deps on their own row so a missing core package cannot
     # promote them to a blocking error (SETUP.md).
     problems = check_environment()
-    missing_core = [x for x in problems if "not installed" in x and "fastapi" not in x and "uvicorn" not in x]
+    missing_core = [
+        x for x in problems
+        if "not installed" in x and "fastapi" not in x and "uvicorn" not in x and "yaml_lite" not in x
+    ]
+    missing_yaml = [x for x in problems if "yaml_lite" in x]
     missing_api = [x for x in problems if "fastapi" in x or "uvicorn" in x]
-    other = [x for x in problems if x not in missing_core and x not in missing_api]
+    other = [x for x in problems if x not in missing_core and x not in missing_api and x not in missing_yaml]
     if missing_core or other:
         row("Dependencies", False, "; ".join(missing_core + other), "error")
     else:
         row("Dependencies", True, "ok", "info")
+    if missing_yaml:
+        row("PyYAML", False, missing_yaml[0] + " (optional)", "warning")
     if missing_api:
         row("API deps", False, "; ".join(missing_api) + " (needed for serve)", "warning")
 
