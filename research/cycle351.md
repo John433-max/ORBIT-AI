@@ -1,16 +1,15 @@
 # Improvement Cycle 351
 
 ## Problem
-GitHub main had code_synth packs through p79. Local already had p80 and p81 plus smoke rows code_722–code_733. Coding/search/identity probes passed locally; parity was the remaining priority.
-
-## Research
-No new algorithm. Parity is a publish of already-tested packs (cycle 349/350).
+GitHub main had code_synth packs through p79. Local already had p80 and p81. Coding/search/identity probes passed locally; pack parity was the remaining priority.
 
 ## Implementation
-Push code_synth_p80.py, code_synth_p81.py, loader lines, smoke.jsonl, test_code_synth.py, cycle350.md.
+Push code_synth_p80.py and code_synth_p81.py (12 verified Easy templates).
+Did not overwrite GitHub slim agents.py.
 
 ## Tests
-Local test_p80 and test_p81 executed successfully before push. Full eval this run: 773/773.
+Local verify_source: 12/12. Doctor READY. Smoke 773/773.
+Probes: add-two-numbers verified code; fusion search honest no-live-web; name = ORBIT.
 
-## Result
-Kept. Remote should list packs through p81 after push.
+## Next
+Slim agents.py parity, fastapi/uvicorn serve extras, or next Easy pack.
