@@ -258,6 +258,39 @@ def _normalize_search_payload(raw) -> dict:
     return {"ok": False, "note": f"unsupported search type {type(raw)!r}", "results": []}
 
 
+
+_GENERIC_SEARCH_NOTES = {
+    "search failed",
+    "no live web",
+    "no live web access",
+    "no results",
+    "empty search response",
+}
+
+
+def _offline_search_reply(note) -> str:
+    """Honest offline line. Drop generic notes that only repeat the failure.
+
+    Cycle 357: appending the default ``search failed`` made the user-facing
+    reply look like an error dump after the already-honest sentence.
+    Specific provider notes (missing API key, exception type) are kept.
+    """
+    base = "I don't have live web access right now, so I can't complete this search."
+    text = str(note or "").strip()
+    low = text.lower().rstrip(".")
+    if (
+        not text
+        or low in _GENERIC_SEARCH_NOTES
+        or low.startswith("no live web")
+        or "don't have live web" in low
+        or "can't complete this search" in low
+    ):
+        return base
+    if text.endswith("."):
+        return base + " " + text
+    return base + " " + text + "."
+
+
 class ResearchAgent:
     name = "research_agent"
 
@@ -359,11 +392,8 @@ class ResearchAgent:
             if cites:
                 content += "\n\nSources:\n" + "\n".join(f"- {c}" for c in cites[:4])
             return AgentResult(self.name, True, content, raw=result)
-        note = result.get("note") or result.get("error") or "search failed"
-        content = (
-            "I don't have live web access right now, so I can't complete this search. "
-            + str(note)
-        )
+        note = result.get("note") or result.get("error") or ""
+        content = _offline_search_reply(note)
         return AgentResult(self.name, False, content, raw=result)
 
 
