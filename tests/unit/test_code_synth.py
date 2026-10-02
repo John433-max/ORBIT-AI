@@ -2647,3 +2647,21 @@ def test_p99_knight_alternating_div_good_semi_substr():
         assert bundle["verified"] is True, (q, bundle)
     assert "def permute" in synthesize_python("write a python function that returns all permutations")
     assert "def reverse_string" in synthesize_python("implement a python function to reverse a string")
+
+
+def test_p100_split_twoocc_valid_cost_distinct_equal_k():
+    cases = {
+        "write a python function split the array leetcode 3046": "def is_possible_to_split",
+        "write a python function maximum length substring with two occurrences leetcode 3090": "def maximum_length_substring_two_occurrences",
+        "write a python function valid word leetcode 3136": "def is_valid_word",
+        "write a python function minimum cost to reach every position leetcode 3502": "def min_cost_to_reach_position",
+        "write a python function count substrings of length three with all distinct leetcode 3258": "def count_distinct_length_three",
+        "write a python function minimum operations to make array values equal to k leetcode 3375": "def min_operations_equal_k",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def permute" in synthesize_python("write a python function that returns all permutations")
+    assert "def reverse_string" in synthesize_python("implement a python function to reverse a string")

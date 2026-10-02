@@ -876,3 +876,9 @@
 {"id": "code_835", "category": "coding", "input": "write a python function check if array is good leetcode 2784", "expect_contains": ["def check_array_is_good", "Verified"]}
 {"id": "code_836", "category": "coding", "input": "write a python function semi-ordered permutation leetcode 2717", "expect_contains": ["def semi_ordered_permutation", "Verified"]}
 {"id": "code_837", "category": "coding", "input": "write a python function existence of a substring in a string and its reverse leetcode 3083", "expect_contains": ["def existence_of_substring_reverse", "Verified"]}
+{"id": "code_838", "category": "coding", "input": "write a python function split the array leetcode 3046", "expect_contains": ["def is_possible_to_split", "Verified"]}
+{"id": "code_839", "category": "coding", "input": "write a python function maximum length substring with two occurrences leetcode 3090", "expect_contains": ["def maximum_length_substring_two_occurrences", "Verified"]}
+{"id": "code_840", "category": "coding", "input": "write a python function valid word leetcode 3136", "expect_contains": ["def is_valid_word", "Verified"]}
+{"id": "code_841", "category": "coding", "input": "write a python function minimum cost to reach every position leetcode 3502", "expect_contains": ["def min_cost_to_reach_position", "Verified"]}
+{"id": "code_842", "category": "coding", "input": "write a python function count substrings of length three with all distinct leetcode 3258", "expect_contains": ["def count_distinct_length_three", "Verified"]}
+{"id": "code_843", "category": "coding", "input": "write a python function minimum operations to make array values equal to k leetcode 3375", "expect_contains": ["def min_operations_equal_k", "Verified"]}
