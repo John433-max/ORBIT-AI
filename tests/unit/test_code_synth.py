@@ -2401,3 +2401,199 @@ def test_p83_chessboards_diff_collect_box_digits_kdistant():
         assert needle in src, (q, src[:240])
         bundle = synthesize_and_verify(q)
         assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p85_beams_append_password_people_digit_units():
+    cases = {
+        "write a python function number of laser beams in a bank leetcode 2125": "def number_of_beams",
+        "write a python function append characters to string to make subsequence leetcode 2486": "def append_characters",
+        "write a python function strong password checker ii leetcode 2299": "def strong_password_checker_ii",
+        "write a python function remove digit from number to maximize result leetcode 2259": "def remove_digit",
+        "write a python function adding spaces to a string leetcode 2109": "def add_spaces",
+        "write a python function maximum ice cream bars leetcode 1833": "def max_ice_cream",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p86_adjacent_great_spaces_gap_digit_prefix():
+    cases = {
+        "write a python function remove all adjacent duplicates in string leetcode 1047": "def remove_all_adjacent_duplicates",
+        "write a python function make the string great leetcode 1544": "def make_good",
+        "write a python function rearrange spaces between words leetcode 1592": "def reorder_spaces",
+        "write a python function largest substring between two equal characters leetcode 1624": "def max_length_between_equal_characters",
+        "write a python function second largest digit in a string leetcode 1796": "def second_highest",
+        "write a python function check if string is a prefix of array leetcode 1961": "def is_prefix_string",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+def test_p87_vowel_range_matrix_pairs_groups_digits_freq():
+    cases = {
+        "write a python function count the number of vowel strings in range leetcode 2586": "def vowel_strings_in_range",
+        "write a python function modify the matrix leetcode 3033": "def modified_matrix",
+        "write a python function find the number of good pairs i leetcode 3162": "def number_of_good_pairs_i",
+        "write a python function alternating groups i leetcode 3206": "def alternating_groups_i",
+        "write a python function maximum product of two digits leetcode 3536": "def max_product_two_digits",
+        "write a python function find most frequent vowel and consonant leetcode 3541": "def most_frequent_vowel_consonant",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p88_faulty_keys_harshad_div3_snake_balanced():
+    cases = {
+        "write a python function faulty keyboard leetcode 2810": "def faulty_keyboard",
+        "write a python function number of changing keys leetcode 3019": "def number_of_changing_keys",
+        "write a python function minimum sum of mountain triplets i leetcode 2908": "def minimum_sum_mountain_triplets",
+        "write a python function unique three digit even numbers leetcode 3483": "def unique_three_digit_even",
+        "write a python function snake in matrix leetcode 3248": "def snake_in_matrix",
+        "write a python function check balanced string leetcode 3340": "def check_balanced_string",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+
+def test_p89_adjacent_prime_ops_div_trionic_order():
+    cases = {
+        "write a python function resulting string after adjacent removals leetcode 3561": "def resulting_string_after_adjacent_removals",
+        "write a python function check if any element has prime frequency leetcode 3591": "def has_prime_frequency",
+        "write a python function process string with special operations i leetcode 3612": "def process_string_special_operations",
+        "write a python function check divisibility by digit sum and product leetcode 3622": "def check_divisibility_digit_sum_product",
+        "write a python function trionic array i leetcode 3637": "def is_trionic",
+        "write a python function restore finishing order leetcode 3668": "def restore_finishing_order",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p90_equalize_finish_decimal_score_freq_multiple():
+    cases = {
+        "write a python function minimum operations to equalize array leetcode 3674": "def min_operations_equalize_array",
+        "write a python function earliest time to finish one task leetcode 3683": "def earliest_time_to_finish_one_task",
+        "write a python function compute decimal representation leetcode 3697": "def decimal_representation",
+        "write a python function equal score substrings leetcode 3707": "def equal_score_substrings",
+        "write a python function sum of elements with frequency divisible by k leetcode 3712": "def sum_freq_divisible_by_k",
+        "write a python function smallest missing multiple leetcode 3718": "def missing_multiple",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+def test_p91_zeros_missing_moves_flips_removals_kdiff():
+    cases = {
+        "write a python function remove zeros in decimal representation leetcode 3726": "def remove_zeros_decimal",
+        "write a python function find missing elements leetcode 3731": "def find_missing_elements",
+        "write a python function minimum moves to equal array elements iii leetcode 3736": "def min_moves_equal_array_iii",
+        "write a python function minimum flips to reverse binary string leetcode 3750": "def min_flips_reverse_binary",
+        "write a python function minimum string length after balanced removals leetcode 3746": "def min_length_balanced_removals",
+        "write a python function absolute difference between maximum and minimum k elements leetcode 3774": "def abs_diff_k_extremes",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+
+
+def test_p92_digit_nice_rotated_swap_population_freq():
+    cases = {
+        "write a python function second largest digit in a string leetcode 1796": "def second_largest_digit",
+        "write a python function longest nice substring leetcode 1763": "def longest_nice_substring",
+        "write a python function check if array is sorted and rotated leetcode 1752": "def check_sorted_rotated",
+        "write a python function check if one string swap can make strings equal leetcode 1790": "def one_string_swap",
+        "write a python function maximum population year leetcode 1854": "def maximum_population_year",
+        "write a python function minimum changes to make alternating binary string leetcode 1758": "def min_changes_alternating",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    both = synthesize_python("write a python function second largest digit in a string leetcode 1796")
+    assert "def second_largest_digit" in both
+    assert "def second_highest" in both
+
+
+def test_p93_integers_distance_equal_typed_fancy_moves():
+    cases = {
+        "write a python function number of different integers in a string leetcode 1805": "def num_different_integers",
+        "write a python function minimum distance to the target element leetcode 1848": "def min_distance_target",
+        "write a python function redistribute characters to make all strings equal leetcode 1897": "def make_equal_strings",
+        "write a python function maximum number of words you can type leetcode 1935": "def can_be_typed_words",
+        "write a python function delete characters to make fancy string leetcode 1957": "def make_fancy_string",
+        "write a python function minimum moves to convert string leetcode 2027": "def minimum_moves_convert_string",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p94_houses_candies_ops_beauty_letter_cups():
+    cases = {
+        "write a python function two furthest houses with different colors leetcode 2078": "def max_distance_colors",
+        "write a python function minimum cost of buying candies with a discount leetcode 2144": "def minimum_cost_candies",
+        "write a python function count operations to obtain zero leetcode 2169": "def count_operations_zero",
+        "write a python function find the k beauty of a number leetcode 2269": "def k_beauty",
+        "write a python function greatest english letter in upper and lower case leetcode 2309": "def greatest_letter",
+        "write a python function minimum amount of time to fill cups leetcode 2335": "def fill_cups",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p95_zero_recolors_limited_freq_worker_clocks():
+    cases = {
+        "write a python function make array zero by subtracting equal amounts leetcode 2357": "def minimum_operations_array_zero",
+        "write a python function minimum recolors to get k consecutive black blocks leetcode 2379": "def minimum_recolors",
+        "write a python function longest subsequence with limited sum leetcode 2389": "def answer_queries_limited_sum",
+        "write a python function remove letter to equalize frequency leetcode 2423": "def equal_frequency",
+        "write a python function employee that worked on the longest task leetcode 2432": "def hardest_worker",
+        "write a python function number of valid clock times leetcode 2437": "def count_valid_clock_times",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p96_reverse_avg_triplets_cuts_digits_time():
+    cases = {
+        "write a python function count number of distinct integers after reverse operations leetcode 2442": "def count_distinct_integers_reverse",
+        "write a python function number of distinct averages leetcode 2465": "def distinct_averages",
+        "write a python function number of unequal triplets in array leetcode 2475": "def unequal_triplets",
+        "write a python function minimum cuts to divide a circle leetcode 2481": "def minimum_cuts_circle",
+        "write a python function calculate digit sum of a string leetcode 2243": "def digit_sum_string",
+        "write a python function latest time by replacing hidden digits leetcode 1736": "def latest_time_hidden",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)

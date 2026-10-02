@@ -784,3 +784,77 @@
 {"id": "code_743", "category": "coding", "input": "write a python function categorize box according to criteria leetcode 2525", "expect_contains": ["def categorize_box", "Verified"]}
 {"id": "code_744", "category": "coding", "input": "write a python function check if number has equal digit count and digit value leetcode 2283", "expect_contains": ["def digit_count", "Verified"]}
 {"id": "code_745", "category": "coding", "input": "write a python function find all k-distant indices in an array leetcode 2200", "expect_contains": ["def find_k_distant_indices", "Verified"]}
+{"id": "code_746", "category": "coding", "input": "write a python function number of laser beams in a bank leetcode 2125", "expect_contains": ["def number_of_beams", "Verified"]}
+{"id": "code_747", "category": "coding", "input": "write a python function append characters to string to make subsequence leetcode 2486", "expect_contains": ["def append_characters", "Verified"]}
+{"id": "code_748", "category": "coding", "input": "write a python function strong password checker ii leetcode 2299", "expect_contains": ["def strong_password_checker_ii", "Verified"]}
+{"id": "code_749", "category": "coding", "input": "write a python function adding spaces to a string leetcode 2109", "expect_contains": ["def add_spaces", "Verified"]}
+{"id": "code_750", "category": "coding", "input": "write a python function remove digit from number to maximize result leetcode 2259", "expect_contains": ["def remove_digit", "Verified"]}
+{"id": "code_751", "category": "coding", "input": "write a python function maximum ice cream bars leetcode 1833", "expect_contains": ["def max_ice_cream", "Verified"]}
+{"id": "code_752", "category": "coding", "input": "write a python function sort the people leetcode 2418", "expect_contains": ["def sort_people", "def sort_the_people", "Verified"]}
+{"id": "code_753", "category": "coding", "input": "write a python function maximum units on a truck leetcode 1710", "expect_contains": ["def maximum_units", "def max_units_on_truck", "Verified"]}
+{"id": "code_754", "category": "coding", "input": "write a python function remove all adjacent duplicates in string leetcode 1047", "expect_contains": ["def remove_all_adjacent_duplicates", "Verified"]}
+{"id": "code_755", "category": "coding", "input": "write a python function make the string great leetcode 1544", "expect_contains": ["def make_good", "Verified"]}
+{"id": "code_756", "category": "coding", "input": "write a python function rearrange spaces between words leetcode 1592", "expect_contains": ["def reorder_spaces", "Verified"]}
+{"id": "code_757", "category": "coding", "input": "write a python function largest substring between two equal characters leetcode 1624", "expect_contains": ["def max_length_between_equal_characters", "Verified"]}
+{"id": "code_758", "category": "coding", "input": "write a python function second largest digit in a string leetcode 1796", "expect_contains": ["def second_highest", "Verified"]}
+{"id": "code_759", "category": "coding", "input": "write a python function check if string is a prefix of array leetcode 1961", "expect_contains": ["def is_prefix_string", "Verified"]}
+{"id": "code_760", "category": "coding", "input": "write a python function count the number of vowel strings in range leetcode 2586", "expect_contains": ["def vowel_strings_in_range", "Verified"]}
+{"id": "code_761", "category": "coding", "input": "write a python function modify the matrix leetcode 3033", "expect_contains": ["def modified_matrix", "Verified"]}
+{"id": "code_762", "category": "coding", "input": "write a python function find the number of good pairs i leetcode 3162", "expect_contains": ["def number_of_good_pairs_i", "Verified"]}
+{"id": "code_763", "category": "coding", "input": "write a python function alternating groups i leetcode 3206", "expect_contains": ["def alternating_groups_i", "Verified"]}
+{"id": "code_764", "category": "coding", "input": "write a python function maximum product of two digits leetcode 3536", "expect_contains": ["def max_product_two_digits", "Verified"]}
+{"id": "code_765", "category": "coding", "input": "write a python function find most frequent vowel and consonant leetcode 3541", "expect_contains": ["def most_frequent_vowel_consonant", "Verified"]}
+{"id": "code_766", "category": "coding", "input": "write a python function faulty keyboard leetcode 2810", "expect_contains": ["def faulty_keyboard", "Verified"]}
+{"id": "code_767", "category": "coding", "input": "write a python function number of changing keys leetcode 3019", "expect_contains": ["def number_of_changing_keys", "Verified"]}
+{"id": "code_768", "category": "coding", "input": "write a python function minimum sum of mountain triplets i leetcode 2908", "expect_contains": ["def minimum_sum_mountain_triplets", "Verified"]}
+{"id": "code_769", "category": "coding", "input": "write a python function unique three digit even numbers leetcode 3483", "expect_contains": ["def unique_three_digit_even", "Verified"]}
+{"id": "code_770", "category": "coding", "input": "write a python function snake in matrix leetcode 3248", "expect_contains": ["def snake_in_matrix", "Verified"]}
+{"id": "code_771", "category": "coding", "input": "write a python function check balanced string leetcode 3340", "expect_contains": ["def check_balanced_string", "Verified"]}
+{"id": "code_772", "category": "coding", "input": "write a python function resulting string after adjacent removals leetcode 3561", "expect_contains": ["def resulting_string_after_adjacent_removals", "Verified"]}
+{"id": "code_773", "category": "coding", "input": "write a python function check if any element has prime frequency leetcode 3591", "expect_contains": ["def has_prime_frequency", "Verified"]}
+{"id": "code_774", "category": "coding", "input": "write a python function process string with special operations i leetcode 3612", "expect_contains": ["def process_string_special_operations", "Verified"]}
+{"id": "code_775", "category": "coding", "input": "write a python function check divisibility by digit sum and product leetcode 3622", "expect_contains": ["def check_divisibility_digit_sum_product", "Verified"]}
+{"id": "code_776", "category": "coding", "input": "write a python function trionic array i leetcode 3637", "expect_contains": ["def is_trionic", "Verified"]}
+{"id": "code_777", "category": "coding", "input": "write a python function restore finishing order leetcode 3668", "expect_contains": ["def restore_finishing_order", "Verified"]}
+{"id": "code_778", "category": "coding", "input": "write a python function minimum operations to equalize array leetcode 3674", "expect_contains": ["def min_operations_equalize_array", "Verified"]}
+{"id": "code_779", "category": "coding", "input": "write a python function earliest time to finish one task leetcode 3683", "expect_contains": ["def earliest_time_to_finish_one_task", "Verified"]}
+{"id": "code_780", "category": "coding", "input": "write a python function compute decimal representation leetcode 3697", "expect_contains": ["def decimal_representation", "Verified"]}
+{"id": "code_781", "category": "coding", "input": "write a python function equal score substrings leetcode 3707", "expect_contains": ["def equal_score_substrings", "Verified"]}
+{"id": "code_782", "category": "coding", "input": "write a python function sum of elements with frequency divisible by k leetcode 3712", "expect_contains": ["def sum_freq_divisible_by_k", "Verified"]}
+{"id": "code_783", "category": "coding", "input": "write a python function smallest missing multiple leetcode 3718", "expect_contains": ["def missing_multiple", "Verified"]}
+{"id": "code_784", "category": "coding", "input": "write a python function remove zeros in decimal representation leetcode 3726", "expect_contains": ["def remove_zeros_decimal", "Verified"]}
+{"id": "code_785", "category": "coding", "input": "write a python function find missing elements leetcode 3731", "expect_contains": ["def find_missing_elements", "Verified"]}
+{"id": "code_786", "category": "coding", "input": "write a python function minimum moves to equal array elements iii leetcode 3736", "expect_contains": ["def min_moves_equal_array_iii", "Verified"]}
+{"id": "code_787", "category": "coding", "input": "write a python function minimum flips to reverse binary string leetcode 3750", "expect_contains": ["def min_flips_reverse_binary", "Verified"]}
+{"id": "code_788", "category": "coding", "input": "write a python function minimum string length after balanced removals leetcode 3746", "expect_contains": ["def min_length_balanced_removals", "Verified"]}
+{"id": "code_789", "category": "coding", "input": "write a python function absolute difference between maximum and minimum k elements leetcode 3774", "expect_contains": ["def abs_diff_k_extremes", "Verified"]}
+{"id": "code_790", "category": "coding", "input": "write a python function second largest digit in a string leetcode 1796", "expect_contains": ["def second_largest_digit", "Verified"]}
+{"id": "code_791", "category": "coding", "input": "write a python function longest nice substring leetcode 1763", "expect_contains": ["def longest_nice_substring", "Verified"]}
+{"id": "code_792", "category": "coding", "input": "write a python function check if array is sorted and rotated leetcode 1752", "expect_contains": ["def check_sorted_rotated", "Verified"]}
+{"id": "code_793", "category": "coding", "input": "write a python function check if one string swap can make strings equal leetcode 1790", "expect_contains": ["def one_string_swap", "Verified"]}
+{"id": "code_794", "category": "coding", "input": "write a python function maximum population year leetcode 1854", "expect_contains": ["def maximum_population_year", "Verified"]}
+{"id": "code_795", "category": "coding", "input": "write a python function minimum changes to make alternating binary string leetcode 1758", "expect_contains": ["def min_changes_alternating", "Verified"]}
+{"id": "code_796", "category": "coding", "input": "write a python function number of different integers in a string leetcode 1805", "expect_contains": ["def num_different_integers", "Verified"]}
+{"id": "code_797", "category": "coding", "input": "write a python function minimum distance to the target element leetcode 1848", "expect_contains": ["def min_distance_target", "Verified"]}
+{"id": "code_798", "category": "coding", "input": "write a python function redistribute characters to make all strings equal leetcode 1897", "expect_contains": ["def make_equal_strings", "Verified"]}
+{"id": "code_799", "category": "coding", "input": "write a python function maximum number of words you can type leetcode 1935", "expect_contains": ["def can_be_typed_words", "Verified"]}
+{"id": "code_800", "category": "coding", "input": "write a python function delete characters to make fancy string leetcode 1957", "expect_contains": ["def make_fancy_string", "Verified"]}
+{"id": "code_801", "category": "coding", "input": "write a python function minimum moves to convert string leetcode 2027", "expect_contains": ["def minimum_moves_convert_string", "Verified"]}
+{"id": "code_802", "category": "coding", "input": "write a python function two furthest houses with different colors leetcode 2078", "expect_contains": ["def max_distance_colors", "Verified"]}
+{"id": "code_803", "category": "coding", "input": "write a python function minimum cost of buying candies with a discount leetcode 2144", "expect_contains": ["def minimum_cost_candies", "Verified"]}
+{"id": "code_804", "category": "coding", "input": "write a python function count operations to obtain zero leetcode 2169", "expect_contains": ["def count_operations_zero", "Verified"]}
+{"id": "code_805", "category": "coding", "input": "write a python function find the k beauty of a number leetcode 2269", "expect_contains": ["def k_beauty", "Verified"]}
+{"id": "code_806", "category": "coding", "input": "write a python function greatest english letter in upper and lower case leetcode 2309", "expect_contains": ["def greatest_letter", "Verified"]}
+{"id": "code_807", "category": "coding", "input": "write a python function minimum amount of time to fill cups leetcode 2335", "expect_contains": ["def fill_cups", "Verified"]}
+{"id": "code_808", "category": "coding", "input": "write a python function make array zero by subtracting equal amounts leetcode 2357", "expect_contains": ["def minimum_operations_array_zero", "Verified"]}
+{"id": "code_809", "category": "coding", "input": "write a python function minimum recolors to get k consecutive black blocks leetcode 2379", "expect_contains": ["def minimum_recolors", "Verified"]}
+{"id": "code_810", "category": "coding", "input": "write a python function longest subsequence with limited sum leetcode 2389", "expect_contains": ["def answer_queries_limited_sum", "Verified"]}
+{"id": "code_811", "category": "coding", "input": "write a python function remove letter to equalize frequency leetcode 2423", "expect_contains": ["def equal_frequency", "Verified"]}
+{"id": "code_812", "category": "coding", "input": "write a python function employee that worked on the longest task leetcode 2432", "expect_contains": ["def hardest_worker", "Verified"]}
+{"id": "code_813", "category": "coding", "input": "write a python function number of valid clock times leetcode 2437", "expect_contains": ["def count_valid_clock_times", "Verified"]}
+{"id": "code_814", "category": "coding", "input": "write a python function count number of distinct integers after reverse operations leetcode 2442", "expect_contains": ["def count_distinct_integers_reverse", "Verified"]}
+{"id": "code_815", "category": "coding", "input": "write a python function number of distinct averages leetcode 2465", "expect_contains": ["def distinct_averages", "Verified"]}
+{"id": "code_816", "category": "coding", "input": "write a python function number of unequal triplets in array leetcode 2475", "expect_contains": ["def unequal_triplets", "Verified"]}
+{"id": "code_817", "category": "coding", "input": "write a python function minimum cuts to divide a circle leetcode 2481", "expect_contains": ["def minimum_cuts_circle", "Verified"]}
+{"id": "code_818", "category": "coding", "input": "write a python function calculate digit sum of a string leetcode 2243", "expect_contains": ["def digit_sum_string", "Verified"]}
+{"id": "code_819", "category": "coding", "input": "write a python function latest time by replacing hidden digits leetcode 1736", "expect_contains": ["def latest_time_hidden", "Verified"]}
