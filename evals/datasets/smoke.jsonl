@@ -858,3 +858,21 @@
 {"id": "code_817", "category": "coding", "input": "write a python function minimum cuts to divide a circle leetcode 2481", "expect_contains": ["def minimum_cuts_circle", "Verified"]}
 {"id": "code_818", "category": "coding", "input": "write a python function calculate digit sum of a string leetcode 2243", "expect_contains": ["def digit_sum_string", "Verified"]}
 {"id": "code_819", "category": "coding", "input": "write a python function latest time by replacing hidden digits leetcode 1736", "expect_contains": ["def latest_time_hidden", "Verified"]}
+{"id": "code_820", "category": "coding", "input": "write a python function furthest point from origin leetcode 2833", "expect_contains": ["def furthest_point_from_origin", "Verified"]}
+{"id": "code_821", "category": "coding", "input": "write a python function find common elements between two arrays leetcode 2956", "expect_contains": ["def common_elements_two_arrays", "Verified"]}
+{"id": "code_822", "category": "coding", "input": "write a python function convert date to binary leetcode 3280", "expect_contains": ["def date_to_binary", "Verified"]}
+{"id": "code_823", "category": "coding", "input": "write a python function special array i leetcode 3151", "expect_contains": ["def special_array_i", "Verified"]}
+{"id": "code_824", "category": "coding", "input": "write a python function count pairs that form a complete day leetcode 3184", "expect_contains": ["def complete_day_pairs", "Verified"]}
+{"id": "code_825", "category": "coding", "input": "write a python function minimum average of smallest and largest elements leetcode 3194", "expect_contains": ["def minimum_average", "Verified"]}
+{"id": "code_826", "category": "coding", "input": "write a python function two out of three leetcode 2032", "expect_contains": ["def two_out_of_three", "Verified"]}
+{"id": "code_827", "category": "coding", "input": "write a python function count elements with strictly smaller and greater leetcode 2148", "expect_contains": ["def count_elements_strict", "Verified"]}
+{"id": "code_828", "category": "coding", "input": "write a python function make two arrays equal by reversing subarrays leetcode 1460", "expect_contains": ["def can_be_equal_reverse", "Verified"]}
+{"id": "code_829", "category": "coding", "input": "write a python function find nearest point that has the same x or y leetcode 1779", "expect_contains": ["def nearest_valid_point", "Verified"]}
+{"id": "code_830", "category": "coding", "input": "write a python function longest even odd subarray with threshold leetcode 2760", "expect_contains": ["def longest_even_odd_subarray", "Verified"]}
+{"id": "code_831", "category": "coding", "input": "write a python function prime in diagonal leetcode 2614", "expect_contains": ["def diagonal_prime", "Verified"]}
+{"id": "code_832", "category": "coding", "input": "write a python function check knight tour configuration leetcode 2596", "expect_contains": ["def check_knight_tour_configuration", "Verified"]}
+{"id": "code_833", "category": "coding", "input": "write a python function longest alternating subarray leetcode 2765", "expect_contains": ["def longest_alternating_subarray", "Verified"]}
+{"id": "code_834", "category": "coding", "input": "write a python function find the maximum divisibility score leetcode 2644", "expect_contains": ["def maximum_divisibility_score", "Verified"]}
+{"id": "code_835", "category": "coding", "input": "write a python function check if array is good leetcode 2784", "expect_contains": ["def check_array_is_good", "Verified"]}
+{"id": "code_836", "category": "coding", "input": "write a python function semi-ordered permutation leetcode 2717", "expect_contains": ["def semi_ordered_permutation", "Verified"]}
+{"id": "code_837", "category": "coding", "input": "write a python function existence of a substring in a string and its reverse leetcode 3083", "expect_contains": ["def existence_of_substring_reverse", "Verified"]}
