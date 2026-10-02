@@ -15,7 +15,10 @@ def templates() -> list[Template]:
             "convert_date_to_binary",
             "def convert_date_to_binary(date):\n"
             '    """YYYY-MM-DD parts as binary without 0b prefix (LeetCode 3280)."""\n'
-            "    return '-'.join(bin(int(p))[2:] for p in date.split('-'))\n",
+            "    return '-'.join(bin(int(p))[2:] for p in date.split('-'))\n"
+            "\n"
+            "def date_to_binary(date):\n"
+            "    return convert_date_to_binary(date)\n",
             lambda low: bool(
                 re.search(
                     r"\bconvert[_ ]date[_ ]to[_ ](?:the[_ ])?binary\b|"
