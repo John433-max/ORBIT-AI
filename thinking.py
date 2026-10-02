@@ -1,4 +1,15 @@
-"""Lightweight thinking for ORBIT (CI restore)."""
+"""
+Lightweight "thinking" for ORBIT (Cycle 58).
+
+Not a large CoT model — a structured scratchpad that:
+  1. classifies the ask
+  2. plans 1–3 steps (memory / docs / search / calc / code / reply)
+  3. executes steps
+  4. synthesizes a single natural answer
+
+Keeps reasoning in `thoughts` for debugging; user-facing text stays clean.
+"""
+
 from __future__ import annotations
 
 import re
@@ -54,6 +65,12 @@ def _is_math(text: str) -> bool:
             return True
     except Exception:
         pass
+    try:
+        from utilities import looks_like_utility
+        if looks_like_utility(text):
+            return True
+    except Exception:
+        pass
     return bool(
         re.search(
             r"\d+\s*[\+\-\*/×÷%^xX]\s*\d+"
@@ -62,7 +79,7 @@ def _is_math(text: str) -> bool:
             r"|(calculate|what is|what\'s)\s+\d"
             r"|\d+\s*(km|m|kg|celsius|fahrenheit|°c|°f)\b"
             r"|\bfactorial\b|\d+\s*!",
-            text or "",
+            text,
             re.I,
         )
     )
@@ -77,7 +94,7 @@ def _is_code(text: str) -> bool:
             r"function|def |class |script|program|module|code)\b|"
             r"\bpython function\b|"
             r"\bimplement\b.{0,40}\bin python\b",
-            text or "",
+            text,
             re.I,
         )
     )
@@ -99,6 +116,7 @@ def _is_lab(text: str) -> bool:
 
 
 def _is_search(text: str) -> bool:
+
     return bool(
         re.search(
             r"\b(search|look up|look this up|research|news about|"
@@ -109,17 +127,17 @@ def _is_search(text: str) -> bool:
     )
 
 
+
 def _is_capability(text: str) -> bool:
-    return bool(
-        re.search(
-            r"\bwhat can you do\b|\bcapabilities\b|\bwhat are you\b|\bwho are you\b|\bhelp\b",
-            text or "",
-            re.I,
-        )
-    )
+    return bool(re.search(
+        r"\bwhat can you do\b|\bcapabilities\b|\bwhat are you\b|\bwho are you\b|\bhelp\b",
+        text or "",
+        re.I,
+    ))
 
 
 def _is_self_identity(text: str) -> bool:
+    """Questions about ORBIT's own name/identity — not user profile, not web research."""
     return bool(
         re.search(
             r"\bwhat(?:'s| is) your name\b|\btell me (about )?yourself\b|"
@@ -128,7 +146,6 @@ def _is_self_identity(text: str) -> bool:
             re.I,
         )
     )
-
 
 def _is_name_profile(text: str) -> bool:
     return bool(
@@ -145,8 +162,45 @@ def _is_name_profile(text: str) -> bool:
 
 def _wants_extract(text: str) -> bool:
     return bool(
+        re.search(r"extract\s+(the\s+)?text|show\s+(me\s+)?(the\s+)?text|read\s+(the\s+)?document", text, re.I)
+    )
+
+
+def _is_debug(text: str) -> bool:
+    return bool(
         re.search(
-            r"extract\s+(the\s+)?text|show\s+(me\s+)?(the\s+)?text|read\s+(the\s+)?document",
+            r"\b(traceback|NameError|TypeError|KeyError|IndexError|AttributeError|"
+            r"ZeroDivisionError|FileNotFoundError|ModuleNotFoundError|SyntaxError|"
+            r"Exception|Error:)\b|"
+            r"\bdebug (this|my|the)\b|\bfix (this|my) (error|bug|code)\b",
+            text or "",
+            re.I,
+        )
+    )
+
+
+def _is_file_op(text: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(list (the )?files|show files|\bls\b|\bdir\b|"
+            r"(read|open)\s+[^\s]+\.\w+)\b",
+            text or "",
+            re.I,
+        )
+    )
+
+
+def _is_data(text: str) -> bool:
+    # Never steal code-writing requests (median function, etc.)
+    if _is_code(text or ""):
+        return False
+    return bool(
+        re.search(
+            r"\b(analy[sz]e (these )?(numbers|data)|number stats|"
+            r"summarize (these )?numbers|"
+            r"(mean|average|std|stdev|standard deviation|variance)"
+            r".{0,40}\b(\d+[ ,]+\d+)|"
+            r"\b(mean and std|mean and standard deviation)\b)\b",
             text or "",
             re.I,
         )
@@ -160,6 +214,7 @@ DENY_FS_MSG = (
 
 
 def _is_destructive_fs(text: str) -> bool:
+    """Wipe / rm -rf / delete-everything asks — not 'write a function that deletes…'."""
     if _is_code(text or ""):
         return False
     return bool(
@@ -177,19 +232,31 @@ def _is_destructive_fs(text: str) -> bool:
 
 
 class Thinker:
+    """
+    Plan → act → answer.
+
+    `runners` maps step names to callables(request, context) -> str answer.
+    """
+
     def __init__(self, runners: Dict[str, Callable[..., Any]]):
         self.runners = runners
 
     def classify(self, request: str) -> str:
-        r = (request or "").strip()
+        r = request.strip()
         if _is_destructive_fs(r):
             return "deny"
         if _is_capability(r) or _is_self_identity(r):
             return "chat"
         if _is_name_profile(r) or r.lower().startswith("remember:"):
             return "memory"
+        if _is_debug(r):
+            return "debug"
+        if _is_file_op(r):
+            return "file"
         if _is_code(r):
             return "code"
+        if _is_data(r):
+            return "data"
         if _is_lab(r):
             return "lab"
         if _is_math(r):
@@ -202,22 +269,38 @@ class Thinker:
             return "question"
         if re.match(r"^(hi|hello|hey|thanks|thank you|bye|good (morning|night))\b", r, re.I):
             return "chat"
+        # short statements the user is telling us
         if not _is_question(r) and len(r.split()) < 40:
             return "statement"
         return "question"
 
     def plan(self, request: str, kind: str) -> List[str]:
-        return {
-            "memory": ["memory"],
-            "calc": ["calc", "search"],
-            "code": ["code"],
-            "lab": ["lab"],
-            "search": ["search"],
-            "docs": ["docs"],
-            "chat": ["chat"],
-            "deny": ["deny"],
-            "statement": ["memory", "chat"],
-        }.get(kind, ["memory_check", "docs_check", "search", "chat"])
+        if kind == "memory":
+            return ["memory"]
+        if kind == "calc":
+            return ["calc", "search"]  # fall back to research for conceptual science
+        if kind == "code":
+            return ["code"]
+        if kind == "lab":
+            return ["lab"]
+        if kind == "debug":
+            return ["debug"]
+        if kind == "file":
+            return ["file"]
+        if kind == "data":
+            return ["data"]
+        if kind == "search":
+            return ["search"]
+        if kind == "docs":
+            return ["docs"]
+        if kind == "chat":
+            return ["chat"]
+        if kind == "deny":
+            return ["deny"]
+        if kind == "statement":
+            return ["memory", "chat"]
+        # question: try memory → docs → search → chat
+        return ["memory_check", "docs_check", "search", "chat"]
 
     def think(self, request: str, context: Optional[dict] = None) -> ThinkResult:
         context = context or {}
@@ -232,36 +315,70 @@ class Thinker:
             return ThinkResult(answer=DENY_FS_MSG, thoughts=thoughts, plan=steps, ok=True)
 
         answer = ""
-        used: List[str] = []
+        used = []
+
         for step in steps:
-            key = "memory" if step.startswith("memory") else "docs" if step.startswith("docs") else step
-            fn = self.runners.get(key)
+            fn = None
+            if step in ("memory", "memory_check"):
+                fn = self.runners.get("memory")
+            elif step in ("docs", "docs_check"):
+                fn = self.runners.get("docs")
+            elif step == "search":
+                fn = self.runners.get("search")
+            elif step == "calc":
+                fn = self.runners.get("calc")
+            elif step == "code":
+                fn = self.runners.get("code")
+            elif step == "lab":
+                fn = self.runners.get("lab")
+            elif step == "debug":
+                fn = self.runners.get("debug")
+            elif step == "file":
+                fn = self.runners.get("file")
+            elif step == "data":
+                fn = self.runners.get("data")
+            elif step == "chat":
+                fn = self.runners.get("chat")
+
             if fn is None:
                 thoughts.append(Thought("skip", f"no runner for {step}"))
                 continue
+
             try:
                 result = fn(request, context)
             except Exception as e:
                 thoughts.append(Thought("error", f"{step}: {e}"))
                 continue
+
             if isinstance(result, dict):
                 text = (result.get("content") or "").strip()
                 ok = bool(result.get("ok", True))
             else:
                 text = str(result or "").strip()
                 ok = bool(text)
+
             thoughts.append(
                 Thought("observe", f"{step}: {'ok' if ok and text else 'empty'} ({len(text)} chars)")
             )
+
             if not text:
                 continue
+            # Failed tool results should not stick as the final answer
             if not ok and step in ("calc", "code", "memory", "docs", "memory_check", "docs_check"):
                 thoughts.append(Thought("reject", f"{step} not ok — continue"))
                 continue
+            # Search may be ok=False (no live web) but the honest message is the answer.
             if not ok and step == "search":
-                if "don't have live web" not in text.lower() and "can't complete this search" not in text.lower():
+                if text and (
+                    "don't have live web" in text.lower()
+                    or "can't complete this search" in text.lower()
+                ):
+                    thoughts.append(Thought("observe", "search: honest no-live-web"))
+                else:
                     thoughts.append(Thought("reject", "search not ok — continue"))
                     continue
+
+            # Reject weak chat hedges when we can try the next step
             weak = any(
                 w in text.lower()
                 for w in (
@@ -278,22 +395,32 @@ class Thinker:
             if step in ("memory_check", "docs_check") and weak:
                 thoughts.append(Thought("reject", f"{step} weak — continue"))
                 continue
+            if step == "memory_check" and text and _is_question(request):
+                q_toks = {w.lower() for w in re.findall(r"[a-zA-Z]{3,}", request)}
+                a_toks = {w.lower() for w in re.findall(r"[a-zA-Z]{3,}", text)}
+                if not (q_toks & a_toks):
+                    thoughts.append(Thought("reject", "memory unrelated to question"))
+                    continue
             if step == "chat" and weak and answer:
                 thoughts.append(Thought("reject", "chat hedge — keep prior"))
                 continue
+
             answer = text
             used.append(step)
+            # stop early on strong specialized answers
             if step in ("calc", "code", "memory", "docs") and ok and not weak:
                 thoughts.append(Thought("decide", f"use {step}"))
                 break
-            if step == "search" and (ok or not weak):
+            if step == "search" and ok and not weak:
                 thoughts.append(Thought("decide", "use search"))
                 break
+
         if not answer:
             answer = (
                 "I'm still thinking that through, but I don't have a solid answer yet. "
                 "Try rephrasing, or point me at code, math, a document, or something to remember."
             )
             thoughts.append(Thought("fallback", "empty pipeline"))
+
         thoughts.append(Thought("answer", f"steps used: {used or ['fallback']}"))
         return ThinkResult(answer=answer, thoughts=thoughts, plan=steps, ok=bool(answer))
