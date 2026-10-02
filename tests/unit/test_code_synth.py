@@ -2597,3 +2597,53 @@ def test_p96_reverse_avg_triplets_cuts_digits_time():
         assert needle in src, (q, src[:240])
         bundle = synthesize_and_verify(q)
         assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p97_origin_common_missing_special_day_average():
+    cases = {
+        "write a python function furthest point from origin leetcode 2833": "def furthest_point_from_origin",
+        "write a python function find common elements between two arrays leetcode 2956": "def common_elements_two_arrays",
+        "write a python function convert date to binary leetcode 3280": "def date_to_binary",
+        "write a python function special array i leetcode 3151": "def special_array_i",
+        "write a python function count pairs that form a complete day leetcode 3184": "def complete_day_pairs",
+        "write a python function minimum average of smallest and largest elements leetcode 3194": "def minimum_average",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p98_two_strict_reverse_nearest_evenodd_diag():
+    cases = {
+        "write a python function two out of three leetcode 2032": "def two_out_of_three",
+        "write a python function count elements with strictly smaller and greater leetcode 2148": "def count_elements_strict",
+        "write a python function make two arrays equal by reversing subarrays leetcode 1460": "def can_be_equal_reverse",
+        "write a python function find nearest point that has the same x or y leetcode 1779": "def nearest_valid_point",
+        "write a python function longest even odd subarray with threshold leetcode 2760": "def longest_even_odd_subarray",
+        "write a python function prime in diagonal leetcode 2614": "def diagonal_prime",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+
+
+def test_p99_knight_alternating_div_good_semi_substr():
+    cases = {
+        "write a python function check knight tour configuration leetcode 2596": "def check_knight_tour_configuration",
+        "write a python function longest alternating subarray leetcode 2765": "def longest_alternating_subarray",
+        "write a python function find the maximum divisibility score leetcode 2644": "def maximum_divisibility_score",
+        "write a python function check if array is good leetcode 2784": "def check_array_is_good",
+        "write a python function semi-ordered permutation leetcode 2717": "def semi_ordered_permutation",
+        "write a python function existence of a substring in a string and its reverse leetcode 3083": "def existence_of_substring_reverse",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def permute" in synthesize_python("write a python function that returns all permutations")
+    assert "def reverse_string" in synthesize_python("implement a python function to reverse a string")
