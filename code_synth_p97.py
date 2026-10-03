@@ -151,6 +151,9 @@ def templates() -> list[Template]:
             "    return best\n"
             "\n"
             "def minimumAverage(nums):\n"
+            "    return minimum_average(nums)\n"
+            "\n"
+            "def find_minimum_average(nums):\n"
             "    return minimum_average(nums)\n",
             lambda low: bool(
                 re.search(

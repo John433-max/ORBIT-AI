@@ -123,10 +123,11 @@ def templates() -> list[Template]:
             "    return ans\n",
             lambda low: bool(
                 re.search(
-                    r"\bshortest (?:distance )?to (?:a )?char\b|"
+                    r"\bshortest (?:distance )?to (?:a )?char(?:acter)?\b|"
                     r"\bshortest_to_char\b|"
-                    r"\bshortest distance to character\b|"
-                    r"\bnearest occurrence of (?:a )?character\b",
+                    r"\bshortest distance to (?:a )?character\b|"
+                    r"\bnearest occurrence of (?:a )?character\b|"
+                    r"\bleetcode 821\b",
                     low,
                 )
             ),

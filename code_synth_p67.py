@@ -93,7 +93,10 @@ def templates() -> list[Template]:
             "        best = min(best, (a[i] + a[j]) / 2)\n"
             "        i += 1\n"
             "        j -= 1\n"
-            "    return best\n",
+            "    return best\n"
+            "\n"
+            "def minimum_average(nums):\n"
+            "    return find_minimum_average(nums)\n",
             lambda low: bool(
                 re.search(
                     r"\bfind_minimum_average\b|"
