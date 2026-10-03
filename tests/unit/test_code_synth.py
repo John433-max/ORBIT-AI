@@ -3091,3 +3091,53 @@ def test_p121_prefix_distribute_cost_or_balls_special():
     assert "def minimum_cost_subarrays" not in synthesize_python("write a python function minimum cost climbing stairs")
     assert "def min_operations_balls" not in synthesize_python("write a python function minimum operations to exceed threshold value i leetcode 3065")
     assert "def not_special_count" not in synthesize_python("write a python function count the number of special characters i leetcode 3120")
+
+
+def test_p122_spam_xsum_screen_missing_equal_flip():
+    cases = {
+        "write a python function report spam message leetcode 3295": "def report_spam",
+        "write a python function find x-sum of all k-long subarrays i leetcode 3318": "def find_x_sum",
+        "write a python function find the sequence of strings appeared on the screen leetcode 3324": "def string_sequence",
+        "write a python function find the largest almost missing integer leetcode 3471": "def largest_almost_missing",
+        "write a python function transform array to all equal elements leetcode 3576": "def can_make_equal",
+        "write a python function flip square submatrix vertically leetcode 3643": "def reverse_submatrix",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def can_make_equal" not in synthesize_python(
+        "write a python function transform array by parity leetcode 3467"
+    )
+    assert "def largest_almost_missing" not in synthesize_python(
+        "write a python function find the largest integer"
+    )
+    assert "def report_spam" not in synthesize_python(
+        "write a python function report a file path"
+    )
+
+
+def test_p123_balance_unique_columns_ships_heaters_stack():
+    cases = {
+        "write a python function account balance after rounded purchase leetcode 2806": "def account_balance_after_purchase",
+        "write a python function largest unique number leetcode 1133": "def largest_unique_number",
+        "write a python function delete columns to make sorted leetcode 944": "def min_deletion_size",
+        "write a python function battleships in a board leetcode 419": "def count_battleships",
+        "write a python function heaters leetcode 475": "def find_radius",
+        "write a python function validate stack sequences leetcode 946": "def validate_stack_sequences",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def min_deletion_size" not in synthesize_python(
+        "write a python function minimum deletion to make string balanced"
+    )
+    assert "def find_radius" not in synthesize_python(
+        "write a python function find the radius of a circle"
+    )
+    assert "def largest_unique_number" not in synthesize_python(
+        "write a python function largest unique character"
+    )

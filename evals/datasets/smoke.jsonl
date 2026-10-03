@@ -1015,3 +1015,9 @@
 {"id": "code_975", "category": "coding", "input": "write a python function find the largest almost missing integer leetcode 3471", "expect_contains": ["def largest_almost_missing", "Verified"]}
 {"id": "code_976", "category": "coding", "input": "write a python function transform array to all equal elements leetcode 3576", "expect_contains": ["def can_make_equal", "Verified"]}
 {"id": "code_977", "category": "coding", "input": "write a python function flip square submatrix vertically leetcode 3643", "expect_contains": ["def reverse_submatrix", "Verified"]}
+{"id": "code_978", "category": "coding", "input": "write a python function account balance after rounded purchase leetcode 2806", "expect_contains": ["def account_balance_after_purchase", "Verified"]}
+{"id": "code_979", "category": "coding", "input": "write a python function largest unique number leetcode 1133", "expect_contains": ["def largest_unique_number", "Verified"]}
+{"id": "code_980", "category": "coding", "input": "write a python function delete columns to make sorted leetcode 944", "expect_contains": ["def min_deletion_size", "Verified"]}
+{"id": "code_981", "category": "coding", "input": "write a python function battleships in a board leetcode 419", "expect_contains": ["def count_battleships", "Verified"]}
+{"id": "code_982", "category": "coding", "input": "write a python function heaters leetcode 475", "expect_contains": ["def find_radius", "Verified"]}
+{"id": "code_983", "category": "coding", "input": "write a python function validate stack sequences leetcode 946", "expect_contains": ["def validate_stack_sequences", "Verified"]}
