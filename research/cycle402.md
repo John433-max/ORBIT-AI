@@ -29,7 +29,7 @@ solution and published examples, so they fit the existing self-check templates.
 - OrbitAI ask on the six new smoke rows: Verified
 
 ## Benchmark
-Smoke before: 1017/1017. After: 1023 rows; new six verified. Full suite re-run separately.
+Smoke before: 1017/1017 (100%). After: 1023/1023 (100%). Coding 975→981.
 
 ## Next
 More draft-stub Easy prompts (remove covered intervals, count days without meetings) or GitHub pack parity.
