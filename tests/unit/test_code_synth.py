@@ -2665,3 +2665,28 @@ def test_p100_split_twoocc_valid_cost_distinct_equal_k():
         assert bundle["verified"] is True, (q, bundle)
     assert "def permute" in synthesize_python("write a python function that returns all permutations")
     assert "def reverse_string" in synthesize_python("implement a python function to reverse a string")
+
+
+def test_p101_special_ii_almost_reformat_prefix_beautiful_equal_one():
+    cases = {
+        "write a python function count the number of special characters ii leetcode 3121": "def number_of_special_chars_ii",
+        "write a python function check whether two strings are almost equivalent leetcode 2068": "def check_almost_equivalent",
+        "write a python function reformat the string leetcode 1417": "def reformat_string",
+        "write a python function find the original array of prefix xor leetcode 2433": "def find_array_prefix_xor",
+        "write a python function minimum number of changes to make binary string beautiful leetcode 2914": "def min_changes_beautiful",
+        "write a python function minimum operations to make binary array elements equal to one i leetcode 3191": "def min_operations_equal_one",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def number_of_special_chars" in synthesize_python(
+        "write a python function count the number of special characters i leetcode 3120"
+    )
+    assert "def min_changes_alternating" in synthesize_python(
+        "write a python function minimum changes to make alternating binary string leetcode 1758"
+    )
+    assert "def decode_xored_array" in synthesize_python(
+        "write a python function decode xored array leetcode 1720"
+    )

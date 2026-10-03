@@ -882,3 +882,9 @@
 {"id": "code_841", "category": "coding", "input": "write a python function minimum cost to reach every position leetcode 3502", "expect_contains": ["def min_cost_to_reach_position", "Verified"]}
 {"id": "code_842", "category": "coding", "input": "write a python function count substrings of length three with all distinct leetcode 3258", "expect_contains": ["def count_distinct_length_three", "Verified"]}
 {"id": "code_843", "category": "coding", "input": "write a python function minimum operations to make array values equal to k leetcode 3375", "expect_contains": ["def min_operations_equal_k", "Verified"]}
+{"id": "code_844", "category": "coding", "input": "write a python function count the number of special characters ii leetcode 3121", "expect_contains": ["def number_of_special_chars_ii", "Verified"]}
+{"id": "code_845", "category": "coding", "input": "write a python function check whether two strings are almost equivalent leetcode 2068", "expect_contains": ["def check_almost_equivalent", "Verified"]}
+{"id": "code_846", "category": "coding", "input": "write a python function reformat the string leetcode 1417", "expect_contains": ["def reformat_string", "Verified"]}
+{"id": "code_847", "category": "coding", "input": "write a python function find the original array of prefix xor leetcode 2433", "expect_contains": ["def find_array_prefix_xor", "Verified"]}
+{"id": "code_848", "category": "coding", "input": "write a python function minimum number of changes to make binary string beautiful leetcode 2914", "expect_contains": ["def min_changes_beautiful", "Verified"]}
+{"id": "code_849", "category": "coding", "input": "write a python function minimum operations to make binary array elements equal to one i leetcode 3191", "expect_contains": ["def min_operations_equal_one", "Verified"]}
