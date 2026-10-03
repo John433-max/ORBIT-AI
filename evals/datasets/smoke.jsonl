@@ -1021,3 +1021,15 @@
 {"id": "code_981", "category": "coding", "input": "write a python function battleships in a board leetcode 419", "expect_contains": ["def count_battleships", "Verified"]}
 {"id": "code_982", "category": "coding", "input": "write a python function heaters leetcode 475", "expect_contains": ["def find_radius", "Verified"]}
 {"id": "code_983", "category": "coding", "input": "write a python function validate stack sequences leetcode 946", "expect_contains": ["def validate_stack_sequences", "Verified"]}
+{"id": "code_984", "category": "coding", "input": "write a python function maximum height of a triangle leetcode 3200", "expect_contains": ["def max_height_of_triangle", "Verified"]}
+{"id": "code_985", "category": "coding", "input": "write a python function generate tag for video caption leetcode 3582", "expect_contains": ["def generate_tag", "Verified"]}
+{"id": "code_986", "category": "coding", "input": "write a python function neighbor sum adjacent leetcode 3242", "expect_contains": ["def neighbor_adjacent_sum", "Verified"]}
+{"id": "code_987", "category": "coding", "input": "write a python function neighbor diagonal sum leetcode 3242", "expect_contains": ["def neighbor_diagonal_sum", "Verified"]}
+{"id": "code_988", "category": "coding", "input": "write a python function minimum time to make rope colorful leetcode 1578", "expect_contains": ["def min_cost_rope_colorful", "Verified"]}
+{"id": "code_989", "category": "coding", "input": "write a python function count square submatrices with all ones leetcode 1277", "expect_contains": ["def count_squares", "Verified"]}
+{"id": "code_990", "category": "coding", "input": "write a python function to remove covered intervals", "expect_contains": ["def remove_covered_intervals", "Verified"]}
+{"id": "code_991", "category": "coding", "input": "write a function that counts days without meetings", "expect_contains": ["def count_days", "Verified"]}
+{"id": "code_992", "category": "coding", "input": "write a python function for minimum number of arrows to burst balloons", "expect_contains": ["def find_min_arrow_shots", "Verified"]}
+{"id": "code_993", "category": "coding", "input": "write a python function insert interval leetcode 57", "expect_contains": ["def insert_interval", "Verified"]}
+{"id": "code_994", "category": "coding", "input": "write a python function interval list intersections leetcode 986", "expect_contains": ["def interval_intersection", "Verified"]}
+{"id": "code_995", "category": "coding", "input": "write a python function non-overlapping intervals leetcode 435", "expect_contains": ["def erase_overlap_intervals", "Verified"]}

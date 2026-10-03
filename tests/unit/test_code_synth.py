@@ -3141,3 +3141,52 @@ def test_p123_balance_unique_columns_ships_heaters_stack():
     assert "def largest_unique_number" not in synthesize_python(
         "write a python function largest unique character"
     )
+
+def test_p124_triangle_tag_neighbor_rope_squares():
+    cases = {
+        "write a python function maximum height of a triangle leetcode 3200": "def max_height_of_triangle",
+        "write a python function generate tag for video caption leetcode 3582": "def generate_tag",
+        "write a python function neighbor sum adjacent leetcode 3242": "def neighbor_adjacent_sum",
+        "write a python function neighbor diagonal sum leetcode 3242": "def neighbor_diagonal_sum",
+        "write a python function minimum time to make rope colorful leetcode 1578": "def min_cost_rope_colorful",
+        "write a python function count square submatrices with all ones leetcode 1277": "def count_squares",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def max_height_of_triangle" not in synthesize_python(
+        "write a python function maximum height of a binary tree"
+    )
+    assert "def count_squares" not in synthesize_python(
+        "write a python function valid perfect square"
+    )
+
+
+def test_p125_covered_days_arrows_insert_intersect_erase():
+    cases = {
+        "write a python function to remove covered intervals": "def remove_covered_intervals",
+        "write a function that counts days without meetings": "def count_days",
+        "write a python function for minimum number of arrows to burst balloons": "def find_min_arrow_shots",
+        "write a python function insert interval leetcode 57": "def insert_interval",
+        "write a python function interval list intersections leetcode 986": "def interval_intersection",
+        "write a python function non-overlapping intervals leetcode 435": "def erase_overlap_intervals",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def burst_balloons" not in synthesize_python(
+        "write a python function for minimum number of arrows to burst balloons"
+    )
+    assert "def merge_intervals" not in synthesize_python(
+        "write a python function non-overlapping intervals"
+    )
+    assert "def find_min_arrow_shots" not in synthesize_python(
+        "write a python function burst balloons leetcode 312"
+    )
+    assert "def erase_overlap_intervals" not in synthesize_python(
+        "write a python function merge intervals"
+    )
