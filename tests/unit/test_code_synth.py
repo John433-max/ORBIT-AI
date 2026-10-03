@@ -2787,3 +2787,307 @@ def test_p106_gcd_array_kscores_evenodd_anagrams_rearrange_pushes():
     assert "def gcd" in synthesize_python("write a python function that returns the greatest common divisor")
     assert "def sort_list" in synthesize_python("write a python function that sorts a list")
     assert "def is_anagram" in synthesize_python("write a python function that checks if two strings are anagrams")
+
+
+def test_p107_partitions_pair_fruits_removal_index_second_largest():
+    cases = {
+        "write a python function partitions with even sum difference leetcode 3432": "def count_partitions_even_sum_diff",
+        "write a python function valid pair of adjacent digits leetcode 3438": "def find_valid_pair",
+        "write a python function fruits into baskets ii leetcode 3477": "def num_of_unplaced_fruits",
+        "write a python function minimum pair removal to sort leetcode 3507": "def minimum_pair_removal",
+        "write a python function smallest index with digit sum equal to index leetcode 3550": "def smallest_index_digit_sum",
+        "write a python function that returns the second largest number in a list": "def second_largest",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    digit = synthesize_python(
+        "write a python function second largest digit in a string leetcode 1796"
+    )
+    assert "def second_largest_digit" in digit
+    assert "def second_largest(" not in digit
+
+
+def test_p108_square_digit_product_stones_distinct_columns_zigzag():
+    cases = {
+        "write a python function make a square with the same color leetcode 3127": "def can_make_square",
+        "write a python function smallest divisible digit product i leetcode 3345": "def smallest_divisible_digit_product",
+        "write a python function stone removal game leetcode 3360": "def stone_removal_game",
+        "write a python function minimum operations to make elements distinct leetcode 3396": "def minimum_operations_distinct",
+        "write a python function minimum operations to make columns strictly increasing leetcode 3402": "def minimum_operations_columns",
+        "write a python function zigzag grid traversal with skip leetcode 3417": "def zigzag_traversal",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def can_jump" in synthesize_python("write a python function for the jump game")
+    assert "def minimum_operations" not in synthesize_python("write a python function that moves zeroes to the end")
+
+
+def test_p109_unique_logs_hex_rides_gcd_digit():
+    cases = {
+        "write a python function maximum unique subarray sum after deletion leetcode 3487": "def max_unique_subarray_sum",
+        "write a python function minimum log transportation cost leetcode 3560": "def min_log_transport_cost",
+        "write a python function hexadecimal and hexatrigesimal conversion leetcode 3602": "def concat_hex36",
+        "write a python function earliest finish time for land and water rides leetcode 3633": "def earliest_finish_rides",
+        "write a python function gcd of odd and even sums leetcode 3658": "def gcd_odd_even_sums",
+        "write a python function find the least frequent digit leetcode 3663": "def least_frequent_digit",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def max_sub_array" in synthesize_python("write a python function maximum subarray kadane") or "def max" in synthesize_python("write a python function maximum subarray")
+    assert "def least_frequent_digit" not in synthesize_python("write a python function that counts the digits of a number")
+
+
+def test_p110_absent_kdistinct_majority_altsum_coupon_replacements():
+    cases = {
+        "write a python function smallest absent positive greater than average leetcode 3678": "def smallest_absent_above_average",
+        "write a python function maximize sum of at most k distinct elements leetcode 3684": "def max_sum_k_distinct",
+        "write a python function majority frequency characters leetcode 3692": "def majority_frequency_characters",
+        "write a python function compute alternating sum leetcode 3701": "def alternating_sum",
+        "write a python function coupon code validator leetcode 3606": "def validate_coupons",
+        "write a python function number of student replacements leetcode 3616": "def student_replacements",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def has_alternating_bits" in synthesize_python(
+        "write a python function that checks alternating bits"
+    )
+    assert "def missing_multiple" in synthesize_python(
+        "write a python function smallest missing multiple of k leetcode 3718"
+    )
+    assert "def alternating_sum" not in synthesize_python(
+        "write a python function alternating digit sum leetcode 2544"
+    )
+
+
+def test_p111_mirror_prefix_even_residue_score_monobit():
+    cases = {
+        "write a python function mirror distance of an integer leetcode 3783": "def mirror_distance",
+        "write a python function reverse string prefix leetcode 3794": "def reverse_string_prefix",
+        "write a python function largest even number leetcode 3798": "def largest_even_number",
+        "write a python function count residue prefixes leetcode 3803": "def count_residue_prefixes",
+        "write a python function vowel-consonant score leetcode 3813": "def vowel_consonant_score",
+        "write a python function count monobit integers leetcode 3827": "def count_monobit",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def reverse_prefix" in synthesize_python(
+        "write a python function reverse prefix of word leetcode 2000"
+    )
+    assert "def count_vowels" in synthesize_python(
+        "write a python function that counts vowels"
+    )
+    assert "def reverse_vowels" in synthesize_python(
+        "write a python function that reverses vowels in a string"
+    )
+
+
+def test_p114_special_equiv_logs_mirror_time_even_broken():
+    cases = {
+        "write a python function groups of special-equivalent strings leetcode 893": "def num_special_equiv_groups",
+        "write a python function reorder data in log files leetcode 937": "def reorder_log_files",
+        "write a python function mirror reflection leetcode 858": "def mirror_reflection",
+        "write a python function largest time for given digits leetcode 949": "def largest_time_from_digits",
+        "write a python function sum of even numbers after queries leetcode 985": "def sum_even_after_queries",
+        "write a python function broken calculator leetcode 991": "def broken_calc",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def basic_calculator" in synthesize_python(
+        "write a python function basic calculator ii"
+    ) or "def calculate" in synthesize_python(
+        "write a python function basic calculator ii"
+    )
+    assert "def largest_time_from_digits" not in synthesize_python(
+        "write a python function largest number"
+    )
+
+
+def test_p113_rotated_subdomain_closest_transpose_robot_squares():
+    cases = {
+        "write a python function rotated digits leetcode 788": "def rotated_digits",
+        "write a python function subdomain visit count leetcode 811": "def subdomain_visits",
+        "write a python function maximize distance to closest person leetcode 849": "def max_dist_to_closest",
+        "write a python function transpose matrix leetcode 867": "def transpose",
+        "write a python function walking robot simulation leetcode 874": "def robot_sim",
+        "write a python function squares of a sorted array leetcode 977": "def sorted_squares",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def search_rotated" in synthesize_python(
+        "write a python function search in rotated sorted array"
+    ) or "def find_min" in synthesize_python(
+        "write a python function find minimum in rotated sorted array"
+    )
+    assert "def sort_list" in synthesize_python(
+        "write a python function that sorts a list"
+    )
+    assert "def shortest_to_char" in synthesize_python(
+        "write a python function shortest distance to a character"
+    )
+
+
+
+def test_p115_palindrome_sub_sort_string_stack_modify_repeat_strict():
+    cases = {
+        "write a python function remove palindromic subsequences leetcode 1332": "def remove_palindrome_sub",
+        "write a python function increasing decreasing string leetcode 1370": "def increasing_decreasing_string",
+        "write a python function build an array with stack operations leetcode 1441": "def build_array_stack",
+        "write a python function replace all question marks to avoid consecutive repeating characters leetcode 1576": "def modify_string",
+        "write a python function maximum repeating substring leetcode 1668": "def max_repeating",
+        "write a python function strictly palindromic number leetcode 2396": "def is_strictly_palindromic",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def is_palindrome" in synthesize_python(
+        "write a python function that checks a palindrome"
+    ) or "def is_palindrome" in synthesize_python(
+        "write a python function is palindrome"
+    )
+    assert "def min_stack" in synthesize_python(
+        "write a python function min stack"
+    ) or "class MinStack" in synthesize_python(
+        "write a python function min stack"
+    )
+
+
+def test_p116_bit_changes_bitwise_increasing_zero_possum_pattern():
+    cases = {
+        "write a python function number of bit changes to make two integers equal leetcode 3226": "def bit_changes_to_equal",
+        "write a python function construct the minimum bitwise array leetcode 3314": "def min_bitwise_array",
+        "write a python function adjacent increasing subarrays detection leetcode 3349": "def has_increasing_subarrays",
+        "write a python function make array elements equal to zero leetcode 3354": "def count_valid_selections",
+        "write a python function minimum positive sum subarray leetcode 3364": "def minimum_positive_sum",
+        "write a python function substring matching pattern leetcode 3407": "def substring_matching_pattern",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def reverse_bits" in synthesize_python(
+        "write a python function reverse bits"
+    ) or "bin(" in synthesize_python("write a python function reverse bits")
+
+
+def test_p118_binary_covered_quad_tax_poker_forts():
+    cases = {
+        "write a python function convert binary number in a linked list to integer leetcode 1290": "def get_decimal_value",
+        "write a python function check if all the integers in a range are covered leetcode 1893": "def is_covered",
+        "write a python function count special quadruplets leetcode 1995": "def count_quadruplets",
+        "write a python function calculate amount paid in taxes leetcode 2303": "def calculate_tax",
+        "write a python function best poker hand leetcode 2347": "def best_hand",
+        "write a python function maximum enemy forts that can be captured leetcode 2511": "def capture_forts",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    # do not steal four-sum quadruplets or generic binary reverse
+    four = synthesize_python("write a python function quadruplets that sum to a target")
+    assert "def count_quadruplets" not in four
+    assert "def reverse_list" in synthesize_python("write a python function reverse a linked list") or "reverse" in synthesize_python("write a python function reverse a linked list")
+
+
+def test_p117_days_subseq_visited_special_even_parity():
+    cases = {
+        "write a python function number of days between two dates leetcode 1360": "def days_between_dates",
+        "write a python function minimum subsequence in non-increasing order leetcode 1403": "def min_subsequence",
+        "write a python function most visited sector in a circular track leetcode 1560": "def most_visited",
+        "write a python function special positions in a binary matrix leetcode 1582": "def num_special",
+        "write a python function finding 3-digit even numbers leetcode 2094": "def find_even_numbers",
+        "write a python function largest number after digit swaps by parity leetcode 2231": "def largest_integer",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    # do not steal unique-3-digit-even or generic palindrome
+    uniq = synthesize_python("write a python function unique 3-digit even numbers")
+    assert "def unique_three_digit_even" in uniq or "unique" in uniq
+    assert "def find_even_numbers" not in uniq
+    assert "def is_palindrome" in synthesize_python("write a python function that checks a palindrome") or "def is_palindrome" in synthesize_python("write a python function is palindrome")
+
+
+def test_p119_remap_tank_pair_visited_equal_time():
+    cases = {
+        "write a python function maximum difference by remapping a digit leetcode 2566": "def min_max_difference",
+        "write a python function total distance traveled leetcode 2739": "def distance_traveled",
+        "write a python function max pair sum in an array leetcode 2815": "def max_pair_sum",
+        "write a python function last visited integers leetcode 2899": "def last_visited_integers",
+        "write a python function make three strings equal leetcode 2937": "def find_minimum_operations",
+        "write a python function latest time you can obtain after replacing characters leetcode 3114": "def find_latest_time",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    # do not steal generic max or add
+    assert "def maximum" in synthesize_python("write a python function maximum of two numbers") or "def max" in synthesize_python("write a python function maximum of two numbers")
+    assert "def add" in synthesize_python("write a python function that adds two numbers")
+    assert "def min_max_difference" not in synthesize_python("write a python function maximum difference between two elements")
+
+
+def test_p120_ksum_split_cars_grid_encrypt_parity():
+    cases = {
+        "write a python function maximum sum with exactly k elements leetcode 2656": "def maximize_sum",
+        "write a python function split strings by separator leetcode 2788": "def split_words_by_separator",
+        "write a python function points that intersect with cars leetcode 2848": "def number_of_points",
+        "write a python function find missing and repeated values leetcode 2965": "def find_missing_and_repeated_values",
+        "write a python function sum of encrypted integers leetcode 3079": "def sum_of_encrypted_int",
+        "write a python function transform array by parity leetcode 3467": "def transform_array",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    # do not steal generic max, split, or sort
+    assert "def maximize_sum" not in synthesize_python("write a python function maximum of two numbers")
+    assert "def split_words_by_separator" not in synthesize_python("write a python function split a list in half")
+    assert "def transform_array" not in synthesize_python("write a python function sort a list")
+
+
+def test_p121_prefix_distribute_cost_or_balls_special():
+    cases = {
+        "write a python function count prefix and suffix pairs i leetcode 3042": "def count_prefix_suffix_pairs",
+        "write a python function distribute elements into two arrays i leetcode 3069": "def result_array_two",
+        "write a python function divide an array into subarrays with minimum cost i leetcode 3010": "def minimum_cost_subarrays",
+        "write a python function shortest subarray with or at least k i leetcode 3095": "def minimum_subarray_length_or",
+        "write a python function minimum number of operations to move all balls to each box leetcode 1769": "def min_operations_balls",
+        "write a python function find the count of numbers which are not special leetcode 3233": "def not_special_count",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def minimum_cost_subarrays" not in synthesize_python("write a python function minimum cost climbing stairs")
+    assert "def min_operations_balls" not in synthesize_python("write a python function minimum operations to exceed threshold value i leetcode 3065")
+    assert "def not_special_count" not in synthesize_python("write a python function count the number of special characters i leetcode 3120")

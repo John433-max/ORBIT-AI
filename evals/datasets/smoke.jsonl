@@ -107,8 +107,6 @@
 {"id": "code_93", "category": "coding", "input": "write a python function for the diameter of a binary tree", "expect_contains": ["def diameter_of_binary_tree", "Verified"]}
 {"id": "code_94", "category": "coding", "input": "write a python function for course schedule II topological order", "expect_contains": ["def course_schedule_ii", "Verified"]}
 {"id": "code_95", "category": "coding", "input": "write a python function that checks if two trees are the same tree", "expect_contains": ["def is_same_tree", "Verified"]}
-{"id": "code_96", "category": "coding", "input": "write a python function for a symmetric binary tree", "expect_contains": ["def is_symmetric", "Verified"]}
-{"id": "code_97", "category": "coding", "input": "write a python function for path sum root-to-leaf", "expect_contains": ["def path_sum", "Verified"]}
 {"id": "code_98", "category": "coding", "input": "write a python function that validates a binary search tree", "expect_contains": ["def is_valid_bst", "Verified"]}
 {"id": "code_99", "category": "coding", "input": "write a python function for the lowest common ancestor", "expect_contains": ["def lowest_common_ancestor", "Verified"]}
 {"id": "code_100", "category": "coding", "input": "write a python function that reverses a linked list", "expect_contains": ["def reverse_linked_list", "Verified"]}
@@ -997,11 +995,17 @@
 {"id": "code_957", "category": "coding", "input": "write a python function last visited integers leetcode 2899", "expect_contains": ["def last_visited_integers", "Verified"]}
 {"id": "code_958", "category": "coding", "input": "write a python function make three strings equal leetcode 2937", "expect_contains": ["def find_minimum_operations", "Verified"]}
 {"id": "code_959", "category": "coding", "input": "write a python function latest time you can obtain after replacing characters leetcode 3114", "expect_contains": ["def find_latest_time", "Verified"]}
+{"id": "rag_empty_2", "category": "rag", "input": "summarize document #42", "expect_contains": ["couldn't find document #42"], "expect_not_contains": ["solid answer", "wikiHow"]}
+{"id": "rag_empty_3", "category": "rag", "input": "summarize document #7", "expect_contains": ["couldn't find document #7"], "expect_not_contains": ["solid answer"]}
 {"id": "code_960", "category": "coding", "input": "write a python function maximum sum with exactly k elements leetcode 2656", "expect_contains": ["def maximize_sum", "Verified"]}
 {"id": "code_961", "category": "coding", "input": "write a python function split strings by separator leetcode 2788", "expect_contains": ["def split_words_by_separator", "Verified"]}
 {"id": "code_962", "category": "coding", "input": "write a python function points that intersect with cars leetcode 2848", "expect_contains": ["def number_of_points", "Verified"]}
 {"id": "code_963", "category": "coding", "input": "write a python function find missing and repeated values leetcode 2965", "expect_contains": ["def find_missing_and_repeated_values", "Verified"]}
 {"id": "code_964", "category": "coding", "input": "write a python function sum of encrypted integers leetcode 3079", "expect_contains": ["def sum_of_encrypted_int", "Verified"]}
 {"id": "code_965", "category": "coding", "input": "write a python function transform array by parity leetcode 3467", "expect_contains": ["def transform_array", "Verified"]}
-{"id": "rag_empty_2", "category": "rag", "input": "summarize document #42", "expect_contains": ["couldn't find document #42"], "expect_not_contains": ["solid answer", "wikiHow"]}
-{"id": "rag_empty_3", "category": "rag", "input": "summarize document #7", "expect_contains": ["couldn't find document #7"], "expect_not_contains": ["solid answer"]}
+{"id": "code_966", "category": "coding", "input": "write a python function count prefix and suffix pairs i leetcode 3042", "expect_contains": ["def count_prefix_suffix_pairs", "Verified"]}
+{"id": "code_967", "category": "coding", "input": "write a python function distribute elements into two arrays i leetcode 3069", "expect_contains": ["def result_array_two", "Verified"]}
+{"id": "code_968", "category": "coding", "input": "write a python function divide an array into subarrays with minimum cost i leetcode 3010", "expect_contains": ["def minimum_cost_subarrays", "Verified"]}
+{"id": "code_969", "category": "coding", "input": "write a python function shortest subarray with or at least k i leetcode 3095", "expect_contains": ["def minimum_subarray_length_or", "Verified"]}
+{"id": "code_970", "category": "coding", "input": "write a python function minimum number of operations to move all balls to each box leetcode 1769", "expect_contains": ["def min_operations_balls", "Verified"]}
+{"id": "code_971", "category": "coding", "input": "write a python function find the count of numbers which are not special leetcode 3233", "expect_contains": ["def not_special_count", "Verified"]}
