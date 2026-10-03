@@ -2690,3 +2690,23 @@ def test_p101_special_ii_almost_reformat_prefix_beautiful_equal_one():
     assert "def decode_xored_array" in synthesize_python(
         "write a python function decode xored array leetcode 1720"
     )
+
+
+def test_p102_sum_divisible_neighbor_xor_min_end_swaps_len_sort():
+    cases = {
+        "write a python function minimum operations to make array sum divisible by k leetcode 3512": "def min_operations_sum_divisible_by_k",
+        "write a python function neighboring bitwise xor leetcode 2683": "def does_valid_array_exist",
+        "write a python function minimum array end leetcode 3133": "def min_array_end",
+        "write a python function minimum number of swaps to make the string balanced leetcode 1963": "def min_swaps_balanced",
+        "write a python function minimum length of string after operations leetcode 3223": "def minimum_length_after_ops",
+        "write a python function find if array can be sorted leetcode 3011": "def can_sort_array",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def sum_list" in synthesize_python("write a python function that sums a list of numbers")
+    assert "def min_operations_equal_one" in synthesize_python(
+        "write a python function minimum operations to make binary array elements equal to one i leetcode 3191"
+    )

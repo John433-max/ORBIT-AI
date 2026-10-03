@@ -377,6 +377,8 @@ Template(
                 and "pair" not in low
                 and "partition" not in low
                 and "good numbers" not in low
+                and "divisible" not in low
+                and "operation" not in low
                 and re.search(
                     r"\b(sum(?:s|ming)?|total)\b.{0,32}\b(list|array|items|numbers)\b|"
                     r"\b(list|array|items|numbers)\b.{0,24}\bsum\b",

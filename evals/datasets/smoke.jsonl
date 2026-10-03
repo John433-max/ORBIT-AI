@@ -888,3 +888,9 @@
 {"id": "code_847", "category": "coding", "input": "write a python function find the original array of prefix xor leetcode 2433", "expect_contains": ["def find_array_prefix_xor", "Verified"]}
 {"id": "code_848", "category": "coding", "input": "write a python function minimum number of changes to make binary string beautiful leetcode 2914", "expect_contains": ["def min_changes_beautiful", "Verified"]}
 {"id": "code_849", "category": "coding", "input": "write a python function minimum operations to make binary array elements equal to one i leetcode 3191", "expect_contains": ["def min_operations_equal_one", "Verified"]}
+{"id": "code_850", "category": "coding", "input": "write a python function minimum operations to make array sum divisible by k leetcode 3512", "expect_contains": ["def min_operations_sum_divisible_by_k", "Verified"]}
+{"id": "code_851", "category": "coding", "input": "write a python function neighboring bitwise xor leetcode 2683", "expect_contains": ["def does_valid_array_exist", "Verified"]}
+{"id": "code_852", "category": "coding", "input": "write a python function minimum array end leetcode 3133", "expect_contains": ["def min_array_end", "Verified"]}
+{"id": "code_853", "category": "coding", "input": "write a python function minimum number of swaps to make the string balanced leetcode 1963", "expect_contains": ["def min_swaps_balanced", "Verified"]}
+{"id": "code_854", "category": "coding", "input": "write a python function minimum length of string after operations leetcode 3223", "expect_contains": ["def minimum_length_after_ops", "Verified"]}
+{"id": "code_855", "category": "coding", "input": "write a python function find if array can be sorted leetcode 3011", "expect_contains": ["def can_sort_array", "Verified"]}
