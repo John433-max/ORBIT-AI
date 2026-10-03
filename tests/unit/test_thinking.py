@@ -47,3 +47,24 @@ def test_thought_to_dict():
     assert d["kind"] == "classify" and d["text"] == "calc"
     r = ThinkResult(answer="ok", thoughts=[th], plan=["chat"])
     assert r.to_dict()["ok"] is True
+
+
+def test_think_keeps_honest_missing_document():
+    t = Thinker(
+        {
+            "docs": lambda req, ctx: {
+                "ok": False,
+                "content": "I couldn't find document #42.",
+            },
+            "search": lambda req, ctx: {"ok": True, "content": "wikiHow summary of documents"},
+            "chat": lambda req, ctx: {
+                "ok": True,
+                "content": "I'm still thinking that through, but I don't have a solid answer yet.",
+            },
+        }
+    )
+    res = t.think("summarize document #42")
+    assert "couldn't find document #42" in res.answer
+    assert "solid answer" not in res.answer.lower()
+    assert "wikihow" not in res.answer.lower()
+    assert any(th.kind == "decide" and "empty docs" in th.text for th in res.thoughts)

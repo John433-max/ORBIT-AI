@@ -363,8 +363,24 @@ class Thinker:
 
             if not text:
                 continue
-            # Failed tool results should not stick as the final answer
-            if not ok and step in ("calc", "code", "memory", "docs", "memory_check", "docs_check"):
+            # Failed tool results should not stick as the final answer.
+            # Missing-document replies are the honest RAG-empty answer (ok=False
+            # from DocumentAgent) and must not fall through to the generic hedge.
+            if not ok and step in ("docs", "docs_check"):
+                low = text.lower()
+                if (
+                    "couldn't find document" in low
+                    or "don't have a document loaded" in low
+                    or "don't have any documents uploaded" in low
+                ):
+                    thoughts.append(Thought("observe", "docs: honest empty RAG"))
+                    answer = text
+                    used.append(step)
+                    thoughts.append(Thought("decide", "use honest empty docs"))
+                    break
+                thoughts.append(Thought("reject", f"{step} not ok — continue"))
+                continue
+            if not ok and step in ("calc", "code", "memory", "memory_check"):
                 thoughts.append(Thought("reject", f"{step} not ok — continue"))
                 continue
             # Search may be ok=False (no live web) but the honest message is the answer.

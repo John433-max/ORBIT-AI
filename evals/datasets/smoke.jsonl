@@ -1003,3 +1003,5 @@
 {"id": "code_963", "category": "coding", "input": "write a python function find missing and repeated values leetcode 2965", "expect_contains": ["def find_missing_and_repeated_values", "Verified"]}
 {"id": "code_964", "category": "coding", "input": "write a python function sum of encrypted integers leetcode 3079", "expect_contains": ["def sum_of_encrypted_int", "Verified"]}
 {"id": "code_965", "category": "coding", "input": "write a python function transform array by parity leetcode 3467", "expect_contains": ["def transform_array", "Verified"]}
+{"id": "rag_empty_2", "category": "rag", "input": "summarize document #42", "expect_contains": ["couldn't find document #42"], "expect_not_contains": ["solid answer", "wikiHow"]}
+{"id": "rag_empty_3", "category": "rag", "input": "summarize document #7", "expect_contains": ["couldn't find document #7"], "expect_not_contains": ["solid answer"]}
