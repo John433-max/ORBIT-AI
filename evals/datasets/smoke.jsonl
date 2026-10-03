@@ -920,3 +920,15 @@
 {"id": "code_879", "category": "coding", "input": "write a python function resultant array after removing anagrams leetcode 2273", "expect_contains": ["def remove_anagrams", "Verified"]}
 {"id": "code_880", "category": "coding", "input": "write a python function rearrange characters to make target string leetcode 2287", "expect_contains": ["def rearrange_characters", "Verified"]}
 {"id": "code_881", "category": "coding", "input": "write a python function minimum number of pushes to type word i leetcode 3014", "expect_contains": ["def minimum_pushes", "Verified"]}
+{"id": "code_882", "category": "coding", "input": "write a python function count partitions with even sum difference leetcode 3432", "expect_contains": ["def count_partitions_even_sum_diff", "Verified"]}
+{"id": "code_883", "category": "coding", "input": "write a python function valid pair of adjacent digits in string leetcode 3438", "expect_contains": ["def find_valid_pair", "Verified"]}
+{"id": "code_884", "category": "coding", "input": "write a python function fruits into baskets ii leetcode 3477", "expect_contains": ["def num_of_unplaced_fruits", "Verified"]}
+{"id": "code_885", "category": "coding", "input": "write a python function minimum pair removal to sort array i leetcode 3507", "expect_contains": ["def minimum_pair_removal", "Verified"]}
+{"id": "code_886", "category": "coding", "input": "write a python function smallest index with digit sum equal to index leetcode 3550", "expect_contains": ["def smallest_index_digit_sum", "Verified"]}
+{"id": "code_887", "category": "coding", "input": "write a python function that returns the second largest number in a list", "expect_contains": ["def second_largest", "Verified"]}
+{"id": "code_888", "category": "coding", "input": "write a python function make a square with the same color leetcode 3127", "expect_contains": ["def can_make_square", "Verified"]}
+{"id": "code_889", "category": "coding", "input": "write a python function smallest divisible digit product i leetcode 3345", "expect_contains": ["def smallest_divisible_digit_product", "Verified"]}
+{"id": "code_890", "category": "coding", "input": "write a python function stone removal game leetcode 3360", "expect_contains": ["def stone_removal_game", "Verified"]}
+{"id": "code_891", "category": "coding", "input": "write a python function minimum operations to make elements distinct leetcode 3396", "expect_contains": ["def minimum_operations_distinct", "Verified"]}
+{"id": "code_892", "category": "coding", "input": "write a python function minimum operations to make columns strictly increasing leetcode 3402", "expect_contains": ["def minimum_operations_columns", "Verified"]}
+{"id": "code_893", "category": "coding", "input": "write a python function zigzag grid traversal with skip leetcode 3417", "expect_contains": ["def zigzag_traversal", "Verified"]}
