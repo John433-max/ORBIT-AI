@@ -894,3 +894,10 @@
 {"id": "code_853", "category": "coding", "input": "write a python function minimum number of swaps to make the string balanced leetcode 1963", "expect_contains": ["def min_swaps_balanced", "Verified"]}
 {"id": "code_854", "category": "coding", "input": "write a python function minimum length of string after operations leetcode 3223", "expect_contains": ["def minimum_length_after_ops", "Verified"]}
 {"id": "code_855", "category": "coding", "input": "write a python function find if array can be sorted leetcode 3011", "expect_contains": ["def can_sort_array", "Verified"]}
+{"id": "code_856", "category": "coding", "input": "write a python function shortest distance to target string in a circular array leetcode 2515", "expect_contains": ["def circular_target_distance", "Verified"]}
+{"id": "code_857", "category": "coding", "input": "write a python function minimum length of string after deleting similar ends leetcode 1750", "expect_contains": ["def min_length_similar_ends", "Verified"]}
+{"id": "code_858", "category": "coding", "input": "write a python function maximum number of fish in a grid leetcode 2658", "expect_contains": ["def find_max_fish", "Verified"]}
+{"id": "code_859", "category": "coding", "input": "write a python function number of students unable to eat lunch leetcode 1700", "expect_contains": ["def count_students_lunch", "Verified"]}
+{"id": "code_860", "category": "coding", "input": "write a python function minimum add to make parentheses valid leetcode 921", "expect_contains": ["def min_add_parentheses", "Verified"]}
+{"id": "code_861", "category": "coding", "input": "write a python function teemo attacking leetcode 495", "expect_contains": ["def teemo_attacking", "Verified"]}
+{"id": "code_862", "category": "coding", "input": "write a python function shortest distance to a character leetcode 821", "expect_contains": ["def shortest_to_char", "Verified"]}

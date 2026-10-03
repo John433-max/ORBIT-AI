@@ -2605,7 +2605,7 @@ def test_p97_origin_common_missing_special_day_average():
         "write a python function find common elements between two arrays leetcode 2956": "def common_elements_two_arrays",
         "write a python function convert date to binary leetcode 3280": "def date_to_binary",
         "write a python function special array i leetcode 3151": "def special_array_i",
-        "write a python function count pairs that form a complete day leetcode 3184": "def complete_day_pairs",
+        "write a python function count pairs that form a complete day leetcode 3184": "def count_complete_day_pairs",
         "write a python function minimum average of smallest and largest elements leetcode 3194": "def minimum_average",
     }
     for q, needle in cases.items():
@@ -2709,4 +2709,24 @@ def test_p102_sum_divisible_neighbor_xor_min_end_swaps_len_sort():
     assert "def sum_list" in synthesize_python("write a python function that sums a list of numbers")
     assert "def min_operations_equal_one" in synthesize_python(
         "write a python function minimum operations to make binary array elements equal to one i leetcode 3191"
+    )
+
+
+def test_p103_circular_similar_ends_fish_lunch_parens_teemo():
+    cases = {
+        "write a python function shortest distance to target string in a circular array leetcode 2515": "def circular_target_distance",
+        "write a python function minimum length of string after deleting similar ends leetcode 1750": "def min_length_similar_ends",
+        "write a python function maximum number of fish in a grid leetcode 2658": "def find_max_fish",
+        "write a python function number of students unable to eat lunch leetcode 1700": "def count_students_lunch",
+        "write a python function minimum add to make parentheses valid leetcode 921": "def min_add_parentheses",
+        "write a python function teemo attacking leetcode 495": "def teemo_attacking",
+        "write a python function shortest distance to a character leetcode 821": "def shortest_to_char",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def minimum_length_after_ops" in synthesize_python(
+        "write a python function minimum length of string after operations leetcode 3223"
     )

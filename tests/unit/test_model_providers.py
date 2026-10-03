@@ -141,6 +141,18 @@ def test_ollama_urllib_health_and_generate_without_httpx():
     server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
+    # Exercise the stdlib path even when the API extra installed httpx.
+    import builtins
+    import sys
+    saved_httpx = sys.modules.pop("httpx", None)
+    real_import = builtins.__import__
+
+    def _block_httpx(name, globals=None, locals=None, fromlist=(), level=0):
+        if name == "httpx" or name.startswith("httpx."):
+            raise ImportError("httpx blocked for urllib fallback test")
+        return real_import(name, globals, locals, fromlist, level)
+
+    builtins.__import__ = _block_httpx
     try:
         base = f"http://127.0.0.1:{server.server_address[1]}"
         p = OllamaProvider(model="llama3.2", base_url=base)
@@ -153,5 +165,8 @@ def test_ollama_urllib_health_and_generate_without_httpx():
         chat = p.generate(GenerateRequest(messages=[{"role": "user", "content": "hi"}]))
         assert chat.ok and chat.text == "chat:hi"
     finally:
+        builtins.__import__ = real_import
+        if saved_httpx is not None:
+            sys.modules["httpx"] = saved_httpx
         server.shutdown()
         server.server_close()
