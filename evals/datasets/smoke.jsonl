@@ -901,3 +901,9 @@
 {"id": "code_860", "category": "coding", "input": "write a python function minimum add to make parentheses valid leetcode 921", "expect_contains": ["def min_add_parentheses", "Verified"]}
 {"id": "code_861", "category": "coding", "input": "write a python function teemo attacking leetcode 495", "expect_contains": ["def teemo_attacking", "Verified"]}
 {"id": "code_862", "category": "coding", "input": "write a python function shortest distance to a character leetcode 821", "expect_contains": ["def shortest_to_char", "Verified"]}
+{"id": "code_863", "category": "coding", "input": "write a python function number of lines to write string leetcode 806", "expect_contains": ["def number_of_lines", "Verified"]}
+{"id": "code_864", "category": "coding", "input": "write a python function positions of large groups leetcode 830", "expect_contains": ["def large_group_positions", "Verified"]}
+{"id": "code_865", "category": "coding", "input": "write a python function reverse only letters leetcode 917", "expect_contains": ["def reverse_only_letters", "Verified"]}
+{"id": "code_866", "category": "coding", "input": "write a python function maximum number of balloons leetcode 1189", "expect_contains": ["def max_number_of_balloons", "Verified"]}
+{"id": "code_867", "category": "coding", "input": "write a python function slowest key leetcode 1629", "expect_contains": ["def slowest_key", "Verified"]}
+{"id": "code_868", "category": "coding", "input": "write a python function replace elements with greatest element on right side leetcode 1299", "expect_contains": ["def replace_elements_right", "Verified"]}

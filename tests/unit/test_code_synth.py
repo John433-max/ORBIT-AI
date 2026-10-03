@@ -2730,3 +2730,22 @@ def test_p103_circular_similar_ends_fish_lunch_parens_teemo():
     assert "def minimum_length_after_ops" in synthesize_python(
         "write a python function minimum length of string after operations leetcode 3223"
     )
+
+
+def test_p104_lines_groups_letters_balloons_slowest_replace():
+    cases = {
+        "write a python function that number of lines to write": "def number_of_lines",
+        "write a python function that large group positions": "def large_group_positions",
+        "write a python function reverse only letters leetcode 917": "def reverse_only_letters",
+        "write a python function maximum number of balloons leetcode 1189": "def max_number_of_balloons",
+        "write a python function slowest key leetcode 1629": "def slowest_key",
+        "write a python function replace elements with greatest element on right side leetcode 1299": "def replace_elements_right",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def reverse_string" in synthesize_python(
+        "implement a python function to reverse a string"
+    )
