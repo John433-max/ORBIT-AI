@@ -1009,3 +1009,9 @@
 {"id": "code_969", "category": "coding", "input": "write a python function shortest subarray with or at least k i leetcode 3095", "expect_contains": ["def minimum_subarray_length_or", "Verified"]}
 {"id": "code_970", "category": "coding", "input": "write a python function minimum number of operations to move all balls to each box leetcode 1769", "expect_contains": ["def min_operations_balls", "Verified"]}
 {"id": "code_971", "category": "coding", "input": "write a python function find the count of numbers which are not special leetcode 3233", "expect_contains": ["def not_special_count", "Verified"]}
+{"id": "code_972", "category": "coding", "input": "write a python function report spam message leetcode 3295", "expect_contains": ["def report_spam", "Verified"]}
+{"id": "code_973", "category": "coding", "input": "write a python function find x-sum of all k-long subarrays i leetcode 3318", "expect_contains": ["def find_x_sum", "Verified"]}
+{"id": "code_974", "category": "coding", "input": "write a python function find the sequence of strings appeared on the screen leetcode 3324", "expect_contains": ["def string_sequence", "Verified"]}
+{"id": "code_975", "category": "coding", "input": "write a python function find the largest almost missing integer leetcode 3471", "expect_contains": ["def largest_almost_missing", "Verified"]}
+{"id": "code_976", "category": "coding", "input": "write a python function transform array to all equal elements leetcode 3576", "expect_contains": ["def can_make_equal", "Verified"]}
+{"id": "code_977", "category": "coding", "input": "write a python function flip square submatrix vertically leetcode 3643", "expect_contains": ["def reverse_submatrix", "Verified"]}
