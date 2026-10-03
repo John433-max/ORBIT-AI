@@ -907,3 +907,16 @@
 {"id": "code_866", "category": "coding", "input": "write a python function maximum number of balloons leetcode 1189", "expect_contains": ["def max_number_of_balloons", "Verified"]}
 {"id": "code_867", "category": "coding", "input": "write a python function slowest key leetcode 1629", "expect_contains": ["def slowest_key", "Verified"]}
 {"id": "code_868", "category": "coding", "input": "write a python function replace elements with greatest element on right side leetcode 1299", "expect_contains": ["def replace_elements_right", "Verified"]}
+{"id": "code_869", "category": "coding", "input": "write a python function convert 1d array into 2d array leetcode 2022", "expect_contains": ["def construct_2d_array", "Verified"]}
+{"id": "code_870", "category": "coding", "input": "write a python function add two integers leetcode 2235", "expect_contains": ["def add_two_integers", "Verified"]}
+{"id": "code_871", "category": "coding", "input": "write a python function maximum number of pairs in array leetcode 2341", "expect_contains": ["def number_of_pairs_in_array", "Verified"]}
+{"id": "code_872", "category": "coding", "input": "write a python function average value of even numbers that are divisible by three leetcode 2455", "expect_contains": ["def average_even_divisible_by_three", "Verified"]}
+{"id": "code_873", "category": "coding", "input": "write a python function k items with the maximum sum leetcode 2600", "expect_contains": ["def k_items_with_maximum_sum", "Verified"]}
+{"id": "code_874", "category": "coding", "input": "write a python function smallest number from two digit arrays leetcode 2605", "expect_contains": ["def min_number_from_two_digit_arrays", "Verified"]}
+{"id": "code_875", "category": "coding", "input": "write a python function maximum number of operations with the same score i leetcode 3038", "expect_contains": ["def max_operations_same_score", "Verified"]}
+{"id": "code_876", "category": "coding", "input": "write a python function greatest common divisor of an array leetcode 1979", "expect_contains": ["def find_gcd_array", "Verified"]}
+{"id": "code_877", "category": "coding", "input": "write a python function minimum difference between highest and lowest of k scores leetcode 1984", "expect_contains": ["def min_diff_k_scores", "Verified"]}
+{"id": "code_878", "category": "coding", "input": "write a python function sort even and odd indices independently leetcode 2164", "expect_contains": ["def sort_even_odd_indices", "Verified"]}
+{"id": "code_879", "category": "coding", "input": "write a python function resultant array after removing anagrams leetcode 2273", "expect_contains": ["def remove_anagrams", "Verified"]}
+{"id": "code_880", "category": "coding", "input": "write a python function rearrange characters to make target string leetcode 2287", "expect_contains": ["def rearrange_characters", "Verified"]}
+{"id": "code_881", "category": "coding", "input": "write a python function minimum number of pushes to type word i leetcode 3014", "expect_contains": ["def minimum_pushes", "Verified"]}

@@ -2749,3 +2749,41 @@ def test_p104_lines_groups_letters_balloons_slowest_replace():
     assert "def reverse_string" in synthesize_python(
         "implement a python function to reverse a string"
     )
+
+
+def test_p105_reshape_integers_pairs_average_ksum_digits_score():
+    cases = {
+        "write a python function convert 1d array into 2d array leetcode 2022": "def construct_2d_array",
+        "write a python function add two integers leetcode 2235": "def add_two_integers",
+        "write a python function maximum number of pairs in array leetcode 2341": "def number_of_pairs_in_array",
+        "write a python function average value of even numbers that are divisible by three leetcode 2455": "def average_even_divisible_by_three",
+        "write a python function k items with the maximum sum leetcode 2600": "def k_items_with_maximum_sum",
+        "write a python function smallest number from two digit arrays leetcode 2605": "def min_number_from_two_digit_arrays",
+        "write a python function maximum number of operations with the same score i leetcode 3038": "def max_operations_same_score",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "return a + b" in synthesize_python("write a python function that adds two numbers")
+    assert "def average" in synthesize_python("write a python function that averages two numbers")
+
+
+def test_p106_gcd_array_kscores_evenodd_anagrams_rearrange_pushes():
+    cases = {
+        "write a python function greatest common divisor of an array leetcode 1979": "def find_gcd_array",
+        "write a python function minimum difference between highest and lowest of k scores leetcode 1984": "def min_diff_k_scores",
+        "write a python function sort even and odd indices independently leetcode 2164": "def sort_even_odd_indices",
+        "write a python function resultant array after removing anagrams leetcode 2273": "def remove_anagrams",
+        "write a python function rearrange characters to make target string leetcode 2287": "def rearrange_characters",
+        "write a python function minimum number of pushes to type word i leetcode 3014": "def minimum_pushes",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    assert "def gcd" in synthesize_python("write a python function that returns the greatest common divisor")
+    assert "def sort_list" in synthesize_python("write a python function that sorts a list")
+    assert "def is_anagram" in synthesize_python("write a python function that checks if two strings are anagrams")
