@@ -1176,3 +1176,11 @@
 {"id": "code_1141", "category": "coding", "input": "largest 3-same-digit number in string", "expect_contains": ["def largest_good_integer", "Verified"]}
 {"id": "code_1142", "category": "coding", "input": "optimal partition of string", "expect_contains": ["def partition_string", "Verified"]}
 {"id": "code_1143", "category": "coding", "input": "minimum rounds to complete all tasks", "expect_contains": ["def minimum_rounds", "Verified"]}
+{"id": "code_1144", "category": "coding", "input": "maximum product of three numbers", "expect_contains": ["def maximum_product", "Verified"]}
+{"id": "code_1145", "category": "coding", "input": "binary tree cameras", "expect_contains": ["def min_camera_cover", "Verified"]}
+{"id": "code_1146", "category": "coding", "input": "smallest string with a given numeric value", "expect_contains": ["def get_smallest_string", "Verified"]}
+{"id": "code_1147", "category": "coding", "input": "fixed point in a sorted array", "expect_contains": ["def fixed_point", "Verified"]}
+{"id": "code_1148", "category": "coding", "input": "index pairs of a string", "expect_contains": ["def index_pairs", "Verified"]}
+{"id": "code_1149", "category": "coding", "input": "check if number is a sum of powers of three", "expect_contains": ["def check_powers_of_three", "Verified"]}
+{"id": "search_3", "category": "search", "input": "search the web for today's weather in tokyo", "expect_contains": ["Tokyo"], "expect_not_contains": ["Sandbox execution failed", "toy-scale", "unterminated string"]}
+{"id": "instruction_5", "category": "instruction", "input": "who created you", "expect_contains": ["ORBIT"], "expect_not_contains": ["Jacob", "LORD", "toy-scale"]}

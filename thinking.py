@@ -165,7 +165,9 @@ def _is_self_identity(text: str) -> bool:
     return bool(
         re.search(
             r"\bwhat(?:'s| is) your name\b|\btell me (about )?yourself\b|"
-            r"\bintroduce yourself\b|\byour name\b",
+            r"\bintroduce yourself\b|\byour name\b|"
+            r"\bwho (created|made|built) you\b|\bwhat created you\b|"
+            r"\bwho(?:'s| is) your creator\b",
             text or "",
             re.I,
         )

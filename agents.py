@@ -1292,6 +1292,18 @@ class MainChatAgent:
     def run(self, request: str, context: dict) -> AgentResult:
         if re.search(r"\bwhat can you do\b|\bcapabilities\b|\bhelp\b", request or "", re.I):
             return AgentResult(self.name, True, CAPABILITY_REPLY, raw={"kind": "capabilities"})
+        if re.search(
+            r"\b(who (created|made|built) you|what created you|who(?:'s| is) your creator)\b",
+            request or "",
+            re.I,
+        ):
+            return AgentResult(
+                self.name,
+                True,
+                "I'm ORBIT. The ORBIT AI project built me as a local agent runtime "
+                "(tools, memory, retrieval, and a small educational model) — not a web character.",
+                raw={"kind": "identity"},
+            )
         matched, answer, meta = self._retrieve(request, context)
         if matched:
             return AgentResult(self.name, True, answer, raw=meta)
@@ -1334,7 +1346,7 @@ class Verifier:
 
 ROUTES = [
     (re.compile(
-        r"```|def |import |print\(|for .* in |=\s*\d|"
+        r"```|def |import |print\(|for \w+ in |=\s*\d|"
         r"\b(write|implement|create|define|make)\b.{0,80}\b("
         r"function|class|script|program|module|code)\b|"
         r"\bpython function\b|"
@@ -1370,6 +1382,7 @@ ROUTES = [
     # Identity / self questions → chat (must beat the broad research "what is" pattern)
     (re.compile(
         r"\b(what('?s| is) your name|who are you|what are you|"
+        r"who (created|made|built) you|what created you|"
         r"tell me about yourself|introduce yourself)\b",
         re.I,
     ), "chat"),
@@ -1615,12 +1628,42 @@ class Orchestrator:
     def route(self, request: str) -> str:
 
         scores = score_request(request)
+        # Cycle 406: bare verified-template titles ("binary tree cameras")
+        # were chat/data hedges. A template hit is a code route unless the
+        # user asked a question or a search.
+        if scores.get("code", 0) < 1.0 and not _looks_like_question(request):
+            if not re.search(r"\b(search|look up|news about|research)\b", request or "", re.I):
+                protected = max(
+                    scores.get("calculator", 0),
+                    scores.get("debug", 0),
+                    scores.get("lab", 0),
+                    scores.get("document", 0),
+                    scores.get("chat", 0),
+                    scores.get("research", 0),
+                )
+                if protected < 1.0:
+                    try:
+                        from code_synth import match_template
+
+                        if match_template(request) is not None:
+                            scores["code"] = 1.0
+                    except Exception:
+                        pass
         if not scores:
             return "chat"
         # ROUTES order still defines tie-break priority when two agents
         # score equally (e.g. both hit only weak signals) -- keeps routing
         # deterministic rather than depending on dict ordering.
         priority = [agent_key for _, agent_key in ROUTES]
+        # Explicit search/look-up must not lose a tie to code (English
+        # "for … in …" used to score as a for-loop).
+        if (
+            scores.get("research", 0) >= scores.get("code", 0)
+            and scores.get("research", 0) > 0
+            and re.search(r"\b(search|look up|look this up|news about|research)\b", request, re.I)
+        ):
+            scores = dict(scores)
+            scores["research"] = max(scores["research"], scores.get("code", 0)) + 0.01
         best = max(scores.items(), key=lambda kv: (kv[1], -priority.index(kv[0]) if kv[0] in priority else -99))
         return best[0]
 
