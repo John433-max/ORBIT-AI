@@ -3422,3 +3422,286 @@ def test_p137_maze_union():
         assert out["verified"] and not out["fallback"], out
     assert match_template("nearest exit from entrance in maze leetcode 1926").name == "nearest_exit"
     assert match_template("is graph bipartite").name == "is_bipartite"
+
+
+def test_p138_maze_swaps():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "the maze iii leetcode 499": "the_maze_iii",
+        "regions cut by slashes leetcode 959": "regions_cut_by_slashes",
+        "smallest string with swaps leetcode 1202": "smallest_string_with_swaps",
+        "accounts merge leetcode 721": "accounts_merge",
+        "redundant connection leetcode 684": "redundant_connection",
+        "similar string groups leetcode 839": "similar_string_groups",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("the maze leetcode 490").name == "the_maze"
+    assert match_template("the maze ii leetcode 505").name == "the_maze_ii"
+    assert match_template("smallest string starting from leaf").name != "smallest_string_with_swaps"
+    assert match_template("redundant connection ii") is None or match_template("redundant connection ii").name != "redundant_connection"
+
+
+def test_p139_directed_weighted_graphs():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "redundant connection ii leetcode 685": "redundant_connection_ii",
+        "shortest path with alternating colors leetcode 1129": "shortest_alternating_paths",
+        "network delay time leetcode 743": "network_delay_time",
+        "cheapest flights within k stops leetcode 787": "cheapest_flights",
+        "open the lock leetcode 752": "open_the_lock",
+        "critical connections in a network leetcode 1192": "critical_connections",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("redundant connection leetcode 684").name == "redundant_connection"
+    assert match_template("swim in rising water leetcode 778").name == "swim_rising_water_778"
+    assert match_template("alternating sum of an array").name != "shortest_alternating_paths"
+
+
+def test_p140_graph_union_mst():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "number of operations to make network connected leetcode 1319": "make_network_connected",
+        "most stones removed with same row or column leetcode 947": "most_stones_removed",
+        "find the city with the smallest number of neighbors at a threshold distance leetcode 1334": "find_the_city",
+        "minimum obstacle removal to reach corner leetcode 2290": "min_obstacle_removal",
+        "number of distinct islands leetcode 694": "distinct_islands",
+        "connecting cities with minimum cost leetcode 1135": "connecting_cities_min_cost",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("number of islands leetcode 200").name == "num_islands"
+    assert match_template("min cost to connect all points leetcode 1584").name == "min_cost_connect_points"
+    assert match_template("shortest path in a grid with obstacles elimination leetcode 1293").name == "shortest_path_obstacles"
+    assert match_template("number of connected components in an undirected graph leetcode 323").name == "count_components"
+
+
+def test_p141_graph_mst_paths():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "count the number of complete components leetcode 2685": "count_complete_components",
+        "checking existence of edge length limited paths leetcode 1697": "distance_limited_paths",
+        "find critical and pseudo-critical edges in minimum spanning tree leetcode 1489": "critical_pseudo_critical_edges",
+        "minimum score of a path between two cities leetcode 2492": "min_score_path",
+        "minimum cost to make at least one valid path in a grid leetcode 1368": "min_cost_valid_path",
+        "number of restricted paths from first to last node leetcode 1786": "count_restricted_paths",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("critical connections in a network leetcode 1192").name == "critical_connections"
+    assert match_template("connecting cities with minimum cost leetcode 1135").name == "connecting_cities_min_cost"
+    assert match_template("number of islands leetcode 200").name == "num_islands"
+
+
+def test_p142_path_counts_meetings():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "number of ways to arrive at destination leetcode 1976": "count_paths_arrive",
+        "minimum fuel cost to report to the capital leetcode 2477": "minimum_fuel_capital",
+        "minimum cost to reach destination in time leetcode 1928": "min_cost_destination_time",
+        "reachable nodes in subdivided graph leetcode 882": "reachable_nodes_subdivided",
+        "second minimum time to reach destination leetcode 2045": "second_minimum_time",
+        "find all people with secret leetcode 2092": "find_all_people_secret",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("cheapest flights within k stops leetcode 787").name == "cheapest_flights"
+    assert match_template("network delay time leetcode 743").name == "network_delay_time"
+    assert match_template("path with maximum probability leetcode 1514").name == "maximum_probability_path"
+
+
+def test_p143_friends_water_visit():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "the earliest moment when everyone become friends leetcode 1101": "earliest_friends",
+        "optimize water distribution in a village leetcode 1168": "optimize_water_distribution",
+        "minimum time to visit a cell in a grid leetcode 2577": "min_time_visit_cell",
+        "shortest path visiting all nodes leetcode 847": "shortest_path_visiting_all",
+        "last day where you can still cross leetcode 1970": "last_day_to_cross",
+        "word ladder leetcode 127": "word_ladder",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("bus routes leetcode 815").name == "bus_routes_815"
+    assert match_template("word break leetcode 139").name != "word_ladder"
+    assert match_template("the maze ii shortest rolling distance").name != "word_ladder"
+
+
+def test_p144_bfs_maze_home():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "minimum operations to convert number leetcode 2059": "minimum_operations_convert",
+        "escape the ghosts leetcode 789": "escape_ghosts",
+        "escape a large maze leetcode 1036": "escape_large_maze",
+        "shortest path to get food leetcode 1730": "shortest_path_food",
+        "check if there is a valid path in a grid leetcode 1391": "valid_street_path",
+        "minimum jumps to reach home leetcode 1654": "minimum_jumps_home",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("jump game ii minimum jumps to last index").name == "jump_game_ii"
+    assert match_template("minimum cost to make at least one valid path in a grid leetcode 1368").name == "min_cost_valid_path"
+    assert match_template("the maze ii shortest rolling distance").name != "escape_large_maze"
+
+
+def test_p145_box_courses_island():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "minimum moves to move a box to their target location leetcode 1263": "min_push_box",
+        "parallel courses iii leetcode 2050": "parallel_courses_iii",
+        "minimum number of days to disconnect island leetcode 1568": "min_days_disconnect_island",
+        "as far from land as possible leetcode 1162": "as_far_from_land",
+        "time needed to inform all employees leetcode 1376": "inform_employees",
+        "minimum number of vertices to reach all nodes leetcode 1557": "min_vertices_reach_all",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("number of islands leetcode 200").name == "num_islands"
+    assert match_template("making a large island leetcode 827").name != "min_days_disconnect_island"
+    assert match_template("number of closed islands leetcode 1254").name != "min_days_disconnect_island"
+
+
+
+def test_p146_heap_ladder_ii():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "word ladder ii leetcode 126 all shortest transformation sequences": "word_ladder_ii",
+        "ipo leetcode 502 maximized capital": "ipo_capital",
+        "maximum performance of a team leetcode 1383": "max_team_performance",
+        "furthest building you can reach leetcode 1642": "furthest_building",
+        "minimum cost to hire k workers leetcode 857": "min_cost_hire_workers",
+        "minimum number of refueling stops leetcode 871": "min_refuel_stops",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("word ladder leetcode 127").name == "word_ladder"
+    assert match_template("course schedule leetcode 207").name == "course_schedule"
+    assert match_template("trapping rain water leetcode 42").name == "trap_rain_water"
+
+
+def test_p147_interval_game():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "strange printer leetcode 664": "strange_printer",
+        "minimum cost to cut a stick leetcode 1547": "min_cost_cut_stick",
+        "cat and mouse game leetcode 913": "cat_mouse_game",
+        "super egg drop leetcode 887": "super_egg_drop",
+        "palindrome partitioning ii leetcode 132 minimum cuts": "palindrome_partition_ii",
+        "maximum profit in job scheduling leetcode 1235": "job_scheduling_profit",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("palindrome partitioning leetcode 131").name == "palindrome_partition"
+    assert match_template("best time to buy and sell stock").name != "job_scheduling_profit"
+
+
+def test_snake_aliases_for_legacy_smoke():
+    """Later packs emit LC camelCase; older smoke rows expect snake_case defs."""
+    from code_synth import synthesize_and_verify
+    asks = {
+        "write a python function for network delay time": "def network_delay_time",
+        "write a python function for cheapest flights with k stops": "def cheapest_flights",
+        "write a python function for word ladder": "def word_ladder",
+        "write a python function that merges accounts": "def accounts_merge",
+        "write a python function for redundant connection": "def redundant_connection",
+        "write a python function for critical connections": "def critical_connections",
+        "write a python function that open the lock": "def open_lock",
+        "network delay time leetcode 743": "def networkDelayTime",
+        "word ladder leetcode 127": "def ladderLength",
+    }
+    for ask, needle in asks.items():
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert needle in out["source"], (ask, needle)
+
+
+def test_p148_hard_dp_games():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "cat and mouse ii leetcode 1728": "cat_mouse_ii",
+        "minimum cost to merge stones leetcode 1000": "merge_stones",
+        "longest palindromic substring leetcode 5": "longest_palindromic_substring",
+        "shortest common supersequence leetcode 1092": "shortest_common_supersequence",
+        "distinct subsequences ii leetcode 940": "distinct_subsequences_ii",
+        "minimum score triangulation leetcode 1039": "min_score_triangulation",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("cat and mouse game leetcode 913").name == "cat_mouse_game"
+    assert match_template("distinct subsequences leetcode 115").name == "distinct_subsequences"
+    assert match_template("longest palindromic subsequence").name == "longest_palindromic_subsequence"
+
+
+def test_p150_stolen_and_missing():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "maximize sum of array after k negations leetcode 1005": "largest_sum_after_k_negations",
+        "count negative numbers in a sorted matrix leetcode 1351": "count_negatives_1351",
+        "sort integers by the number of 1 bits leetcode 1356": "sort_by_bits",
+        "verifying an alien dictionary leetcode 953": "is_alien_sorted",
+        "distribute candies to people leetcode 1103": "distribute_candies_people",
+        "convert integer to the sum of two no-zero integers leetcode 1317": "get_no_zero_integers",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a python function that sums a list of numbers").name == "sum_list"
+    assert match_template("candy leetcode 135").name == "candy"
+    assert match_template("leetcode 135 ratings").name == "candy"
+
+
+def test_p152_product_cameras_string_fixed_pairs_powers():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "maximum product of three numbers": "maximum_product",
+        "leetcode 628": "maximum_product",
+        "binary tree cameras": "min_camera_cover",
+        "smallest string with a given numeric value": "get_smallest_string",
+        "fixed point in a sorted array": "fixed_point",
+        "index pairs of a string": "index_pairs",
+        "check if number is a sum of powers of three": "check_powers_of_three",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("maximum product of two elements").name == "max_product_two"
+    assert match_template("smallest string with swaps").name == "smallest_string_with_swaps"
+    assert match_template("write a python function that sums a list of numbers").name == "sum_list"
