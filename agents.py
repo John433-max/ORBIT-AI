@@ -95,6 +95,28 @@ def _wants_code_written(request: str) -> bool:
         text,
     ):
         return True
+    # Bare problem titles that match a verified template should synthesize,
+    # not be exec'd as Python (syntax error → hedge). Skip math/utility asks.
+    if "?" in text or re.search(r"\b(search|look up|news about)\b", text, re.I):
+        return False
+    try:
+        from science_math import looks_like_science_math
+        if looks_like_science_math(text):
+            return False
+    except Exception:
+        pass
+    try:
+        from utilities import looks_like_utility
+        if looks_like_utility(text):
+            return False
+    except Exception:
+        pass
+    try:
+        from code_synth import match_template
+        if match_template(text) is not None:
+            return True
+    except Exception:
+        return False
     return False
 
 
