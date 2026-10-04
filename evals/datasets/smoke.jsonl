@@ -1184,3 +1184,24 @@
 {"id": "code_1149", "category": "coding", "input": "check if number is a sum of powers of three", "expect_contains": ["def check_powers_of_three", "Verified"]}
 {"id": "search_3", "category": "search", "input": "search the web for today's weather in tokyo", "expect_contains": ["Tokyo"], "expect_not_contains": ["Sandbox execution failed", "toy-scale", "unterminated string"]}
 {"id": "instruction_5", "category": "instruction", "input": "who created you", "expect_contains": ["ORBIT"], "expect_not_contains": ["Jacob", "LORD", "toy-scale"]}
+{"id": "code_1150", "category": "coding", "input": "course schedule iii leetcode 630", "expect_contains": ["def course_schedule_iii", "Verified"]}
+{"id": "code_1151", "category": "coding", "input": "last stone weight ii leetcode 1049", "expect_contains": ["def last_stone_weight_ii", "Verified"]}
+{"id": "code_1152", "category": "coding", "input": "maximum number of vowels in a substring of given length leetcode 1456", "expect_contains": ["def max_vowels", "Verified"]}
+{"id": "code_1153", "category": "coding", "input": "number of ways to split a string leetcode 1573", "expect_contains": ["def num_ways_split", "Verified"]}
+{"id": "code_1154", "category": "coding", "input": "hand of straights leetcode 846", "expect_contains": ["def hand_of_straights", "Verified"]}
+{"id": "code_1155", "category": "coding", "input": "online stock span leetcode 901", "expect_contains": ["def online_stock_span", "Verified"]}
+{"id": "code_1156", "category": "coding", "input": "course schedule leetcode 207", "expect_contains": ["def course_schedule", "Verified"], "expect_not_contains": ["course_schedule_iii"]}
+{"id": "code_1157", "category": "coding", "input": "last stone weight leetcode 1046", "expect_contains": ["def last_stone_weight", "Verified"], "expect_not_contains": ["last_stone_weight_ii"]}
+{"id": "code_1158", "category": "coding", "input": "write a python function that counts vowels in a string", "expect_contains": ["aeiou", "Verified"], "expect_not_contains": ["max_vowels"]}
+{"id": "code_1159", "category": "coding", "input": "course schedule iii leetcode 630", "expect_contains": ["def course_schedule_iii", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1160", "category": "coding", "input": "last stone weight ii leetcode 1049", "expect_contains": ["def last_stone_weight_ii", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1161", "category": "coding", "input": "maximum number of vowels in a substring of given length leetcode 1456", "expect_contains": ["def max_vowels", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1162", "category": "coding", "input": "number of ways to split a string leetcode 1573", "expect_contains": ["def num_ways_split", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1163", "category": "coding", "input": "hand of straights leetcode 846", "expect_contains": ["def hand_of_straights", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1164", "category": "coding", "input": "online stock span leetcode 901", "expect_contains": ["def online_stock_span", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1165", "category": "coding", "input": "elimination game leetcode 390", "expect_contains": ["def elimination_game", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1166", "category": "coding", "input": "minimum add to make parentheses valid leetcode 921", "expect_contains": ["def min_add_to_make_valid", "Verified"], "expect_not_contains": ["valid_parentheses"]}
+{"id": "code_1167", "category": "coding", "input": "maximum width ramp leetcode 962", "expect_contains": ["def maximum_width_ramp", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1168", "category": "coding", "input": "bag of tokens leetcode 948", "expect_contains": ["def bag_of_tokens_score", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1169", "category": "coding", "input": "boats to save people leetcode 881", "expect_contains": ["def num_rescue_boats", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1170", "category": "coding", "input": "car fleet leetcode 853", "expect_contains": ["def car_fleet", "Verified"], "expect_not_contains": ["car_pooling"]}
