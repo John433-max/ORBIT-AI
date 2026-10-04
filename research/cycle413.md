@@ -20,7 +20,7 @@ Loader registers p136 first. Six smoke rows code_1048–code_1053. Unit `test_p1
 ## Benchmark
 - Before: 1088/1088 (100%), coding 1045/1045
 - Shadow attempt (reverted): 1088/1094
-- After: see eval latest.json
+- After: 1094/1094 (100%), coding 1051/1051
 
 ## GitHub
-p135 was local-only vs `/tmp/orbit-gh`. Push attempted separately.
+Pushed a1bae17 to main (p136, loader, smoke, test, cycle note). p135 already tracked.
