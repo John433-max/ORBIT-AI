@@ -1086,3 +1086,9 @@
 {"id": "code_1045", "category": "coding", "input": "time needed to inform all employees leetcode 1376", "expect_contains": ["def numOfMinutes", "Verified"]}
 {"id": "code_1046", "category": "coding", "input": "detonate the maximum bombs leetcode 2101", "expect_contains": ["def maximumDetonation", "Verified"]}
 {"id": "code_1047", "category": "coding", "input": "reorder routes to make all paths lead to the city zero leetcode 1466", "expect_contains": ["def minReorder", "Verified"]}
+{"id": "code_1048", "category": "coding", "input": "clone graph leetcode 133", "expect_contains": ["def clone_graph", "Verified"]}
+{"id": "code_1049", "category": "coding", "input": "graph valid tree leetcode 261", "expect_contains": ["def valid_tree", "Verified"]}
+{"id": "code_1050", "category": "coding", "input": "possible bipartition leetcode 886", "expect_contains": ["def possibleBipartition", "Verified"]}
+{"id": "code_1051", "category": "coding", "input": "flower planting with no adjacent gardens leetcode 1042", "expect_contains": ["def gardenNoAdj", "Verified"]}
+{"id": "code_1052", "category": "coding", "input": "nearest exit from entrance in maze leetcode 1926", "expect_contains": ["def nearestExit", "Verified"]}
+{"id": "code_1053", "category": "coding", "input": "max area of island leetcode 695", "expect_contains": ["def maxAreaOfIsland", "Verified"]}

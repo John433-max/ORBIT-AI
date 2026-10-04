@@ -3362,3 +3362,44 @@ def test_p134_gates_enclaves():
     assert "def num_islands" in islands or "def numIslands" in islands
     knight = synthesize_python("knight probability in chessboard leetcode 688")
     assert "def knightProbability" in knight
+
+
+def test_p135_closed_islands_routes():
+    cases = {
+        "number of closed islands leetcode 1254": "def closedIsland",
+        "all paths from source to target leetcode 797": "def allPathsSourceTarget",
+        "find eventual safe states leetcode 802": "def eventualSafeNodes",
+        "time needed to inform all employees leetcode 1376": "def numOfMinutes",
+        "detonate the maximum bombs leetcode 2101": "def maximumDetonation",
+        "reorder routes to make all paths lead to the city zero leetcode 1466": "def minReorder",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+        assert bundle["fallback"] is False
+    islands = synthesize_python("number of islands leetcode 200")
+    assert "def num_islands" in islands or "def numIslands" in islands
+    tickets = synthesize_python("time needed to buy tickets")
+    assert "def time_required_to_buy" in tickets
+
+
+
+def test_p136_missing_graph():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "clone graph leetcode 133": "clone_graph",
+        "graph valid tree leetcode 261": "graph_valid_tree",
+        "possible bipartition leetcode 886": "possible_bipartition",
+        "flower planting with no adjacent gardens leetcode 1042": "flower_planting",
+        "nearest exit from entrance in maze leetcode 1926": "nearest_exit",
+        "max area of island leetcode 695": "max_area_of_island",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("can place flowers in a flowerbed").name == "can_place_flowers"
+    assert match_template("is graph bipartite").name == "is_bipartite"
