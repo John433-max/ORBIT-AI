@@ -108,6 +108,19 @@ def _is_code(text: str) -> bool:
         raw,
     ):
         return True
+    # Bare problem titles ("minimum rounds to complete all tasks") match a
+    # verified template but were classified as statements and hedged.
+    # Do not steal calculator / utility asks (factorial of 5, word count).
+    if _is_search(raw) or _is_math(raw) or "?" in raw:
+        return False
+    if re.search(r"\b(what|who|why|calculate|how many)\b", raw, re.I):
+        return False
+    try:
+        from code_synth import match_template
+        if match_template(raw) is not None:
+            return True
+    except Exception:
+        return False
     return False
 
 
