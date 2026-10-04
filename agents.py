@@ -1326,7 +1326,8 @@ ROUTES = [
                 r"\b(what('?s| is) (the )?(time|date)|unix timestamp|"
                 r"word count|char(?:acter)? count|uppercase|lowercase|"
                 r"pretty[- ]?print json|validate json|sha256|md5)\b|"
-                r"\bspeed of light\b|\bcompound interest\b|\bto the power of\b",
+                r"\bspeed of light\b|\bcompound interest\b|\bto the power of\b|"
+                r"\badd\s+-?\d+\.?\d*\s+(?:and|to)\s+-?\d+",
                 re.I), "calculator"),
     (re.compile(r"\b(summarize document|summarize this|summarize the following|"
                 r"document #\d+|uploaded document|"
@@ -1392,7 +1393,7 @@ AGENT_SIGNALS = {
              r"\bwrite a function\b"],
     "debug": [r"\bcrash(es|ed|ing)?\b", r"\bbug\b", r"\bfails?\b", r"\bfailing\b", r"\bbroken\b",
               r"\bnot working\b", r"\bwhy (does|is|did|won't)\b.*\b(fail|crash|break)", r"\bstack trace\b"],
-    "calculator": [r"\bfactorial\b", r"\bspeed of light\b", r"\bcompound interest\b", r"\bword count\b", r"\bwhat time\b", r"\bcalculate\b", r"\bhow much is\b", r"\bpercent(age)?\b", r"\bmultiply|divide|subtract\b", r"\btimes\b", r"\bplus\b", r"\bminus\b", r"\bdivided by\b", r"\bmodulo\b", r"\bderivative\b", r"\bintegral\b", r"\bintegrate\b", r"\barea of\b", r"\bforce\b", r"\bgeometry\b", r"\bcalculus\b", r"\bphysics\b"],
+    "calculator": [r"\bfactorial\b", r"\bspeed of light\b", r"\bcompound interest\b", r"\bword count\b", r"\bwhat time\b", r"\bcalculate\b", r"\bhow much is\b", r"\bpercent(age)?\b", r"\bmultiply|divide|subtract\b", r"\btimes\b", r"\bplus\b", r"\bminus\b", r"\badd\s+\d", r"\bdivided by\b", r"\bmodulo\b", r"\bderivative\b", r"\bintegral\b", r"\bintegrate\b", r"\barea of\b", r"\bforce\b", r"\bgeometry\b", r"\bcalculus\b", r"\bphysics\b"],
     "document": [r"\bpdf\b", r"\bdocx\b", r"\bmy notes\b", r"\bthis document\b", r"\bwhat does it say\b", r"\bextract\b", r"\btext from\b", r"\bupload\b"],
     "lab": [r"\bquant\b", r"\brope\b", r"\byarn\b", r"\battention\b", r"\btransformer\b", r"\bgradient descent\b", r"\boverfitting\b", r"\bbackpropagation\b", r"\bfrom scratch\b",
             r"\beducational model\b", r"\btok/s\b", r"\binference speed\b"],

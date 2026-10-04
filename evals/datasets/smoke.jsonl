@@ -1080,3 +1080,9 @@
 {"id": "code_1039", "category": "coding", "input": "number of enclaves leetcode 1020", "expect_contains": ["def numEnclaves", "Verified"]}
 {"id": "code_1040", "category": "coding", "input": "making a large island leetcode 827", "expect_contains": ["def largestIsland", "Verified"]}
 {"id": "code_1041", "category": "coding", "input": "minimum genetic mutation leetcode 433", "expect_contains": ["def minMutation", "Verified"]}
+{"id": "code_1042", "category": "coding", "input": "number of closed islands leetcode 1254", "expect_contains": ["def closedIsland", "Verified"]}
+{"id": "code_1043", "category": "coding", "input": "all paths from source to target leetcode 797", "expect_contains": ["def allPathsSourceTarget", "Verified"]}
+{"id": "code_1044", "category": "coding", "input": "find eventual safe states leetcode 802", "expect_contains": ["def eventualSafeNodes", "Verified"]}
+{"id": "code_1045", "category": "coding", "input": "time needed to inform all employees leetcode 1376", "expect_contains": ["def numOfMinutes", "Verified"]}
+{"id": "code_1046", "category": "coding", "input": "detonate the maximum bombs leetcode 2101", "expect_contains": ["def maximumDetonation", "Verified"]}
+{"id": "code_1047", "category": "coding", "input": "reorder routes to make all paths lead to the city zero leetcode 1466", "expect_contains": ["def minReorder", "Verified"]}

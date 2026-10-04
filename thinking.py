@@ -76,6 +76,7 @@ def _is_math(text: str) -> bool:
             r"\d+\s*[\+\-\*/×÷%^xX]\s*\d+"
             r"|%\s*of|sqrt\s*\(|what is \d"
             r"|\d+\s*(times|plus|minus|divided\s+by|divide|multiplied\s+by|modulo|mod)\s*\d+"
+            r"|\badd\s+-?\d+(?:\.\d+)?\s+(?:and|to)\s+-?\d+"
             r"|(calculate|what is|what\'s)\s+\d"
             r"|\d+\s*(km|m|kg|celsius|fahrenheit|°c|°f)\b"
             r"|\bfactorial\b|\d+\s*!",
