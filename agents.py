@@ -1315,7 +1315,8 @@ ROUTES = [
         r"```|def |import |print\(|for .* in |=\s*\d|"
         r"\b(write|implement|create|define|make)\b.{0,80}\b("
         r"function|class|script|program|module|code)\b|"
-        r"\bpython function\b",
+        r"\bpython function\b|"
+        r"\bleetcode\s*\d+\b",
         re.I,
     ), "code"),
     (re.compile(r"\b(traceback|Error:|Exception|ModuleNotFoundError|SyntaxError|NameError|"
