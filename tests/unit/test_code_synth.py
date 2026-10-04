@@ -3230,3 +3230,72 @@ def test_p127_next_greater_iii_skyline_bulls():
     assert _wants_code_written("implement max increase to keep city skyline leetcode 807")
     assert not _wants_code_written("```python\nprint(1)\n```")
     assert not _wants_code_written("print(2 + 2)")
+
+
+def test_p128_queue_rooms_koko_letters_envelopes_division():
+    cases = {
+        "write a python function queue reconstruction by height leetcode 406": "def reconstructQueue",
+        "write a python function serialize binary tree leetcode 297": "def serialize",
+        "write a python function koko eating bananas leetcode 875": "def minEatingSpeed",
+        "write a python function remove duplicate letters leetcode 316": "def removeDuplicateLetters",
+        "write a python function russian doll envelopes leetcode 354": "def maxEnvelopes",
+        "write a python function evaluate division leetcode 399": "def calcEquation",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    # do not steal remove-duplicates-from-array or next-greater
+    plain = synthesize_python("write a python function remove duplicates from sorted array")
+    assert "def removeDuplicateLetters" not in plain
+    rooms = synthesize_python("write a python function for meeting rooms ii")
+    assert "def meeting_rooms_ii" in rooms
+    assert "def serialize" not in rooms
+
+
+def test_p129_reverse_add_password():
+    cases = {
+        "reverse string leetcode 344": "def reverseString",
+        "reverse string ii leetcode 541": "def reverseStr",
+        "add two numbers ii leetcode 445": "def addTwoNumbers",
+        "strong password checker leetcode 420": "def strongPasswordChecker",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+        assert bundle["fallback"] is False
+    plain = synthesize_python("write a function to reverse a string")
+    assert "def reverse_string" in plain
+    assert "def reverseString" not in plain
+    add = synthesize_python("add two numbers")
+    assert "def add(" in add
+    assert "def addTwoNumbers" not in add
+    rooms = synthesize_python("write a python function for meeting rooms ii")
+    assert "def meeting_rooms_ii" in rooms
+    assert "def minMeetingRooms" not in rooms
+
+
+def test_p130_graph_dp_board():
+    cases = {
+        "swim in rising water leetcode 778": "def swimInWater",
+        "path with minimum effort leetcode 1631": "def minimumEffortPath",
+        "shortest path in binary matrix leetcode 1091": "def shortestPathBinaryMatrix",
+        "snakes and ladders leetcode 909": "def snakesAndLadders",
+        "bus routes leetcode 815": "def numBusesToDestination",
+        "sequence reconstruction leetcode 444": "def sequenceReconstruction",
+        "implement cherry pickup leetcode 741": "def cherryPickup",
+        "implement odd even jump leetcode 975": "def oddEvenJumps",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+        assert bundle["fallback"] is False
+    add = synthesize_python("write a python function that adds two numbers")
+    assert "def add(" in add
+    rooms = synthesize_python("write a python function for meeting rooms ii")
+    assert "def meeting_rooms_ii" in rooms

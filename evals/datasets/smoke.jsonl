@@ -1043,3 +1043,21 @@
 {"id": "code_1003", "category": "coding", "input": "implement max increase to keep city skyline leetcode 807", "expect_contains": ["def maxIncreaseKeepingSkyline", "Verified"]}
 {"id": "code_1004", "category": "coding", "input": "write a function bulls and cows leetcode 299", "expect_contains": ["def getHint", "Verified"]}
 {"id": "code_1005", "category": "coding", "input": "implement string to integer atoi", "expect_contains": ["def myAtoi", "Verified"]}
+{"id": "code_1006", "category": "coding", "input": "write a python function queue reconstruction by height leetcode 406", "expect_contains": ["def reconstructQueue", "Verified"]}
+{"id": "code_1007", "category": "coding", "input": "write a python function serialize binary tree leetcode 297", "expect_contains": ["def serialize", "Verified"]}
+{"id": "code_1008", "category": "coding", "input": "write a python function koko eating bananas leetcode 875", "expect_contains": ["def minEatingSpeed", "Verified"]}
+{"id": "code_1009", "category": "coding", "input": "write a python function remove duplicate letters leetcode 316", "expect_contains": ["def removeDuplicateLetters", "Verified"]}
+{"id": "code_1010", "category": "coding", "input": "write a python function russian doll envelopes leetcode 354", "expect_contains": ["def maxEnvelopes", "Verified"]}
+{"id": "code_1011", "category": "coding", "input": "write a python function evaluate division leetcode 399", "expect_contains": ["def calcEquation", "Verified"]}
+{"id": "code_1012", "category": "coding", "input": "reverse string leetcode 344", "expect_contains": ["def reverseString", "Verified"]}
+{"id": "code_1013", "category": "coding", "input": "reverse string ii leetcode 541", "expect_contains": ["def reverseStr", "Verified"]}
+{"id": "code_1014", "category": "coding", "input": "add two numbers ii leetcode 445", "expect_contains": ["def addTwoNumbers", "Verified"]}
+{"id": "code_1015", "category": "coding", "input": "strong password checker leetcode 420", "expect_contains": ["def strongPasswordChecker", "Verified"]}
+{"id": "code_1016", "category": "coding", "input": "swim in rising water leetcode 778", "expect_contains": ["def swimInWater", "Verified"]}
+{"id": "code_1017", "category": "coding", "input": "path with minimum effort leetcode 1631", "expect_contains": ["def minimumEffortPath", "Verified"]}
+{"id": "code_1018", "category": "coding", "input": "shortest path in binary matrix leetcode 1091", "expect_contains": ["def shortestPathBinaryMatrix", "Verified"]}
+{"id": "code_1019", "category": "coding", "input": "snakes and ladders leetcode 909", "expect_contains": ["def snakesAndLadders", "Verified"]}
+{"id": "code_1020", "category": "coding", "input": "bus routes leetcode 815", "expect_contains": ["def numBusesToDestination", "Verified"]}
+{"id": "code_1021", "category": "coding", "input": "sequence reconstruction leetcode 444", "expect_contains": ["def sequenceReconstruction", "Verified"]}
+{"id": "code_1022", "category": "coding", "input": "implement cherry pickup leetcode 741", "expect_contains": ["def cherryPickup", "Verified"]}
+{"id": "code_1023", "category": "coding", "input": "implement odd even jump leetcode 975", "expect_contains": ["def oddEvenJumps", "Verified"]}
