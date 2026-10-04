@@ -1098,3 +1098,81 @@
 {"id": "code_1057", "category": "coding", "input": "satisfiability of equality equations leetcode 990", "expect_contains": ["def equationsPossible", "Verified"]}
 {"id": "code_1058", "category": "coding", "input": "count unreachable pairs of nodes in an undirected graph leetcode 2316", "expect_contains": ["def countPairs", "Verified"]}
 {"id": "code_1059", "category": "coding", "input": "find closest node to given two nodes leetcode 2359", "expect_contains": ["def closestMeetingNode", "Verified"]}
+{"id": "code_1060", "category": "coding", "input": "the maze iii leetcode 499", "expect_contains": ["def findShortestWay", "Verified"]}
+{"id": "code_1061", "category": "coding", "input": "regions cut by slashes leetcode 959", "expect_contains": ["def regionsBySlashes", "Verified"]}
+{"id": "code_1062", "category": "coding", "input": "smallest string with swaps leetcode 1202", "expect_contains": ["def smallestStringWithSwaps", "Verified"]}
+{"id": "code_1063", "category": "coding", "input": "accounts merge leetcode 721", "expect_contains": ["def accountsMerge", "Verified"]}
+{"id": "code_1064", "category": "coding", "input": "redundant connection leetcode 684", "expect_contains": ["def findRedundantConnection", "Verified"]}
+{"id": "code_1065", "category": "coding", "input": "similar string groups leetcode 839", "expect_contains": ["def numSimilarGroups", "Verified"]}
+{"id": "code_1066", "category": "coding", "input": "redundant connection ii leetcode 685", "expect_contains": ["def findRedundantDirectedConnection", "Verified"]}
+{"id": "code_1067", "category": "coding", "input": "shortest path with alternating colors leetcode 1129", "expect_contains": ["def shortestAlternatingPaths", "Verified"]}
+{"id": "code_1068", "category": "coding", "input": "network delay time leetcode 743", "expect_contains": ["def networkDelayTime", "Verified"]}
+{"id": "code_1069", "category": "coding", "input": "cheapest flights within k stops leetcode 787", "expect_contains": ["def findCheapestPrice", "Verified"]}
+{"id": "code_1070", "category": "coding", "input": "open the lock leetcode 752", "expect_contains": ["def openLock", "Verified"]}
+{"id": "code_1071", "category": "coding", "input": "critical connections in a network leetcode 1192", "expect_contains": ["def criticalConnections", "Verified"]}
+{"id": "code_1072", "category": "coding", "input": "number of operations to make network connected leetcode 1319", "expect_contains": ["def makeConnected", "Verified"]}
+{"id": "code_1073", "category": "coding", "input": "most stones removed with same row or column leetcode 947", "expect_contains": ["def removeStones", "Verified"]}
+{"id": "code_1074", "category": "coding", "input": "find the city with the smallest number of neighbors at a threshold distance leetcode 1334", "expect_contains": ["def findTheCity", "Verified"]}
+{"id": "code_1075", "category": "coding", "input": "minimum obstacle removal to reach corner leetcode 2290", "expect_contains": ["def minimumObstacles", "Verified"]}
+{"id": "code_1076", "category": "coding", "input": "number of distinct islands leetcode 694", "expect_contains": ["def numDistinctIslands", "Verified"]}
+{"id": "code_1077", "category": "coding", "input": "connecting cities with minimum cost leetcode 1135", "expect_contains": ["def minimumCost", "Verified"]}
+{"id": "code_1078", "category": "coding", "input": "count the number of complete components leetcode 2685", "expect_contains": ["def countCompleteComponents", "Verified"]}
+{"id": "code_1079", "category": "coding", "input": "checking existence of edge length limited paths leetcode 1697", "expect_contains": ["def distanceLimitedPathsExist", "Verified"]}
+{"id": "code_1080", "category": "coding", "input": "find critical and pseudo-critical edges in minimum spanning tree leetcode 1489", "expect_contains": ["def findCriticalAndPseudoCriticalEdges", "Verified"]}
+{"id": "code_1081", "category": "coding", "input": "minimum score of a path between two cities leetcode 2492", "expect_contains": ["def minScore", "Verified"]}
+{"id": "code_1082", "category": "coding", "input": "minimum cost to make at least one valid path in a grid leetcode 1368", "expect_contains": ["def minCost", "Verified"]}
+{"id": "code_1083", "category": "coding", "input": "number of restricted paths from first to last node leetcode 1786", "expect_contains": ["def countRestrictedPaths", "Verified"]}
+{"id": "code_1084", "category": "coding", "input": "number of ways to arrive at destination leetcode 1976", "expect_contains": ["def countPaths", "Verified"]}
+{"id": "code_1085", "category": "coding", "input": "minimum fuel cost to report to the capital leetcode 2477", "expect_contains": ["def minimumFuelCost", "Verified"]}
+{"id": "code_1086", "category": "coding", "input": "minimum cost to reach destination in time leetcode 1928", "expect_contains": ["def minCost", "Verified"]}
+{"id": "code_1087", "category": "coding", "input": "reachable nodes in subdivided graph leetcode 882", "expect_contains": ["def reachableNodes", "Verified"]}
+{"id": "code_1088", "category": "coding", "input": "second minimum time to reach destination leetcode 2045", "expect_contains": ["def secondMinimum", "Verified"]}
+{"id": "code_1089", "category": "coding", "input": "find all people with secret leetcode 2092", "expect_contains": ["def findAllPeople", "Verified"]}
+{"id": "code_1090", "category": "coding", "input": "the earliest moment when everyone become friends leetcode 1101", "expect_contains": ["def earliestAcq", "Verified"]}
+{"id": "code_1091", "category": "coding", "input": "optimize water distribution in a village leetcode 1168", "expect_contains": ["def minCostToSupplyWater", "Verified"]}
+{"id": "code_1092", "category": "coding", "input": "minimum time to visit a cell in a grid leetcode 2577", "expect_contains": ["def minimumTime", "Verified"]}
+{"id": "code_1093", "category": "coding", "input": "shortest path visiting all nodes leetcode 847", "expect_contains": ["def shortestPathLength", "Verified"]}
+{"id": "code_1094", "category": "coding", "input": "last day where you can still cross leetcode 1970", "expect_contains": ["def latestDayToCross", "Verified"]}
+{"id": "code_1095", "category": "coding", "input": "word ladder leetcode 127", "expect_contains": ["def ladderLength", "Verified"]}
+{"id": "code_1096", "category": "coding", "input": "minimum operations to convert number leetcode 2059", "expect_contains": ["def minimumOperations", "Verified"]}
+{"id": "code_1097", "category": "coding", "input": "escape the ghosts leetcode 789", "expect_contains": ["def escapeGhosts", "Verified"]}
+{"id": "code_1098", "category": "coding", "input": "escape a large maze leetcode 1036", "expect_contains": ["def isEscapePossible", "Verified"]}
+{"id": "code_1099", "category": "coding", "input": "shortest path to get food leetcode 1730", "expect_contains": ["def getFood", "Verified"]}
+{"id": "code_1100", "category": "coding", "input": "check if there is a valid path in a grid leetcode 1391", "expect_contains": ["def hasValidPath", "Verified"]}
+{"id": "code_1101", "category": "coding", "input": "minimum jumps to reach home leetcode 1654", "expect_contains": ["def minimumJumps", "Verified"]}
+{"id": "code_1102", "category": "coding", "input": "minimum moves to move a box to their target location leetcode 1263", "expect_contains": ["def minPushBox", "Verified"]}
+{"id": "code_1103", "category": "coding", "input": "parallel courses iii leetcode 2050", "expect_contains": ["def minimumTime", "Verified"]}
+{"id": "code_1104", "category": "coding", "input": "minimum number of days to disconnect island leetcode 1568", "expect_contains": ["def minDays", "Verified"]}
+{"id": "code_1105", "category": "coding", "input": "as far from land as possible leetcode 1162", "expect_contains": ["def maxDistance", "Verified"]}
+{"id": "code_1106", "category": "coding", "input": "time needed to inform all employees leetcode 1376", "expect_contains": ["def numOfMinutes", "Verified"]}
+{"id": "code_1107", "category": "coding", "input": "minimum number of vertices to reach all nodes leetcode 1557", "expect_contains": ["def findSmallestSetOfVertices", "Verified"]}
+{"id": "code_1108", "category": "coding", "input": "word ladder ii leetcode 126 all shortest transformation sequences", "expect_contains": ["def findLadders", "Verified"]}
+{"id": "code_1109", "category": "coding", "input": "ipo leetcode 502 maximized capital", "expect_contains": ["def findMaximizedCapital", "Verified"]}
+{"id": "code_1110", "category": "coding", "input": "maximum performance of a team leetcode 1383", "expect_contains": ["def maxPerformance", "Verified"]}
+{"id": "code_1111", "category": "coding", "input": "furthest building you can reach leetcode 1642", "expect_contains": ["def furthestBuilding", "Verified"]}
+{"id": "code_1112", "category": "coding", "input": "minimum cost to hire k workers leetcode 857", "expect_contains": ["def mincostToHireWorkers", "Verified"]}
+{"id": "code_1113", "category": "coding", "input": "minimum number of refueling stops leetcode 871", "expect_contains": ["def minRefuelStops", "Verified"]}
+{"id": "code_1114", "category": "coding", "input": "strange printer leetcode 664", "expect_contains": ["def strangePrinter", "Verified"]}
+{"id": "code_1115", "category": "coding", "input": "minimum cost to cut a stick leetcode 1547", "expect_contains": ["def minCost", "Verified"]}
+{"id": "code_1116", "category": "coding", "input": "cat and mouse game leetcode 913", "expect_contains": ["def catMouseGame", "Verified"]}
+{"id": "code_1117", "category": "coding", "input": "super egg drop leetcode 887", "expect_contains": ["def superEggDrop", "Verified"]}
+{"id": "code_1118", "category": "coding", "input": "palindrome partitioning ii leetcode 132 minimum cuts", "expect_contains": ["def minCut", "Verified"]}
+{"id": "code_1119", "category": "coding", "input": "maximum profit in job scheduling leetcode 1235", "expect_contains": ["def jobScheduling", "Verified"]}
+{"id": "code_1120", "category": "coding", "input": "cat and mouse ii leetcode 1728", "expect_contains": ["def canMouseWin", "Verified"]}
+{"id": "code_1121", "category": "coding", "input": "minimum cost to merge stones leetcode 1000", "expect_contains": ["def mergeStones", "Verified"]}
+{"id": "code_1122", "category": "coding", "input": "longest palindromic substring leetcode 5", "expect_contains": ["def longestPalindrome", "Verified"]}
+{"id": "code_1123", "category": "coding", "input": "shortest common supersequence leetcode 1092", "expect_contains": ["def shortestCommonSupersequence", "Verified"]}
+{"id": "code_1124", "category": "coding", "input": "distinct subsequences ii leetcode 940", "expect_contains": ["def distinctSubseqII", "Verified"]}
+{"id": "code_1125", "category": "coding", "input": "minimum score triangulation leetcode 1039", "expect_contains": ["def minScoreTriangulation", "Verified"]}
+{"id": "code_1132", "category": "coding", "input": "maximize sum of array after k negations leetcode 1005", "expect_contains": ["def largestSumAfterKNegations", "Verified"]}
+{"id": "code_1133", "category": "coding", "input": "count negative numbers in a sorted matrix leetcode 1351", "expect_contains": ["def countNegatives", "Verified"]}
+{"id": "code_1134", "category": "coding", "input": "sort integers by the number of 1 bits leetcode 1356", "expect_contains": ["def sortByBits", "Verified"]}
+{"id": "code_1135", "category": "coding", "input": "verifying an alien dictionary leetcode 953", "expect_contains": ["def isAlienSorted", "Verified"]}
+{"id": "code_1136", "category": "coding", "input": "distribute candies to people leetcode 1103", "expect_contains": ["def distributeCandies", "Verified"]}
+{"id": "code_1137", "category": "coding", "input": "convert integer to the sum of two no-zero integers leetcode 1317", "expect_contains": ["def getNoZeroIntegers", "Verified"]}
+{"id": "code_1138", "category": "coding", "input": "write a function to check if one string can break another string", "expect_contains": ["def check_if_can_break", "Verified"]}
+{"id": "code_1139", "category": "coding", "input": "determine whether matrix can be obtained by rotation", "expect_contains": ["def find_rotation", "Verified"]}
+{"id": "code_1140", "category": "coding", "input": "number of valid words in a sentence", "expect_contains": ["def count_valid_words", "Verified"]}
+{"id": "code_1141", "category": "coding", "input": "largest 3-same-digit number in string", "expect_contains": ["def largest_good_integer", "Verified"]}
+{"id": "code_1142", "category": "coding", "input": "optimal partition of string", "expect_contains": ["def partition_string", "Verified"]}
+{"id": "code_1143", "category": "coding", "input": "minimum rounds to complete all tasks", "expect_contains": ["def minimum_rounds", "Verified"]}
