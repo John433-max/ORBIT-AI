@@ -86,18 +86,28 @@ def _is_math(text: str) -> bool:
 
 
 def _is_code(text: str) -> bool:
-    return bool(
-        re.search(
-            r"```|^\s*def |import |print\(|"
-            r"write (a |some )?code|"
-            r"\b(write|implement|create|define|make)\b.{0,80}\b("
-            r"function|def |class |script|program|module|code)\b|"
-            r"\bpython function\b|"
-            r"\bimplement\b.{0,40}\bin python\b",
-            text,
-            re.I,
-        )
-    )
+    raw = text or ""
+    if re.search(
+        r"```|^\s*def |import |print\(|"
+        r"write (a |some )?code|"
+        r"\b(write|implement|create|define|make)\b.{0,80}\b("
+        r"function|def |class |script|program|module|code)\b|"
+        r"\bpython function\b|"
+        r"\bimplement\b.{0,40}\bin python\b",
+        raw,
+        re.I,
+    ):
+        return True
+    # Cycle 405: "implement <problem>" / leetcode ids were statements, so
+    # Thinker stored them as memory or answered with the toy-scale hedge.
+    if re.search(r"\bleetcode\s*\d+\b", raw, re.I):
+        return True
+    if re.search(r"^\s*(implement|write)\b", raw, re.I) and not re.search(
+        r"^\s*(def |class |import |from |print\()",
+        raw,
+    ):
+        return True
+    return False
 
 
 def _is_lab(text: str) -> bool:

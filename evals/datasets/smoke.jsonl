@@ -1033,3 +1033,13 @@
 {"id": "code_993", "category": "coding", "input": "write a python function insert interval leetcode 57", "expect_contains": ["def insert_interval", "Verified"]}
 {"id": "code_994", "category": "coding", "input": "write a python function interval list intersections leetcode 986", "expect_contains": ["def interval_intersection", "Verified"]}
 {"id": "code_995", "category": "coding", "input": "write a python function non-overlapping intervals leetcode 435", "expect_contains": ["def erase_overlap_intervals", "Verified"]}
+{"id": "code_996", "category": "coding", "input": "write a python function maximum product of two elements in an array leetcode 1464", "expect_contains": ["def max_product", "Verified"]}
+{"id": "code_997", "category": "coding", "input": "write a python function car pooling leetcode 1094", "expect_contains": ["def carPooling", "Verified"]}
+{"id": "code_998", "category": "coding", "input": "write a python function partition labels leetcode 763", "expect_contains": ["def partitionLabels", "Verified"]}
+{"id": "code_999", "category": "coding", "input": "write a python function zigzag conversion leetcode 6", "expect_contains": ["def convert", "Verified"]}
+{"id": "code_1000", "category": "coding", "input": "write a python function string to integer atoi leetcode 8", "expect_contains": ["def myAtoi", "Verified"]}
+{"id": "code_1001", "category": "coding", "input": "write a python function sort characters by frequency leetcode 451", "expect_contains": ["def frequencySort", "Verified"]}
+{"id": "code_1002", "category": "coding", "input": "write a function for next greater element III leetcode 556", "expect_contains": ["def nextGreaterElement", "Verified"]}
+{"id": "code_1003", "category": "coding", "input": "implement max increase to keep city skyline leetcode 807", "expect_contains": ["def maxIncreaseKeepingSkyline", "Verified"]}
+{"id": "code_1004", "category": "coding", "input": "write a function bulls and cows leetcode 299", "expect_contains": ["def getHint", "Verified"]}
+{"id": "code_1005", "category": "coding", "input": "implement string to integer atoi", "expect_contains": ["def myAtoi", "Verified"]}

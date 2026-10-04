@@ -3190,3 +3190,43 @@ def test_p125_covered_days_arrows_insert_intersect_erase():
     assert "def erase_overlap_intervals" not in synthesize_python(
         "write a python function merge intervals"
     )
+
+
+def test_p126_product_carpool_partition_zigzag_atoi_freq():
+    cases = {
+        "write a python function maximum product of two elements in an array leetcode 1464": "def max_product",
+        "write a python function car pooling leetcode 1094": "def carPooling",
+        "write a python function partition labels leetcode 763": "def partitionLabels",
+        "write a python function zigzag conversion leetcode 6": "def convert",
+        "write a python function string to integer atoi leetcode 8": "def myAtoi",
+        "write a python function sort characters by frequency leetcode 451": "def frequencySort",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    plain = synthesize_python("write a python function to multiply two numbers")
+    assert "def multiply" in plain
+    assert "def max_product" not in plain
+
+
+def test_p127_next_greater_iii_skyline_bulls():
+    cases = {
+        "write a function for next greater element III leetcode 556": "def nextGreaterElement",
+        "implement max increase to keep city skyline leetcode 807": "def maxIncreaseKeepingSkyline",
+        "write a function bulls and cows leetcode 299": "def getHint",
+        "implement string to integer atoi": "def myAtoi",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+    plain = synthesize_python("write a python function next greater element")
+    assert "def next_greater_element" in plain
+    assert "def nextGreaterElement" not in plain
+    from agents import _wants_code_written
+    assert _wants_code_written("implement max increase to keep city skyline leetcode 807")
+    assert not _wants_code_written("```python\nprint(1)\n```")
+    assert not _wants_code_written("print(2 + 2)")

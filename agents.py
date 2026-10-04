@@ -74,18 +74,28 @@ def _registry_from_context(context: dict):
 
 def _wants_code_written(request: str) -> bool:
     """Natural-language 'write/implement a function' — not a fenced snippet to run."""
-    if re.search(r"```", request or ""):
+    text = request or ""
+    if re.search(r"```", text):
         return False
-    return bool(
-        re.search(
-            r"\b(write|implement|create|define|make)\b.{0,80}\b("
-            r"function|def |class |script|program|module|code)\b|"
-            r"\bpython function\b|"
-            r"\bimplement\b.{0,40}\bin python\b",
-            request or "",
-            re.I,
-        )
-    )
+    if re.search(
+        r"\b(write|implement|create|define|make)\b.{0,80}\b("
+        r"function|def |class |script|program|module|code)\b|"
+        r"\bpython function\b|"
+        r"\bimplement\b.{0,40}\bin python\b",
+        text,
+        re.I,
+    ):
+        return True
+    # Cycle 405: "implement <problem>" and "leetcode N" without the word
+    # function were executed as Python and rejected (syntax error).
+    if re.search(r"\bleetcode\s*\d+\b", text, re.I):
+        return True
+    if re.search(r"^\s*(implement|write)\b", text, re.I) and not re.search(
+        r"^\s*(def |class |import |from |print\()",
+        text,
+    ):
+        return True
+    return False
 
 
 def _synthesize_bundle(request: str) -> dict:
