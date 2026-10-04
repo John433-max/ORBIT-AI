@@ -53,7 +53,10 @@ def templates() -> list[Template]:
             "                bal -= 1\n"
             "            else:\n"
             "                add += 1\n"
-            "    return add + bal\n",
+            "    return add + bal\n"
+            "\n"
+            "def min_add_parentheses(s):\n"
+            "    return min_add_to_make_valid(s)\n",
             lambda low: bool(
                 re.search(r"\bleetcode 921\b", low)
                 or "minimum add to make parentheses valid" in low
