@@ -1092,3 +1092,9 @@
 {"id": "code_1051", "category": "coding", "input": "flower planting with no adjacent gardens leetcode 1042", "expect_contains": ["def gardenNoAdj", "Verified"]}
 {"id": "code_1052", "category": "coding", "input": "nearest exit from entrance in maze leetcode 1926", "expect_contains": ["def nearestExit", "Verified"]}
 {"id": "code_1053", "category": "coding", "input": "max area of island leetcode 695", "expect_contains": ["def maxAreaOfIsland", "Verified"]}
+{"id": "code_1054", "category": "coding", "input": "the maze leetcode 490", "expect_contains": ["def hasPath", "Verified"]}
+{"id": "code_1055", "category": "coding", "input": "the maze ii leetcode 505", "expect_contains": ["def shortestDistance", "Verified"]}
+{"id": "code_1056", "category": "coding", "input": "sentence similarity ii leetcode 737", "expect_contains": ["def areSentencesSimilarTwo", "Verified"]}
+{"id": "code_1057", "category": "coding", "input": "satisfiability of equality equations leetcode 990", "expect_contains": ["def equationsPossible", "Verified"]}
+{"id": "code_1058", "category": "coding", "input": "count unreachable pairs of nodes in an undirected graph leetcode 2316", "expect_contains": ["def countPairs", "Verified"]}
+{"id": "code_1059", "category": "coding", "input": "find closest node to given two nodes leetcode 2359", "expect_contains": ["def closestMeetingNode", "Verified"]}

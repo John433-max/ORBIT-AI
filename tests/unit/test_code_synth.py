@@ -3403,3 +3403,22 @@ def test_p136_missing_graph():
         assert out["verified"] and not out["fallback"], out
     assert match_template("can place flowers in a flowerbed").name == "can_place_flowers"
     assert match_template("is graph bipartite").name == "is_bipartite"
+
+
+def test_p137_maze_union():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "the maze leetcode 490": "the_maze",
+        "the maze ii leetcode 505": "the_maze_ii",
+        "sentence similarity ii leetcode 737": "sentence_similarity_ii",
+        "satisfiability of equality equations leetcode 990": "equality_equations",
+        "count unreachable pairs of nodes in an undirected graph leetcode 2316": "unreachable_pairs",
+        "find closest node to given two nodes leetcode 2359": "closest_meeting_node",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], out
+    assert match_template("nearest exit from entrance in maze leetcode 1926").name == "nearest_exit"
+    assert match_template("is graph bipartite").name == "is_bipartite"

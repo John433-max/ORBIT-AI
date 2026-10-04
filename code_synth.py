@@ -32,6 +32,7 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p137",
         "code_synth_p136",
         "code_synth_p135",
         "code_synth_p134",
