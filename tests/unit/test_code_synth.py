@@ -3299,3 +3299,66 @@ def test_p130_graph_dp_board():
     assert "def add(" in add
     rooms = synthesize_python("write a python function for meeting rooms ii")
     assert "def meeting_rooms_ii" in rooms
+
+
+def test_p132_taps_jobs_puzzle():
+    cases = {
+        "minimum number of taps to open to water a garden leetcode 1326": "def minTaps",
+        "shortest path visiting all nodes leetcode 847": "def shortestPathLength",
+        "maximum profit in job scheduling leetcode 1235": "def jobScheduling",
+        "sliding puzzle leetcode 773": "def slidingPuzzle",
+        "minimum cost to make at least one valid path leetcode 1368": "def minCost",
+        "race car leetcode 818": "def racecar",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+        assert bundle["fallback"] is False
+    stock = synthesize_python("write a python function that computes max profit on a stock")
+    assert "def max_profit" in stock
+    lock = synthesize_python("open the lock leetcode 752")
+    assert "def openLock" in lock or "def open_lock" in lock
+
+
+def test_p133_trees_keys_knight():
+    cases = {
+        "cut off trees for golf event leetcode 675": "def cutOffTree",
+        "shortest path to get all keys leetcode 864": "def shortestPathAllKeys",
+        "shortest path in a grid with obstacles elimination leetcode 1293": "def shortestPath",
+        "dungeon game leetcode 174": "def calculateMinimumHP",
+        "knight probability in chessboard leetcode 688": "def knightProbability",
+        "minimum knight moves leetcode 1197": "def minKnightMoves",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+        assert bundle["fallback"] is False
+    stock = synthesize_python("write a python function that computes max profit on a stock")
+    assert "def max_profit" in stock
+    lock = synthesize_python("open the lock leetcode 752")
+    assert "def openLock" in lock or "def open_lock" in lock
+
+
+def test_p134_gates_enclaves():
+    cases = {
+        "walls and gates leetcode 286": "def wallsAndGates",
+        "as far from land as possible leetcode 1162": "def maxDistance",
+        "path with maximum probability leetcode 1514": "def maxProbability",
+        "number of enclaves leetcode 1020": "def numEnclaves",
+        "making a large island leetcode 827": "def largestIsland",
+        "minimum genetic mutation leetcode 433": "def minMutation",
+    }
+    for q, needle in cases.items():
+        src = synthesize_python(q)
+        assert needle in src, (q, src[:240])
+        bundle = synthesize_and_verify(q)
+        assert bundle["verified"] is True, (q, bundle)
+        assert bundle["fallback"] is False
+    islands = synthesize_python("number of islands leetcode 200")
+    assert "def num_islands" in islands or "def numIslands" in islands
+    knight = synthesize_python("knight probability in chessboard leetcode 688")
+    assert "def knightProbability" in knight

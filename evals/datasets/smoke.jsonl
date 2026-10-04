@@ -1061,3 +1061,22 @@
 {"id": "code_1021", "category": "coding", "input": "sequence reconstruction leetcode 444", "expect_contains": ["def sequenceReconstruction", "Verified"]}
 {"id": "code_1022", "category": "coding", "input": "implement cherry pickup leetcode 741", "expect_contains": ["def cherryPickup", "Verified"]}
 {"id": "code_1023", "category": "coding", "input": "implement odd even jump leetcode 975", "expect_contains": ["def oddEvenJumps", "Verified"]}
+{"id": "code_1024", "category": "coding", "input": "minimum number of taps to open to water a garden leetcode 1326", "expect_contains": ["def minTaps", "Verified"]}
+{"id": "code_1025", "category": "coding", "input": "shortest path visiting all nodes leetcode 847", "expect_contains": ["def shortestPathLength", "Verified"]}
+{"id": "code_1026", "category": "coding", "input": "maximum profit in job scheduling leetcode 1235", "expect_contains": ["def jobScheduling", "Verified"]}
+{"id": "code_1027", "category": "coding", "input": "sliding puzzle leetcode 773", "expect_contains": ["def slidingPuzzle", "Verified"]}
+{"id": "code_1028", "category": "coding", "input": "minimum cost to make at least one valid path leetcode 1368", "expect_contains": ["def minCost", "Verified"]}
+{"id": "code_1029", "category": "coding", "input": "race car leetcode 818", "expect_contains": ["def racecar", "Verified"]}
+{"id": "math_add_and", "category": "math", "input": "add 12 and 7", "expect_contains": ["19"]}
+{"id": "code_1030", "category": "coding", "input": "cut off trees for golf event leetcode 675", "expect_contains": ["def cutOffTree", "Verified"]}
+{"id": "code_1031", "category": "coding", "input": "shortest path to get all keys leetcode 864", "expect_contains": ["def shortestPathAllKeys", "Verified"]}
+{"id": "code_1032", "category": "coding", "input": "shortest path in a grid with obstacles elimination leetcode 1293", "expect_contains": ["def shortestPath", "Verified"]}
+{"id": "code_1033", "category": "coding", "input": "dungeon game leetcode 174", "expect_contains": ["def calculateMinimumHP", "Verified"]}
+{"id": "code_1034", "category": "coding", "input": "knight probability in chessboard leetcode 688", "expect_contains": ["def knightProbability", "Verified"]}
+{"id": "code_1035", "category": "coding", "input": "minimum knight moves leetcode 1197", "expect_contains": ["def minKnightMoves", "Verified"]}
+{"id": "code_1036", "category": "coding", "input": "walls and gates leetcode 286", "expect_contains": ["def wallsAndGates", "Verified"]}
+{"id": "code_1037", "category": "coding", "input": "as far from land as possible leetcode 1162", "expect_contains": ["def maxDistance", "Verified"]}
+{"id": "code_1038", "category": "coding", "input": "path with maximum probability leetcode 1514", "expect_contains": ["def maxProbability", "Verified"]}
+{"id": "code_1039", "category": "coding", "input": "number of enclaves leetcode 1020", "expect_contains": ["def numEnclaves", "Verified"]}
+{"id": "code_1040", "category": "coding", "input": "making a large island leetcode 827", "expect_contains": ["def largestIsland", "Verified"]}
+{"id": "code_1041", "category": "coding", "input": "minimum genetic mutation leetcode 433", "expect_contains": ["def minMutation", "Verified"]}
