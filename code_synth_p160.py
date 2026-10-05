@@ -1,4 +1,4 @@
-"""Cycle 441: deep copy, longest word, filter even, query parse, order-free equality, drop None.
+"""Cycle 441: deep copy, longest word, filter even, query parse, order-free equality, drop None, title case, reverse words, camel to snake.
 
 These asks fell through to the NotImplemented draft. filter_even loads before
 is_even so "filter even numbers" is not classified as a boolean even-check.
@@ -82,6 +82,55 @@ def templates() -> list[Template]:
                 (([1, 2, 2], [2, 1, 2]), True),
                 (([1, 2], [1, 2, 2]), False),
             ),
+        ),
+        T(
+            "title_case",
+            "def title_case(s):\n"
+            '    """Capitalize each whitespace-separated word."""\n'
+            "    return \" \".join(\n"
+            "        (w[:1].upper() + w[1:].lower()) if w else w for w in str(s).split(\" \")\n"
+            "    )\n",
+            lambda low: bool(
+                re.search(
+                    r"\b(title[- ]?cas(?:e|es|ing)|titlecase|capitalize(?:s|d)? each word|capitalize(?:s|d)? every word)\b",
+                    low,
+                )
+            )
+            and "leetcode" not in low,
+            ((("hello world",), "Hello World"), (("ORBIT ai",), "Orbit Ai")),
+        ),
+        T(
+            "reverse_words",
+            "def reverse_words(s):\n"
+            '    """Reverse the order of whitespace-separated words."""\n'
+            "    return \" \".join(str(s).split()[::-1])\n",
+            lambda low: bool(re.search(r"\brevers(?:e|es|ing)\b", low))
+            and bool(re.search(r"\bwords?\b", low))
+            and "linked" not in low
+            and "integer" not in low
+            and "bits" not in low
+            and "vowels" not in low,
+            ((("hello world",), "world hello"), (("a",), "a")),
+        ),
+        T(
+            "camel_to_snake",
+            "def camel_to_snake(name):\n"
+            '    """Convert camelCase to snake_case."""\n'
+            "    out = []\n"
+            "    for i, ch in enumerate(str(name)):\n"
+            "        if ch.isupper() and i:\n"
+            "            out.append(\"_\")\n"
+            "            out.append(ch.lower())\n"
+            "        else:\n"
+            "            out.append(ch.lower())\n"
+            "    return \"\".join(out)\n",
+            lambda low: (
+                bool(re.search(r"\bcamel.?to.?snake\b|\bcamelcase to snake\b", low))
+                or ("snake_case" in low and bool(re.search(r"\bconvert", low)))
+            )
+            and "to camel" not in low
+            and "dict" not in low,
+            ((("helloWorld",), "hello_world"), (("A",), "a")),
         ),
         T(
             "drop_none",
