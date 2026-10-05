@@ -3842,3 +3842,22 @@ def test_p160_copy_longest_filter_query_order_none():
         out = synthesize_and_verify(ask)
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a function that checks if a number is even").name == "is_even"
+
+
+def test_p161_interleave_digit_unique_swap_punct_pairs():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a python function that interleaves two lists": "interleave",
+        "write a function that returns the digit sum of a number": "digit_sum",
+        "write a function that returns unique characters in a string": "unique_chars",
+        "write a python function that swaps two variables": "swap_values",
+        "write a function that removes punctuation from a string": "remove_punctuation",
+        "write a python function that converts a list of pairs to a dict": "pairs_to_dict",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a python function to zip two lists into a dict").name == "zip_to_dict"
+    assert match_template("write a function that returns unique items in a list").name != "unique_chars"
