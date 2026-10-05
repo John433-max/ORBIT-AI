@@ -143,7 +143,7 @@ def templates() -> list[Template]:
             "        else:\n"
             "            out.append(ch.lower())\n"
             "    return ''.join(out)\n",
-            lambda low: bool(re.search(r"\bcamel.?to.?snake\b|\bcamelCase to snake\b", low)),
+            lambda low: bool(re.search(r"\bcamel.?to.?snake\b|\bcamelCase to snake\b|\bsnake[_ ]?case\b", low)) and "dict" not in low,
             ((("helloWorld",), "hello_world"), (("A",), "a")),
         ),
         T(

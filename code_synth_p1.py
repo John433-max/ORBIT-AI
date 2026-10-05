@@ -248,6 +248,7 @@ Template(
                     and "linked" not in low
                     and "digit" not in low
                     and "parity" not in low
+                    and "filter" not in low
                     and "array" not in low
                     and "bitwise" not in low
                     and "split" not in low
@@ -533,7 +534,7 @@ Template(
             "def title_case(s):\n"
             '    """Return s with each whitespace-separated word capitalized."""\n'
             "    return ' '.join(w[:1].upper() + w[1:].lower() if w else w for w in str(s).split(' '))\n",
-            lambda low: bool(re.search(r"\b(title[- ]?cas(?:e|es|ing)|titlecase|capitalize(?:s|d)? words)\b", low)),
+            lambda low: bool(re.search(r"\b(title[- ]?cas(?:e|es|ing)|titlecase|capitalize(?:s|d)? words|capitalize(?:s|d)? each word)\b", low)),
             ((("hello world",), "Hello World"), (("ORBIT ai",), "Orbit Ai")),
         ),
         Template(

@@ -413,7 +413,8 @@ def templates():
                     r"\breverse[- ]?words\b|"
                     r"\breverse(?:s|ing)? the (?:order of )?words\b|"
                     r"\bwords in (?:a |the )?string\b.{0,16}\breverse\b|"
-                    r"\breverse\b.{0,24}\bwords in\b",
+                    r"\breverse\b.{0,24}\bwords in\b|"
+                    r"\brevers(?:e|es|ing)\b.{0,32}\bwords\b",
                     low,
                 )
                 and "list" not in low
