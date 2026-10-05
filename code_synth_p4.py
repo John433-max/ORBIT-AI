@@ -44,7 +44,7 @@ def templates() -> list[Template]:
                 (re.search(r"\bmode\b", low) and "list" in low)
                 or re.search(r"\bmost frequent\b", low)
             ),
-            ((([1, 2, 2, 3],), 2), (("a", "b", "a"), "a")),
+            ((([1, 2, 2, 3],), 2), ((("a", "b", "a"),), "a")),
         ),
         T(
             "flatten_deep",
