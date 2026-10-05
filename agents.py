@@ -300,12 +300,13 @@ _GENERIC_SEARCH_NOTES = {
 }
 
 
-def _offline_search_reply(note) -> str:
+def _offline_search_reply(note, query: str = "") -> str:
     """Honest offline line. Drop generic notes that only repeat the failure.
 
     Cycle 357: appending the default ``search failed`` made the user-facing
     reply look like an error dump after the already-honest sentence.
     Specific provider notes (missing API key, exception type) are kept.
+    Cycle 405: echo the user query so the topic is not dropped when web is down.
     """
     base = "I don't have live web access right now, so I can't complete this search."
     text = str(note or "").strip()
@@ -317,10 +318,17 @@ def _offline_search_reply(note) -> str:
         or "don't have live web" in low
         or "can't complete this search" in low
     ):
-        return base
-    if text.endswith("."):
-        return base + " " + text
-    return base + " " + text + "."
+        reply = base
+    elif text.endswith("."):
+        reply = base + " " + text
+    else:
+        reply = base + " " + text + "."
+    q = " ".join(str(query or "").split())
+    if len(q) > 180:
+        q = q[:177].rstrip() + "..."
+    if q:
+        reply = reply + " Query: " + q
+    return reply
 
 
 class ResearchAgent:
@@ -425,7 +433,7 @@ class ResearchAgent:
                 content += "\n\nSources:\n" + "\n".join(f"- {c}" for c in cites[:4])
             return AgentResult(self.name, True, content, raw=result)
         note = result.get("note") or result.get("error") or ""
-        content = _offline_search_reply(note)
+        content = _offline_search_reply(note, query=request)
         return AgentResult(self.name, False, content, raw=result)
 
 
