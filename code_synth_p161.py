@@ -107,8 +107,8 @@ def templates() -> list[Template]:
             and "linked" not in low
             and "zip" not in low,
             (
-                ((("a", 1), ("b", 2)],), {"a": 1, "b": 2}),
-                ((("a", 1), ("a", 3)],), {"a": 3}),
+                (([("a", 1), ("b", 2)],), {"a": 1, "b": 2}),
+                (([("a", 1), ("a", 3)],), {"a": 3}),
             ),
         ),
     ]
