@@ -3861,3 +3861,204 @@ def test_p161_interleave_digit_unique_swap_punct_pairs():
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a python function to zip two lists into a dict").name == "zip_to_dict"
     assert match_template("write a function that returns unique items in a list").name != "unique_chars"
+    # Cycle 443: broad digit_sum must not steal LeetCode siblings.
+    siblings = {
+        "write a python function that sum of digits of string after convert": "get_lucky",
+        "write a python function that count integers with even digit sum": "count_even",
+        "write a python function sum of digits in base k leetcode 1837": "sum_base",
+    }
+    for ask, name in siblings.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+
+def test_p162_collatz_rle_argmax_rot13_slug_ipv4():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a python function that counts collatz steps": "collatz_steps",
+        "write a function that run length encodes a string": "run_length_encode",
+        "write a function that returns the argmax of a list": "argmax_list",
+        "write a python function that applies rot13": "rot13",
+        "write a function that slugifies a title": "slugify",
+        "write a function that checks if a string is a valid ipv4 address": "is_ipv4",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    # Must not steal Caesar, title-case, or defang.
+    assert match_template("write a python function that applies a caesar shift").name == "caesar_shift"
+    assert match_template("write a function that converts a string to title case").name != "slugify"
+    assert match_template("write a function that defangs an ip address").name == "defang_ip_addr"
+
+
+
+
+def test_p163_luhn_atbash_pig_isbn_soundex_hms():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a python function that checks a luhn checksum": "luhn_valid",
+        "write a function that applies the atbash cipher": "atbash",
+        "write a python function that converts text to pig latin": "pig_latin",
+        "write a function that validates an isbn-10": "isbn10_valid",
+        "write a function that returns the soundex code of a name": "soundex",
+        "write a function that converts seconds to hms": "seconds_to_hms",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a python function that applies a caesar shift").name == "caesar_shift"
+    assert match_template("write a python function that applies rot13").name == "rot13"
+
+
+def test_p164_haversine_hamming_morse_hex_email_leap():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a python function that computes haversine distance": "haversine_km",
+        "write a function that returns the hamming distance of two strings": "hamming_distance",
+        "write a python function that encodes text as morse code": "morse_encode",
+        "write a function that converts a hex color to rgb": "hex_to_rgb",
+        "write a function that checks if a string is a valid email": "is_email",
+        "write a function that checks if a year is a leap year": "is_leap_year",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that counts unique morse representations").name == "unique_morse_representations"
+    assert match_template("write a python function that applies a caesar shift").name == "caesar_shift"
+
+
+def test_p165_rgb_base_roman_url_wrap_weekday():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts rgb to hex": "rgb_to_hex",
+        "write a python function that converts an integer to any base": "int_to_base",
+        "write a function that returns the sample standard deviation": "sample_stdev",
+        "write a function that url encodes a string": "url_encode",
+        "write a python function that word wraps text": "word_wrap",
+        "write a function that returns the weekday name of a date": "weekday_name",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts a hex color to rgb").name == "hex_to_rgb"
+    assert match_template("write a function that converts roman numerals to an integer").name == "roman_to_int"
+    assert match_template("write a python function that converts an integer to roman").name == "integer_to_roman"
+    assert match_template("write a function that converts to base7").name == "convert_to_base7"
+
+
+def test_p166_factors_b64_celsius_urldecode_pct_z():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the prime factors of an integer": "prime_factors",
+        "write a function that base64 encodes a string": "base64_encode",
+        "write a function that converts celsius to fahrenheit": "celsius_to_fahrenheit",
+        "write a function that url decodes a string": "url_decode",
+        "write a function that returns the percentile of a list": "percentile",
+        "write a function that returns z-scores of a list": "z_scores",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that checks if a number is prime").name == "is_prime"
+    assert match_template("write a function that decodes a string").name == "decode_string"
+    assert match_template("write a function that url encodes a string").name == "url_encode"
+    assert match_template("write a function that returns the sample standard deviation").name == "sample_stdev"
+
+
+def test_p167_b64decode_f2c_rle_sha_binom_miles():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that base64 decodes a string": "base64_decode",
+        "write a function that converts fahrenheit to celsius": "fahrenheit_to_celsius",
+        "write a function that run-length decodes a list of pairs": "run_length_decode",
+        "write a function that returns the sha256 hex digest of a string": "sha256_hex",
+        "write a function that returns the binomial coefficient n choose k": "binomial",
+        "write a function that converts miles to kilometers": "miles_to_km",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that base64 encodes a string").name == "base64_encode"
+    assert match_template("write a function that converts celsius to fahrenheit").name == "celsius_to_fahrenheit"
+    assert match_template("write a function that run-length encodes a string").name == "run_length_encode"
+    assert match_template("write a function that decodes a string").name == "decode_string"
+    assert match_template("write a function that returns the prime factors of an integer").name == "prime_factors"
+
+
+def test_p168_md5_jaccard_bytes_kebab_html_cosine():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the md5 hex digest of a string": "md5_hex",
+        "write a function that returns the jaccard similarity of two sets": "jaccard_similarity",
+        "write a function that humanizes a byte count": "humanize_bytes",
+        "write a function that converts a string to kebab-case": "kebab_case",
+        "write a function that strips html tags from a string": "strip_html",
+        "write a function that returns the cosine similarity of two vectors": "cosine_similarity",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the sha256 hex digest of a string").name == "sha256_hex"
+    assert match_template("write a function that converts camel case to snake case").name == "camel_to_snake"
+    assert match_template("write a function that converts snake case to camel case").name == "snake_to_camel"
+    assert match_template("write a function that decodes a string").name == "decode_string"
+
+
+def test_p169_sha1_crc32_dice_thousands_query_hms_triangular():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the sha1 hex digest of a string": "sha1_hex",
+        "write a function that returns the crc32 of a string": "crc32_hex",
+        "write a function that returns the dice coefficient of two sets": "dice_coefficient",
+        "write a function that formats a number with thousands separators": "thousands_separators",
+        "write a function that builds a query string from a dict": "build_query",
+        "write a function that parses hh:mm:ss to seconds": "hms_to_seconds",
+        "write a function that returns the nth triangular number": "triangular",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a python function that parses a query string into a dict").name == "parse_query"
+    assert match_template("write a function that converts seconds to hms").name == "seconds_to_hms"
+    assert match_template("write a function that returns the sha256 hex digest of a string").name == "sha256_hex"
+    assert match_template("write a function that returns the md5 hex digest of a string").name == "md5_hex"
+
+
+
+
+def test_p170_hmac_iban_percent_uuid_digital_ellipsize_gray():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the hmac-sha256 hex digest of a message": "hmac_sha256_hex",
+        "write a function that checks whether an iban is valid": "iban_valid",
+        "write a function that percent-encodes a string": "percent_encode",
+        "write a function that checks whether a string is a valid uuid": "is_uuid",
+        "write a function that returns the digital root of a number": "digital_root",
+        "write a function that ellipsizes a string": "ellipsize",
+        "write a function that returns the gray code of an integer": "gray_code",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the sha256 hex digest of a string").name == "sha256_hex"
+    assert match_template("write a function that builds a query string from a dict").name == "build_query"
