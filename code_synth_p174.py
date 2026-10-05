@@ -42,8 +42,10 @@ def templates() -> list[Template]:
                 ("camel" in low and "snake" in low and "to camel" not in low and "kebab" not in low)
                 or ("snake_case" in low and "convert" in low and "camel" not in low and "dict" not in low)
             ),
-            (("helloWorld",), "hello_world"),
-            (("A",), "a"),
+            (
+                (("helloWorld",), "hello_world"),
+                (("A",), "a"),
+            ),
         ),
         T(
             "snake_to_camel",
@@ -56,7 +58,9 @@ def templates() -> list[Template]:
             lambda low: (
                 "snake" in low and "camel" in low and "to snake" not in low and "kebab" not in low
             ),
-            (("hello_world",), "helloWorld"),
-            (("a",), "a"),
+            (
+                (("hello_world",), "helloWorld"),
+                (("a",), "a"),
+            ),
         ),
     ]
