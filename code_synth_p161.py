@@ -2,6 +2,10 @@
 
 These asks returned no template (NotImplemented draft). Matchers are phrase-gated
 so list-unique, zip-to-dict, and vowel counts keep their existing names.
+
+Cycle 443: digit_sum must not steal LeetCode siblings that also say "sum of digits"
+(get_lucky / count_even / sum_base). Those live in earlier packs and win only if
+this broad matcher declines.
 """
 from __future__ import annotations
 
@@ -41,7 +45,17 @@ def templates() -> list[Template]:
             "    return total\n",
             lambda low: bool(re.search(r"\bdigit[- ]?sum\b|\bsum of (?:the )?digits\b", low))
             and "divide" not in low
-            and "alternat" not in low,
+            and "alternat" not in low
+            and "leetcode" not in low
+            and "base" not in low
+            and "string" not in low
+            and "even" not in low
+            and "count" not in low
+            and "convert" not in low
+            and "product" not in low
+            and "element" not in low
+            and "index" not in low
+            and "divisib" not in low,
             (((123,), 6), ((0,), 0)),
         ),
         T(
@@ -90,10 +104,11 @@ def templates() -> list[Template]:
             "    return {k: v for k, v in pairs}\n",
             lambda low: bool(re.search(r"\bpairs?\b", low))
             and bool(re.search(r"\bdicts?\b|\bdictionary\b", low))
+            and "linked" not in low
             and "zip" not in low,
             (
-                (([("a", 1), ("b", 2)],), {"a": 1, "b": 2}),
-                (([("a", 1), ("a", 3)],), {"a": 3}),
+                ((("a", 1), ("b", 2)],), {"a": 1, "b": 2}),
+                ((("a", 1), ("a", 3)],), {"a": 3}),
             ),
         ),
     ]
