@@ -327,7 +327,9 @@ def _offline_search_reply(note, query: str = "") -> str:
     if len(q) > 180:
         q = q[:177].rstrip() + "..."
     if q:
-        reply = reply + " Query: " + q
+        titled = q.title()
+        if titled.lower() not in reply.lower():
+            reply = reply + " Query: " + titled
     return reply
 
 
