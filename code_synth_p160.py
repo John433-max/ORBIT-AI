@@ -22,7 +22,7 @@ def templates() -> list[Template]:
             lambda low: bool(re.search(r"\bdeep[- ]?cop(?:y|ies|ied)\b|\bdeepcopy\b", low)),
             (
                 (([[1, 2], [3]],), [[1, 2], [3]]),
-                (({"a": [1]},), {"a": [1]}),
+                ({"a": [1]}, {"a": [1]}),
             ),
         ),
         T(
@@ -125,7 +125,12 @@ def templates() -> list[Template]:
             "            out.append(ch.lower())\n"
             "    return \"\".join(out)\n",
             lambda low: (
-                bool(re.search(r"\bcamel.?to.?snake\b|\bcamelcase to snake\b", low))
+                bool(re.search(
+                    r"\bcamel.?to.?snake\b|"
+                    r"\bcamel[- ]?case to snake\b|"
+                    r"\bcamelcase to snake\b",
+                    low,
+                ))
                 or ("snake_case" in low and bool(re.search(r"\bconvert", low)))
             )
             and "to camel" not in low
