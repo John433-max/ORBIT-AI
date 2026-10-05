@@ -15,6 +15,8 @@ Template(
                 "binary" not in low
                 and "linked" not in low
                 and "list" not in low
+                and " ii" not in low
+                and "leetcode" not in low
                 and (
                     re.search(r"add(s|ing)?\b.{0,24}\b" + _TWO + r"\b.{0,24}\b(number|int|value)", low)
                     or "adds two" in low
@@ -32,6 +34,9 @@ Template(
                 and "inner product" not in low
                 and "found values" not in low
                 and "keep multiplying" not in low
+                and "elements" not in low
+                and "leetcode 1464" not in low
+                and "in an array" not in low
                 and re.search(
                     r"\b(multipl(?:y|ies|ied|ying)|product of)\b.{0,40}\b" + _TWO + r"\b",
                     low,
@@ -114,6 +119,12 @@ Template(
                 and "int " not in low
                 and "vowel" not in low
                 and "degree" not in low
+                and " ii" not in low
+                and "541" not in low
+                and "344" not in low
+                and "2k" not in low
+                and "in-place" not in low
+                and "in place" not in low
             ),
             ((("ab",), "ba"), (("Orbit",), "tibrO")),
         ),
@@ -230,11 +241,20 @@ Template(
             '    """Return True if n is even."""\n'
             "    return n % 2 == 0\n",
             lambda low: bool(
-                re.search(r"\b(even|is_even|even number)\b", low)
-                and "odd" not in low
-                and "linked" not in low
-                and "digit" not in low
-                and "parity" not in low
+                re.search(r"\b(is_even|even number|is even|number is even)\b", low)
+                or (
+                    re.search(r"\beven\b", low)
+                    and "odd" not in low
+                    and "linked" not in low
+                    and "digit" not in low
+                    and "parity" not in low
+                    and "array" not in low
+                    and "bitwise" not in low
+                    and "split" not in low
+                    and "leetcode" not in low
+                    and "numbers" not in low
+                    and "or of" not in low
+                )
             ),
             (((4,), True), ((7,), False)),
         ),
@@ -269,7 +289,12 @@ Template(
             "def count_vowels(s):\n"
             '    """Return the number of English vowels in s."""\n'
             "    return sum(1 for ch in str(s).lower() if ch in 'aeiou')\n",
-            lambda low: bool(re.search(r"\bcount(?:s|ing)?\b.{0,32}\bvowels?\b|\bvowels?\b.{0,24}\bcount|\bnumber of vowels\b", low)),
+            lambda low: (
+                "substring" not in low
+                and "1456" not in low
+                and "given length" not in low
+                and bool(re.search(r"\bcount(?:s|ing)?\b.{0,32}\bvowels?\b|\bvowels?\b.{0,24}\bcount|\bnumber of vowels\b", low))
+            ),
             ((("Orbit AI",), 4), (("xyz",), 0)),
         ),
         Template(
@@ -379,6 +404,8 @@ Template(
                 and "good numbers" not in low
                 and "divisible" not in low
                 and "operation" not in low
+                and "negation" not in low
+                and "1005" not in low
                 and re.search(
                     r"\b(sum(?:s|ming)?|total)\b.{0,32}\b(list|array|items|numbers)\b|"
                     r"\b(list|array|items|numbers)\b.{0,24}\bsum\b",
@@ -414,6 +441,7 @@ Template(
             "    return out\n",
             lambda low: bool(
                 re.search(r"\bflatten(?:s|ed|ing)?\b.{0,40}\b(list|array|nested)\b|\bnested\b.{0,24}\bflatten", low)
+                and "dict" not in low
                 and "multilevel" not in low
                 and "multi-level" not in low
                 and "doubly" not in low
@@ -432,7 +460,10 @@ Template(
             lambda low: bool(
                 re.search(r"\bcount(?:s|ing)?\b.{0,32}\bwords?\b|\bnumber of words\b|\bword count\b", low)
             )
-            and not re.search(r"\bprefix\b|\bgiven prefix\b", low),
+            and not re.search(r"\bprefix\b|\bgiven prefix\b", low)
+            and "frequency" not in low
+            and "freq" not in low
+            and "histogram" not in low,
             ((("hello world",), 2), (("  ",), 0)),
         ),
         Template(
@@ -894,6 +925,8 @@ Template(
                     r"\brunning[- ]?sum\b|\bprefix sums?\b|\bcumulative sums?\b",
                     low,
                 )
+                and "missing" not in low
+                and "sequential" not in low
             ),
             ((([1, 2, 3],), [1, 3, 6]), (([],), []), (([-1, 1],), [-1, 0])),
         ),
