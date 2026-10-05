@@ -22,7 +22,7 @@ def templates() -> list[Template]:
             lambda low: bool(re.search(r"\bdeep[- ]?cop(?:y|ies|ied)\b|\bdeepcopy\b", low)),
             (
                 (([[1, 2], [3]],), [[1, 2], [3]]),
-                ({"a": [1]}, {"a": [1]}),
+                (({"a": [1]},), {"a": [1]}),
             ),
         ),
         T(
