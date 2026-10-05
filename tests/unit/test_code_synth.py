@@ -1245,6 +1245,7 @@ def test_cycle260_easy_string_dp():
         "write a python function for min cost climbing stairs": "def min_cost_climbing_stairs",
         "write a python function for search insert position": "def search_insert",
         "write a python function for isomorphic strings": "def isomorphic_strings",
+        "implement a function to check if two strings are isomorphic": "def isomorphic_strings",
         "write a python function for word pattern": "def word_pattern",
         "write a python function to reverse an integer": "def reverse_integer",
         "write a python function that add strings representing integers": "def add_strings",
@@ -3705,3 +3706,118 @@ def test_p152_product_cameras_string_fixed_pairs_powers():
     assert match_template("maximum product of two elements").name == "max_product_two"
     assert match_template("smallest string with swaps").name == "smallest_string_with_swaps"
     assert match_template("write a python function that sums a list of numbers").name == "sum_list"
+
+
+def test_p153_schedule_iii_stone_ii_vowels_split_hand_span():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "course schedule iii leetcode 630": "course_schedule_iii",
+        "last stone weight ii leetcode 1049": "last_stone_weight_ii",
+        "maximum number of vowels in a substring of given length leetcode 1456": "max_vowels",
+        "number of ways to split a string leetcode 1573": "num_ways_split",
+        "hand of straights leetcode 846": "hand_of_straights",
+        "online stock span leetcode 901": "online_stock_span",
+        "course schedule leetcode 207": "course_schedule",
+        "last stone weight leetcode 1046": "last_stone_weight",
+        "write a python function that counts vowels in a string": "count_vowels",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+
+def test_p154_elimination_parens_ramp_tokens_boats_fleet():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "elimination game leetcode 390": "elimination_game",
+        "minimum add to make parentheses valid leetcode 921": "min_add_to_make_valid",
+        "maximum width ramp leetcode 962": "maximum_width_ramp",
+        "bag of tokens leetcode 948": "bag_of_tokens",
+        "boats to save people leetcode 881": "boats_to_save",
+        "car fleet leetcode 853": "car_fleet",
+        "valid parentheses": "valid_parentheses",
+        "car pooling leetcode 1094": "car_pooling",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+
+def test_p155_grammar_pancake_deck_advantage_chunks_malware():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "kth grammar leetcode 779": "kth_grammar",
+        "pancake sorting leetcode 969": "pancake_sort",
+        "reveal cards in increasing order leetcode 950": "deck_revealed_increasing",
+        "advantage shuffle leetcode 870": "advantage_shuffle",
+        "max chunks to make sorted leetcode 769": "max_chunks_to_sorted",
+        "minimize malware spread leetcode 924": "min_malware_spread",
+        "car fleet leetcode 853": "car_fleet",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+
+def test_p156_wiggle_malware_stack_tokens_disjoint_digits():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "wiggle sort ii leetcode 324": "wiggle_sort_ii",
+        "minimize malware spread ii leetcode 928": "min_malware_spread_ii",
+        "validate stack sequences leetcode 946": "validate_stack_sequences",
+        "bag of tokens leetcode 948": "bag_of_tokens",
+        "partition array into disjoint intervals leetcode 915": "partition_disjoint",
+        "monotone increasing digits leetcode 738": "monotone_increasing_digits",
+        "longest wiggle subsequence": "wiggle_subsequence",
+        "minimize malware spread leetcode 924": "min_malware_spread",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+
+def test_p157_even_or_missing_ops_triplet_groups_shifts_split():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "bitwise or of even numbers in an array leetcode 3688": "even_numbers_bitwise_or",
+        "smallest missing integer greater than sequential prefix sum leetcode 2996": "missing_integer",
+        "check if strings can be made equal with operations i leetcode 2839": "can_be_equal_ops",
+        "maximum value of an ordered triplet i leetcode 2873": "maximum_triplet_value",
+        "longest unequal adjacent groups subsequence i leetcode 2900": "unequal_adjacent_groups",
+        "matrix similarity after cyclic shifts leetcode 2946": "matrix_similarity_shifts",
+        "maximum even split leetcode 2178": "maximum_even_split",
+        "write a python function that checks if a number is even": "is_even",
+        "write a python function that computes the running sum of a list": "running_sum",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+
+def test_p158_merge_invert_zip_sorted_keys():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a python function that merges two dictionaries": "merge_dicts",
+        "write a function that returns the keys of a dictionary sorted by value": "keys_sorted_by_value",
+        "write a function that inverts a dictionary": "invert_dict",
+        "write a python function that swaps keys and values of a dict": "invert_dict",
+        "write a python function to zip two lists into a dict": "zip_to_dict",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("merge intervals leetcode 56").name != "merge_dicts"
+    alien = match_template("alien dictionary leetcode 269")
+    assert alien is None or alien.name != "invert_dict"

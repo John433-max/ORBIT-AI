@@ -1205,3 +1205,30 @@
 {"id": "code_1168", "category": "coding", "input": "bag of tokens leetcode 948", "expect_contains": ["def bag_of_tokens_score", "Verified"], "expect_not_contains": ["fallback"]}
 {"id": "code_1169", "category": "coding", "input": "boats to save people leetcode 881", "expect_contains": ["def num_rescue_boats", "Verified"], "expect_not_contains": ["fallback"]}
 {"id": "code_1170", "category": "coding", "input": "car fleet leetcode 853", "expect_contains": ["def car_fleet", "Verified"], "expect_not_contains": ["car_pooling"]}
+{"id": "code_1171", "category": "coding", "input": "kth grammar leetcode 779", "expect_contains": ["def kth_grammar", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1172", "category": "coding", "input": "pancake sorting leetcode 969", "expect_contains": ["def pancake_sort", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1173", "category": "coding", "input": "reveal cards in increasing order leetcode 950", "expect_contains": ["def deck_revealed_increasing", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1174", "category": "coding", "input": "advantage shuffle leetcode 870", "expect_contains": ["def advantage_count", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1175", "category": "coding", "input": "max chunks to make sorted leetcode 769", "expect_contains": ["def max_chunks_to_sorted", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1176", "category": "coding", "input": "minimize malware spread leetcode 924", "expect_contains": ["def min_malware_spread", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1177", "category": "coding", "input": "wiggle sort ii leetcode 324", "expect_contains": ["def wiggle_sort", "Verified"], "expect_not_contains": ["fallback", "wiggle_subsequence"]}
+{"id": "code_1178", "category": "coding", "input": "minimize malware spread ii leetcode 928", "expect_contains": ["def min_malware_spread", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1179", "category": "coding", "input": "validate stack sequences leetcode 946", "expect_contains": ["def validate_stack_sequences", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1180", "category": "coding", "input": "bag of tokens leetcode 948", "expect_contains": ["def bag_of_tokens_score", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1181", "category": "coding", "input": "partition array into disjoint intervals leetcode 915", "expect_contains": ["def partition_disjoint", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1182", "category": "coding", "input": "monotone increasing digits leetcode 738", "expect_contains": ["def monotone_increasing_digits", "Verified"], "expect_not_contains": ["fallback"]}
+{"id": "code_1183", "category": "coding", "input": "bitwise or of even numbers in an array leetcode 3688", "expect_contains": ["def even_numbers_bitwise_or", "Verified"]}
+{"id": "code_1184", "category": "coding", "input": "smallest missing integer greater than sequential prefix sum leetcode 2996", "expect_contains": ["def missing_integer", "Verified"]}
+{"id": "code_1185", "category": "coding", "input": "check if strings can be made equal with operations i leetcode 2839", "expect_contains": ["def can_be_equal", "Verified"]}
+{"id": "code_1186", "category": "coding", "input": "maximum value of an ordered triplet i leetcode 2873", "expect_contains": ["def maximum_triplet_value", "Verified"]}
+{"id": "code_1187", "category": "coding", "input": "longest unequal adjacent groups subsequence i leetcode 2900", "expect_contains": ["def get_longest_subsequence", "Verified"]}
+{"id": "code_1188", "category": "coding", "input": "matrix similarity after cyclic shifts leetcode 2946", "expect_contains": ["def are_similar", "Verified"]}
+{"id": "code_1189", "category": "coding", "input": "maximum even split leetcode 2178", "expect_contains": ["def maximum_even_split", "Verified"]}
+{"id": "code_1190", "category": "coding", "input": "write a python function that merges two dictionaries", "expect_contains": ["def merge_dicts", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1191", "category": "coding", "input": "write a function that returns the keys of a dictionary sorted by value", "expect_contains": ["def keys_sorted_by_value", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1192", "category": "coding", "input": "write a function that inverts a dictionary", "expect_contains": ["def invert_dict", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1193", "category": "coding", "input": "write a python function to zip two lists into a dict", "expect_contains": ["def zip_to_dict", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1194", "category": "coding", "input": "implement a function to check if two strings are isomorphic", "expect_contains": ["def isomorphic_strings", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1195", "category": "coding", "input": "write a function that checks if two strings are rotations of each other", "expect_contains": ["def is_rotation", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1196", "category": "coding", "input": "write a python function that counts the frequency of each word", "expect_contains": ["def word_frequency", "Verified"], "expect_not_contains": ["NotImplemented", "fallback", "def count_words"]}
+{"id": "code_1197", "category": "coding", "input": "write a function to flatten a nested dictionary", "expect_contains": ["def flatten_dict", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}

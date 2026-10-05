@@ -1367,6 +1367,8 @@ def templates():
                     r"\bheaviest stones\b",
                     low,
                 )
+                and "ii" not in low
+                and "1049" not in low
             ),
             (
                 (([2, 7, 4, 1, 8, 1],), 1),
@@ -2501,6 +2503,8 @@ def templates():
                     low,
                 )
                 and "kids" not in low
+                and "among children" not in low
+                and "2928" not in low
                 and "greatest number of candies" not in low
                 and "among children" not in low
                 and "limit" not in low
@@ -2583,7 +2587,7 @@ def templates():
             "                best = max(best, a[i] * a[k] * a[j] + dp[i][k] + dp[k][j])\n"
             "            dp[i][j] = best\n"
             "    return dp[0][n - 1]\n",
-            lambda low: bool(
+            lambda low: "arrow" not in low and bool(
                 re.search(
                     r"\bburst[- ]?balloons?\b|"
                     r"\bbursts? balloons\b|"
@@ -4613,7 +4617,8 @@ def templates():
                 re.search(
                     r"\bisomorphic strings?\b|"
                     r"\bisomorphic_strings\b|"
-                    r"\bis_isomorphic\b",
+                    r"\bis_isomorphic\b|"
+                    r"\bstrings? (are|is) isomorphic\b",
                     low,
                 )
             ),
