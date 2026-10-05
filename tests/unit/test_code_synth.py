@@ -3821,3 +3821,24 @@ def test_p158_merge_invert_zip_sorted_keys():
     assert match_template("merge intervals leetcode 56").name != "merge_dicts"
     alien = match_template("alien dictionary leetcode 269")
     assert alien is None or alien.name != "invert_dict"
+
+
+def test_p160_copy_longest_filter_query_order_none():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a python function that deep copies a list": "deep_copy",
+        "write a function that returns the longest word in a sentence": "longest_word",
+        "write a python function that filters even numbers": "filter_even",
+        "write a python function that parses a query string into a dict": "parse_query",
+        "write a python function to check if two lists are equal ignoring order": "equal_ignore_order",
+        "write a function to drop none values from a list": "drop_none",
+        "write a function that capitalizes each word": "title_case",
+        "write a python function that reverses words in a sentence": "reverse_words",
+        "write a function that snake_case converts a string": "camel_to_snake",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that checks if a number is even").name == "is_even"
