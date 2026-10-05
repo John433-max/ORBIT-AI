@@ -563,7 +563,8 @@ def templates() -> list[Template]:
     and re.search(
         r"\bvalid(?:ate)?[- ]?parentheses\b|"
         r"\bbalanced (?:brackets|parentheses|parens)\b|"
-        r"\bcheck .{0,24}\b(parentheses|brackets|parens)\b",
+        r"\b(?:parentheses|brackets|parens) are balanced\b|"
+        r"\bchecks? if (?:the )?(?:parentheses|brackets|parens)\b",
         low,
     )
 ),
