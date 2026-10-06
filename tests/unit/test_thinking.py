@@ -68,3 +68,11 @@ def test_think_keeps_honest_missing_document():
     assert "solid answer" not in res.answer.lower()
     assert "wikihow" not in res.answer.lower()
     assert any(th.kind == "decide" and "empty docs" in th.text for th in res.thoughts)
+
+
+def test_binary_search_function_is_code_not_web():
+    t = Thinker({})
+    assert t.classify("write a python function that implements binary search") == "code"
+    assert t.classify("implement binary search on a sorted list") == "code"
+    assert t.classify("search for recent news about fusion energy") == "search"
+    assert t.classify("what is your name") == "chat"

@@ -111,7 +111,15 @@ def _is_code(text: str) -> bool:
     # Bare problem titles ("minimum rounds to complete all tasks") match a
     # verified template but were classified as statements and hedged.
     # Do not steal calculator / utility asks (factorial of 5, word count).
-    if _is_search(raw) or _is_math(raw) or "?" in raw:
+    # "binary search" is an algorithm name, not a web lookup, when the user
+    # already asked to implement/write it (handled above) or a template hits.
+    if _is_math(raw) or "?" in raw:
+        return False
+    if _is_search(raw) and not re.search(
+        r"\b(binary|linear|interpolation|exponential|ternary|fibonacci)[- ]search\b",
+        raw,
+        re.I,
+    ):
         return False
     if re.search(r"\b(what|who|why|calculate|how many)\b", raw, re.I):
         return False

@@ -1665,15 +1665,34 @@ class Orchestrator:
         # score equally (e.g. both hit only weak signals) -- keeps routing
         # deterministic rather than depending on dict ordering.
         priority = [agent_key for _, agent_key in ROUTES]
-        # Explicit search/look-up must not lose a tie to code (English
-        # "for … in …" used to score as a for-loop).
+        # Explicit web lookup must not lose a tie to code ("for … in …"
+        # used to score as a for-loop). Algorithm names that contain
+        # "search" (binary search, linear search) are code when the user
+        # asked to write/implement a function — not a news lookup.
+        web_lookup = re.search(
+            r"\b(look up|look this up|news about|search for|search about|google)\b",
+            request or "",
+            re.I,
+        )
+        code_write = re.search(
+            r"\b(write|implement|create|define|make)\b.{0,80}\b("
+            r"function|class|script|program|module|code)\b|"
+            r"\bpython function\b|"
+            r"^\s*(implement|write)\b",
+            request or "",
+            re.I,
+        )
         if (
             scores.get("research", 0) >= scores.get("code", 0)
             and scores.get("research", 0) > 0
-            and re.search(r"\b(search|look up|look this up|news about|research)\b", request, re.I)
+            and web_lookup
+            and not code_write
         ):
             scores = dict(scores)
             scores["research"] = max(scores["research"], scores.get("code", 0)) + 0.01
+        elif code_write and not web_lookup and scores.get("code", 0) > 0:
+            scores = dict(scores)
+            scores["code"] = max(scores["code"], scores.get("research", 0)) + 0.01
         best = max(scores.items(), key=lambda kv: (kv[1], -priority.index(kv[0]) if kv[0] in priority else -99))
         return best[0]
 
