@@ -132,6 +132,25 @@ def _is_code(text: str) -> bool:
     return False
 
 
+def _explicit_code_ask(text: str) -> bool:
+    """User asked to write or implement code, not to run the educational lab."""
+    raw = text or ""
+    return bool(
+        re.search(
+            r"```|^\s*def |import |print\(|"
+            r"write (a |some )?code|"
+            r"\b(write|implement|create|define|make)\b.{0,80}\b("
+            r"function|def |class |script|program|module|code)\b|"
+            r"\bpython function\b|"
+            r"\bimplement\b.{0,40}\bin python\b|"
+            r"\bleetcode\s*\d+\b|"
+            r"^\s*(implement|write)\b",
+            raw,
+            re.I,
+        )
+    )
+
+
 def _is_lab(text: str) -> bool:
     return bool(
         re.search(
@@ -287,6 +306,11 @@ class Thinker:
             return "debug"
         if _is_file_op(r):
             return "file"
+        # Curriculum phrases ("activation functions relu sigmoid") match a
+        # code template via keyword, but smoke/lab expects the scratch demo.
+        # Explicit write/implement/leetcode asks still stay on the code path.
+        if _is_lab(r) and not _explicit_code_ask(r):
+            return "lab"
         if _is_code(r):
             return "code"
         if _is_data(r):

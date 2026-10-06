@@ -4136,6 +4136,7 @@ def test_p174_harmonic_unix_onehot_quantile_var_singular_duration():
     asks = {
         "write a function that returns the harmonic mean of a list": "harmonic_mean",
         "write a function that converts a unix timestamp to an iso-8601 date": "unix_to_iso",
+        "write a function that converts a unix timestamp to iso8601": "unix_to_iso8601",
         "write a function that converts an iso-8601 date to a unix timestamp": "iso_to_unix",
         "write a function that one-hot encodes an index": "one_hot",
         "write a function that returns a quantile of a list": "quantile",
@@ -4256,3 +4257,234 @@ def test_p181_iou_l2_chunk_weighted_heron_uuid5():
     first = match_template("write a function that computes bounding box iou")
     second = match_template("write a function that computes bounding box iou")
     assert first is second
+
+
+
+def test_p182_matrix_relu_km_scale_armstrong_knapsack_dijkstra():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that multiplies two matrices": "matrix_multiply",
+        "write a function that applies relu to a list": "relu",
+        "write a function that converts kilometers to miles": "km_to_miles",
+        "write a function that min-max scales a list": "min_max_scale",
+        "write a function that checks if a number is armstrong": "is_armstrong",
+        "write a function that solves 0-1 knapsack": "knapsack_01",
+        "write a function that runs dijkstra shortest path": "dijkstra",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    # scalar multiply must not become matrix multiply
+    assert match_template("write a function that multiplies two numbers").name == "multiply"
+
+
+def test_p183_kelvin_bubble_binary_circle_trace_isogram():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts celsius to kelvin": "celsius_to_kelvin",
+        "write a function that sorts a list with bubble sort": "bubble_sort",
+        "write a function that converts an integer to a binary string": "decimal_to_binary",
+        "write a function that converts binary to int": "binary_to_decimal",
+        "write a function that checks if a point is inside a circle": "point_in_circle",
+        "write a function that returns the trace of a square matrix": "matrix_trace",
+        "write a function that checks whether a word is an isogram": "is_isogram",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that sorts a list").name == "sort_list"
+    assert match_template("write a function that converts celsius to fahrenheit").name == "celsius_to_fahrenheit"
+    assert match_template("write a function that adds two binary strings").name == "add_binary"
+
+
+
+def test_p184_sorts_quadratic_distance_temp_direction():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts kelvin to celsius": "kelvin_to_celsius",
+        "write a function that converts fahrenheit to kelvin": "fahrenheit_to_kelvin",
+        "write a function that sorts a list with selection sort": "selection_sort",
+        "write a function that sorts a list with insertion sort": "insertion_sort",
+        "write a function that returns the real roots of a quadratic equation": "quadratic_roots",
+        "write a function that returns the euclidean distance between two points": "euclidean_distance",
+        "write a function that returns the determinant of a 2x2 matrix": "det2",
+        "write a function that checks if a matrix is symmetric": "is_symmetric_matrix",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts celsius to kelvin").name == "celsius_to_kelvin"
+    assert match_template("write a function that sorts a list").name == "sort_list"
+    assert match_template("write a function that sorts a list with bubble sort").name == "bubble_sort"
+
+
+def test_p185_shell_counting_heap_circle_variance():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that shell sorts a list": "shell_sort",
+        "write a function that counting sorts non-negative integers": "counting_sort",
+        "write a function that heap sorts a list": "heap_sort",
+        "write a function that returns the area of a circle given radius": "circle_area",
+        "write a function that returns the circumference of a circle": "circle_circumference",
+        "write a function that returns the sample variance of a list": "sample_variance",
+        "write a function that returns the volume of a sphere": "sphere_volume",
+        "write a function that returns the hypotenuse of a right triangle": "hypotenuse",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that sorts a list").name == "sort_list"
+    assert match_template("write a function that sorts a list with bubble sort").name == "bubble_sort"
+    assert match_template("write a function that returns the population variance of numbers").name == "population_variance"
+    assert match_template("write a function that checks if a point is inside a circle").name == "point_in_circle"
+
+
+def test_p186_radix_interest_units():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that radix sorts non-negative integers": "radix_sort",
+        "write a function that computes compound interest": "compound_interest",
+        "write a function that computes simple interest": "simple_interest",
+        "write a function that converts inches to centimeters": "inches_to_cm",
+        "write a function that converts centimeters to inches": "cm_to_inches",
+        "write a function that converts pounds to kilograms": "pounds_to_kg",
+        "write a function that converts kilograms to pounds": "kg_to_pounds",
+        "write a function that converts feet to meters": "feet_to_meters",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that sorts a list").name == "sort_list"
+    assert match_template("write a function that counting sorts non-negative integers").name == "counting_sort"
+    assert match_template("write a function that converts kilometers to miles").name == "km_to_miles"
+    assert match_template("write a function that converts celsius to fahrenheit").name == "celsius_to_fahrenheit"
+
+
+
+def test_p187_reverse_units_and_linked_binary():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts meters to feet": "meters_to_feet",
+        "write a function that converts ounces to grams": "ounces_to_grams",
+        "write a function that converts grams to ounces": "grams_to_ounces",
+        "write a python function convert binary number in a linked list to integer leetcode 1290": "get_decimal_value",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts an integer to binary").name == "decimal_to_binary"
+    assert match_template("write a function that converts binary to decimal").name == "binary_to_decimal"
+    assert match_template("write a function that converts feet to meters").name == "feet_to_meters"
+
+
+def test_p188_volume_length_kelvin():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts liters to gallons": "liters_to_gallons",
+        "write a function that converts gallons to liters": "gallons_to_liters",
+        "write a function that converts yards to meters": "yards_to_meters",
+        "write a function that converts meters to yards": "meters_to_yards",
+        "write a function that converts kelvin to fahrenheit": "kelvin_to_fahrenheit",
+        "write a function that converts kilometers to meters": "km_to_meters",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts kilometers to miles").name == "km_to_miles"
+    assert match_template("write a function that converts meters to feet").name == "meters_to_feet"
+    assert match_template("write a function that converts fahrenheit to kelvin").name == "fahrenheit_to_kelvin"
+
+
+def test_p189_time_speed_area():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts hours to seconds": "hours_to_seconds",
+        "write a function that converts minutes to seconds": "minutes_to_seconds",
+        "write a function that converts seconds to minutes": "seconds_to_minutes",
+        "write a function that converts seconds to hours": "seconds_to_hours",
+        "write a function that converts miles per hour to kilometers per hour": "mph_to_kph",
+        "write a function that returns the area of a triangle given base and height": "triangle_area_base_height",
+        "write a function that converts bytes to kilobytes": "bytes_to_kilobytes",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts miles to kilometers").name == "miles_to_km"
+    assert match_template("write a function that computes heron area").name == "heron_area"
+    assert match_template("write a function that returns triangle area from points").name == "triangle_area_points"
+
+
+def test_p191_time_geometry():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts hours to minutes": "hours_to_minutes",
+        "write a function that converts minutes to hours": "minutes_to_hours",
+        "write a function that converts days to hours": "days_to_hours",
+        "write a function that converts weeks to days": "weeks_to_days",
+        "write a function that computes the perimeter of a rectangle": "rectangle_perimeter",
+        "write a function that returns the area of a trapezoid": "trapezoid_area",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts hours to seconds").name == "hours_to_seconds"
+    assert match_template("write a function that returns the area of a triangle given base and height").name == "triangle_area_base_height"
+
+
+def test_p192_time_solids():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts weeks to hours": "weeks_to_hours",
+        "write a function that converts days to seconds": "days_to_seconds",
+        "write a function that returns the volume of a cylinder": "cylinder_volume",
+        "write a function that returns the volume of a cone": "cone_volume",
+        "write a function that computes the surface area of a cube": "cube_surface_area",
+        "write a function that returns the surface area of a sphere": "sphere_surface_area",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts weeks to days").name == "weeks_to_days"
+    assert match_template("write a function that converts hours to seconds").name == "hours_to_seconds"
+    assert match_template("write a function that returns the volume of a sphere").name == "sphere_volume"
+
+
+def test_p193_volume_perimeter_hex():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the volume of a cube": "cube_volume",
+        "write a function that computes the perimeter of a triangle": "triangle_perimeter",
+        "write a function that returns the area of a parallelogram": "parallelogram_area",
+        "write a function that computes the surface area of a cylinder": "cylinder_surface_area",
+        "write a function that converts hex to decimal": "hex_to_decimal",
+        "write a function that computes the perimeter of a square": "square_perimeter",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that computes the surface area of a cube").name == "cube_surface_area"
+    assert match_template("write a function that returns the volume of a cylinder").name == "cylinder_volume"
+    assert match_template("write a function that converts an integer to hexadecimal").name == "to_hex"
+    assert match_template("write a function that returns the area of a triangle given base and height").name == "triangle_area_base_height"
