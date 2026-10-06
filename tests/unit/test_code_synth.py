@@ -4488,3 +4488,44 @@ def test_p193_volume_perimeter_hex():
     assert match_template("write a function that returns the volume of a cylinder").name == "cylinder_volume"
     assert match_template("write a function that converts an integer to hexadecimal").name == "to_hex"
     assert match_template("write a function that returns the area of a triangle given base and height").name == "triangle_area_base_height"
+
+
+def test_p194_point_geometry_angles():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that computes the slope between two points": "slope",
+        "write a function that computes the distance between two points": "point_distance",
+        "write a function that computes the midpoint between two points": "midpoint",
+        "write a function that converts degrees to radians": "degrees_to_radians",
+        "write a function that converts radians to degrees": "radians_to_degrees",
+        "write a function that computes the area of an ellipse": "ellipse_area",
+        "write a function that converts polar to cartesian": "polar_to_cartesian",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts cartesian to polar").name == "cartesian_to_polar"
+    assert match_template("write a function that returns the area of a circle").name == "circle_area"
+
+
+def test_p195_solids_and_diagonal():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the diagonal of a rectangle": "rectangle_diagonal",
+        "write a function that returns the area of a rhombus": "rhombus_area",
+        "write a function that returns the perimeter of a rhombus": "rhombus_perimeter",
+        "write a function that returns the volume of a rectangular prism": "rectangular_prism_volume",
+        "write a function that returns the surface area of a rectangular prism": "rectangular_prism_surface_area",
+        "write a function that returns the volume of a pyramid": "pyramid_volume",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the area of a rectangle").name == "rectangle_area"
+    assert match_template("write a function that computes the perimeter of a rectangle").name == "rectangle_perimeter"
+    assert match_template("write a function that returns the volume of a cube").name == "cube_volume"
+    assert match_template("write a function that returns the volume of a cone").name == "cone_volume"
