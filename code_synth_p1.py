@@ -157,7 +157,13 @@ Template(
             "def average(a, b):\n"
             '    """Return the arithmetic mean of a and b."""\n'
             "    return (a + b) / 2\n",
-            lambda low: bool(re.search(r"\b(averag(?:e|es|ing)|mean)\b.{0,40}\b(two|2|list|numbers)\b", low)),
+            lambda low: (
+                "harmonic" not in low
+                and "geometric" not in low
+                and "population" not in low
+                and "quantile" not in low
+                and bool(re.search(r"\b(averag(?:e|es|ing)|mean)\b.{0,40}\b(two|2|list|numbers)\b", low))
+            ),
             (((2, 4), 3.0), ((0, 5), 2.5)),
         ),
         Template(
