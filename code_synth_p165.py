@@ -117,7 +117,14 @@ def templates() -> list[Template]:
             "    if cur:\n"
             "        lines.append(cur)\n"
             "    return '\\n'.join(lines)\n",
-            lambda low: "word wrap" in low or "wrap text" in low or "wrap words" in low,
+            lambda low: (
+                "word wrap" in low
+                or "word-wrap" in low
+                or "wrap text" in low
+                or "wraps text" in low
+                or "wrap words" in low
+                or "text to a width" in low
+            ),
             (
                 (("hello world", 5), "hello\nworld"),
                 (("aa bb cc", 5), "aa bb\ncc"),
