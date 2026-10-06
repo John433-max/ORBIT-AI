@@ -4,6 +4,7 @@ Loaded before p180 so polar→cartesian is not claimed by cartesian_to_polar
 (that matcher only requires both words). Slope, distance, and midpoint were
 NotImplemented drafts. Degrees/radians require an explicit direction.
 Ellipse area is pi*a*b and does not match circle asks.
+Cycle 481: point_distance excludes haversine/great-circle/lat/lon so p164 keeps those asks.
 """
 from __future__ import annotations
 
@@ -49,6 +50,11 @@ def templates() -> list[Template]:
                 and "manhattan" not in low
                 and "chebyshev" not in low
                 and "euclidean" not in low
+                and "haversine" not in low
+                and "great circle" not in low
+                and "great-circle" not in low
+                and "lat" not in low
+                and "lon" not in low
             ),
             (
                 ((0, 0, 3, 4), 5.0),
