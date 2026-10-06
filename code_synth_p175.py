@@ -93,9 +93,16 @@ def templates() -> list[Template]:
             "    s = re.sub(r\"([a-z0-9])([A-Z])\", r\"\\1_\\2\", s)\n"
             "    s = re.sub(r\"[^A-Za-z0-9]+\", \"_\", s).strip(\"_\").lower()\n"
             "    return s\n",
-            lambda low: ("snake_case" in low or "snake case" in low)
+            lambda low: (
+                "to snake_case" in low
+                or "to snake case" in low
+                or "into snake" in low
+                or "as snake_case" in low
+                or "as snake case" in low
+            )
             and "camel" not in low
-            and "kebab" not in low,
+            and "kebab" not in low
+            and "snake_case converts" not in low,
             (
                 (("HelloWorld",), "hello_world"),
                 (("already_snake",), "already_snake"),
