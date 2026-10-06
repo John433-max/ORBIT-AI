@@ -83,6 +83,7 @@ def templates() -> list[Template]:
             lambda low: (
                 "product" in low
                 and "list" in low
+                and "dot" not in low
                 and "except self" not in low
                 and "difference" not in low
             ),

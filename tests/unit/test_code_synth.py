@@ -4530,6 +4530,7 @@ def test_p195_solids_and_diagonal():
     assert match_template("write a function that returns the volume of a cube").name == "cube_volume"
     assert match_template("write a function that returns the volume of a cone").name == "cone_volume"
 
+
 def test_p196_list_string_helpers():
     from code_synth import match_template, synthesize_and_verify
     asks = {
@@ -4546,5 +4547,6 @@ def test_p196_list_string_helpers():
         out = synthesize_and_verify(ask)
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("implement product of numbers").name == "product_of_numbers"
+    assert match_template("write a python function that computes the dot product of two lists").name == "dot_product"
     assert match_template("write a function that returns the second largest number").name == "second_largest"
     assert match_template("write a function that returns an adler checksum").name == "adler32"
