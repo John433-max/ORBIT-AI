@@ -33,7 +33,7 @@ def check_environment() -> list[str]:
         import fastapi  # noqa: F401
         import uvicorn  # noqa: F401
     except ImportError:
-        problems.append("fastapi/uvicorn not installed (pip install -r requirements.txt)")
+        problems.append("fastapi/uvicorn not installed (pip install -r requirements-api.txt)")
     try:
         from model import TinyLM, get_preset  # noqa: F401
     except Exception as e:
@@ -261,7 +261,7 @@ def cmd_serve(args) -> int:
     try:
         import uvicorn
     except ImportError:
-        print("uvicorn is required: pip install uvicorn fastapi")
+        print("uvicorn is required: pip install -r requirements-api.txt")
         return 1
 
     uvicorn.run("api:app", host=host, port=int(port), reload=bool(getattr(args, "reload", False)))

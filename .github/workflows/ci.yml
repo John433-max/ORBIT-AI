@@ -24,7 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest
+          # Optional lint tools — soft-fail if unavailable in slim checkouts
           pip install ruff || true
+
+      - name: Install API extras (serve)
+        run: |
+          if [ -f requirements-api.txt ]; then
+            pip install -r requirements-api.txt
+          else
+            pip install "fastapi>=0.110" "uvicorn>=0.27" "httpx>=0.27"
+          fi
+          python -c "import fastapi, uvicorn; print('api deps ok', fastapi.__version__)"
 
       - name: Lint (ruff, if installed)
         run: |
@@ -71,12 +81,20 @@ jobs:
               "orbit.core.config",
               "orbit.models.base",
               "orbit.models.router",
+              "orbit.models.resilient",
               "orbit.models.echo",
           ):
-              try:
-                  importlib.import_module(m)
-                  print("ok", m)
-              except Exception as e:
-                  print("skip", m, e)
-          print("smoke done")
+              importlib.import_module(m)
+              print("ok", m)
+          from orbit.models.resilient import build_failover_chain, LRUResponseCache
+          from orbit.models.base import GenerateRequest
+          from orbit.models.echo import EchoProvider
+          from orbit.models.resilient import ProviderSlot, ResilientProvider
+          p = ResilientProvider([ProviderSlot(EchoProvider(), label="echo")])
+          r = p.generate(GenerateRequest(prompt="hello", max_tokens=8))
+          assert r.ok or r.text is not None
+          c = LRUResponseCache(max_entries=4, ttl_s=60)
+          c.put("k", r)
+          assert c.get("k") is not None
+          print("resilient smoke ok")
           PY

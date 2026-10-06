@@ -24,6 +24,15 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
+      - name: Install API extras (serve)
+        run: |
+          if [ -f requirements-api.txt ]; then
+            pip install -r requirements-api.txt
+          else
+            pip install "fastapi>=0.110" "uvicorn>=0.27" "httpx>=0.27"
+          fi
+          python -c "import fastapi, uvicorn; print('api deps ok', fastapi.__version__)"
+
       - name: Unit tests (always)
         run: |
           python -m pytest --version
@@ -36,7 +45,7 @@ jobs:
       - name: Agent tests (if present)
         run: |
           if [ -f test_agents.py ]; then
-            PYTHONPATH=. python -m pytest test_agents.py -q --tb=short
+            PYTHONPATH=. python -m pytest test_agents.py -q --tb=line
           else
             echo "test_agents.py not in this checkout — skip (upload full source zip)"
           fi
@@ -45,7 +54,7 @@ jobs:
         run: |
           PYTHONPATH=. python - <<'PY'
           import importlib
-          for m in ("orbit.core.config", "orbit.models.echo", "orbit.models.router", "memory_store"):
+          for m in ("orbit.core.config", "orbit.models.echo", "orbit.models.router"):
               try:
                   importlib.import_module(m)
                   print("ok", m)
