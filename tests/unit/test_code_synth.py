@@ -4529,3 +4529,22 @@ def test_p195_solids_and_diagonal():
     assert match_template("write a function that computes the perimeter of a rectangle").name == "rectangle_perimeter"
     assert match_template("write a function that returns the volume of a cube").name == "cube_volume"
     assert match_template("write a function that returns the volume of a cone").name == "cone_volume"
+
+def test_p196_list_string_helpers():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the running maximum of a list": "running_maximum",
+        "write a function that returns the second smallest number": "second_smallest",
+        "write a function that counts character frequencies": "char_frequency",
+        "write a function that returns the product of a list": "list_product",
+        "write a function that checks if a list is strictly increasing": "is_strictly_increasing",
+        "write a function that left-pads a string": "left_pad",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("implement product of numbers").name == "product_of_numbers"
+    assert match_template("write a function that returns the second largest number").name == "second_largest"
+    assert match_template("write a function that returns an adler checksum").name == "adler32"
