@@ -32,7 +32,8 @@ def templates() -> list[Template]:
             "    return datetime.fromtimestamp(float(ts), timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')\n",
             lambda low: (
                 ("unix" in low or "epoch" in low)
-                and "iso" in low
+                and ("iso-8601" in low or "iso 8601" in low)
+                and "iso8601" not in low
                 and "to unix" not in low
                 and "to a unix" not in low
                 and "to epoch" not in low
