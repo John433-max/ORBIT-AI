@@ -4062,3 +4062,173 @@ def test_p170_hmac_iban_percent_uuid_digital_ellipsize_gray():
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a function that returns the sha256 hex digest of a string").name == "sha256_hex"
     assert match_template("write a function that builds a query string from a dict").name == "build_query"
+
+
+def test_p171_semver_base32_cidr_nfc_jw_duration_ean_pearson_shannon():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that parses a semver version": "parse_semver",
+        "write a function that encodes a string as base32": "base32_encode",
+        "write a function that checks whether an ip is in a cidr range": "ip_in_cidr",
+        "write a function that normalizes unicode to nfc": "unicode_nfc",
+        "write a function that returns the jaro-winkler similarity": "jaro_winkler",
+        "write a function that formats a duration in seconds as human text": "humanize_duration",
+        "write a function that checks an ean-13 barcode": "ean13_valid",
+        "write a function that returns the pearson correlation of two lists": "pearson",
+        "write a function that returns the shannon entropy of a string": "shannon_entropy",
+        "write a function that wraps text to a width": "word_wrap",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that decodes a base32 string").name != "base32_encode"
+    assert match_template("write a function that returns the sha256 hex digest of a string").name == "sha256_hex"
+
+
+def test_p172_iso_plural_space_deep_spearman_accents_ngram_gmean_ordinal():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the iso week of a date": "iso_week",
+        "write a function that pluralizes an english word": "pluralize",
+        "write a function that collapses whitespace in a string": "collapse_whitespace",
+        "write a function that deep gets a dotted path": "deep_get",
+        "write a function that returns the spearman correlation of two lists": "spearman",
+        "write a function that strips accents from text": "strip_accents",
+        "write a function that returns character n-grams": "char_ngrams",
+        "write a function that returns the geometric mean of a list": "geometric_mean",
+        "write a function that returns the english ordinal of an integer": "ordinal",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that normalizes unicode to nfc").name == "unicode_nfc"
+    assert match_template("write a function that returns the pearson correlation of two lists").name == "pearson"
+    assert match_template("write a function that wraps text to a width").name == "word_wrap"
+
+
+def test_p173_manhattan_chebyshev_softmax_iqr_vigenere_html_lerp_modinv():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the manhattan distance of two points": "manhattan_distance",
+        "write a function that returns the chebyshev distance of two points": "chebyshev_distance",
+        "write a function that returns the softmax of a list": "softmax",
+        "write a function that returns the interquartile range of a list": "interquartile_range",
+        "write a function that encrypts text with a vigenere cipher": "vigenere_encrypt",
+        "write a function that escapes html special characters": "escape_html",
+        "write a function that linearly interpolates two numbers": "lerp",
+        "write a function that returns the modular inverse": "mod_inverse",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the running sum").name == "running_sum"
+    assert match_template("write a function that multiplies two numbers").name == "multiply"
+
+
+def test_p174_harmonic_unix_onehot_quantile_var_singular_duration():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the harmonic mean of a list": "harmonic_mean",
+        "write a function that converts a unix timestamp to an iso-8601 date": "unix_to_iso",
+        "write a function that converts an iso-8601 date to a unix timestamp": "iso_to_unix",
+        "write a function that one-hot encodes an index": "one_hot",
+        "write a function that returns a quantile of a list": "quantile",
+        "write a function that returns the population variance of a list": "population_variance",
+        "write a function that singularizes an english noun": "singularize",
+        "write a function that parses a duration string like 1h30m into seconds": "parse_duration",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the average of two numbers").name == "average"
+    assert match_template("write a function that returns the geometric mean of a list").name == "geometric_mean"
+    assert match_template("write a function that returns the percentile of a list").name == "percentile"
+    assert match_template("write a function that humanizes a duration in seconds").name == "humanize_duration"
+    assert match_template("write a function that pluralizes an english word").name == "pluralize"
+
+
+def test_p175_levenshtein_sigmoid_logsoftmax_url_snake_camel():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the levenshtein distance of two strings": "levenshtein",
+        "write a function that returns the sigmoid of a number": "sigmoid",
+        "write a function that returns the log softmax of a list": "log_softmax",
+        "write a function that urlencodes query parameters": "urlencode",
+        "write a function that converts text to snake case": "snake_case",
+        "write a function that converts text to camel case": "camel_case",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the softmax of a list").name == "softmax"
+
+
+def test_p176_damerau_totient_rmse_mae_r2_fnv():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the damerau levenshtein distance of two strings": "damerau_levenshtein",
+        "write a function that returns the euler totient of n": "euler_totient",
+        "write a function that returns the rmse of two lists": "rmse",
+        "write a function that returns the mean absolute error of two lists": "mae",
+        "write a function that returns the r2 score of two lists": "r2_score",
+        "write a function that returns the fnv1a hash of a string": "fnv1a_32",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the levenshtein distance of two strings").name == "levenshtein"
+    assert match_template("write a function that returns the average of two numbers").name == "average"
+    assert match_template("write a function that returns the mean of a list").name == "average"
+
+
+def test_p177_smoothstep_isbn13_adler_map_slerp():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the smootherstep of an edge and x": "smootherstep",
+        "write a function that returns the smoothstep of an edge and x": "smoothstep",
+        "write a function that checks whether an isbn-13 is valid": "isbn13_valid",
+        "write a function that returns the adler32 checksum of a string": "adler32",
+        "write a function that remaps a number from one range to another": "map_range",
+        "write a function that returns the slerp of two angles": "slerp_scalar",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that checks whether an isbn-10 is valid").name == "isbn10_valid"
+    assert match_template("write a function that linearly interpolates two numbers").name == "lerp"
+
+
+def test_p179_metar_dew_bearing_roman_direction():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that converts an integer to a roman numeral": "integer_to_roman",
+        "write a function that parses a METAR weather string": "parse_metar",
+        "write a function that computes the dew point from temperature and humidity": "dew_point_c",
+        "write a function that computes the bearing between two coordinates": "initial_bearing",
+        "write a function that returns the next prime after n": "next_prime",
+        "write a function that returns the phonetic metaphone of a word": "metaphone_primary",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts a roman numeral to an integer").name == "roman_to_int"
+    assert match_template("write a function that computes the soundex code of a name").name == "soundex"
+    assert match_template("write a function that computes haversine distance between two lat lon points").name == "haversine_km"
+
+
