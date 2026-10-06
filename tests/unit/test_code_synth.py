@@ -4550,3 +4550,36 @@ def test_p196_list_string_helpers():
     assert match_template("write a python function that computes the dot product of two lists").name == "dot_product"
     assert match_template("write a function that returns the second largest number").name == "second_largest"
     assert match_template("write a function that returns an adler checksum").name == "adler32"
+
+
+def test_p197_span_pad_counts():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the running minimum of a list": "running_minimum",
+        "write a function that checks if a list is strictly decreasing": "is_strictly_decreasing",
+        "write a function that right-pads a string": "right_pad",
+        "write a function that returns the statistical range of a list": "list_span",
+        "write a function that returns pairwise sums": "pairwise_sums",
+        "write a function that counts digits in a string": "count_digits_in_string",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the running maximum of a list").name == "running_maximum"
+    assert match_template("write a function that checks if a list is strictly increasing").name == "is_strictly_increasing"
+    assert match_template("write a function that left-pads a string").name == "left_pad"
+    assert match_template("write a function that counts character frequencies").name == "char_frequency"
+    assert match_template(
+        "write a python function check if digits are equal in string after operations leetcode 3461"
+    ).name == "has_same_digits"
+    assert match_template(
+        "write a python function largest 3-same-digit number in string leetcode 2264"
+    ).name == "largest_good_integer"
+    assert match_template(
+        "write a python function valid pair of adjacent digits in string leetcode 3438"
+    ).name == "find_valid_pair"
+    assert match_template(
+        "write a function that computes haversine distance between two lat lon points"
+    ).name == "haversine_km"

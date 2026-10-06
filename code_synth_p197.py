@@ -110,7 +110,7 @@ def templates() -> list[Template]:
             '    """How many digit characters appear in s."""\n'
             "    return sum(ch.isdigit() for ch in str(s))\n",
             lambda low: (
-                bool(re.search(r"\\bcounts?\\b|\\bcounting\\b", low))
+                bool(re.search(r"\bcounts?\b|\bcounting\b", low))
                 and "digit" in low
                 and ("string" in low or "text" in low)
                 and "sum" not in low
