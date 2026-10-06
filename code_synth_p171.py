@@ -1,4 +1,4 @@
-"""Cycle 453: SemVer, Base32, CIDR, NFC, Jaro-Winkler, duration, EAN-13, Pearson, Shannon.
+"""Cycle 453: SemVer, Base32, CIDR, NFC, Jaro-Winkler, duration, EAN-13, Pearson, Shannon, word wrap.
 
 Pack loads first so phrase gates beat broader string/decode hits.
 """
@@ -139,6 +139,7 @@ def templates() -> list[Template]:
                 or "duration in seconds" in low
                 or "seconds as human" in low
                 or ("formats a duration" in low)
+                or ("humanizes a duration" in low)
             ),
             (
                 ((3661,), "1h 1m 1s"),
@@ -209,6 +210,21 @@ def templates() -> list[Template]:
                 (("aaaa",), 0.0),
                 (("ab",), 1.0),
                 (("",), 0.0),
+            ),
+        ),
+        T(
+            "word_wrap",
+            "def word_wrap(text, width):\n"
+            '    """Wrap text to width on whitespace boundaries."""\n'
+            "    import textwrap\n"
+            "    return '\n'.join(textwrap.wrap(str(text), width=int(width)))\n",
+            lambda low: (
+                ("word wrap" in low or "wraps text" in low or "wrap text" in low or "text wrap" in low)
+                and "unwrap" not in low
+            ),
+            (
+                (("hello world", 5), "hello\nworld"),
+                (("a b c", 3), "a b\nc"),
             ),
         ),
     ]
