@@ -217,7 +217,7 @@ def templates() -> list[Template]:
             "def word_wrap(text, width):\n"
             '    """Wrap text to width on whitespace boundaries."""\n'
             "    import textwrap\n"
-            "    return '\n'.join(textwrap.wrap(str(text), width=int(width)))\n",
+            "    return '\\n'.join(textwrap.wrap(str(text), width=int(width)))\n",
             lambda low: (
                 ("word wrap" in low or "wraps text" in low or "wrap text" in low or "text wrap" in low)
                 and "unwrap" not in low
