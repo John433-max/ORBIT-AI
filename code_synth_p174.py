@@ -1,7 +1,7 @@
-"""Cycle 456: unix timestamp to ISO-8601.
+"""Cycle 456: harmonic mean, unix/ISO, one-hot, quantile, variance, singularize, duration parse.
 
-Loaded first so the phrase gate beats broader date/format hits.
-Cycle 457: direction-specific camel/snake converters register first (name wins).
+Loaded before the arithmetic-average pack so 'harmonic mean of a list' is not stolen
+by the mean+list gate. Direction-specific camel/snake converters stay registered here.
 """
 from __future__ import annotations
 
@@ -12,18 +12,172 @@ def templates() -> list[Template]:
     T = Template
     return [
         T(
-            "unix_to_iso8601",
-            "def unix_to_iso8601(ts):\n"
+            "harmonic_mean",
+            "def harmonic_mean(values):\n"
+            '    """Harmonic mean of nonzero numbers, rounded to 6 decimals. Empty or zero -> None."""\n'
+            "    xs = [float(x) for x in values]\n"
+            "    if not xs or any(x == 0 for x in xs):\n"
+            "        return None\n"
+            "    return round(len(xs) / sum(1.0 / x for x in xs), 6)\n",
+            lambda low: "harmonic" in low and "mean" in low,
+            (
+                (([1, 2, 4],), 1.714286),
+                (([2, 2],), 2.0),
+                (([1, 0],), None),
+            ),
+        ),
+        T(
+            "unix_to_iso",
+            "def unix_to_iso(ts):\n"
             '    """UTC ISO-8601 from a unix timestamp (seconds)."""\n'
             "    from datetime import datetime, timezone\n"
             "    return datetime.fromtimestamp(float(ts), timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')\n",
             lambda low: (
                 ("unix" in low or "epoch" in low)
-                and ("iso8601" in low or "iso-8601" in low or "iso 8601" in low)
+                and ("iso-8601" in low or "iso 8601" in low or "iso8601" in low)
+                and "to a unix" not in low
+                and "to unix" not in low
             ),
             (
                 ((0,), "1970-01-01T00:00:00Z"),
                 ((1_700_000_000,), "2023-11-14T22:13:20Z"),
+            ),
+        ),
+        T(
+            "iso_to_unix",
+            "def iso_to_unix(text):\n"
+            '    """Unix seconds from an ISO-8601 timestamp. Naive values are treated as UTC."""\n'
+            "    from datetime import datetime, timezone\n"
+            "    s = str(text).strip().replace('Z', '+00:00')\n"
+            "    dt = datetime.fromisoformat(s)\n"
+            "    if dt.tzinfo is None:\n"
+            "        dt = dt.replace(tzinfo=timezone.utc)\n"
+            "    return int(dt.timestamp())\n",
+            lambda low: (
+                ("iso-8601" in low or "iso 8601" in low or "iso8601" in low)
+                and ("unix" in low or "epoch" in low)
+                and ("to a unix" in low or "to unix" in low or "to epoch" in low)
+            ),
+            (
+                (("1970-01-01T00:00:00Z",), 0),
+                (("2023-11-14T22:13:20Z",), 1_700_000_000),
+            ),
+        ),
+        T(
+            "one_hot",
+            "def one_hot(index, size):\n"
+            '    """One-hot vector of length size with a 1 at index."""\n'
+            "    n = int(size)\n"
+            "    i = int(index)\n"
+            "    return [1 if k == i else 0 for k in range(n)]\n",
+            lambda low: "one-hot" in low or "one hot" in low,
+            (
+                ((1, 3), [0, 1, 0]),
+                ((0, 2), [1, 0]),
+            ),
+        ),
+        T(
+            "quantile",
+            "def quantile(values, q):\n"
+            '    """Linear quantile on a sorted copy. q outside [0, 1] clamps to an endpoint."""\n'
+            "    xs = sorted(float(x) for x in values)\n"
+            "    if not xs:\n"
+            "        return None\n"
+            "    q = float(q)\n"
+            "    if q <= 0:\n"
+            "        return xs[0]\n"
+            "    if q >= 1:\n"
+            "        return xs[-1]\n"
+            "    pos = q * (len(xs) - 1)\n"
+            "    lo = int(pos)\n"
+            "    hi = min(lo + 1, len(xs) - 1)\n"
+            "    frac = pos - lo\n"
+            "    return xs[lo] * (1 - frac) + xs[hi] * frac\n",
+            lambda low: "quantile" in low and "interquartile" not in low,
+            (
+                (([1, 2, 3, 4], 0.5), 2.5),
+                (([1, 2, 3, 4], 0), 1.0),
+                (([1, 2, 3, 4], 1), 4.0),
+            ),
+        ),
+        T(
+            "population_variance",
+            "def population_variance(values):\n"
+            '    """Population variance (divide by N, not N-1). Empty -> None."""\n'
+            "    xs = [float(x) for x in values]\n"
+            "    if not xs:\n"
+            "        return None\n"
+            "    mean = sum(xs) / len(xs)\n"
+            "    return sum((x - mean) ** 2 for x in xs) / len(xs)\n",
+            lambda low: "population variance" in low or ("variance" in low and "population" in low),
+            (
+                (([2, 4, 4, 4, 5, 5, 7, 9],), 4.0),
+                (([1, 2, 3],), 2.0 / 3.0),
+            ),
+        ),
+        T(
+            "singularize",
+            "def singularize(word):\n"
+            '    """Simple English singular (ies->y, es/s). Not a full inflection library."""\n'
+            "    w = str(word)\n"
+            "    low = w.lower()\n"
+            "    if low.endswith('ies') and len(w) > 3:\n"
+            "        return w[:-3] + 'y'\n"
+            "    if low.endswith('es') and len(w) > 2 and low[-3] in 'sxz' or low.endswith(('ches', 'shes')):\n"
+            "        return w[:-2]\n"
+            "    if low.endswith('s') and not low.endswith('ss') and len(w) > 1:\n"
+            "        return w[:-1]\n"
+            "    return w\n",
+            lambda low: "singularize" in low or "singularise" in low,
+            (
+                (("cats",), "cat"),
+                (("berries",), "berry"),
+                (("buses",), "bus"),
+            ),
+        ),
+        T(
+            "parse_duration",
+            "def parse_duration(text):\n"
+            '    """Parse a compact duration (1h30m, 45s) into whole seconds."""\n'
+            "    import re\n"
+            "    total = 0\n"
+            "    found = False\n"
+            "    for n, unit in re.findall(r'(\d+)\s*([dhms])', str(text).lower()):\n"
+            "        found = True\n"
+            "        total += int(n) * {'d': 86400, 'h': 3600, 'm': 60, 's': 1}[unit]\n"
+            "    return total if found else None\n",
+            lambda low: (
+                ("parse" in low or "parses" in low)
+                and "duration" in low
+                and "humaniz" not in low
+            ),
+            (
+                (("1h30m",), 5400),
+                (("45s",), 45),
+                (("2d",), 172800),
+            ),
+        ),
+        T(
+            "percentile",
+            "def percentile(values, p):\n"
+            '    """Linear percentile (p in 0..100) on a sorted copy."""\n'
+            "    xs = sorted(float(x) for x in values)\n"
+            "    if not xs:\n"
+            "        return None\n"
+            "    q = float(p) / 100.0\n"
+            "    if q <= 0:\n"
+            "        return xs[0]\n"
+            "    if q >= 1:\n"
+            "        return xs[-1]\n"
+            "    pos = q * (len(xs) - 1)\n"
+            "    lo = int(pos)\n"
+            "    hi = min(lo + 1, len(xs) - 1)\n"
+            "    frac = pos - lo\n"
+            "    return xs[lo] * (1 - frac) + xs[hi] * frac\n",
+            lambda low: "percentile" in low and "interquartile" not in low,
+            (
+                (([1, 2, 3, 4], 50), 2.5),
+                (([1, 2, 3, 4], 0), 1.0),
             ),
         ),
         T(
