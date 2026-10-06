@@ -4232,3 +4232,27 @@ def test_p179_metar_dew_bearing_roman_direction():
     assert match_template("write a function that computes haversine distance between two lat lon points").name == "haversine_km"
 
 
+
+
+def test_p181_iou_l2_chunk_weighted_heron_uuid5():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that computes bounding box iou": "box_iou",
+        "write a function that computes intersection over union of two boxes": "box_iou",
+        "write a function that l2 normalizes a vector": "l2_normalize",
+        "write a function that chunks a string into size n": "chunk_string",
+        "write a function that returns the weighted average of values": "weighted_mean",
+        "write a function that computes triangle area with heron formula": "heron_area",
+        "write a function that returns the uuid5 of a name": "uuid5_name",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, getattr(hit, "name", None))
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that computes a moving average").name == "moving_average"
+    assert match_template("write a function that rotates a point around the origin").name == "rotate_point"
+    # Cycle 463 cache: second identical ask returns the same template.
+    first = match_template("write a function that computes bounding box iou")
+    second = match_template("write a function that computes bounding box iou")
+    assert first is second

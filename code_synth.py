@@ -32,6 +32,7 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p181",
         "code_synth_p180",
         "code_synth_p179",
         "code_synth_p178",
@@ -244,6 +245,7 @@ def get_templates() -> list[Template]:
         return cached
     loaded = _templates()
     globals()["_TEMPLATES_CACHE"] = loaded
+    globals().get("_MATCH_CACHE", {}).clear()
     TEMPLATES = loaded
     return loaded
 
@@ -311,10 +313,24 @@ def iter_matching(request: str) -> list[Template]:
 def match_template(request: str) -> Template | None:
     """First match, then upgrade to a token-superset sibling.
 
+    Cycle 463: identical requests reuse the winner. Pack order is unchanged.
+
     Cycle 283: pack order stays the default (smoke depends on it). If a later
     hit's name tokens strictly contain the winner's tokens *and* the extra
     tokens appear in the request, prefer the more specific sibling.
     """
+    key = _low(request)
+    cache = globals().setdefault("_MATCH_CACHE", {})
+    if key in cache:
+        return cache[key]
+    hit = _match_template_uncached(request)
+    if len(cache) >= 256:
+        cache.clear()
+    cache[key] = hit
+    return hit
+
+
+def _match_template_uncached(request: str) -> Template | None:
     hits = iter_matching(request)
     if not hits:
         return None

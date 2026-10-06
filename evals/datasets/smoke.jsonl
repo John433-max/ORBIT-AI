@@ -1367,3 +1367,9 @@
 {"id": "code_1328", "category": "coding", "input": "write a function that masks all but the last four digits", "expect_contains": ["def mask_last4", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1329", "category": "coding", "input": "write a function that returns the number of days in a month", "expect_contains": ["def days_in_month", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1330", "category": "coding", "input": "write a function that computes the nth catalan number", "expect_contains": ["def catalan_number", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1331", "category": "coding", "input": "write a function that computes bounding box iou", "expect_contains": ["def box_iou", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1332", "category": "coding", "input": "write a function that l2 normalizes a vector", "expect_contains": ["def l2_normalize", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1333", "category": "coding", "input": "write a function that chunks a string into size n", "expect_contains": ["def chunk_string", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1334", "category": "coding", "input": "write a function that returns the weighted average of values", "expect_contains": ["def weighted_mean", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1335", "category": "coding", "input": "write a function that computes triangle area with heron formula", "expect_contains": ["def heron_area", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1336", "category": "coding", "input": "write a function that returns the uuid5 of a name", "expect_contains": ["def uuid5_name", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
