@@ -26,6 +26,54 @@ def _low(request: str) -> str:
 _TWO = r"(two|2|a pair of)"
 
 
+def _widen_loaded(tmpl: Template) -> Template:
+    """Phrase gaps found by CI 37575101631 (p202–p205 asks).
+
+    Pack files stay the source of the body. Only the loaded matcher is
+    relaxed so 'swaps the case', 'splits a list into chunks', and
+    'rotates a string left' hit the existing templates.
+    """
+    name = getattr(tmpl, "name", None)
+    if name == "swap_case":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(re.search(r"swaps?(?: the)?[- ]case", low))
+            and "node" not in low
+            and "value" not in low,
+            tmpl.examples,
+        )
+    if name == "chunk_list":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\bchunk(?:s|ed|ing)?\b.{0,24}\b(list|array|items)\b|"
+                    r"\bsplits?\b.{0,32}\b(list|array)\b.{0,32}\b(chunks?|batches|groups)\b",
+                    low,
+                )
+            ),
+            tmpl.examples,
+        )
+    if name == "rotate_string":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\brota(?:te|tes|ting)(?: a)? string\b|\bstring rotation\b",
+                    low,
+                )
+            )
+            and "matrix" not in low
+            and "image" not in low
+            and "list" not in low,
+            tmpl.examples,
+        )
+    return tmpl
+
+
 def _templates() -> list[Template]:
     """Load split packs (Cycle 244). Missing packs are skipped so CI still collects."""
     import importlib
@@ -260,7 +308,7 @@ def _templates() -> list[Template]:
                 continue
             if key:
                 seen.add(key)
-            out.append(tmpl)
+            out.append(_widen_loaded(tmpl))
     return out
 
 
