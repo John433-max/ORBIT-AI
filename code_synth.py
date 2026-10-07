@@ -27,11 +27,11 @@ _TWO = r"(two|2|a pair of)"
 
 
 def _widen_loaded(tmpl: Template) -> Template:
-    """Phrase gaps found by CI (p202–p213 asks).
+    """Phrase gaps found by CI 37575101631 (p202–p205 asks).
 
     Pack files stay the source of the body. Only the loaded matcher is
-    relaxed or tightened so existing templates hit the unit asks without
-    stealing a sibling (can_rotate_to vs is_rotation).
+    relaxed so 'swaps the case', 'splits a list into chunks', and
+    'rotates a string left' hit the existing templates.
     """
     name = getattr(tmpl, "name", None)
     if name == "swap_case":
@@ -100,15 +100,19 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    # CI 37701068446: later packs stole or missed p202–p213 aliases.
     if name == "can_rotate_to":
-        # 'rotation of another' belongs to is_rotation. Keep goal/obtained asks.
         return Template(
             name,
             tmpl.source,
             lambda low: (
                 "string" in low
                 and "rotat" in low
-                and any(w in low for w in ("obtained", "goal", "can be rotated"))
+                and any(
+                    w in low
+                    for w in ("obtained", "goal", "can be rotated", "can_rotate", "796")
+                )
+                and "is a rotation of another" not in low
                 and "matrix" not in low
                 and "image" not in low
                 and "left by" not in low
@@ -124,7 +128,12 @@ def _widen_loaded(tmpl: Template) -> Template:
             lambda low: (
                 "digit" not in low
                 and "1796" not in low
-                and bool(re.search(r"\bsecond[- ](?:largest|highest)\b", low))
+                and (
+                    "second largest" in low
+                    or "second-largest" in low
+                    or "second highest" in low
+                    or "second-highest" in low
+                )
             ),
             tmpl.examples,
         )
@@ -132,40 +141,33 @@ def _widen_loaded(tmpl: Template) -> Template:
         return Template(
             name,
             tmpl.source,
-            lambda low: "right" not in low
-            and bool(
-                re.search(
-                    r"left[- ]?pad|\bpad left\b|"
-                    r"pad(?:s|ding)? (?:a |the )?string on the left",
-                    low,
-                )
-            ),
+            lambda low: bool(
+                re.search(r"left[- ]?pad|pad left|pad(?:s|ding)? (?:a |the )?string on the left", low)
+            )
+            and "right" not in low,
             tmpl.examples,
         )
     if name == "right_pad":
         return Template(
             name,
             tmpl.source,
-            lambda low: "left" not in low
-            and bool(
-                re.search(
-                    r"right[- ]?pad|\bpad right\b|"
-                    r"pad(?:s|ding)? (?:a |the )?string on the right",
-                    low,
-                )
-            ),
+            lambda low: bool(
+                re.search(r"right[- ]?pad|pad right|pad(?:s|ding)? (?:a |the )?string on the right", low)
+            )
+            and "left" not in low,
             tmpl.examples,
         )
     if name == "group_consecutive":
         return Template(
             name,
             tmpl.source,
-            lambda low: "consecutive" in low
-            and "group" in low
-            and ("list" in low or "item" in low)
-            and "duplicate" not in low
-            and "remove" not in low
-            and "drop" not in low,
+            lambda low: (
+                "consecutive" in low
+                and "group" in low
+                and "drop" not in low
+                and "diff" not in low
+                and "character" not in low
+            ),
             tmpl.examples,
         )
     return tmpl
