@@ -1,1 +1,2 @@
-PLACEHOLDER
+{"id": "math_1", "category": "math", "input": "12*5", "expect_contains": ["60"]}
+PLACEHOLDER_TOO_LARGE_SEE_LOCAL
