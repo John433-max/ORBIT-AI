@@ -84,7 +84,14 @@ def templates() -> list[Template]:
             "def drop_last(items):\n"
             '    """Return a copy without the last item."""\n'
             "    return list(items)[:-1]\n",
-            lambda low: "drop" in low and "last" in low and "first" not in low,
+            lambda low: (
+                "drop" in low
+                and "last" in low
+                and "first" not in low
+                and "last n" not in low
+                and "n elements" not in low
+                and "n items" not in low
+            ),
             (
                 (([1, 2, 3],), [1, 2]),
                 (([1],), []),
