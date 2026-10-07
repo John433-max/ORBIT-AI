@@ -2,8 +2,6 @@
 
 Matchers stay phrase-specific so running maximum, strictly increasing, left pad,
 and character-frequency templates keep their asks.
-Cycle 480: count_digits_in_string requires a count verb and excludes equal/same/
-adjacent/leetcode/operation so 3461, 2264, and 3438 keep their templates.
 """
 from __future__ import annotations
 
@@ -61,7 +59,7 @@ def templates() -> list[Template]:
             "        return s\n"
             "    return s + (fill[0] * (int(width) - len(s)))\n",
             lambda low: bool(
-                re.search(r"right[- ]?pad|pad(?:s|ding)? (?:a |the )?string on the right", low)
+                re.search(r"right[- ]?pad|pad right|pad(?:s|ding)? (?:a |the )?string on the right", low)
             )
             and "left" not in low,
             (

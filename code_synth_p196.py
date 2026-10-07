@@ -119,7 +119,7 @@ def templates() -> list[Template]:
             "    if len(s) >= int(width):\n"
             "        return s\n"
             "    return (fill[0] * (int(width) - len(s))) + s\n",
-            lambda low: bool(re.search(r"left[- ]?pad|pad(?:s|ding)? (?:a |the )?string on the left", low)),
+            lambda low: bool(re.search(r"left[- ]?pad|pad left|pad(?:s|ding)? (?:a |the )?string on the left", low)),
             (
                 (("7", 3, "0"), "007"),
                 (("abc", 2, "0"), "abc"),

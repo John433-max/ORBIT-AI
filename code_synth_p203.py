@@ -40,7 +40,13 @@ def templates() -> list[Template]:
             "        else:\n"
             "            groups.append([x])\n"
             "    return groups\n",
-            lambda low: "consecutive" in low and "group" in low and "list" in low,
+            lambda low: (
+                "consecutive" in low
+                and "group" in low
+                and "drop" not in low
+                and "diff" not in low
+                and "character" not in low
+            ),
             (
                 (([1, 1, 2, 2, 2, 3],), [[1, 1], [2, 2, 2], [3]]),
                 (([],), []),

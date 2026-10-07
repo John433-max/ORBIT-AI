@@ -25,12 +25,13 @@ def templates() -> list[Template]:
                     w in low
                     for w in (
                         "obtained",
-                        "another",
                         "goal",
                         "can be rotated",
-                        "is a rotation",
+                        "can_rotate",
+                        "796",
                     )
                 )
+                and "is a rotation of another" not in low
                 and "matrix" not in low
                 and "image" not in low
                 and "left by" not in low

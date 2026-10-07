@@ -174,11 +174,11 @@ def templates() -> list[Template]:
             lambda low: (
                 "digit" not in low
                 and "1796" not in low
-                and bool(
-                    re.search(
-                        r"\bsecond[- ]largest (number|element|value|item)\b",
-                        low,
-                    )
+                and (
+                    "second largest" in low
+                    or "second-largest" in low
+                    or "second highest" in low
+                    or "second-highest" in low
                 )
             ),
             (
