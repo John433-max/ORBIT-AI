@@ -127,7 +127,7 @@ def templates() -> list[Template]:
             "    if n < 0:\n"
             "        return 0\n"
             "    return n * (n + 1) // 2\n",
-            lambda low: "triangular" in low,
+            lambda low: "triangular" in low and "triangular sum" not in low and "triangular_sum" not in low,
             (
                 ((0,), 0),
                 ((1,), 1),

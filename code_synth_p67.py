@@ -27,6 +27,7 @@ def templates() -> list[Template]:
                     r"\bcount_days_together\b|"
                     r"\bcount[_ ]days[_ ]spent[_ ]together\b|"
                     r"\bdays[_ ]spent[_ ]together\b|"
+                    r"\bdays two people spent together\b|"
                     r"\bleetcode[_ ]2409\b",
                     low,
                 )

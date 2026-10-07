@@ -46,6 +46,7 @@ def templates() -> list[Template]:
                 re.search(
                     r"\bhave_conflict\b|"
                     r"\btwo[_ ]events[_ ]have[_ ]conflict\b|"
+                    r"\bevents have conflict\b|"
                     r"\bdetermine[_ ]if[_ ]two[_ ]events[_ ]have[_ ]conflict\b|"
                     r"\bleetcode[_ ]2446\b",
                     low,

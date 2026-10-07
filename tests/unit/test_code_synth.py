@@ -3866,6 +3866,7 @@ def test_p161_interleave_digit_unique_swap_punct_pairs():
         "write a python function that sum of digits of string after convert": "get_lucky",
         "write a python function that count integers with even digit sum": "count_even",
         "write a python function sum of digits in base k leetcode 1837": "sum_base",
+        "write a python function that alternating digit sum": "alternate_digit_sum",
     }
     for ask, name in siblings.items():
         hit = match_template(ask)
@@ -4791,6 +4792,165 @@ def test_p207_vowels_every_join_ws_cap_equal():
 
 
 
+def test_p208_middle_repeat_swap_insert_remove_digits():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the middle element of a list": "middle_element",
+        "write a function that repeats a list until it reaches length n": "repeat_until_length",
+        "write a function that swaps adjacent elements in a list": "swap_adjacent",
+        "write a function that inserts a value at an index": "insert_at",
+        "write a function that removes the element at an index": "remove_at",
+        "write a function that sums the digits of a number": "digit_sum",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the middle of a linked list").name == "middle_node"
+    assert match_template("write a function that swaps two elements").name == "swap_values"
+    assert match_template("write a function that returns the product of digits").name == "digit_product"
+    assert match_template("write a function that repeats each list item n times").name == "repeat_each"
+
+
+def test_p209_ends_drop_swap_split_and_second_largest_alias():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the first element of a list": "first_element",
+        "write a function that returns the last element of a list": "last_element",
+        "write a function to drop the first element": "drop_first",
+        "write a function to drop the last element": "drop_last",
+        "write a function to swap the first and last elements": "swap_ends",
+        "write a function to split a string into words": "split_words",
+        "second largest": "second_largest",
+        "second highest": "second_largest",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("first missing positive").name == "first_missing_positive"
+    assert match_template("last stone weight").name == "last_stone_weight"
+    assert match_template("write a function that swaps adjacent elements in a list").name == "swap_adjacent"
+    assert match_template("write a function that drops the last n elements of a list").name == "last_n"
+    assert match_template("second largest digit").name == "second_largest_digit"
+
+
+def test_p210_join_enumerate_dedupe_pairwise_lines_suffix():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function to join words with a separator": "join_words",
+        "write a function to enumerate a list": "enumerate_list",
+        "write a function to dedupe a list": "dedupe_list",
+        "write a function to pairwise adjacent elements": "pairwise",
+        "write a function to prefix lines with numbers": "number_lines",
+        "write a function to ensure a suffix": "ensure_suffix",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("remove duplicates preserving order").name == "remove_duplicates"
+    assert match_template("write a function that swaps adjacent elements in a list").name == "swap_adjacent"
+    assert match_template("write a function to ensure a string starts with a prefix").name == "starts_with"
+
+def test_p211_zip_truncate_equal_freq_intersperse_prefix():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function to zip longest": "zip_longest",
+        "write a function to truncate a string": "truncate_string",
+        "write a function to check all equal": "all_equal",
+        "write a function to frequency map": "frequency_map",
+        "write a function to intersperse a separator": "intersperse",
+        "write a function to ensure a prefix": "ensure_prefix",
+        "write a function to pad left with zeros": "left_pad",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function to zip two lists").name == "zip_pairs"
+    assert match_template("write a function to ensure a suffix").name == "ensure_suffix"
+    assert match_template("write a function to ensure a string starts with a prefix").name == "starts_with"
+    assert match_template("write a function to most common element").name == "most_common_element"
+    assert match_template("write a function to left pad").name == "left_pad"
+
+
+def test_p212_windows_take_drop_prefix_sign_product():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function to sliding windows": "sliding_windows",
+        "write a function to take while": "take_while",
+        "write a function to drop while": "drop_while",
+        "write a function to common prefix": "common_prefix",
+        "write a function to sign of a number": "sign",
+        "write a function to cumulative product": "cumulative_product",
+        "write a function to pad right": "right_pad",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function to chunk a list").name == "chunk_list"
+    assert match_template("write a function to common suffix").name == "common_suffix"
+    assert match_template("write a function to running sum").name == "running_sum"
+    assert match_template("write a function to left pad").name == "left_pad"
+    assert match_template("write a function to sliding window maximum").name != "sliding_windows"
+
+def test_p213_diagonal_index_replace_unique_case_rows():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the main diagonal of a square matrix": "matrix_diagonal",
+        "write a function that returns the last index of a value": "last_index",
+        "write a function that replaces every occurrence of a value": "replace_value",
+        "write a function that checks if all elements are unique": "all_unique",
+        "write a function that returns alternating case": "alternating_case",
+        "write a function that returns the row sums of a matrix": "row_sums",
+        "write a function that groups consecutive equal items": "group_consecutive",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the column sums of a matrix").name == "column_sums"
+    assert match_template("write a function that returns the trace of a matrix").name == "matrix_trace"
+    assert match_template("write a function that returns the index of the minimum").name == "argmin_list"
+    assert match_template("write a function that swaps the case of a string").name == "swap_case"
+
+
+def test_p214_duplicate_none_subset_remove_antidiag_means():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the first duplicate": "first_duplicate",
+        "write a function that returns the first repeated value": "first_duplicate",
+        "write a function that removes None values": "drop_none",
+        "write a function that checks if one list is a subset of another": "is_subset",
+        "write a function that removes an item at an index": "remove_at",
+        "write a function that returns the anti diagonal of a matrix": "anti_diagonal",
+        "write a function that returns the secondary diagonal": "anti_diagonal",
+        "write a function that returns column means of a matrix": "column_means",
+        "write a function that returns the mean of each column": "column_means",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the main diagonal of a square matrix").name == "matrix_diagonal"
+    assert match_template("write a function that returns the column sums of a matrix").name == "column_sums"
+    assert match_template("write a function that returns the first non-repeating character").name == "first_unique_char"
+    assert match_template("write a function that inserts an item at an index").name == "insert_at"
+
+
+
 def test_p215_rotate_goal_and_phrase_aliases():
     from code_synth import match_template, synthesize_and_verify
 
@@ -4806,3 +4966,147 @@ def test_p215_rotate_goal_and_phrase_aliases():
         out = synthesize_and_verify(ask)
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a function that rotates a string left by k").name == "rotate_string"
+
+
+def test_p216_odds_sentence_unique_equal_shuffle_ap():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that counts odd numbers in a range": "count_odds",
+        "write a function that sorts a sentence of numbered words": "sort_sentence",
+        "write a function that sums unique elements": "sum_of_unique",
+        "write a function that checks equivalent string arrays": "array_strings_are_equal",
+        "write a function that shuffles a string by indices": "restore_string",
+        "write a function that checks if can form arithmetic progression": "can_make_arithmetic_progression",
+        "write a function that rotates an array to the right by k": "rotate_array",
+        "write a function that intersects two arrays": "intersection",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function three consecutive odds").name == "three_consecutive_odds"
+    assert match_template("write a python function that count odd numbers in an interval").name == "count_odds"
+    assert match_template("write a python function that restore string").name == "restore_string"
+    assert match_template("write a function unique occurrences").name == "unique_occurrences"
+    assert match_template("write a function to check if a string can be obtained by rotating another").name == "can_rotate_to"
+
+
+def test_p217_apart_codes_ip_close_factor_increasing():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that counts ones at least k apart in a binary array": "k_length_apart",
+        "write a function that checks if a binary string contains all binary codes of size k": "has_all_codes",
+        "write a function that restores IP addresses from a string": "restore_ip_addresses",
+        "write a function that determines if two strings are close": "close_strings",
+        "write a function that returns the kth factor of n": "kth_factor",
+        "write a function that checks if an array can be made increasing by removing one element": "can_be_increasing",
+        "write a function that finds the maximum average of a subarray of length k": "find_max_average",
+        "write a function that counts students doing homework at a query time": "busy_student",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that converts a decimal to binary").name == "decimal_to_binary"
+
+
+def test_p218_city_pangram_prefix_slices_sign_ascending():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the longest happy prefix": "longest_happy_prefix",
+        "write a function that counts arithmetic slices": "number_of_arithmetic_slices",
+        "write a function that finds the maximum ascending sum": "max_ascending_sum",
+        "write a function that checks if two strings are almost equal by one swap": "are_almost_equal",
+        "write a function that finds the winner of a circle count-out game": "find_the_winner",
+        "write a function that interprets a goal parser command": "interpret",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that checks if can form arithmetic progression").name == "can_make_arithmetic_progression"
+    assert match_template("write a python function that destination city").name == "dest_city"
+    assert match_template("write a python function that check if the sentence is a pangram").name == "check_pangram"
+    assert match_template("write a python function that sign of the product of an array").name == "sign_of_product"
+
+
+
+
+def test_p219_triangular_sum_remove_negative_digits_split():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the triangular sum of an array": "triangular_sum",
+        "write a function that removes all occurrences of a substring": "remove_occurrences",
+        "write a function that finds the largest integer that exists with its negative": "find_max_k",
+        "write a function that deletes the greatest value in each row": "delete_greatest_value",
+        "write a function that separates the digits in an array": "separate_digits",
+        "write a function that splits a number with minimum sum": "split_num",
+        "write a function that checks if events have conflict": "have_conflict",
+        "write a function that counts the days two people spent together": "count_days_together",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the nth triangular number").name == "triangular"
+
+
+def test_p219_triangular_sum_remove_maxk_digits_split():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the triangular sum of an array": "triangular_sum",
+        "write a function that removes all occurrences of a substring": "remove_occurrences",
+        "write a function that finds the largest positive integer that exists with its negative": "find_max_k",
+        "write a function that deletes the greatest value in each row": "delete_greatest_value",
+        "write a function that separates the digits in an array": "separate_digits",
+        "write a function that splits a number into two with minimum sum": "split_num",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the nth triangular number").name == "triangular"
+    assert match_template("write a function that returns the digit sum").name == "digit_sum"
+
+
+def test_smoke_coding_misses_2026_10_07_name_lock():
+    """Lock the 17 smoke rows that failed the 23:09 eval (name mismatch or stub)."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a python function that minimum sum of four digit number": "minimum_sum_four_digit",
+        "write a python function count days spent together leetcode 2409": "count_days_together",
+        "write a python function minimum sum of four digit number leetcode 2160": "minimum_sum_four_digit",
+        "write a python function find the pivot integer leetcode 2485": "find_the_pivot_integer",
+        "write a python function divisible and non divisible sums difference leetcode 2894": "divisible_and_non_divisible",
+        "write a python function maximum count of positive integer and negative integer leetcode 2529": "maximum_count",
+        "write a python function determine if two events have conflict leetcode 2446": "have_conflict",
+        "write a python function minimum bit flips to convert number leetcode 2220": "min_bit_flips",
+        "write a python function find the difference of two arrays leetcode 2215": "find_difference",
+        "write a python function count hills and valleys in an array leetcode 2210": "count_hill_valley",
+        "write a function that returns the sha1 hex digest of a string": "sha1_hex",
+        "write a function that returns the crc32 of a string": "crc32_hex",
+        "write a function that returns the dice coefficient of two sets": "dice_coefficient",
+        "write a function that formats a number with thousands separators": "thousands_separators",
+        "write a function that builds a query string from a dict": "build_query",
+        "write a function that parses hh:mm:ss to seconds": "hms_to_seconds",
+        "write a function that returns the nth triangular number": "triangular",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    # triangular sum must not collapse into nth triangular
+    assert match_template("write a python function triangular sum of an array").name == "triangular_sum"

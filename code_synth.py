@@ -71,6 +71,35 @@ def _widen_loaded(tmpl: Template) -> Template:
             and "list" not in low,
             tmpl.examples,
         )
+    if name == "find_max_average":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\bfind[_ ]max[_ ]average\b|"
+                    r"\bmaximum average\b.{0,40}\bsubarray\b|"
+                    r"\bmax average of (?:any |a )?subarray\b",
+                    low,
+                )
+            )
+            and "moving" not in low,
+            tmpl.examples,
+        )
+    if name == "busy_student":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\bbusy[_ ]student\b|"
+                    r"\bstudents doing homework\b|"
+                    r"\bhomework at (?:a )?(?:given |query )?time\b",
+                    low,
+                )
+            ),
+            tmpl.examples,
+        )
     return tmpl
 
 
@@ -80,6 +109,9 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p219",
+        "code_synth_p218",
+        "code_synth_p217",
         "code_synth_p216",
         "code_synth_p215",
         "code_synth_p214",
