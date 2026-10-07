@@ -1,7 +1,7 @@
 """Cycle 493: list ends, drop ends, swap ends, and split words.
 
 first/last element require element or item so first_missing_positive and
-last_stone_weight stay put. drop_* require the word drop. swap_ends requires
+last_stone_weight stay put. drop_* require the word drop. drop_last ignores last-n tails so last_n keeps them. swap_ends requires
 both first and last and declines adjacent swaps. split_words requires split
 and word so list splits stay with earlier packs.
 """
@@ -89,8 +89,8 @@ def templates() -> list[Template]:
                 and "last" in low
                 and "first" not in low
                 and "last n" not in low
-                and "n elements" not in low
-                and "n items" not in low
+                and "n element" not in low
+                and "n item" not in low
             ),
             (
                 (([1, 2, 3],), [1, 2]),

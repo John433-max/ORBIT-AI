@@ -22,3 +22,8 @@ Smoke 1574/1580 (99.62%). Six coding rows missed because newer packs stole older
 | coding | 1529/1535 | 1535/1535 |
 
 Doctor stayed READY. Identity / search / add probes unchanged.
+
+
+## CI 37650910524 follow-up
+
+drop_last matched any drop+last phrase and stole `write a function that drops the last n elements of a list` from last_n (test_p204). Matcher now rejects `last n`, `n element`, and `n item`. Singular `drop the last element` still selects drop_last.
