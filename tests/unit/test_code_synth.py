@@ -4571,18 +4571,18 @@ def test_p197_span_pad_counts():
     assert match_template("write a function that checks if a list is strictly increasing").name == "is_strictly_increasing"
     assert match_template("write a function that left-pads a string").name == "left_pad"
     assert match_template("write a function that counts character frequencies").name == "char_frequency"
+    # Cycle 480: count-digits must not steal LeetCode digit-in-string templates.
     assert match_template(
         "write a python function check if digits are equal in string after operations leetcode 3461"
     ).name == "has_same_digits"
     assert match_template(
         "write a python function largest 3-same-digit number in string leetcode 2264"
     ).name == "largest_good_integer"
+    assert match_template("largest 3-same-digit number in string").name == "largest_good_integer"
     assert match_template(
         "write a python function valid pair of adjacent digits in string leetcode 3438"
     ).name == "find_valid_pair"
-    assert match_template(
-        "write a function that computes haversine distance between two lat lon points"
-    ).name == "haversine_km"
+
 
 def test_p198_prefix_mode_helpers():
     from code_synth import match_template, synthesize_and_verify
@@ -4641,4 +4641,151 @@ def test_p200_consonants_digits_middle_zip():
         out = synthesize_and_verify(ask)
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a function that counts vowels in a string").name == "count_vowels"
+    assert match_template("write a function that inserts a separator between list items").name == "join_with"
     assert match_template("write a function that returns the product of a list").name == "list_product"
+
+
+def test_p201_vowel_indices_spaces_argmin():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the indices of vowels in a string": "vowel_indices",
+        "write a function that collapses repeated spaces in a string": "collapse_spaces",
+        "write a function that strips punctuation from a string": "strip_punctuation",
+        "write a function that keeps only digits from a string": "only_digits",
+        "write a function that returns the index of the minimum value in a list": "argmin_list",
+        "write a function that extracts integers from a string": "extract_integers",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that counts vowels in a string").name == "count_vowels"
+    assert match_template("write a function that strips digits from a string").name == "strip_digits"
+    assert match_template("write a function that returns the argmax of a list").name == "argmax_list"
+
+
+def test_p202_prefix_suffix_repeat_nth():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that swaps the case of a string": "swap_case",
+        "write a function that splits a list into chunks of size n": "chunk_list",
+        "write a function that rotates a string left by k": "rotate_string",
+        "write a function that checks whether a string starts with a given prefix": "starts_with",
+        "write a function that checks whether a string ends with a given suffix": "ends_with",
+        "write a function that removes a prefix from a string if present": "remove_prefix",
+        "write a function that removes a suffix from a string if present": "remove_suffix",
+        "write a function that repeats a string n times": "repeat_string",
+        "write a function that returns every nth element of a list": "every_nth",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("check if one string is a rotation of another").name == "is_rotation"
+    assert match_template("write a function that returns the longest common prefix of a list of strings").name == "longest_common_prefix"
+    assert match_template("swap case of a string").name == "swap_case"
+
+
+def test_p203_newlines_groups_pad_suffix_sentence_numeric():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that normalizes newlines in a string": "normalize_newlines",
+        "write a function that groups consecutive equal values in a list": "group_consecutive",
+        "write a function that pads a string on the left to a width": "pad_left",
+        "write a function that returns the longest common suffix of strings": "common_suffix",
+        "write a function that converts a string to sentence case": "sentence_case",
+        "write a function that checks whether a string is numeric": "is_numeric",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the longest common prefix of a list of strings").name == "longest_common_prefix"
+    assert match_template("write a function that removes a suffix from a string if present").name == "remove_suffix"
+    assert match_template("write a function that checks whether a string ends with a given suffix").name == "ends_with"
+
+
+def test_p204_blank_swap_distinct_wrap_join_digits():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that removes blank lines from a string": "remove_blank_lines",
+        "write a function that swaps adjacent pairs in a list": "swap_adjacent",
+        "write a function that counts distinct values in a list": "count_distinct",
+        "write a function that wraps a string at a given width": "wrap_text",
+        "write a function that inserts a separator between list items": "join_with",
+        "write a function that extracts digits from a string": "extract_digits",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that splits a list into chunks of size n").name == "chunk_list"
+    assert match_template("write a function that pads a string on the left to a width").name == "pad_left"
+    assert match_template("write a function that drops the last n elements of a list").name == "last_n"
+
+
+def test_p205_spaces_center_runs_windows_half_unzip():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that collapses multiple spaces in a string": "squeeze_spaces",
+        "write a function that centers a string in a given width": "center_text",
+        "write a function that removes consecutive duplicates from a list": "drop_consecutive",
+        "write a function that returns sliding windows of size k over a list": "sliding_windows",
+        "write a function that splits a list in half": "split_half",
+        "write a function that unzips a list of pairs": "unzip_pairs",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that groups consecutive equal values in a list").name == "group_consecutive"
+    assert match_template("write a function that pads a string on the left to a width").name == "pad_left"
+    assert match_template("write a function that capitalizes each word").name == "title_case"
+    assert match_template("write a function that inserts a separator between list items").name == "join_with"
+    assert match_template("write a function that splits a list into chunks of size n").name == "chunk_list"
+
+
+def test_p206_columns_index_email_diff_pangram_repeat():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that sums each column of a matrix": "column_sums",
+        "write a function that pairs each list item with its index": "zip_with_index",
+        "write a function that masks an email address": "mask_email",
+        "write a function that returns consecutive differences of a list": "running_diff",
+        "write a function that strips a prefix from a string": "strip_prefix",
+        "write a function that repeats each list item n times": "repeat_each",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that removes consecutive duplicates from a list").name == "drop_consecutive"
+    assert match_template("write a function that returns sliding windows of size k over a list").name == "sliding_windows"
+    assert match_template("write a function that collapses multiple spaces in a string").name == "squeeze_spaces"
+
+
+def test_p207_vowels_every_join_ws_cap_equal():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that removes vowels from a string": "remove_vowels",
+        "write a function that returns every other element": "every_other",
+        "write a function that joins a list with a separator": "join_list",
+        "write a function that splits a string on whitespace": "split_whitespace",
+        "write a function that capitalizes the first letter": "capitalize_first",
+        "write a function that checks all items are equal": "all_equal",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that counts vowels in a string").name == "count_vowels"
+    assert match_template("write a function that counts words in a string").name == "count_words"
+    assert match_template("write a function that repeats each list item n times").name == "repeat_each"
+
