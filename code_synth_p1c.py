@@ -227,7 +227,7 @@ def templates():
             lambda low: bool(
                 re.search(
                     r"\bchunk(?:s|ed|ing)?\b.{0,24}\b(list|array|items)\b|"
-                    r"\bsplit .{0,20}\b(list|array)\b.{0,20}\b(chunks|batches|groups)\b",
+                    r"\bsplits? .{0,40}\b(list|array)\b.{0,40}\b(chunks|batches|groups)\b",
                     low,
                 )
             ),

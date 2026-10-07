@@ -233,7 +233,7 @@ def templates() -> list[Template]:
             "        return s\n"
             "    k = int(k) % len(s)\n"
             "    return s[k:] + s[:k]\n",
-            lambda low: bool(re.search(r"\brotate string\b|\bstring rotation\b", low)),
+            lambda low: bool(re.search(r"\brotates? (?:a )?string\b|\bstring rotation\b", low)) and "list" not in low,
             ((("abcde", 2), "cdeab"),),
         ),
         T(

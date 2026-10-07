@@ -21,7 +21,7 @@ def templates() -> list[Template]:
             "        ch.lower() if ch.isupper() else ch.upper() if ch.islower() else ch\n"
             "        for ch in s\n"
             "    )\n",
-            lambda low: bool(re.search(r"swaps?[- ]case", low))
+            lambda low: bool(re.search(r"swaps?(?: the)?[- ]case", low))
             and "node" not in low
             and "value" not in low,
             (
