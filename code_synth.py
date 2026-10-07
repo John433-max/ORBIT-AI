@@ -27,11 +27,11 @@ _TWO = r"(two|2|a pair of)"
 
 
 def _widen_loaded(tmpl: Template) -> Template:
-    """Phrase gaps found by CI 37575101631 (p202–p205 asks).
+    """Phrase gaps found by CI (p202–p213 asks).
 
     Pack files stay the source of the body. Only the loaded matcher is
-    relaxed so 'swaps the case', 'splits a list into chunks', and
-    'rotates a string left' hit the existing templates.
+    relaxed or tightened so existing templates hit the unit asks without
+    stealing a sibling (can_rotate_to vs is_rotation).
     """
     name = getattr(tmpl, "name", None)
     if name == "swap_case":
@@ -98,6 +98,74 @@ def _widen_loaded(tmpl: Template) -> Template:
                     low,
                 )
             ),
+            tmpl.examples,
+        )
+    if name == "can_rotate_to":
+        # 'rotation of another' belongs to is_rotation. Keep goal/obtained asks.
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "string" in low
+                and "rotat" in low
+                and any(w in low for w in ("obtained", "goal", "can be rotated"))
+                and "matrix" not in low
+                and "image" not in low
+                and "left by" not in low
+                and "right by" not in low
+                and "list" not in low
+            ),
+            tmpl.examples,
+        )
+    if name == "second_largest":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "digit" not in low
+                and "1796" not in low
+                and bool(re.search(r"\bsecond[- ](?:largest|highest)\b", low))
+            ),
+            tmpl.examples,
+        )
+    if name == "left_pad":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: "right" not in low
+            and bool(
+                re.search(
+                    r"left[- ]?pad|\bpad left\b|"
+                    r"pad(?:s|ding)? (?:a |the )?string on the left",
+                    low,
+                )
+            ),
+            tmpl.examples,
+        )
+    if name == "right_pad":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: "left" not in low
+            and bool(
+                re.search(
+                    r"right[- ]?pad|\bpad right\b|"
+                    r"pad(?:s|ding)? (?:a |the )?string on the right",
+                    low,
+                )
+            ),
+            tmpl.examples,
+        )
+    if name == "group_consecutive":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: "consecutive" in low
+            and "group" in low
+            and ("list" in low or "item" in low)
+            and "duplicate" not in low
+            and "remove" not in low
+            and "drop" not in low,
             tmpl.examples,
         )
     return tmpl
