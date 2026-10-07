@@ -4789,3 +4789,20 @@ def test_p207_vowels_every_join_ws_cap_equal():
     assert match_template("write a function that counts words in a string").name == "count_words"
     assert match_template("write a function that repeats each list item n times").name == "repeat_each"
 
+
+
+def test_p215_rotate_goal_and_phrase_aliases():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function to check if a string can be obtained by rotating another": "can_rotate_to",
+        "write a function that checks whether goal is a rotation of a string": "can_rotate_to",
+        "write a function that counts items matching a rule": "count_items_matching",
+        "write a function to simulate asteroids collisions": "asteroid_collision",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that rotates a string left by k").name == "rotate_string"

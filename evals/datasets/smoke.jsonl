@@ -1585,3 +1585,6 @@
 {"id": "code_1546", "category": "coding", "input": "write a function for rectangle area", "expect_contains": ["def rectangle_area", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1547", "category": "coding", "input": "write a function that converts hours to days", "expect_contains": ["def hours_to_days", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1548", "category": "coding", "input": "write a function for one hot encoding", "expect_contains": ["def one_hot", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1549", "category": "coding", "input": "write a function that counts items matching a rule", "expect_contains": ["def count_items_matching", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1550", "category": "coding", "input": "write a function to check if a string can be obtained by rotating another", "expect_contains": ["def can_rotate_to", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1551", "category": "coding", "input": "write a function to simulate asteroids collisions", "expect_contains": ["def asteroid_collision", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}

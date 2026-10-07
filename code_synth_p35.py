@@ -19,7 +19,7 @@ def templates() -> list[Template]:
             lambda low: bool(
                 re.search(
                     r"\bcount[_ ]items[_ ]matching\b|"
-                    r"\bcount (?:the )?items matching (?:a )?rule\b|"
+                    r"\bcounts? (?:the )?items matching (?:a )?rule\b|"
                     r"\bcount matches of (?:a )?rule in items\b",
                     low,
                 )

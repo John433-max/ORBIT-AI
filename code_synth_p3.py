@@ -1285,7 +1285,7 @@ def templates():
             "    return stack\n",
             lambda low: bool(
                 re.search(
-                    r"\basteroid[- ]?collision\b|"
+                    r"\basteroids?[- ]?collisions?\b|"
                     r"\basteroid_collision\b|"
                     r"\bcolliding asteroids\b",
                     low,
