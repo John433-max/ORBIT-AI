@@ -4583,3 +4583,62 @@ def test_p197_span_pad_counts():
     assert match_template(
         "write a function that computes haversine distance between two lat lon points"
     ).name == "haversine_km"
+
+def test_p198_prefix_mode_helpers():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that returns the running product of a list": "running_product",
+        "write a function that returns suffix sums": "suffix_sums",
+        "write a function that returns the mean absolute deviation": "mean_absolute_deviation",
+        "write a function that returns the most common element": "most_common_element",
+        "write a function that counts uppercase letters": "count_uppercase",
+        "write a function that returns consecutive differences": "consecutive_diffs",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the product of a list").name == "list_product"
+    assert match_template("write a function that returns the most frequent even number").name == "most_frequent_even"
+    assert match_template("write a function that returns the running maximum of a list").name == "running_maximum"
+
+
+def test_p199_string_list_helpers():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that swaps case of a string": "swap_case",
+        "write a function that returns the gcd of a list of numbers": "gcd_of_list",
+        "write a function that returns the shortest word": "shortest_word",
+        "write a function that returns the length of each word": "word_lengths",
+        "write a function that returns the initials of each word": "initials",
+        "write a function that returns the cumulative minimum of a list": "cumulative_min",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the gcd of two numbers").name == "gcd"
+    assert match_template("write a function that swaps two values").name == "swap_values"
+    assert match_template("write a function that returns the running maximum of a list").name == "running_maximum"
+
+
+
+def test_p200_consonants_digits_middle_zip():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that counts consonants in a string": "count_consonants",
+        "write a function that returns the product of the digits of an integer": "digit_product",
+        "write a function that returns the middle character or characters of a string": "middle_chars",
+        "write a function that strips digits from a string": "strip_digits",
+        "write a function that returns words longer than n characters": "words_longer_than",
+        "write a function that zips two lists into pairs": "zip_pairs",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that counts vowels in a string").name == "count_vowels"
+    assert match_template("write a function that returns the product of a list").name == "list_product"
