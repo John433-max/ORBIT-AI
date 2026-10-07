@@ -146,7 +146,7 @@ def templates() -> list[Template]:
             lambda low: bool(
     re.search(
         r"\bchunk(?:s|ed|ing)?\b.{0,24}\b(list|array|items)\b|"
-        r"\bsplits? .{0,40}\b(list|array)\b.{0,40}\b(chunks|batches|groups)\b",
+        r"\bsplits? .{0,24}\b(list|array)\b.{0,24}\b(chunks|batches|groups)\b",
         low,
     )
 ),
@@ -255,6 +255,8 @@ def templates() -> list[Template]:
             lambda low: bool(
     re.search(
         r"\bintersect(?:ion|s|ing)?\b.{0,32}\b(list|array|set|items)\b|"
+        r"\bintersects\b.{0,32}\b(?:lists?|arrays?|sets?|items)\b|"
+        r"\barray intersection\b|"
         r"\bcommon (?:items|elements)\b|\bintersection of two\b",
         low,
     )

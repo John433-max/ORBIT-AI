@@ -162,7 +162,9 @@ def templates() -> list[Template]:
                     r"\brotate[_ ]array\b|"
                     r"\brotate (the )?array\b|"
                     r"\brotate nums to the right\b|"
-                    r"\bright rotat(?:e|ion) of (an )?array\b",
+                    r"\bright rotat(?:e|ion) of (an )?array\b|"
+                    r"\brotat(?:e|es|ing) an array to the right\b|"
+                    r"\bright rotat(?:e|es) an array\b",
                     low,
                 )
                 and "matrix" not in low
