@@ -25,14 +25,12 @@ def templates() -> list[Template]:
             "    out.extend(b[n:])\n"
             "    return out\n",
             lambda low: (
-                (
-                    "interleave_lists" in low
-                    or "interleave lists" in low
-                    or "interleaves lists" in low
-                )
-                and "two lists" not in low
+                "interleav" in low
+                and ("list" in low or "array" in low)
                 and "string" not in low
                 and "substring" not in low
+                and "python" not in low
+                and "linked" not in low
             ),
             (
                 (([1, 2], [3, 4]), [1, 3, 2, 4]),

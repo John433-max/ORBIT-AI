@@ -1677,7 +1677,7 @@
 {"id": "code_1639", "category": "coding", "input": "write a function that interleaves two lists", "expect_contains": ["def interleave_lists", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1640", "category": "coding", "input": "write a function that returns consecutive pairwise elements", "expect_contains": ["def pairwise", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1641", "category": "coding", "input": "write a function that returns the sum of digits", "expect_contains": ["def digit_sum", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
-{"id": "code_1642", "category": "coding", "input": "write a function that capitalizes each word", "expect_contains": ["def capitalize_words", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1642", "category": "coding", "input": "write a function that capitalizes words", "expect_contains": ["def capitalize_words", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1643", "category": "coding", "input": "write a function triangle_number that returns the nth triangular number", "expect_contains": ["def triangle_number", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1644", "category": "coding", "input": "write a function that parses a csv line", "expect_contains": ["def parse_csv_line", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1645", "category": "coding", "input": "write a function that pads a number with zeros", "expect_contains": ["def zero_pad", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
