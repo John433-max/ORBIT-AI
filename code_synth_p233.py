@@ -1,6 +1,7 @@
 """Cycle 522: elementwise product, whitespace strip, char separator, prefix, variance, even-index sum.
 
 Matchers stay narrower than list product, pad, word prefix, and is_even.
+CI 37814609674: list_variance must not steal p174 population_variance.
 """
 from __future__ import annotations
 
@@ -91,6 +92,7 @@ def templates() -> list[Template]:
             lambda low: (
                 "variance" in low
                 and "list" in low
+                and "population" not in low
                 and "standard" not in low
                 and "sample" not in low
             ),
