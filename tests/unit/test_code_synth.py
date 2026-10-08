@@ -5290,3 +5290,25 @@ def test_p229_odds_abs_square_min_digits_not_stolen():
     assert match_template("write a function that returns the running minimum of a list").name == "running_minimum"
     assert match_template("write a function that returns the cumulative minimum of a list").name == "cumulative_min"
     assert match_template("write a function that returns the max minus min span of a list").name == "list_span"
+
+
+def test_cycle523_lines_tabs_vowel_indices_rotation_range():
+    """Misses that previously returned NotImplemented drafts."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a function that returns the number of lines in a string": "line_count",
+        "write a function that replaces tabs with spaces": "tabs_to_spaces",
+        "write a function that checks if a string starts with a vowel": "starts_with_vowel",
+        "implement a function that returns indices of a value": "indices_of",
+        "implement a function that checks if two lists are rotations of each other": "is_list_rotation",
+        "write a function that returns the sum of a range inclusive": "inclusive_range_sum",
+        "write a function that rotates a string left": "rotate_string",
+        "write a function that checks if a number is even": "is_even",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
