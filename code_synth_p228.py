@@ -19,10 +19,10 @@ def templates() -> list[Template]:
             "        return 0.0\n"
             "    return sum(vals) / len(vals)\n",
             lambda low: (
-                "average" in low
-                and ("list" in low or "array" in low or "numbers in a list" in low)
+                ("average" in low or "mean" in low)
+                and ("list" in low or "array" in low or "numbers" in low)
                 and "two" not in low
-                and "mean of a list" not in low
+                and "pair" not in low
                 and "moving" not in low
                 and "subarray" not in low
                 and "level" not in low
