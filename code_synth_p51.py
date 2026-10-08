@@ -22,6 +22,7 @@ def templates() -> list[Template]:
             lambda low: bool(
                 re.search(
                     r"\blargest[_ ]odd[_ ]number(?:[_ ]in[_ ](?:the[_ ])?string)?\b|"
+                    r"\bmaximum odd number in (?:a|the) string\b|"
                     r"\blargest_odd_number\b",
                     low,
                 )
@@ -112,8 +113,8 @@ def templates() -> list[Template]:
             "    return c\n",
             lambda low: bool(
                 re.search(
-                    r"\bcount[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:(?:a|the)[_ ])?number\b|"
-                    r"\bdigits[_ ]that[_ ]divide[_ ]the[_ ]number\b|"
+                    r"\bcounts?[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:(?:a|the)[_ ])?number\b|"
+                    r"\bdigits[_ ]that[_ ]divide[_ ](?:a|the)[_ ]number\b|"
                     r"\bleetcode[_ ]2520\b|"
                     r"\bcount_digits\b",
                     low,

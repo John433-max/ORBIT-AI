@@ -105,7 +105,7 @@ def templates() -> list[Template]:
             'def count_digits(num):\n    """Count digits of num that divide num (LeetCode 2520)."""\n    n = num\n    c = 0\n    while n:\n        d = n % 10\n        if d and num % d == 0:\n            c += 1\n        n //= 10\n    return c\n',
             lambda low: bool(
     re.search(
-        r"\bcount[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:(?:a|the)[_ ])?number\b|"
+        r"\bcounts?[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:(?:a|the)[_ ])?number\b|"
         r"\bdigits[_ ]that[_ ]divide[_ ]the[_ ]number\b|"
         r"\bleetcode[_ ]2520\b|"
         r"\bcount_digits\b",

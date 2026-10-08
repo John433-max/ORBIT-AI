@@ -140,7 +140,7 @@ def templates() -> list[Template]:
             "    return out\n",
             lambda low: bool(
                 re.search(
-                    r"\bshuffle the array\b|"
+                    r"\bshuffles? the array\b|"
                     r"\bshuffle_array\b|"
                     r"\bshuffle array\b|"
                     r"\binterleave two halves\b",
