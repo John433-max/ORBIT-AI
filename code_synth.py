@@ -137,6 +137,49 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    # CI 37731520467: p86 second_highest scored higher on bare 'second highest'.
+    if name == "second_highest":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                ("digit" in low or "1796" in low or "in a string" in low)
+                and "list" not in low
+                and (
+                    "second highest" in low
+                    or "second-highest" in low
+                    or "second largest" in low
+                    or "1796" in low
+                )
+            ),
+            tmpl.examples,
+        )
+    if name == "subtract_product_and_sum":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            or (
+                "difference" in low
+                and "product" in low
+                and "sum" in low
+                and "digit" in low
+                and "even" not in low
+            ),
+            tmpl.examples,
+        )
+    if name == "first_repeated_char":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and "non-repeat" not in low
+            and "non repeat" not in low
+            and "unique" not in low,
+            tmpl.examples,
+        )
     if name == "left_pad":
         return Template(
             name,

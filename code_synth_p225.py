@@ -1,7 +1,8 @@
 """Cycle 509: unmatched write-a-function asks.
 
 Narrow matchers so sum_list, count_words, remove_vowels, and title-case
-templates keep their existing prompts.
+templates keep their existing prompts. first_repeated_char must not steal
+'non-repeating' / first-unique asks (CI 37731520467).
 """
 from __future__ import annotations
 
@@ -61,6 +62,9 @@ def templates() -> list[Template]:
                 and "drop" not in low
                 and "remove" not in low
                 and "consecutive" not in low
+                and "non-repeat" not in low
+                and "non repeat" not in low
+                and "unique" not in low
             ),
             (
                 (("abca",), "a"),
