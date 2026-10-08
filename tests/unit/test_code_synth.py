@@ -5110,3 +5110,27 @@ def test_smoke_coding_misses_2026_10_07_name_lock():
         assert f"def {name}" in out["source"]
     # triangular sum must not collapse into nth triangular
     assert match_template("write a python function triangular sum of an array").name == "triangular_sum"
+
+
+def test_p220_sort_people_merge_diagonal_balanced():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that sorts people by height": "sort_people",
+        "write a function that merges two 2d arrays by summing values": "merge_arrays",
+        "write a function that finds the prime in the diagonal": "diagonal_prime",
+        "write a function that finds the longest balanced substring": "longest_balanced_substring",
+        "write a function that returns the difference of number of distinct values on diagonals": "difference_of_distinct",
+        "write a function that finds the minimum length after removals": "minimum_length_after_removals",
+        "write a function that finds the closest primes in a range": "closest_primes",
+        "write a function that returns the average value of even numbers divisible by three": "average_value",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    # two-number average must stay the short template
+    hit = match_template("write a function that returns the average of two numbers")
+    assert hit is not None and hit.name == "average"
