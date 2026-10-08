@@ -5246,3 +5246,19 @@ def test_p227_first_word_negatives_odds_hyphen_not_stolen():
     assert match_template("count negative numbers in a sorted matrix").name == "count_negatives"
     assert match_template("write a function that counting sorts non-negative integers").name == "counting_sort"
     assert match_template("write a python function maximum count of positive integer and negative integer").name == "maximum_count"
+
+
+def test_list_mean_sum_evens_and_span_phrases():
+    from code_synth import match_template, synthesize_and_verify
+    asks = {
+        "write a function that computes the average of a list": "mean_list",
+        "write a function that returns the sum of even numbers": "sum_evens",
+        "write a function that returns the difference between max and min": "list_span",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+    assert match_template("write a function that returns the average of two numbers").name == "average"
+    assert match_template("write a function that returns the sum of a list of numbers").name == "sum_list"

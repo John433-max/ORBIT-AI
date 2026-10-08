@@ -46,6 +46,8 @@ def templates() -> list[Template]:
                     or "max minus min" in low
                     or "max - min" in low
                     or "statistical range" in low
+                    or ("difference" in low and "max" in low and "min" in low)
+                    or ("max and min" in low and "difference" in low)
                 )
                 and "window" not in low
                 and "subarray" not in low

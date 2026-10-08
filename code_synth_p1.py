@@ -159,6 +159,8 @@ Template(
             "    return (a + b) / 2\n",
             lambda low: (
                 "absolute" not in low
+                and "list" not in low
+                and "array" not in low
                 and "rmse" not in low
                 and "r-squared" not in low
                 and "r2" not in low
@@ -402,6 +404,7 @@ Template(
             "    return total\n",
             lambda low: bool(
                 "running" not in low
+                and "even" not in low
                 and "prefix" not in low
                 and "square" not in low
                 and "cumulative" not in low
