@@ -158,7 +158,11 @@ Template(
             '    """Return the arithmetic mean of a and b."""\n'
             "    return (a + b) / 2\n",
             lambda low: (
-                "harmonic" not in low
+                "absolute" not in low
+                and "rmse" not in low
+                and "r-squared" not in low
+                and "r2" not in low
+                and "harmonic" not in low
                 and "geometric" not in low
                 and "population" not in low
                 and "quantile" not in low
@@ -254,8 +258,9 @@ Template(
                     and "linked" not in low
                     and "digit" not in low
                     and "parity" not in low
-                    and "filter" not in low
                     and "array" not in low
+                    and "filter" not in low
+                    and "filtering" not in low
                     and "bitwise" not in low
                     and "split" not in low
                     and "leetcode" not in low
@@ -299,6 +304,7 @@ Template(
             lambda low: (
                 "substring" not in low
                 and "1456" not in low
+                and "consonant" not in low
                 and "given length" not in low
                 and bool(re.search(r"\bcount(?:s|ing)?\b.{0,32}\bvowels?\b|\bvowels?\b.{0,24}\bcount|\bnumber of vowels\b", low))
             ),
@@ -334,6 +340,8 @@ Template(
                 and "count odd" not in low
                 and "count_odds" not in low
                 and "largest odd" not in low
+                and "maximum odd" not in low
+                and "odd number in" not in low
                 and "odd number in string" not in low
                 and bool(
                     re.search(r"\b(is_odd|number is odd|checks? if .{0,20}is odd)\b", low)
@@ -395,6 +403,7 @@ Template(
             lambda low: bool(
                 "running" not in low
                 and "prefix" not in low
+                and "square" not in low
                 and "cumulative" not in low
                 and "three" not in low
                 and "triplet" not in low
@@ -470,7 +479,8 @@ Template(
             and not re.search(r"\bprefix\b|\bgiven prefix\b", low)
             and "frequency" not in low
             and "freq" not in low
-            and "histogram" not in low,
+            and "histogram" not in low
+            and "length" not in low,
             ((("hello world",), 2), (("  ",), 0)),
         ),
         Template(
@@ -696,6 +706,8 @@ Template(
             lambda low: bool(
                 re.search(
                     r"\bintersect(?:ion|s|ing)?\b.{0,32}\b(list|array|set|items)\b|"
+                    r"\bintersects\b.{0,32}\b(list|array|set|items)\b|"
+                    r"\barray intersection\b|"
                     r"\bcommon (?:items|elements)\b|\bintersection of two\b",
                     low,
                 )
@@ -813,7 +825,8 @@ Template(
                 and re.search(
                     r"\bvalid(?:ate)?[- ]?parentheses\b|"
                     r"\bbalanced (?:brackets|parentheses|parens)\b|"
-                    r"\bcheck .{0,24}\b(parentheses|brackets|parens)\b",
+                    r"\b(?:parentheses|brackets|parens) are balanced\b|"
+                    r"\bcheck .{0,40}\b(parentheses|brackets|parens)\b",
                     low,
                 )
             ),
@@ -871,7 +884,7 @@ Template(
             lambda low: bool(
                 re.search(
                     r"\bchunk(?:s|ed|ing)?\b.{0,24}\b(list|array|items)\b|"
-                    r"\bsplits? .{0,40}\b(list|array)\b.{0,40}\b(chunks|batches|groups)\b",
+                    r"\bsplits? .{0,24}\b(list|array)\b.{0,24}\b(chunks|batches|groups)\b",
                     low,
                 )
             ),

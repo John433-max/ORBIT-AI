@@ -5134,3 +5134,68 @@ def test_p220_sort_people_merge_diagonal_balanced():
     # two-number average must stay the short template
     hit = match_template("write a function that returns the average of two numbers")
     assert hit is not None and hit.name == "average"
+
+
+def test_p221_empty_fascinating_and_phrase_aliases():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the difference between product and sum of digits": "subtract_product_and_sum",
+        "write a function that shuffles the array": "shuffle_array",
+        "write a function that counts the digits that divide a number": "count_digits",
+        "write a function that finds the maximum odd number in a string": "largest_odd_number",
+        "write a function that returns minimum operations to make array empty": "min_operations_empty",
+        "write a function that checks if a number is fascinating": "is_fascinating",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    hit = match_template("write a function that checks if a number is odd")
+    assert hit is not None and hit.name == "is_odd"
+
+
+def test_p222_xor_average_boundary_digit_game():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the xor of numbers which appear twice": "duplicate_numbers_xor",
+        "write a function that returns the maximum odd binary number": "maximum_odd_binary_number",
+        "write a function that counts how many times an ant returns to the boundary": "return_to_boundary_count",
+        "write a function that returns the alternating digit sum": "alternate_digit_sum",
+        "write a function that finds the largest positive integer that exists with its negative": "find_max_k",
+        "write a function that checks if alice can win the digit game": "can_alice_win",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    hit = match_template("write a function that returns the average of two numbers")
+    assert hit is not None and hit.name == "average"
+
+
+def test_p223_squares_cartesian_prefixes_not_stolen():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the sum of squares of an array": "sum_of_squares",
+        "write a function that computes the cartesian product of two lists": "cartesian_product",
+        "write a function that counts vowels and consonants": "count_vowels_consonants",
+        "write a function that counts words of each length": "word_length_counts",
+        "write a function that returns all prefixes of a string": "string_prefixes",
+        "write a function that removes consecutive duplicates": "remove_consecutive_duplicates",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    # existing broad asks must stay on the older templates
+    assert match_template("write a function that sums a list").name == "sum_list"
+    assert match_template("write a function that counts vowels").name == "count_vowels"
+    assert match_template("write a function that counts words").name == "count_words"
