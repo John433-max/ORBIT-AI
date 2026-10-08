@@ -12,7 +12,13 @@ from code_synth import Template
 
 def templates() -> list[Template]:
     T = Template
-    return [
+    extra = []
+    try:
+        from code_synth_p235 import templates as p235_templates
+        extra = list(p235_templates())
+    except Exception:
+        extra = []
+    return extra + [
         T(
             "line_count",
             "def line_count(text):\n"
