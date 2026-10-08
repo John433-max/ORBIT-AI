@@ -1,6 +1,8 @@
 """Cycle 516: interleave, pairwise, digit sum, title-case, order-stable unique, swap case.
 
 String interleave (DP) and digital-root add_digits must not claim these asks.
+CI 37814609674: do not steal p160 title_case ('capitalizes each word') or
+p161 interleave ('interleaves two lists').
 """
 from __future__ import annotations
 
@@ -23,8 +25,12 @@ def templates() -> list[Template]:
             "    out.extend(b[n:])\n"
             "    return out\n",
             lambda low: (
-                "interleave" in low
-                and ("list" in low or "array" in low or "two" in low)
+                (
+                    "interleave_lists" in low
+                    or "interleave lists" in low
+                    or "interleaves lists" in low
+                )
+                and "two lists" not in low
                 and "string" not in low
                 and "substring" not in low
             ),
@@ -97,8 +103,13 @@ def templates() -> list[Template]:
             '    """Title-case each whitespace-separated word."""\n'
             "    return \" \".join(w[:1].upper() + w[1:].lower() if w else w for w in text.split(\" \"))\n",
             lambda low: (
-                ("capitalize" in low or "title case" in low or "title-case" in low)
-                and ("word" in low or "each" in low or "title" in low)
+                (
+                    "capitalize_words" in low
+                    or "capitalize words" in low
+                    or "capitalizes words" in low
+                )
+                and "each word" not in low
+                and "every word" not in low
                 and "detect" not in low
             ),
             (
