@@ -159,8 +159,6 @@ Template(
             "    return (a + b) / 2\n",
             lambda low: (
                 "absolute" not in low
-                and "list" not in low
-                and "array" not in low
                 and "rmse" not in low
                 and "r-squared" not in low
                 and "r2" not in low
