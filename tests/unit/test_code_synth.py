@@ -5262,3 +5262,31 @@ def test_list_mean_sum_evens_and_span_phrases():
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a function that returns the average of two numbers").name == "average"
     assert match_template("write a function that returns the sum of a list of numbers").name == "sum_list"
+
+
+def test_p229_odds_abs_square_min_digits_not_stolen():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the sum of odd numbers": "sum_odds",
+        "write a function that returns the product of odd numbers": "product_of_odds",
+        "write a function that returns the absolute value of each number in a list": "absolute_values",
+        "write a function that squares each element in a list": "square_elements",
+        "write a function that returns the minimum of a list": "min_of_list",
+        "write a function that removes digits from a string": "remove_digits",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    assert match_template("write a function that returns the sum of even numbers").name == "sum_evens"
+    assert match_template("write a function that returns the sum of a list of numbers").name == "sum_list"
+    assert match_template("write a function that returns the product of even numbers").name == "product_of_evens"
+    assert match_template("write a function that returns the absolute value of a number").name == "absolute"
+    assert match_template("write a function that returns the sum of squares").name == "sum_of_squares"
+    assert match_template("write a function that counts digits in a string").name != "remove_digits"
+    assert match_template("write a function that returns the running minimum of a list").name == "running_minimum"
+    assert match_template("write a function that returns the cumulative minimum of a list").name == "cumulative_min"
+    assert match_template("write a function that returns the max minus min span of a list").name == "list_span"
