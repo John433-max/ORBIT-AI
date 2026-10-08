@@ -31,3 +31,17 @@ Kept. Matcher tighten is local and on main.
 
 ## Next
 Re-run full smoke on the settled tree (do not overlap pack writes). Then any packs after p228.
+
+## Benchmark
+| Metric | Before | After | Difference |
+|---|---:|---:|---:|
+| smoke accuracy | 1668/1668 (1.0) | 1671/1671 (1.0) | +3 coding rows, still 100% |
+| average of a list | def average(a, b) | def mean_list Verified | fixed |
+| sum of even numbers | def sum_list | def sum_evens Verified | fixed |
+| max-min difference | NotImplemented stub | def list_span Verified | fixed |
+
+## Result
+Kept. GitHub b4b3537.
+
+## Next
+Ollama still down; auto falls back to TinyLM. Serve extras remain optional.
