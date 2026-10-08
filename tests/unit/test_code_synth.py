@@ -5199,3 +5199,24 @@ def test_p223_squares_cartesian_prefixes_not_stolen():
     assert match_template("write a function that sums a list").name == "sum_list"
     assert match_template("write a function that counts vowels").name == "count_vowels"
     assert match_template("write a function that counts words").name == "count_words"
+
+
+def test_p224_nth_odd_grade_windows_not_stolen():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the nth odd number": "nth_odd",
+        "write a function that returns the next collatz step": "collatz_next",
+        "write a function that returns both diagonal sums of a matrix": "diagonal_sums",
+        "write a function that returns every index of a value": "index_of_all",
+        "write a function that maps a score to a letter grade": "letter_grade",
+        "write a function that returns sliding window sums": "window_sums",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    assert match_template("write a function that sums a list").name == "sum_list"
+    assert match_template("how many collatz steps to reach one").name != "collatz_next"
