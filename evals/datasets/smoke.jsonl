@@ -1667,3 +1667,6 @@
 {"id": "code_1627", "category": "coding", "input": "write a function that inserts a hyphen between characters", "expect_contains": ["def hyphen_between_chars", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1628", "category": "coding", "input": "write a function that returns the product of even numbers", "expect_contains": ["def product_of_evens", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
 {"id": "code_1629", "category": "coding", "input": "write a function that returns the last character of each word", "expect_contains": ["def word_final_chars", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
+{"id": "code_1630", "category": "coding", "input": "write a function that computes the average of a list", "expect_contains": ["def mean_list", "Verified"], "expect_not_contains": ["def average", "NotImplemented", "fallback"]}
+{"id": "code_1631", "category": "coding", "input": "write a function that returns the sum of even numbers", "expect_contains": ["def sum_evens", "Verified"], "expect_not_contains": ["def sum_list", "NotImplemented", "fallback"]}
+{"id": "code_1632", "category": "coding", "input": "write a function that returns the difference between max and min", "expect_contains": ["def list_span", "Verified"], "expect_not_contains": ["NotImplemented", "fallback"]}
