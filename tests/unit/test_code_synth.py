@@ -4192,7 +4192,7 @@ def test_p176_damerau_totient_rmse_mae_r2_fnv():
         assert out["verified"] and not out["fallback"], (ask, out)
     assert match_template("write a function that returns the levenshtein distance of two strings").name == "levenshtein"
     assert match_template("write a function that returns the average of two numbers").name == "average"
-    assert match_template("write a function that returns the mean of a list").name == "average"
+    assert match_template("write a function that returns the mean of a list").name == "mean_list"
 
 
 def test_p177_smoothstep_isbn13_adler_map_slerp():
