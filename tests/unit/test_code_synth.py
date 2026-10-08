@@ -5220,3 +5220,29 @@ def test_p224_nth_odd_grade_windows_not_stolen():
         assert f"def {name}" in out["source"]
     assert match_template("write a function that sums a list").name == "sum_list"
     assert match_template("how many collatz steps to reach one").name != "collatz_next"
+
+
+def test_p227_first_word_negatives_odds_hyphen_not_stolen():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the first word of a sentence": "first_word",
+        "write a function that counts negative numbers in a list": "count_negative_values",
+        "write a function that doubles only odd numbers in a list": "double_odd_numbers",
+        "write a function that inserts a hyphen between characters": "hyphen_between_chars",
+        "write a function that returns the product of even numbers": "product_of_evens",
+        "write a function that returns the last character of each word": "word_final_chars",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    assert match_template("write a function that returns the last word of a string").name == "last_word"
+    assert match_template("write a function that checks if a number is even").name == "is_even"
+    assert match_template("write a function that doubles each element of a list").name == "double_elements"
+    assert match_template("write a function that multiplies two numbers").name == "multiply"
+    assert match_template("count negative numbers in a sorted matrix").name == "count_negatives"
+    assert match_template("write a function that counting sorts non-negative integers").name == "counting_sort"
+    assert match_template("write a python function maximum count of positive integer and negative integer").name == "maximum_count"
