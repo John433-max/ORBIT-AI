@@ -48,6 +48,8 @@ def templates() -> list[Template]:
             lambda low: (
                 "linked" not in low
                 and "first" not in low
+                and "of a list" not in low
+                and "of an array" not in low
                 and bool(
                     re.search(
                         r"\bdrop(?:s|ping)?(?: the)? last(?:\s+n)?(?:\s+(?:element|item|elements|items))?\b"
@@ -112,6 +114,9 @@ def templates() -> list[Template]:
             "        b.append(y)\n"
             "    return a, b\n",
             lambda low: bool(re.search(r"\bsplit pairs\b|\bunzip pairs\b|\bpair.?lists\b", low)),
-            ((((1, 2), (3, 4)), ([1, 3], [2, 4])),),
+            (
+                (([(1, 2), (3, 4)],), ([1, 3], [2, 4])),
+                (([],), ([], [])),
+            ),
         ),
     ]

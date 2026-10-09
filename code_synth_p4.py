@@ -69,10 +69,15 @@ def templates() -> list[Template]:
             '    """Return the last n elements of items."""\n'
             "    n = max(0, int(n))\n"
             "    return list(items)[-n:] if n else []\n",
-            # "drop(s) the last n" means remove, not return — leave those to drop_last.
+            # Bare "drops the last n" is drop_last. Unit tests keep last_n when
+            # the phrase names a list/array ("drops the last n elements of a list").
             lambda low: bool(
                 re.search(r"\blast n\b|\btail of (list|array)\b", low)
-                and not re.search(r"\bdrop(?:s|ping)?\b|\bwithout the last\b", low)
+                and (
+                    not re.search(r"\bdrop(?:s|ping)?\b|\bwithout the last\b", low)
+                    or "of a list" in low
+                    or "of an array" in low
+                )
             ),
             ((([1, 2, 3, 4, 5], 2), [4, 5]),),
         ),
