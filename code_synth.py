@@ -419,6 +419,30 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    # "rotate an array right by k" missed rotate (the )?array (priority coding path).
+    if name == "rotate_array":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\brotate[_ ]array\b|"
+                    r"\brotate (the )?array\b|"
+                    r"\brotate an array right\b|"
+                    r"\brotate nums to the right\b|"
+                    r"\bright rotat(?:e|ion) of (?:an )?array\b|"
+                    r"\brotat(?:e|es|ing) an array (?:to the )?right\b|"
+                    r"\bright rotat(?:e|es) an array\b",
+                    low,
+                )
+            )
+            and "matrix" not in low
+            and "image" not in low
+            and "linked" not in low
+            and "string" not in low
+            and "list" not in low,
+            tmpl.examples,
+        )
     # "reverses/reversed/reversing a string" missed \breverse\b (priority coding path).
     if name == "reverse_string":
         return Template(

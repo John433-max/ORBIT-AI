@@ -1732,3 +1732,4 @@
 {"id": "code_smtp_1", "category": "coding", "input": "write code that sends an email via smtp", "expect_contains": ["send_email", "sandbox cannot send email"], "expect_not_contains": ["toy-scale", "def is_email"]}
 {"id": "code_reverse_phrase_1", "category": "coding", "input": "implement a python function that reverses a string", "expect_contains": ["def reverse_string", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale"]}
 {"id": "search_7", "category": "search", "input": "find recent papers on fusion energy", "expect_not_contains": ["toy-scale", "educational model", "EvalBot", "project deadline"], "expect_any": ["fusion", "don't have live web", "no live web", "can't complete this search"]}
+{"id": "code_rotate_array_phrase_1", "category": "coding", "input": "write a function to rotate an array right by k", "expect_contains": ["def rotate_array", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}

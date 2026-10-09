@@ -5312,3 +5312,17 @@ def test_cycle523_lines_tabs_vowel_indices_rotation_range():
         out = synthesize_and_verify(ask)
         assert out["verified"] and not out["fallback"], (ask, out)
         assert f"def {name}" in out["source"]
+
+
+def test_rotate_array_right_by_k_phrase():
+    """'rotate an array right by k' must not fall through to a draft stub."""
+    from code_synth import match_template, synthesize_and_verify
+
+    ask = "write a function to rotate an array right by k"
+    hit = match_template(ask)
+    assert hit is not None and hit.name == "rotate_array", None if hit is None else hit.name
+    out = synthesize_and_verify(ask)
+    assert out["verified"] and not out["fallback"], out
+    assert "def rotate_array" in out["source"]
+    assert match_template("rotate a linked list to the right").name != "rotate_array"
+    assert match_template("rotate an image matrix 90 degrees").name != "rotate_array"
