@@ -171,7 +171,9 @@ def _is_search(text: str) -> bool:
     return bool(
         re.search(
             r"\b(search|look up|look this up|research|news about|"
-            r"find (out|information) (about|on)|google)\b",
+            r"find (out|information) (about|on)|"
+            r"find (recent|latest)( papers| news| articles)?|"
+            r"papers (on|about)|articles (on|about)|google)\b",
             text or "",
             re.I,
         )

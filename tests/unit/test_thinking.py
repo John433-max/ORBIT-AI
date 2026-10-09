@@ -70,9 +70,27 @@ def test_think_keeps_honest_missing_document():
     assert any(th.kind == "decide" and "empty docs" in th.text for th in res.thoughts)
 
 
+def test_classify_add_and():
+    thinker = Thinker({})
+    assert thinker.classify("add 12 and 7") == "calc"
+    assert thinker.classify("add 3 to 10") == "calc"
+    assert thinker.classify("write a function that adds two numbers") == "code"
+
+
 def test_binary_search_function_is_code_not_web():
     t = Thinker({})
     assert t.classify("write a python function that implements binary search") == "code"
     assert t.classify("implement binary search on a sorted list") == "code"
     assert t.classify("search for recent news about fusion energy") == "search"
+    assert t.classify("find recent papers on fusion energy") == "search"
+    assert t.classify("find latest news on tokamak reactors") == "search"
+    assert t.classify("papers about stellarator design") == "search"
     assert t.classify("what is your name") == "chat"
+
+
+def test_activation_functions_route_to_lab_not_relu_template():
+    t = Thinker({})
+    assert t.classify("activation functions relu sigmoid") == "lab"
+    assert t.classify("explain activation function relu") == "lab"
+    assert t.classify("write a function that implements relu") == "code"
+    assert t.classify("implement leetcode 1290") == "code"
