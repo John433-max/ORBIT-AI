@@ -9,7 +9,19 @@ from code_synth import Template
 
 def templates() -> list[Template]:
     T = Template
-    return [
+    extra = []
+    for mod_name in (
+        "code_synth_p239",
+        "code_synth_p238",
+        "code_synth_p237",
+        "code_synth_p236",
+    ):
+        try:
+            mod = __import__(mod_name, fromlist=["templates"])
+            extra.extend(mod.templates())
+        except Exception:
+            continue
+    return extra + [
         T(
             "permute_string",
             "def permute_string(s):\n"
