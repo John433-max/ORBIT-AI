@@ -5326,3 +5326,30 @@ def test_rotate_array_right_by_k_phrase():
     assert "def rotate_array" in out["source"]
     assert match_template("rotate a linked list to the right").name != "rotate_array"
     assert match_template("rotate an image matrix 90 degrees").name != "rotate_array"
+
+
+def test_json_file_keys_phrase():
+    """JSON file key listing must not fall through to a draft stub."""
+    import json
+    import os
+    import tempfile
+
+    from code_synth import match_template, synthesize_and_verify
+
+    ask = "write code that reads a json file and returns the keys"
+    hit = match_template(ask)
+    assert hit is not None and hit.name == "json_keys", None if hit is None else hit.name
+    out = synthesize_and_verify(ask)
+    assert out["verified"] and not out["fallback"], out
+    assert "def json_keys" in out["source"]
+    ns = {}
+    exec(out["source"], ns, ns)
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as fh:
+        json.dump({"ok": 1, "n": 2}, fh)
+        path = fh.name
+    try:
+        assert ns["json_keys"](path) == ["ok", "n"]
+    finally:
+        os.unlink(path)
+    other = match_template("validate a json schema")
+    assert other is None or other.name != "json_keys"
