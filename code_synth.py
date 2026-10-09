@@ -200,6 +200,89 @@ def _widen_loaded(tmpl: Template) -> Template:
             and "left" not in low,
             tmpl.examples,
         )
+    if name == "pairwise":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "pairwise" in low
+                or "adjacent pair" in low
+                or "pairs adjacent" in low
+                or ("consecutive" in low and "pair" in low and "group" not in low)
+            )
+            and "sum" not in low
+            and "difference" not in low
+            and "duplicate" not in low
+            and "linked" not in low,
+            tmpl.examples,
+        )
+    if name == "digit_sum":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "digit sum" in low
+                or "sum of digits" in low
+                or "sum of the digits" in low
+                or "sums the digits" in low
+                or "sum the digits" in low
+                or "sums digits" in low
+            )
+            and "product" not in low
+            and "root" not in low
+            and "string" not in low
+            and "alternat" not in low
+            and "leetcode" not in low
+            and "base" not in low
+            and "even" not in low
+            and "count" not in low
+            and "convert" not in low
+            and "element" not in low
+            and "index" not in low
+            and "divisib" not in low,
+            tmpl.examples,
+        )
+    if name == "unique_chars":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                (
+                    ("unique" in low and ("character" in low or "char" in low))
+                    or ("duplicate" in low and "character" in low)
+                )
+                and "list" not in low
+                and "word" not in low
+            ),
+            tmpl.examples,
+        )
+    if name == "argmax_list":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "argmax" in low
+                or "index of the maximum" in low
+                or "index of max" in low
+                or "index of the max" in low
+            )
+            and "min" not in low
+            and "second" not in low,
+            tmpl.examples,
+        )
+    if name == "unzip_pairs":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "unzip" in low
+                or "split pairs" in low
+                or "pairs into two" in low
+            )
+            and "zip three" not in low
+            and "three" not in low,
+            tmpl.examples,
+        )
     if name == "group_consecutive":
         return Template(
             name,
@@ -213,6 +296,129 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    if name == "take_n":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low)) and "drop" not in low,
+            tmpl.examples,
+        )
+    if name == "last_element":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and "last n" not in low
+            and "n element" not in low
+            and "n item" not in low,
+            tmpl.examples,
+        )
+    if name == "drop_first":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and "first n" not in low
+            and "n element" not in low
+            and "n item" not in low,
+            tmpl.examples,
+        )
+    if name == "line_count":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            or (
+                ("counts lines" in low or "count the lines" in low or "lines in text" in low)
+                and "online" not in low
+                and "blank" not in low
+                and "empty" not in low
+            ),
+            tmpl.examples,
+        )
+    if name == "list_difference":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low)) and "symmetric" not in low,
+            tmpl.examples,
+        )
+    if name == "sum_of_squares":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low)) and "sum" in low,
+            tmpl.examples,
+        )
+    if name == "sort_list":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and "by length" not in low
+            and "string length" not in low,
+            tmpl.examples,
+        )
+    if name == "sliding_windows":
+        # Eval phrasing: "write a function to sliding windows" lacks list/size cues.
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            or (
+                ("sliding window" in low or "sliding windows" in low)
+                and "maximum" not in low
+                and "minimum" not in low
+                and "puzzle" not in low
+            ),
+            tmpl.examples,
+        )
+    if name == "drop_last":
+        # Singular "drop the last element" and bare "drops the last n elements".
+        # "… of a list/array" stays on last_n (unit tests). Drop must not steal those.
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: (
+                "linked" not in low
+                and "first" not in low
+                and "while" not in low
+                and "of a list" not in low
+                and "of an array" not in low
+                and (
+                    bool(prev(low))
+                    or "drop the last" in low
+                    or "drops the last" in low
+                    or "dropping the last" in low
+                    or "drop last" in low
+                    or "without the last" in low
+                    or ("drop" in low and "last n" in low)
+                )
+            ),
+            tmpl.examples,
+        )
+    if name == "last_n":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and (
+                ("drop" not in low and "without the last" not in low)
+                or "of a list" in low
+                or "of an array" in low
+            ),
+            tmpl.examples,
+        )
     return tmpl
 
 
@@ -222,6 +428,11 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p239",
+        "code_synth_p238",
+        "code_synth_p237",
+        "code_synth_p236",
+        "code_synth_p235",
         "code_synth_p234",
         "code_synth_p233",
         "code_synth_p232",
