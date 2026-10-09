@@ -47,10 +47,10 @@ def templates() -> list[Template]:
             lambda low: (
                 "linked" not in low
                 and "first" not in low
-                and (
-                    bool(re.search(r"\bdrop(?:s)?(?: the)? last n\b|\bwithout the last n\b", low))
-                    or bool(re.search(r"\bdrop(?:s)?(?: the)? last (?:element|item)\b", low))
-                )
+                and "last n" not in low
+                and "n element" not in low
+                and "n item" not in low
+                and bool(re.search(r"\bdrop(?:s)?(?: the)? last (?:element|item)\b|\bdrop last\b|\bwithout the last\b", low))
             ),
             (
                 (([1, 2, 3, 4], 2), [1, 2]),
