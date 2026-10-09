@@ -419,6 +419,32 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    # "reverses/reversed/reversing a string" missed \breverse\b (priority coding path).
+    if name == "reverse_string":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\brevers(?:e|es|ed|ing)\b.{0,40}\b(string|str|text)\b|"
+                    r"\b(string|str|text)\b.{0,24}\brevers(?:e|es|ed|ing)\b",
+                    low,
+                )
+            )
+            and "word" not in low
+            and "integer" not in low
+            and "int " not in low
+            and "vowel" not in low
+            and "degree" not in low
+            and " ii" not in low
+            and "541" not in low
+            and "344" not in low
+            and "2k" not in low
+            and "in-place" not in low
+            and "in place" not in low
+            and "prefix" not in low,
+            tmpl.examples,
+        )
     return tmpl
 
 
