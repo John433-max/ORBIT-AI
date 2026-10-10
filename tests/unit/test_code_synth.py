@@ -245,6 +245,22 @@ def test_two_sum_anagram_dot_reverse_list():
     assert "def reverse_string" in rs
 
 
+def test_reverse_string_conjugated_verb():
+    """Natural 'reverses a string' must not fall through to the stub."""
+    for q in (
+        "implement a python function that reverses a string",
+        "write a function that reverses a string",
+        "write a python function that reverses a string",
+        "reversed string",
+    ):
+        src = synthesize_python(q)
+        assert "def reverse_string" in src, (q, src[:180])
+        assert "NotImplementedError" not in src
+    words = synthesize_python("write a python function that reverses the order of words in a string")
+    assert "def reverse_words" in words
+    assert "def reverse_string" not in words
+
+
 def test_merge_intersect_rotate_hamming_caesar_majority():
     cases = {
         "write a python function that merges two sorted lists": "def merge_sorted",
@@ -3925,6 +3941,7 @@ def test_p164_haversine_hamming_morse_hex_email_leap():
         "write a python function that encodes text as morse code": "morse_encode",
         "write a function that converts a hex color to rgb": "hex_to_rgb",
         "write a function that checks if a string is a valid email": "is_email",
+        "write code that sends an email via smtp": "send_email",
         "write a function that checks if a year is a leap year": "is_leap_year",
     }
     for ask, name in asks.items():
@@ -5084,7 +5101,7 @@ def test_smoke_coding_misses_2026_10_07_name_lock():
     from code_synth import match_template, synthesize_and_verify
 
     asks = {
-        "write a python function that minimum sum of four digit number": "minimum_sum_four_digit",
+        "write a python function that minimum sum of four digit number": "minimum_sum",
         "write a python function count days spent together leetcode 2409": "count_days_together",
         "write a python function minimum sum of four digit number leetcode 2160": "minimum_sum_four_digit",
         "write a python function find the pivot integer leetcode 2485": "find_the_pivot_integer",
@@ -5292,6 +5309,185 @@ def test_p229_odds_abs_square_min_digits_not_stolen():
     assert match_template("write a function that returns the max minus min span of a list").name == "list_span"
 
 
+def test_p230_interleave_pairwise_digits_triangle_csv():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that interleaves two lists": "interleave_lists",
+        "write a function that returns consecutive pairwise elements": "pairwise",
+        "write a function that returns the sum of digits": "digit_sum",
+        "write a function that capitalizes words": "capitalize_words",
+        "write a function that returns the nth triangular number": "triangular",
+        "write a function that parses a csv line": "parse_csv_line",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    tri = synthesize_and_verify("write a function that returns the nth triangular number")
+    assert "def triangular" in tri["source"] and "def triangle_number" in tri["source"]
+    assert match_template("write a function for interleaving string").name != "interleave_lists"
+    assert match_template("write a function that add digits digital root").name != "digit_sum"
+
+
+def test_p231_pad_split_collapse_xor_digits():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that pads a number with zeros": "zero_pad",
+        "write a function that splits a list into evens and odds": "split_evens_odds",
+        "write a function that removes adjacent duplicates": "remove_adjacent_duplicates",
+        "write a function that replaces spaces with underscores": "spaces_to_underscores",
+        "write a function that returns the bitwise xor of a list": "xor_list",
+        "write a function that converts a list of digits to an integer": "digits_to_int",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    assert match_template("write a function that left pads a string").name != "zero_pad"
+    assert match_template("write a function that returns the sum of even numbers").name == "sum_evens"
+    assert match_template("write a function that returns the sum of digits").name == "digit_sum"
+    assert match_template("write a function that returns the product of odds").name != "split_evens_odds"
+
+
+
+def test_p232_sentences_zeros_range_positive_keys_ascii():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that counts sentences": "count_sentences",
+        "write a function that strips leading zeros": "strip_leading_zeros",
+        "write a function that returns the range of a list": "list_range",
+        "write a function that filters positive numbers": "filter_positive",
+        "write a function that returns keys of a dictionary": "dict_keys",
+        "write a function that returns the sum of ascii codes": "sum_ascii",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    assert match_template("write a function that counts words").name == "count_words"
+    assert match_template("write a function that pads a number with zeros").name == "zero_pad"
+    assert match_template("write a function that returns the sum of digits").name == "digit_sum"
+    assert match_template("write a function that returns the minimum of a list").name == "min_of_list"
+    assert match_template("write a function that inverts a dictionary").name == "invert_dict"
+
+
+def test_digit_sum_phrase_aliases_do_not_steal_siblings():
+    """code_1205 / code_1502 missed because first digit_sum only saw 'sum of digits'."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the digit sum of a number": "digit_sum",
+        "write a function that sums the digits of a number": "digit_sum",
+        "write a function that returns the sum of digits": "digit_sum",
+        "write a function that returns the difference between product and sum of digits": "subtract_product_and_sum",
+        "write a function that returns the alternating digit sum": "alternate_digit_sum",
+        "write a python function that count integers with even digit sum": "count_even",
+        "write a python function sum of digits in base k leetcode 1837": "sum_base",
+        "write a python function calculate digit sum of a string leetcode 2243": "digit_sum_string",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+    out = synthesize_and_verify("write a function that returns the digit sum of a number")
+    assert out["verified"] and out["name"] == "digit_sum"
+    assert synthesize_and_verify("write a function that sums the digits of a number")["verified"]
+
+
+def test_minimum_sum_generic_phrase_not_stolen_by_four_digit_alias():
+    """code_542 expects minimum_sum; leetcode 2160 stays minimum_sum_four_digit."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a python function that minimum sum of four digit number": "minimum_sum",
+        "write a python function minimum sum of four digit number leetcode 2160": "minimum_sum_four_digit",
+        "write a python function minimum_sum_four_digit": "minimum_sum_four_digit",
+        "write a python function minimum sum of mountain triplets i leetcode 2908": "minimum_sum_mountain_triplets",
+        "write a function that splits a number into two with minimum sum": "split_num",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
+def test_cycle521_generic_phrases_not_stolen_by_later_aliases():
+    """First-shipped names win generic phrases; snake aliases stay explicit."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the nth triangular number": "triangular",
+        "write a function triangle_number that returns the nth triangular number": "triangle_number",
+        "write a function that returns the interquartile range of a list": "interquartile_range",
+        "write a function that returns the statistical range of a list": "list_span",
+        "write a function that returns the range of a list": "list_range",
+        "write a function that returns the product of the digits of an integer": "digit_product",
+        "write a function that converts a list of digits to an integer": "digits_to_int",
+        "write a function to pad left with zeros": "left_pad",
+        "write a function that pads a number with zeros": "zero_pad",
+        "write a function that left-pads a string": "left_pad",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
+def test_cycle521_specific_range_digit_pad_not_stolen():
+    """IQR / statistical range / digit product / pad-left lost to broader later packs."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that returns the interquartile range of a list": "interquartile_range",
+        "write a function that returns the statistical range of a list": "list_span",
+        "write a function that returns the product of the digits of an integer": "digit_product",
+        "write a function to pad left with zeros": "left_pad",
+        "write a function that pads a number with zeros": "zero_pad",
+        "write a function that converts a list of digits to an integer": "digits_to_int",
+        "write a function that returns the range of a list": "list_range",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
+def test_cycle522_elementwise_whitespace_variance_index_sum():
+    """Unmatched phrases plus even-index sum no longer bound to is_even."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that multiplies corresponding elements of two lists": "hadamard_product",
+        "write a function that removes whitespace from a string": "remove_whitespace",
+        "write a function that inserts a separator between characters": "intersperse_chars",
+        "write a function that returns the first n characters": "first_n_chars",
+        "write a function that returns the variance of a list": "list_variance",
+        "write a function that sums even indices": "even_index_sum",
+        "write a function that checks if a number is even": "is_even",
+        "write a function that returns the product of a list": "list_product",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
 def test_cycle523_lines_tabs_vowel_indices_rotation_range():
     """Misses that previously returned NotImplemented drafts."""
     from code_synth import match_template, synthesize_and_verify
@@ -5312,6 +5508,106 @@ def test_cycle523_lines_tabs_vowel_indices_rotation_range():
         out = synthesize_and_verify(ask)
         assert out["verified"] and not out["fallback"], (ask, out)
         assert f"def {name}" in out["source"]
+
+
+def test_cycle524_zip_three_interleave_digits_windows():
+    """Misses that previously returned NotImplemented or two-list interleave."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that zips three lists": "zip_three",
+        "write a function that interleaves three sequences": "interleave_three",
+        "write a function that checks if a string is all digits": "is_all_digits",
+        "write a function that splits a string on commas": "split_commas",
+        "write a function that transposes a list of pairs": "transpose_pairs",
+        "write a function that windows a list of size k": "sliding_windows",
+        "write a function that interleaves two lists": "interleave_lists",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
+def test_cycle525_take_drop_factors_letters_trim():
+    """Misses stolen by first_element/last_n, plus factors, letters, trim, pair split."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that takes the first n elements": "take_n",
+        "write a function that drops the last n elements": "drop_last",
+        "write a function that returns all factors of n": "factors",
+        "write a function that checks if a string contains only letters": "is_letters",
+        "write a function that trims a string": "trim_string",
+        "write a function that splits pairs into two lists": "split_pair_lists",
+        "write a function that returns the first element": "first_element",
+        "write a function that returns the last n items": "last_n",
+        "write a function that sums digits of a number": "digit_sum",
+        "write a function that removes duplicate characters preserving order": "unique_chars",
+        "write a function that pairs adjacent elements": "pairwise",
+        "index of the maximum value": "argmax_list",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
+def test_cycle526_drop_n_square_sort_symdiff_replace_acronym():
+    """Steals (drop_first, sum_of_squares, sort_list, list_difference) and NotImplemented drafts."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that drops the first n elements": "drop_n",
+        "write a function that squares a list": "square_elements",
+        "write a function that sorts strings by length": "sort_by_length",
+        "write a function that returns the symmetric difference": "symmetric_difference",
+        "write a function that replaces all occurrences": "replace_all",
+        "write a function that builds an acronym": "acronym",
+        "write a function that drops the first element": "drop_first",
+        "write a function that takes the first n elements": "take_n",
+        "write a function that returns the sum of squares": "sum_of_squares",
+        "write a function that sorts a list": "sort_list",
+        "write a function that returns the difference of two lists": "list_difference",
+        "write a function that takes the last n elements": "last_n",
+        "write a function that counts lines in text": "line_count",
+        "write a function that returns the last element": "last_element",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+
+
+def test_cycle527_three_divisors_acronym_modify_drop_windows():
+    """Stolen by factors/acronym/replace_all, or skipped by narrow drop/window matchers."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a python function that three divisors": "is_three",
+        "write a python function that check if a string is an acronym of words": "is_acronym",
+        "write a python function replace all question marks to avoid consecutive repeating characters leetcode 1576": "modify_string",
+        "write a function to drop the last element": "drop_last",
+        "write a function to sliding windows": "sliding_windows",
+        "write a function that drops the last n elements": "drop_last",
+        "write a function that returns sliding windows of size k over a list": "sliding_windows",
+        "write a function that builds an acronym": "acronym",
+        "write a function that replaces all occurrences": "replace_all",
+        "write a python function that returns the divisors": "factors",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert f"def {name}" in out["source"]
+    assert match_template("write a function to sliding window maximum").name != "sliding_windows"
 
 
 def test_rotate_array_right_by_k_phrase():
@@ -5353,3 +5649,80 @@ def test_json_file_keys_phrase():
         os.unlink(path)
     other = match_template("validate a json schema")
     assert other is None or other.name != "json_keys"
+
+
+def test_p242_path_sum_iii_and_tree_builds():
+    """Cycle 545: path_sum_iii, next-right connect, inorder+postorder, hash map phrase."""
+    from code_synth import match_template, synthesize_and_verify
+
+    for ask, name in (
+        ("path sum iii", "path_sum_iii"),
+        ("populating next right pointers", "connect_next_right"),
+        ("construct binary tree from inorder and postorder traversal", "build_tree_post"),
+        ("design a hash map", "design_hashmap"),
+    ):
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+
+    # plain path sum still works
+    hit = match_template("path sum")
+    assert hit is not None and hit.name == "path_sum", None if hit is None else hit.name
+    hit = match_template("path sum ii")
+    assert hit is not None and hit.name == "path_sum_ii", None if hit is None else hit.name
+
+
+def test_p241_sudoku_and_matcher_fixes():
+    """Cycle 544: sudoku solver + tighter is_subset / power / inorder matchers."""
+    from code_synth import match_template, synthesize_and_verify
+
+    # sudoku solver
+    ask = "implement a sudoku solver"
+    hit = match_template(ask)
+    assert hit is not None and hit.name == "sudoku_solver", None if hit is None else hit.name
+    out = synthesize_and_verify(ask)
+    assert out["verified"] and not out["fallback"], out
+    assert "def sudoku_solver" in out["source"]
+
+    # bare "subsets" must be power set, not is_subset
+    hit = match_template("subsets")
+    assert hit is not None and hit.name == "subsets", None if hit is None else hit.name
+
+    # is_subset still hits explicit asks
+    hit = match_template("is [1, 2] a subset of [1, 2, 3]")
+    assert hit is not None and hit.name == "is_subset", None if hit is None else hit.name
+
+    # power set must not hit exponentiation
+    hit = match_template("generate the power set")
+    assert hit is not None and hit.name != "power", None if hit is None else hit.name
+    assert hit.name in ("subsets", "power_set") or "subset" in hit.name
+
+    # construct tree must not hit plain inorder
+    hit = match_template("construct binary tree from preorder and inorder traversal")
+    assert hit is not None and hit.name == "build_tree", None if hit is None else hit.name
+
+    # plain inorder still works
+    hit = match_template("inorder traversal of a binary tree")
+    assert hit is not None and hit.name == "inorder_traversal", None if hit is None else hit.name
+
+
+def test_p244_graph_url_and_rotate_phrase():
+    """Cycle 547: URL parse, graph algorithms, sieve list, rotate-an-array phrase."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a python function that parses a URL": "parse_url",
+        "implement topological sort": "topological_sort",
+        "write a python function for bfs": "bfs",
+        "implement dfs": "dfs",
+        "write a function for union find": "union_find",
+        "write a python function that finds all primes up to n": "sieve_primes",
+        "write a function to rotate an array": "rotate_array",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"

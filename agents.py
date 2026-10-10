@@ -97,7 +97,15 @@ def _wants_code_written(request: str) -> bool:
         return True
     # Bare problem titles that match a verified template should synthesize,
     # not be exec'd as Python (syntax error → hedge). Skip math/utility asks.
-    if "?" in text or re.search(r"\b(search|look up|news about)\b", text, re.I):
+    # Algorithm names containing "search" (binary search tree) are not web lookups.
+    algo_search = re.search(
+        r"\b(binary|linear|interpolation|exponential|ternary|fibonacci)[- ]search\b",
+        text,
+        re.I,
+    )
+    if "?" in text or (
+        re.search(r"\b(search|look up|news about)\b", text, re.I) and not algo_search
+    ):
         return False
     try:
         from science_math import looks_like_science_math
@@ -1652,16 +1660,20 @@ class Orchestrator:
         # Cycle 406: bare verified-template titles ("binary tree cameras")
         # were chat/data hedges. A template hit is a code route unless the
         # user asked a question or a search.
+        # Cycle 547: algorithm names that contain "search" (binary search
+        # tree, linear search) are code when a verified template hits.
+        algo_search = re.search(
+            r"\b(binary|linear|interpolation|exponential|ternary|fibonacci)[- ]search\b",
+            request or "",
+            re.I,
+        )
+        webish = re.search(r"\b(search|look up|news about|research)\b", request or "", re.I)
         if scores.get("code", 0) < 1.0 and not _looks_like_question(request):
-            if not re.search(r"\b(search|look up|news about|research)\b", request or "", re.I):
-                protected = max(
-                    scores.get("calculator", 0),
-                    scores.get("debug", 0),
-                    scores.get("lab", 0),
-                    scores.get("document", 0),
-                    scores.get("chat", 0),
-                    scores.get("research", 0),
-                )
+            if not webish or algo_search:
+                protected_keys = ["calculator", "debug", "lab", "document", "chat"]
+                if not algo_search:
+                    protected_keys.append("research")
+                protected = max(scores.get(k, 0) for k in protected_keys)
                 if protected < 1.0:
                     try:
                         from code_synth import match_template
