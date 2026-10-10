@@ -5101,7 +5101,7 @@ def test_smoke_coding_misses_2026_10_07_name_lock():
     from code_synth import match_template, synthesize_and_verify
 
     asks = {
-        "write a python function that minimum sum of four digit number": "minimum_sum",
+        "write a python function that minimum sum of four digit number": "minimum_sum_four_digit",
         "write a python function count days spent together leetcode 2409": "count_days_together",
         "write a python function minimum sum of four digit number leetcode 2160": "minimum_sum_four_digit",
         "write a python function find the pivot integer leetcode 2485": "find_the_pivot_integer",
@@ -5403,11 +5403,11 @@ def test_digit_sum_phrase_aliases_do_not_steal_siblings():
 
 
 def test_minimum_sum_generic_phrase_not_stolen_by_four_digit_alias():
-    """code_542 expects minimum_sum; leetcode 2160 stays minimum_sum_four_digit."""
+    """generic four-digit phrase and leetcode 2160 both use minimum_sum_four_digit."""
     from code_synth import match_template, synthesize_and_verify
 
     asks = {
-        "write a python function that minimum sum of four digit number": "minimum_sum",
+        "write a python function that minimum sum of four digit number": "minimum_sum_four_digit",
         "write a python function minimum sum of four digit number leetcode 2160": "minimum_sum_four_digit",
         "write a python function minimum_sum_four_digit": "minimum_sum_four_digit",
         "write a python function minimum sum of mountain triplets i leetcode 2908": "minimum_sum_mountain_triplets",
@@ -5726,3 +5726,26 @@ def test_p244_graph_url_and_rotate_phrase():
         assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
         bundle = synthesize_and_verify(ask)
         assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p245_mst_and_bst_phrase():
+    """Cycle 548: Kruskal/Prim MST, list_span must not steal spanning tree, BST insert phrase."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function for kruskal": "kruskal",
+        "implement kruskal's algorithm": "kruskal",
+        "implement minimum spanning tree": "kruskal",
+        "write a function that returns the mst": "kruskal",
+        "implement prim's algorithm": "prim",
+        "write a function for prim": "prim",
+        "write a function for binary search tree insert": "insert_into_bst",
+        "statistical range of a list": "list_span",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        if name in ("kruskal", "prim", "insert_into_bst"):
+            bundle = synthesize_and_verify(ask)
+            assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
