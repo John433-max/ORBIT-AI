@@ -297,6 +297,24 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    if name == "inorder_traversal":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\binorder[- ]?(traversal|walk|dfs)\b|"
+                    r"\bin[- ]?order traversal\b|"
+                    r"\binorder_traversal\b",
+                    low,
+                )
+            )
+            and "construct" not in low
+            and "preorder" not in low
+            and "postorder" not in low
+            and "build" not in low,
+            tmpl.examples,
+        )
     if name == "power":
         return Template(
             name,
