@@ -297,6 +297,46 @@ def _widen_loaded(tmpl: Template) -> Template:
             ),
             tmpl.examples,
         )
+    if name == "power":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "power of two" not in low
+                and "power of 2" not in low
+                and "power-of-two" not in low
+                and "power of three" not in low
+                and "power of 3" not in low
+                and "power of four" not in low
+                and "power of 4" not in low
+                and "power-of-four" not in low
+                and "pow(x" not in low
+                and "pow x n" not in low
+                and "my_pow" not in low
+                and "negative exponent" not in low
+                and "power set" not in low
+                and "powerset" not in low
+                and bool(re.search(r"\b(power|exponent|raise .+ to)\b", low))
+            ),
+            tmpl.examples,
+        )
+    if name == "is_subset":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                "subset" in low
+                and "superset" not in low
+                and "all subsets" not in low
+                and "subsets of" not in low
+                and "power set" not in low
+                and "with dup" not in low
+                and "duplicate" not in low
+                and low.strip() not in ("subsets", "subset")
+                and not low.strip().startswith("subsets")
+            ),
+            tmpl.examples,
+        )
     if name == "design_hashmap":
         return Template(
             name,
