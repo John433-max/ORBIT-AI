@@ -54,13 +54,18 @@ def templates() -> list[Template]:
             '    """True when every item in left also appears in right (set semantics)."""\n'
             "    return set(left).issubset(right)\n",
             lambda low: (
-                "subset" in low
+                ("is subset" in low or "is a subset" in low or "is_subset" in low)
                 and "superset" not in low
                 and "all subsets" not in low
                 and "subsets of" not in low
                 and "power set" not in low
                 and "with dup" not in low
                 and "duplicate" not in low
+            ) or (
+                "subset of" in low
+                and "all" not in low
+                and "power" not in low
+                and "subsets" not in low
             ),
             (
                 (([1, 2], [2, 1, 3]), True),
