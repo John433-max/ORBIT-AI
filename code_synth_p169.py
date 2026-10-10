@@ -126,7 +126,12 @@ def templates() -> list[Template]:
             "    n = int(n)\n"
             "    if n < 0:\n"
             "        return 0\n"
-            "    return n * (n + 1) // 2\n",
+            "    return n * (n + 1) // 2\n"
+            "\n"
+            "\n"
+            "def triangle_number(n):\n"
+            '    """Alias so smoke rows can expect either name."""\n'
+            "    return triangular(n)\n",
             lambda low: "triangular" in low and "triangular sum" not in low and "triangular_sum" not in low,
             (
                 ((0,), 0),
