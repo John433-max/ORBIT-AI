@@ -276,11 +276,40 @@ def _widen_loaded(tmpl: Template) -> Template:
             tmpl.source,
             lambda low: (
                 "unzip" in low
-                or "split pairs" in low
-                or "pairs into two" in low
             )
             and "zip three" not in low
-            and "three" not in low,
+            and "three" not in low
+            and "split" not in low,
+            tmpl.examples,
+        )
+    if name == "split_pair_lists":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: (
+                bool(
+                    re.search(
+                        r"\bsplits? pairs\b|\bpairs into two\b|\bpair.?lists\b",
+                        low,
+                    )
+                )
+                and "unzip" not in low
+            ),
+            tmpl.examples,
+        )
+    if name == "design_hashmap":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\bdesigns? (?:a )?hash ?map\b|"
+                    r"\bmyhashmap\b|"
+                    r"\bdesign_hashmap\b|"
+                    r"\bimplement(?:s|ing)? (?:a )?hash ?map\b",
+                    low,
+                )
+            ),
             tmpl.examples,
         )
     if name == "group_consecutive":

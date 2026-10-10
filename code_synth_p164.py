@@ -110,4 +110,36 @@ def templates() -> list[Template]:
             lambda low: "leap" in low and "year" in low,
             (((2000,), True), ((1900,), False), ((2024,), True), ((2023,), False)),
         ),
+
+        T(
+            "send_email",
+            "def send_email(to, subject, body, host='localhost'):\n"
+            '    """Refuse SMTP. The sandbox has no outbound mail."""\n'
+            "    return {\n"
+            "        'ok': False,\n"
+            "        'sent': False,\n"
+            "        'error': 'sandbox cannot send email (no network SMTP)',\n"
+            "        'to': str(to),\n"
+            "        'host': str(host),\n"
+            "    }\n",
+            lambda low: (
+                "email" in low
+                and ("smtp" in low or "send" in low or "sending" in low)
+                and "valid" not in low
+                and "defang" not in low
+                and "unique" not in low
+            ),
+            (
+                (
+                    ("a@b.co", "hi", "body"),
+                    {
+                        "ok": False,
+                        "sent": False,
+                        "error": "sandbox cannot send email (no network SMTP)",
+                        "to": "a@b.co",
+                        "host": "localhost",
+                    },
+                ),
+            ),
+        ),
     ]
