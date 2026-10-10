@@ -1,7 +1,7 @@
 """Cycle 554: Andrew monotone-chain convex hull, Manacher LPS, KMP phrase alias.
 
-knuth_morris_pratt defers to kmp_search (p247) when the prompt also contains
-both "kmp" and "search".
+Loaded first so classic geometry / string phrases beat draft stubs and
+generic string-matching templates.
 """
 from __future__ import annotations
 
@@ -17,60 +17,64 @@ def templates() -> list[Template]:
         T(
             "convex_hull",
             "def convex_hull(points):\n"
-            '    """Andrew monotone-chain convex hull (CCW, includes collinear)."""\n'
-            "    pts = sorted({(float(x), float(y)) for x, y in points})\n"
+            '    """Convex hull via Andrew\'s monotone chain.\n'
+            "    points: sequence of (x, y). Returns hull vertices in CCW order\n"
+            '    starting at the lexicographically smallest point. O(n log n)."""\n'
+            "    pts = sorted(set(tuple(p) for p in points))\n"
             "    if len(pts) <= 1:\n"
-            "        return list(pts)\n"
+            "        return pts\n"
             "\n"
             "    def cross(o, a, b):\n"
             "        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])\n"
             "\n"
             "    lower = []\n"
             "    for p in pts:\n"
-            "        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) < 0:\n"
+            "        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:\n"
             "            lower.pop()\n"
             "        lower.append(p)\n"
             "    upper = []\n"
             "    for p in reversed(pts):\n"
-            "        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) < 0:\n"
+            "        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:\n"
             "            upper.pop()\n"
             "        upper.append(p)\n"
             "    return lower[:-1] + upper[:-1]\n",
             lambda low: bool(
                 re.search(
-                    r"\bconvex[- ]?hull\b|\bmonotone[- ]chain\b|\bandrew.?s? hull\b",
+                    r"\bconvex[- ]?hull\b|"
+                    r"\bgraham[- ]?scan\b|"
+                    r"\bmonotone[- ]?chain\b|"
+                    r"\bandrew(?:'s)? algorithm\b|"
+                    r"\bandrews? monotone\b",
                     low,
                 )
             )
-            and "graham" not in low,
+            and "tree" not in low,
             (
-                (([(0, 0), (1, 0), (0, 1), (1, 1), (0.5, 0.5)],), [(0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0)]),
-                (([(0, 0), (1, 0), (0.5, 0.1)],), [(0.0, 0.0), (1.0, 0.0), (0.5, 0.1)]),
+                (([(0, 0), (1, 1), (0, 1), (1, 0)],), [(0, 0), (1, 0), (1, 1), (0, 1)]),
+                (([(0, 0), (2, 0), (1, 1), (1, 0)],), [(0, 0), (2, 0), (1, 1)]),
+                (([(5, 5)],), [(5, 5)]),
             ),
         ),
         T(
-            "manacher_lps",
-            "def manacher_lps(s):\n"
-            '    """Longest palindromic substring via Manacher."""\n'
+            "manacher_longest_palindrome",
+            "def manacher_longest_palindrome(s):\n"
+            "    \"\"\"Longest palindromic substring via Manacher (1975), O(n).\n"
+            "    On equal-length ties returns the leftmost.\"\"\"\n"
             "    if not s:\n"
-            "        return \"\"\n"
-            "    t = \"#\" + \"#\".join(s) + \"#\"\n"
+            "        return ''\n"
+            "    t = '^#' + '#'.join(s) + '#$'\n"
             "    n = len(t)\n"
             "    p = [0] * n\n"
-            "    c = r = 0\n"
-            "    best_r = best_c = 0\n"
-            "    for i in range(n):\n"
-            "        mirror = 2 * c - i\n"
-            "        if i < r:\n"
-            "            p[i] = min(r - i, p[mirror])\n"
-            "        a = i + p[i] + 1\n"
-            "        b = i - p[i] - 1\n"
-            "        while a < n and b >= 0 and t[a] == t[b]:\n"
+            "    center = right = 0\n"
+            "    best_c = best_r = 0\n"
+            "    for i in range(1, n - 1):\n"
+            "        mirror = 2 * center - i\n"
+            "        if i < right:\n"
+            "            p[i] = min(right - i, p[mirror])\n"
+            "        while t[i + 1 + p[i]] == t[i - 1 - p[i]]:\n"
             "            p[i] += 1\n"
-            "            a += 1\n"
-            "            b -= 1\n"
-            "        if i + p[i] > r:\n"
-            "            c, r = i, i + p[i]\n"
+            "        if i + p[i] > right:\n"
+            "            center, right = i, i + p[i]\n"
             "        if p[i] > best_r:\n"
             "            best_r, best_c = p[i], i\n"
             "    start = (best_c - best_r) // 2\n"

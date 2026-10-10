@@ -602,6 +602,22 @@ def _widen_loaded(tmpl: Template) -> Template:
             and "remove" not in low,
             tmpl.examples,
         )
+    if name == "critical_connections":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\bcritical[- ]?connections?\b|"
+                    r"\bcritical edges?\b|"
+                    r"\bbridges? in (?:an? )?(?:undirected )?graph\b|"
+                    r"\btarjan(?:'s)? bridges?\b|"
+                    r"\bfind bridges?\b",
+                    low,
+                )
+            ),
+            tmpl.examples,
+        )
     return tmpl
 
 
@@ -611,6 +627,14 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p253",
+        "code_synth_p252",
+        "code_synth_p251",
+        "code_synth_p250",
+        "code_synth_p249",
+        "code_synth_p248",
+        "code_synth_p247",
+        "code_synth_p246",
         "code_synth_p245",
         "code_synth_p244",
         "code_synth_p243",
