@@ -5,7 +5,7 @@ Closes educational gaps for:
 - Fractional knapsack (greedy by value/weight, CLRS 16.2)
 - Job sequencing with deadlines (greedy profit)
 - Optimal BST (DP, CLRS 15.5)
-- Find bridges (Tarjan low-link)
+- Find bridges (Tarjan low-link) + criticalConnections alias (LeetCode 1192)
 - Min-cost max-flow (successive shortest paths, educational)
 
 Matchers are phrase-specific so existing max_flow / knapsack_01 / critical_connections
@@ -126,27 +126,24 @@ def templates() -> list[Template]:
                 or (
                     "deadline" in low
                     and "profit" in low
-                    and ("job" in low or "schedule" in low)
+                    and "job" in low
                 )
             ),
             examples=(
-                (([4, 1, 1, 1], [20, 10, 40, 30]), (60, [0, 2])),
-                (([2, 1, 2, 1], [100, 19, 27, 25]), (127, [0, 2])),
+                (([4, 2, 4, 3, 1, 4, 6], [20, 15, 10, 5, 1, 15, 30]), (90, [0, 1, 2, 5, 6])),
+                (([2, 1, 2], [100, 19, 27]), (127, [0, 2])),
                 (([], []), (0, [])),
             ),
         ),
         T(
             "optimal_bst",
-            "def optimal_bst(freqs):\n"
+            "def optimal_bst(p):\n"
             '    """Minimum expected search cost for optimal BST (CLRS 15.5).\n\n'
-            "    freqs[i] is the probability/frequency of key i.\n"
-            "    Returns the minimum expected cost (float).\n"
+            "    p[i] = probability of key i (0-based). Returns min expected cost.\n"
             '    """\n'
-            "    n = len(freqs)\n"
+            "    n = len(p)\n"
             "    if n == 0:\n"
             "        return 0.0\n"
-            "    p = [float(x) for x in freqs]\n"
-            "    # cost[i][j] = min cost for keys i..j inclusive\n"
             "    cost = [[0.0] * n for _ in range(n)]\n"
             "    # prefix sums for range frequency\n"
             "    pref = [0.0] * (n + 1)\n"
@@ -216,10 +213,12 @@ def templates() -> list[Template]:
             "    return bridges\n"
             "\n"
             "def criticalConnections(n, connections):\n"
+            "    \"\"\"Bridges of an undirected graph (LeetCode 1192 alias).\"\"\"\n"
             "    return find_bridges(n, connections)\n",
             lambda low: bool(
                 re.search(r"\bfind[- ]?bridges?\b", low)
                 or re.search(r"\bbridge[- ]?find", low)
+                or re.search(r"\btarjan[- ]?bridges?\b", low)
                 or re.search(r"\bbridges? in (?:an? )?(?:undirected )?graph\b", low)
                 or (
                     "bridge" in low
@@ -254,29 +253,27 @@ def templates() -> list[Template]:
             "\n"
             "    flow = 0\n"
             "    cost_sum = 0\n"
-            "    demand = int(demand)\n"
-            "    source, sink = int(source), int(sink)\n"
-            "\n"
             "    while flow < demand:\n"
             "        dist = [INF] * n\n"
             "        prev_v = [-1] * n\n"
             "        prev_e = [-1] * n\n"
             "        dist[source] = 0\n"
-            "        updated = True\n"
-            "        for _ in range(n):\n"
+            "        # Bellman-Ford\n"
+            "        for _ in range(n - 1):\n"
+            "            updated = False\n"
+            "            for u in range(n):\n"
+            "                if dist[u] >= INF:\n"
+            "                    continue\n"
+            "                for ei, edge in enumerate(g[u]):\n"
+            "                    v, rev, cap, c = edge\n"
+            "                    if cap > 0 and dist[v] > dist[u] + c:\n"
+            "                        dist[v] = dist[u] + c\n"
+            "                        prev_v[v] = u\n"
+            "                        prev_e[v] = ei\n"
+            "                        updated = True\n"
             "            if not updated:\n"
             "                break\n"
-            "            updated = False\n"
-            "            for v in range(n):\n"
-            "                if dist[v] == INF:\n"
-            "                    continue\n"
-            "                for i, (to, rev, cap, c) in enumerate(g[v]):\n"
-            "                    if cap > 0 and dist[to] > dist[v] + c:\n"
-            "                        dist[to] = dist[v] + c\n"
-            "                        prev_v[to] = v\n"
-            "                        prev_e[to] = i\n"
-            "                        updated = True\n"
-            "        if dist[sink] == INF:\n"
+            "        if dist[sink] >= INF:\n"
             "            break\n"
             "        # augment\n"
             "        aug = demand - flow\n"

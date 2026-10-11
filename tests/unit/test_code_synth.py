@@ -5749,3 +5749,637 @@ def test_p245_mst_and_bst_phrase():
         if name in ("kruskal", "prim", "insert_into_bst"):
             bundle = synthesize_and_verify(ask)
             assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p246_shortest_paths_and_substring():
+    """Cycle 549: Bellman-Ford, Floyd-Warshall, LCS substring, Fenwick prefix."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a python function for bellman ford": "bellman_ford",
+        "implement bellman-ford": "bellman_ford",
+        "write a function for floyd warshall": "floyd_warshall",
+        "implement floyd-warshall all-pairs shortest": "floyd_warshall",
+        "write a python function for longest common substring": "longest_common_substring",
+        "implement fenwick tree prefix sums": "fenwick_prefix",
+        "write a function for binary indexed tree": "fenwick_prefix",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p247_classic_algorithms():
+    """Cycle 550: KMP, segment tree, max flow, Kosaraju, articulation, Z-array."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a python function for knuth morris pratt kmp search": "kmp_search",
+        "implement kmp": "kmp_search",
+        "implement a segment tree for range sum with updates": "segment_tree_sum",
+        "write a function for maximum flow edmonds karp": "max_flow",
+        "implement kosaraju strongly connected components": "kosaraju_scc",
+        "find articulation points cut vertices": "articulation_points",
+        "write a python function for the z algorithm": "z_algorithm",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p248_aho_corasick_and_bridges():
+    """Cycle 551: Aho-Corasick multi-pattern + bridges phrase for critical_connections."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement aho corasick multiple pattern matching": "aho_corasick",
+        "aho-corasick search": "aho_corasick",
+        "aho corasick algorithm": "aho_corasick",
+        "find bridges in undirected graph": "critical_connections",
+        "bridges in an undirected graph": "critical_connections",
+        "tarjan bridges": "critical_connections",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+
+def test_p249_hopcroft_karp_and_suffix_array():
+    """Cycle 552: Hopcroft-Karp bipartite matching + suffix array construction."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement hopcroft karp bipartite matching": "hopcroft_karp",
+        "hopcroft-karp maximum matching": "hopcroft_karp",
+        "maximum bipartite matching": "hopcroft_karp",
+        "build suffix array": "build_suffix_array",
+        "suffix array construction": "build_suffix_array",
+        "construct the suffix array of a string": "build_suffix_array",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p250_hungarian_and_lcp_array():
+    """Cycle 553: Hungarian assignment + Kasai LCP array."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "hungarian algorithm": "hungarian_assignment",
+        "kuhn-munkres assignment": "hungarian_assignment",
+        "minimum cost assignment": "hungarian_assignment",
+        "assignment problem": "hungarian_assignment",
+        "build lcp array": "longest_common_prefix_array",
+        "longest common prefix array": "longest_common_prefix_array",
+        "kasai algorithm": "longest_common_prefix_array",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+
+def test_p251_convex_hull_manacher_kmp():
+    """Cycle 554: monotone-chain hull, Manacher LPS, KMP phrase alias."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "convex hull of points": "convex_hull",
+        "graham scan convex hull": "convex_hull",
+        "andrews monotone chain": "convex_hull",
+        "implement manachers algorithm": "manacher_longest_palindrome",
+        "manacher algorithm": "manacher_longest_palindrome",
+        "knuth morris pratt string matching": "knuth_morris_pratt",
+        "write a python function knuth-morris-pratt": "knuth_morris_pratt",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p253_astar_sparse_quickselect_tarjan_lis_mcm():
+    """Cycle 555: A*, sparse-table RMQ, quickselect, Tarjan, LIS nlogn, MCM."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a star": "astar_path",
+        "a* pathfinding": "astar_path",
+        "astar search": "astar_path",
+        "sparse table rmq": "sparse_table_rmq",
+        "range minimum query": "sparse_table_rmq",
+        "quickselect algorithm": "quickselect",
+        "implement quick select": "quickselect",
+        "implement tarjans algorithm": "tarjan_scc",
+        "tarjan's algorithm": "tarjan_scc",
+        "lis n log n": "lis_nlogn",
+        "patience sorting lis": "lis_nlogn",
+        "matrix chain order": "matrix_chain_order",
+        "mcm dynamic programming": "matrix_chain_order",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p254_boyer_kahn_lca_closest_huffman_subset():
+    """Cycle 556: Boyer-Moore, Kahn, binary-lifting LCA, closest pair, Huffman, subset sum."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "boyer moore string search": "boyer_moore",
+        "horspool boyer-moore": "boyer_moore",
+        "kahn algorithm": "kahn_topo",
+        "kahns topological sort": "kahn_topo",
+        "binary lifting lca": "binary_lifting_lca",
+        "jump pointers for lca": "binary_lifting_lca",
+        "closest pair of points": "closest_pair",
+        "implement closest pair": "closest_pair",
+        "huffman coding": "huffman_total_cost",
+        "huffman total cost": "huffman_total_cost",
+        "subset sum problem": "subset_sum",
+        "subset-sum": "subset_sum",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p255_jarvis_twosat_minimax_alphabeta_sweep():
+    """Cycle 558: Jarvis march, 2-SAT, minimax, alpha-beta, line-sweep overlaps."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "jarvis march": "jarvis_march",
+        "jarvis march convex hull": "jarvis_march",
+        "gift wrapping algorithm": "gift_wrapping",
+        "2-sat solver": "two_sat",
+        "two satisfiability": "two_sat",
+        "minimax algorithm": "minimax",
+        "alpha beta pruning": "alpha_beta",
+        "alpha-beta": "alpha_beta",
+        "line sweep overlaps": "line_sweep_overlaps",
+        "sweep line algorithm": "line_sweep_overlaps",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p256_queue_linkedlist_bst_hashtable_pq_graph():
+    """Cycle 559: classic data-structure class asks."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "create a python class for a queue": "queue_class",
+        "implement a queue class": "queue_class",
+        "create a linked list class": "linked_list_class",
+        "python class for a linked list": "linked_list_class",
+        "create a binary search tree class": "bst_class",
+        "implement a hash table class": "hash_table_class",
+        "priority queue class": "priority_queue_class",
+        "create a graph class": "graph_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p257_dll_trie_uf_deque_heap_hashmap():
+    """Cycle 560: doubly linked list, trie, union-find, deque, min-heap, hashmap classes."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "create a python class for a doubly linked list": "doubly_linked_list_class",
+        "implement a doubly linked list class": "doubly_linked_list_class",
+        "write a python Trie class": "trie_class",
+        "implement a trie class": "trie_class",
+        "create a UnionFind class": "union_find_class",
+        "write a python Deque class": "deque_class",
+        "implement a min heap class": "min_heap_class",
+        "write a python Heap class": "min_heap_class",
+        "write a python HashMap class": "hash_map_class",
+        "implement a hash map class": "hash_map_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p258_skiplist_bloomfilter():
+    """Cycle 561: skip list and bloom filter class templates."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "create a python class for a skip list": "skip_list_class",
+        "implement a skip list class": "skip_list_class",
+        "write a python SkipList class": "skip_list_class",
+        "implement a bloom filter class": "bloom_filter_class",
+        "create a BloomFilter class": "bloom_filter_class",
+        "write a python class for a bloom filter": "bloom_filter_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p259_segment_tree_circular_buffer():
+    """Cycle 562: SegmentTree and CircularBuffer class templates."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a SegmentTree class": "segment_tree_class",
+        "write a python class for a segment tree": "segment_tree_class",
+        "create a SegmentTree class": "segment_tree_class",
+        "write a python class for a circular buffer": "circular_buffer_class",
+        "create a CircularBuffer class in python": "circular_buffer_class",
+        "implement a ring buffer class": "circular_buffer_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p260_avl_fenwick_classes():
+    """Cycle 563: AVLTree and FenwickTree class templates."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement an AVLTree class": "avl_tree_class",
+        "write a python class for an AVL tree": "avl_tree_class",
+        "create a python AVLTree class": "avl_tree_class",
+        "implement a FenwickTree class": "fenwick_tree_class",
+        "write a python class for a Fenwick tree": "fenwick_tree_class",
+        "create a binary indexed tree class": "fenwick_tree_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Functional fenwick path must still win when "class" is absent
+    functional = match_template("write a fenwick tree for prefix sums")
+    assert functional is not None
+    assert functional.name == "fenwick_prefix"
+
+
+def test_p261_splay_treap_classes():
+    """Cycle 564: SplayTree and Treap class templates."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a SplayTree class": "splay_tree_class",
+        "write a python class for a splay tree": "splay_tree_class",
+        "create a python SplayTree class": "splay_tree_class",
+        "implement a Treap class": "treap_class",
+        "write a python class for a treap": "treap_class",
+        "create a Treap class": "treap_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Natural phrasing (without the word "class") should still hit after Cycle 558 matcher widen
+    natural = match_template("write a splay tree for search")
+    assert natural is not None and natural.name == "splay_tree_class"
+    natural_t = match_template("implement a treap data structure")
+    assert natural_t is not None and natural_t.name == "treap_class"
+
+
+def test_p262_max_heap_red_black_classes():
+    """Cycle 565/567: MaxHeap and RedBlackTree class templates."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a MaxHeap class": "max_heap_class",
+        "write a python class for a max heap": "max_heap_class",
+        "create a MaxHeap class": "max_heap_class",
+        "implement a RedBlackTree class": "red_black_tree_class",
+        "write a python class for a red-black tree": "red_black_tree_class",
+        "create a RedBlackTree class": "red_black_tree_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # MinHeap must still win
+    mh = match_template("implement a MinHeap class")
+    assert mh is not None
+    assert mh.name != "max_heap_class"
+
+
+def test_p263_lfu_weighted_sparse_binary_heap_classes():
+    """Cycle 565: LFUCache, WeightedGraph, SparseTable, BinaryHeap class templates."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a LFUCache class": "lfu_cache_class",
+        "implement a LFUCache class": "lfu_cache_class",
+        "create a python class for an LFU cache": "lfu_cache_class",
+        "implement a WeightedGraph class": "weighted_graph_class",
+        "write a python class for a weighted graph": "weighted_graph_class",
+        "write a SparseTable class": "sparse_table_class",
+        "implement a SparseTable class": "sparse_table_class",
+        "write a BinaryHeap class": "binary_heap_class",
+        "implement a BinaryHeap class": "binary_heap_class",
+        "create a python class for a binary heap": "binary_heap_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+
+def test_p266_btree_minmax_stack_and_bst_widen():
+    """Cycle 568: BTree + MinMaxStack classes; BST matcher accepts binarysearchtree."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a BTree class": "btree_class",
+        "write a B-Tree class": "btree_class",
+        "implement a MinMaxStack class": "min_max_stack_class",
+        "write a min-max stack class": "min_max_stack_class",
+        "implement a BinarySearchTree class": "bst_class",
+        "write a binary_search_tree class": "bst_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors must hold
+    assert match_template("write a BST class").name == "bst_class"
+    assert match_template("implement a MinStack class") is None or match_template("implement a MinStack class").name != "min_max_stack_class"
+
+
+def test_p267_fib_kd_quad_suffix_classes():
+    """Cycle 569: FibonacciHeap, KDTree, QuadTree, SuffixTree classes."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a FibonacciHeap class": "fibonacci_heap_class",
+        "write a fibonacci heap class": "fibonacci_heap_class",
+        "write a KDTree class": "kd_tree_class",
+        "implement a k-d tree class": "kd_tree_class",
+        "implement a QuadTree class": "quad_tree_class",
+        "write a quad tree class": "quad_tree_class",
+        "implement a SuffixTree class": "suffix_tree_class",
+        "write a suffix tree class": "suffix_tree_class",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors must hold (ensure_suffix no longer steals SuffixTree)
+    assert match_template("write a function that computes the fibonacci number").name == "fibonacci"
+    assert match_template("implement a BinaryHeap class").name == "binary_heap_class"
+    assert match_template("suffix array").name == "build_suffix_array"
+    assert match_template("ensure the file has a suffix").name == "ensure_suffix"
+    assert match_template("write a Trie class").name == "trie_class"
+
+
+def test_p268_hanoi_and_unweighted_path():
+    """Cycle 571: Tower of Hanoi and unweighted BFS shortest path."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a python function for the tower of hanoi": "tower_of_hanoi",
+        "write a function to solve the towers of hanoi": "tower_of_hanoi",
+        "implement the hanoi towers": "tower_of_hanoi",
+        "write a function to find the shortest path in an unweighted graph": "shortest_path_unweighted",
+        "implement BFS shortest path on an unweighted graph": "shortest_path_unweighted",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Widened queue-using-stacks still hits and does not steal path/hanoi
+    assert match_template("implement a python class for a queue using two stacks").name == "queue_using_stacks"
+    assert match_template("implement dijkstra's algorithm").name == "dijkstra"
+    assert match_template("write a function for the champagne tower").name == "champagne_tower"
+
+
+def test_p269_directed_cycle_and_matcher_widens():
+    """Cycle 572: directed cycle template + prims/kadanes/kosarajus matcher holes."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function to detect a cycle in a directed graph": "detect_cycle_directed",
+        "implement cycle detection for a directed graph": "detect_cycle_directed",
+        "does this directed graph contain a cycle": "detect_cycle_directed",
+        "write a function for prims mst": "prim",
+        "implement prims minimum spanning tree": "prim",
+        "implement kadanes algorithm": "max_subarray",
+        "implement kosarajus algorithm": "kosaraju_scc",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        if name == "detect_cycle_directed":
+            bundle = synthesize_and_verify(ask)
+            assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    assert match_template("write a function for maximum subarray").name == "max_subarray"
+    assert match_template("implement kruskal's algorithm").name == "kruskal"
+    assert match_template("strongly connected components").name == "kosaraju_scc"
+    undirected = match_template("detect cycle in an undirected graph")
+    assert undirected is None or undirected.name != "detect_cycle_directed"
+
+
+
+def test_p271_eertree_and_wavelet():
+    """Cycle 573: eertree distinct palindromes + wavelet k-th smallest."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement eertree": "eertree_distinct_palindromes",
+        "write a function for palindromic tree": "eertree_distinct_palindromes",
+        "count distinct palindromic substrings using eertree": "eertree_distinct_palindromes",
+        "implement wavelet tree k-th smallest": "wavelet_kth_smallest",
+        "write a wavelet tree for range kth": "wavelet_kth_smallest",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    assert match_template("implement manacher algorithm").name == "manacher_longest_palindrome"
+    assert match_template("write a function for sparse table").name == "sparse_table_rmq"
+
+
+def test_p272_rod_cutting_crt_mincut():
+    """Cycle 574: rod cutting, Chinese Remainder, s-t min-cut capacity."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement rod cutting dynamic programming": "rod_cutting",
+        "write a function for rod cutting": "rod_cutting",
+        "maximum revenue from cutting a rod": "rod_cutting",
+        "implement Chinese Remainder Theorem": "chinese_remainder",
+        "solve simultaneous congruences with CRT": "chinese_remainder",
+        "write a function for the chinese remainder theorem": "chinese_remainder",
+        "implement minimum cut capacity": "min_cut_capacity",
+        "write a function for s-t min-cut": "min_cut_capacity",
+        "minimum cut capacity of a flow network": "min_cut_capacity",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    assert match_template("implement max flow").name == "max_flow"
+    assert match_template("write a function for coin change").name == "coin_change"
+    assert match_template("implement rabin-karp").name == "rabin_karp"
+    assert match_template("write a function for knapsack").name == "knapsack_01"
+
+def test_p274_classic_greedy_dp():
+    """Cycle 576: activity selection, fractional knapsack, job sequencing,
+    optimal BST, find bridges, min-cost flow."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement activity selection": "activity_selection",
+        "write a function for activity selection greedy": "activity_selection",
+        "interval scheduling maximum activities": "activity_selection",
+        "implement fractional knapsack": "fractional_knapsack",
+        "write a function for fractional knapsack": "fractional_knapsack",
+        "job sequencing with deadlines": "job_sequencing",
+        "implement job sequencing": "job_sequencing",
+        "optimal binary search tree": "optimal_bst",
+        "implement optimal bst": "optimal_bst",
+        "find bridges in undirected graph": "find_bridges",
+        "write a function to find bridges": "find_bridges",
+        "min cost max flow": "min_cost_flow",
+        "implement minimum cost flow": "min_cost_flow",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    assert match_template("0/1 knapsack").name == "knapsack_01"
+    assert match_template("implement max flow").name == "max_flow"
+    assert match_template("critical connections").name == "critical_connections"
+
+
+def test_p275_pairing_dlx_tsp_hamilton_lichao_postman():
+    """Cycle 577: pairing heap, exact cover, Held-Karp TSP, Hamiltonian path, Li Chao, Chinese postman."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement a pairing heap": "pairing_heap",
+        "dancing links exact cover": "exact_cover",
+        "TSP dynamic programming": "tsp_held_karp",
+        "Hamiltonian path": "hamiltonian_path",
+        "Li Chao tree": "li_chao_tree",
+        "Chinese postman problem": "chinese_postman",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    hit = match_template("implement a binary heap")
+    assert hit is None or hit.name != "pairing_heap"
+    hit = match_template("dijkstra shortest path")
+    assert hit is None or hit.name != "hamiltonian_path"
+
+
+def test_p276_ntt_fft_miller_pollard_bsgs_matpow():
+    """Cycle 578: NTT, FFT poly, Miller-Rabin, Pollard Rho, BSGS, matrix exp."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement NTT number theoretic transform": "ntt_poly_mul",
+        "modular FFT polynomial multiplication": "ntt_poly_mul",
+        "implement FFT polynomial multiplication": "fft_poly_mul",
+        "Miller Rabin probabilistic primality test": "miller_rabin_primality",
+        "write a function for Pollard Rho factorization": "pollard_rho_factor",
+        "baby step giant step discrete log": "baby_step_giant_step",
+        "matrix exponentiation": "matrix_exponentiation",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    hit = match_template("rabin karp string matching")
+    assert hit is None or hit.name != "miller_rabin_primality"
+    hit = match_template("implement power function")
+    assert hit is None or hit.name != "matrix_exponentiation"
+
