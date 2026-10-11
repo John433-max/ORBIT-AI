@@ -194,6 +194,16 @@ def _is_capability(text: str) -> bool:
     ))
 
 
+def _is_status(text: str) -> bool:
+    """Bare runtime status asks — not research about some other system's status."""
+    return bool(re.search(
+        r"^\s*(status|system status|runtime status|doctor)\s*$|"
+        r"\b(system|runtime)\s+status\b|\borbit\s+status\b",
+        text or "",
+        re.I,
+    ))
+
+
 def _is_self_identity(text: str) -> bool:
     """Questions about ORBIT's own name/identity — not user profile, not web research."""
     return bool(
@@ -305,7 +315,7 @@ class Thinker:
         r = request.strip()
         if _is_destructive_fs(r):
             return "deny"
-        if _is_capability(r) or _is_self_identity(r):
+        if _is_capability(r) or _is_self_identity(r) or _is_status(r):
             return "chat"
         if _is_name_profile(r) or r.lower().startswith("remember:"):
             return "memory"
