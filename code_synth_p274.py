@@ -213,7 +213,10 @@ def templates() -> list[Template]:
             "        if disc[i] == -1:\n"
             "            dfs(i)\n"
             "    bridges.sort()\n"
-            "    return bridges\n",
+            "    return bridges\n"
+            "\n"
+            "def criticalConnections(n, connections):\n"
+            "    return find_bridges(n, connections)\n",
             lambda low: bool(
                 re.search(r"\bfind[- ]?bridges?\b", low)
                 or re.search(r"\bbridge[- ]?find", low)
