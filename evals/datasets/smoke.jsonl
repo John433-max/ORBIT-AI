@@ -1782,3 +1782,4 @@
 {"id": "code_tarjan_1", "category": "coding", "input": "implement tarjans algorithm", "expect_contains": ["def tarjan_scc", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
 {"id": "code_lis_nlogn_1", "category": "coding", "input": "lis n log n", "expect_contains": ["def lis_nlogn", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
 {"id": "code_mcm_1", "category": "coding", "input": "matrix chain order", "expect_contains": ["def matrix_chain_order", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_factorial_verb_1", "category": "coding", "input": "code a factorial function", "expect_contains": ["def factorial", "Verified"], "expect_not_contains": ["syntax error", "toy-scale", "Here's what I found", "I don't have live web"]}

@@ -88,13 +88,16 @@ def _is_math(text: str) -> bool:
 
 def _is_code(text: str) -> bool:
     raw = text or ""
+    # Cycle 565: "code a factorial function" was math (factorial keyword)
+    # then search fallback. "code"/"program" are write-verbs.
     if re.search(
         r"```|^\s*def |import |print\(|"
         r"write (a |some )?code|"
-        r"\b(write|implement|create|define|make)\b.{0,80}\b("
+        r"\b(write|implement|create|define|make|code|program)\b.{0,80}\b("
         r"function|def |class |script|program|module|code)\b|"
         r"\bpython function\b|"
-        r"\bimplement\b.{0,40}\bin python\b",
+        r"\bimplement\b.{0,40}\bin python\b|"
+        r"\bcode\s+(a|an|the)?\s*(python\s+)?(function|class|script|program)\b",
         raw,
         re.I,
     ):
@@ -103,7 +106,7 @@ def _is_code(text: str) -> bool:
     # Thinker stored them as memory or answered with the toy-scale hedge.
     if re.search(r"\bleetcode\s*\d+\b", raw, re.I):
         return True
-    if re.search(r"^\s*(implement|write)\b", raw, re.I) and not re.search(
+    if re.search(r"^\s*(implement|write|code)\b", raw, re.I) and not re.search(
         r"^\s*(def |class |import |from |print\()",
         raw,
     ):
@@ -141,12 +144,12 @@ def _explicit_code_ask(text: str) -> bool:
         re.search(
             r"```|^\s*def |import |print\(|"
             r"write (a |some )?code|"
-            r"\b(write|implement|create|define|make)\b.{0,80}\b("
+            r"\b(write|implement|create|define|make|code|program)\b.{0,80}\b("
             r"function|def |class |script|program|module|code)\b|"
             r"\bpython function\b|"
             r"\bimplement\b.{0,40}\bin python\b|"
             r"\bleetcode\s*\d+\b|"
-            r"^\s*(implement|write)\b",
+            r"^\s*(implement|write|code)\b",
             raw,
             re.I,
         )

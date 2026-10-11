@@ -77,11 +77,15 @@ def _wants_code_written(request: str) -> bool:
     text = request or ""
     if re.search(r"```", text):
         return False
+    # Cycle 565: "code a factorial function" / "code factorial" were treated
+    # as math (factorial keyword) and executed as Python or searched.
+    # "code"/"program" are write-verbs, same as implement/write.
     if re.search(
-        r"\b(write|implement|create|define|make)\b.{0,80}\b("
+        r"\b(write|implement|create|define|make|code|program)\b.{0,80}\b("
         r"function|def |class |script|program|module|code)\b|"
         r"\bpython function\b|"
-        r"\bimplement\b.{0,40}\bin python\b",
+        r"\bimplement\b.{0,40}\bin python\b|"
+        r"\bcode\s+(a|an|the)?\s*(python\s+)?(function|class|script|program)\b",
         text,
         re.I,
     ):
@@ -90,7 +94,7 @@ def _wants_code_written(request: str) -> bool:
     # function were executed as Python and rejected (syntax error).
     if re.search(r"\bleetcode\s*\d+\b", text, re.I):
         return True
-    if re.search(r"^\s*(implement|write)\b", text, re.I) and not re.search(
+    if re.search(r"^\s*(implement|write|code)\b", text, re.I) and not re.search(
         r"^\s*(def |class |import |from |print\()",
         text,
     ):
@@ -1704,10 +1708,10 @@ class Orchestrator:
             re.I,
         )
         code_write = re.search(
-            r"\b(write|implement|create|define|make)\b.{0,80}\b("
+            r"\b(write|implement|create|define|make|code|program)\b.{0,80}\b("
             r"function|class|script|program|module|code)\b|"
             r"\bpython function\b|"
-            r"^\s*(implement|write)\b",
+            r"^\s*(implement|write|code)\b",
             request or "",
             re.I,
         )

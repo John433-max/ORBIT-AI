@@ -94,3 +94,32 @@ def test_activation_functions_route_to_lab_not_relu_template():
     assert t.classify("explain activation function relu") == "lab"
     assert t.classify("write a function that implements relu") == "code"
     assert t.classify("implement leetcode 1290") == "code"
+
+
+def test_code_verb_factorial_is_code_not_search():
+    """Cycle 565: 'code a factorial function' must synthesize, not search."""
+    from thinking import Thinker, _is_code
+    from agents import _wants_code_written
+
+    assert _is_code("code a factorial function")
+    assert _is_code("code factorial")
+    assert _wants_code_written("code a factorial function")
+    assert _wants_code_written("code factorial")
+    assert not _wants_code_written("factorial of 5")
+
+    calls = []
+
+    def code_runner(request, context):
+        calls.append(request)
+        return {"ok": True, "content": "def factorial(n):\n    return 1\n\nVerified"}
+
+    def search_runner(request, context):
+        calls.append("search:" + request)
+        return {"ok": True, "content": "Here's what I found: factorial wikipedia"}
+
+    t = Thinker({"code": code_runner, "search": search_runner, "calc": search_runner})
+    result = t.think("code a factorial function")
+    assert "def factorial" in result.answer
+    assert "Here's what I found" not in result.answer
+    assert any(c == "code a factorial function" for c in calls)
+    assert not any(str(c).startswith("search:") for c in calls)
