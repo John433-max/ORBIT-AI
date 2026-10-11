@@ -99,6 +99,12 @@ def _wants_code_written(request: str) -> bool:
         text,
     ):
         return True
+    # Cycle 566: numeric factorial is math, not a write ask. science_math on
+    # main may lack the "factorial" keyword, so the factorial template would
+    # otherwise make "factorial of 5" look like a code request. Write-verb
+    # checks above already returned True for "code a factorial function".
+    if re.search(r"\bfactorial\s+(?:of\s+)?\d+|\d+\s*!", text, re.I):
+        return False
     # Bare problem titles that match a verified template should synthesize,
     # not be exec'd as Python (syntax error → hedge). Skip math/utility asks.
     # Algorithm names containing "search" (binary search tree) are not web lookups.
