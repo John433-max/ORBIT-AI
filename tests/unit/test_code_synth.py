@@ -6383,3 +6383,29 @@ def test_p276_ntt_fft_miller_pollard_bsgs_matpow():
     hit = match_template("implement power function")
     assert hit is None or hit.name != "matrix_exponentiation"
 
+
+
+def test_p277_karatsuba_mobius_berlekamp_diameter_lagrange_virtual():
+    """Cycle 579: Karatsuba, Möbius sieve, Berlekamp-Massey, tree diameter, Lagrange, virtual tree."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement karatsuba big integer multiply": "karatsuba_mul",
+        "mobius function sieve": "mobius_sieve",
+        "berlekamp massey minimal linear recurrence": "berlekamp_massey",
+        "tree diameter of an undirected tree": "tree_diameter",
+        "lagrange polynomial interpolation": "lagrange_interpolate",
+        "virtual tree compressed tree": "virtual_tree",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+
+    # Neighbors hold
+    hit = match_template("multiply two numbers")
+    assert hit is None or hit.name != "karatsuba_mul"
+    hit = match_template("prime sieve")
+    assert hit is None or hit.name != "mobius_sieve"

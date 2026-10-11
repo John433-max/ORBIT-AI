@@ -1854,3 +1854,9 @@
 {"id": "code_pollard_rho_1", "category": "coding", "input": "Pollard Rho factorization", "expect_contains": ["def pollard_rho", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
 {"id": "code_bsgs_1", "category": "coding", "input": "baby step giant step discrete log", "expect_contains": ["def discrete_log", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
 {"id": "code_matrix_exp_1", "category": "coding", "input": "matrix exponentiation", "expect_contains": ["def matrix_pow", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_karatsuba_1", "category": "coding", "input": "implement karatsuba big integer multiply", "expect_contains": ["def karatsuba_mul", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_mobius_1", "category": "coding", "input": "mobius function sieve", "expect_contains": ["def mobius_sieve", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_berlekamp_1", "category": "coding", "input": "berlekamp massey algorithm", "expect_contains": ["def berlekamp_massey", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_tree_diameter_1", "category": "coding", "input": "tree diameter", "expect_contains": ["def tree_diameter", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_lagrange_1", "category": "coding", "input": "lagrange interpolation", "expect_contains": ["def lagrange_interpolate", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_virtual_tree_1", "category": "coding", "input": "virtual tree", "expect_contains": ["def virtual_tree", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
