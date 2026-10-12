@@ -1860,3 +1860,9 @@
 {"id": "code_tree_diameter_1", "category": "coding", "input": "tree diameter", "expect_contains": ["def tree_diameter", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
 {"id": "code_lagrange_1", "category": "coding", "input": "lagrange interpolation", "expect_contains": ["def lagrange_interpolate", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
 {"id": "code_virtual_tree_1", "category": "coding", "input": "virtual tree", "expect_contains": ["def virtual_tree", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_strassen_1", "category": "coding", "input": "strassen matrix multiplication", "expect_contains": ["def strassen_mul", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_gaussian_1", "category": "coding", "input": "gaussian elimination", "expect_contains": ["def gaussian_elimination", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_newton_1", "category": "coding", "input": "newton-raphson", "expect_contains": ["def newton_raphson", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_hll_1", "category": "coding", "input": "hyperloglog", "expect_contains": ["def hyperloglog", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_simhash_1", "category": "coding", "input": "simhash", "expect_contains": ["def simhash", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}
+{"id": "code_johnson_1", "category": "coding", "input": "johnson's algorithm", "expect_contains": ["def johnson_apsp", "Verified"], "expect_not_contains": ["NotImplementedError", "toy-scale", "Draft from"]}

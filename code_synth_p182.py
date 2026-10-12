@@ -33,6 +33,7 @@ def templates() -> list[Template]:
                 ("matrix" in low or "matrices" in low or "matmul" in low)
                 and ("multipl" in low or "product" in low or "matmul" in low)
                 and "string" not in low
+                and "strassen" not in low
             ),
             (
                 (([[1, 2], [3, 4]], [[5, 6], [7, 8]]), [[19, 22], [43, 50]]),

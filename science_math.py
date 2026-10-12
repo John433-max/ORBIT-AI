@@ -487,6 +487,9 @@ def looks_like_science_math(text: str) -> bool:
     match as substrings.
     """
     low = (text or "").lower()
+    # Newton-Raphson / Newton's method is a coding template, not F=ma.
+    if re.search(r"\bnewton[- ]?raphson\b|\bnewton'?s? method\b", low):
+        return False
     single = (
         "derivative", "differentiate", "integral", "integrate", "limit",
         "triangle", "circle", "rectangle", "sphere", "hypotenuse", "pythagorean",

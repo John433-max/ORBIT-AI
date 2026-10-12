@@ -603,16 +603,15 @@ def _widen_loaded(tmpl: Template) -> Template:
             tmpl.examples,
         )
     if name == "critical_connections":
+        # LeetCode 1192 only. Generic "find bridges" / Tarjan phrases
+        # belong to find_bridges (p274) — see test_p248_aho_corasick_and_bridges.
         return Template(
             name,
             tmpl.source,
             lambda low: bool(
                 re.search(
                     r"\bcritical[- ]?connections?\b|"
-                    r"\bcritical edges?\b|"
-                    r"\bbridges? in (?:an? )?(?:undirected )?graph\b|"
-                    r"\btarjan(?:'s)? bridges?\b|"
-                    r"\bfind bridges?\b",
+                    r"\bcritical edges?\b",
                     low,
                 )
             ),
@@ -627,6 +626,8 @@ def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
     for name in (
+        "code_synth_p279",
+        "code_synth_p278",
         "code_synth_p277",
         "code_synth_p276",
         "code_synth_p275",
