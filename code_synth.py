@@ -23,6 +23,10 @@ def _low(request: str) -> str:
     return (request or "").lower()
 
 
+# Used by several pack modules (e.g. code_synth_p1).
+_TWO = r"(two|2|a pair of)"
+
+
 _STOP = frozenset({"a", "an", "the", "of", "to", "in", "on", "for", "and", "or", "is"})
 
 
