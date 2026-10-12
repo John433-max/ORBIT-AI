@@ -23,8 +23,24 @@ def _low(request: str) -> str:
     return (request or "").lower()
 
 
+_STOP = frozenset({"a", "an", "the", "of", "to", "in", "on", "for", "and", "or", "is"})
+
+
+def _name_tokens(name: str) -> list[str]:
+    parts = [p for p in (name or "").lower().replace("-", "_").split("_") if p and p not in _STOP]
+    return parts
+
+
+def score_template(request: str, tmpl: Template) -> float:
+    low = _low(request)
+    tokens = _name_tokens(getattr(tmpl, "name", "") or "")
+    if not tokens:
+        return 0.0
+    return float(sum(1 for t in tokens if t in low))
+
+
 def _templates() -> list[Template]:
-    """Load split packs (Cycle 244). Discover code_synth_p*.py dynamically; missing packs skipped."""
+    """Load split packs. Discover code_synth_p*.py dynamically; missing packs skipped."""
     import importlib
     import pathlib
     out: list[Template] = []
@@ -89,8 +105,28 @@ def iter_matching(request: str) -> list[Template]:
 
 
 def match_template(request: str) -> Template | None:
+    """Prefer higher name-token overlap; break ties by longer name."""
+    key = _low(request)
+    cache = globals().setdefault("_MATCH_CACHE", {})
+    if key in cache:
+        return cache[key]
     hits = iter_matching(request)
-    return hits[0] if hits else None
+    if not hits:
+        cache[key] = None
+        return None
+    best = hits[0]
+    best_score = score_template(request, best)
+    for tmpl in hits[1:]:
+        score = score_template(request, tmpl)
+        if score > best_score or (
+            score == best_score and len(tmpl.name) > len(best.name)
+        ):
+            best = tmpl
+            best_score = score
+    if len(cache) >= 256:
+        cache.clear()
+    cache[key] = best
+    return best
 
 
 def fallback_source(request: str) -> str:
