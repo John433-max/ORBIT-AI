@@ -1459,7 +1459,11 @@ ROUTES = [
     (re.compile(r"\b(read|open) [^\s]+\.\w+|\blist (the )?files\b|\bls\b|\bdir\b|\bshow files\b", re.I), "file"),
     (re.compile(
         r"\brm\s+-rf\b|\bdelete all files\b|\bdelete everything\b|"
-        r"\bwipe (the )?(disk|root|filesystem|drive)\b|\bformat (the )?(hard )?disk\b",
+        r"\bdelete (the )?(system|all) files\b|"
+        r"\b(wipe|destroy|erase) (the )?(disk|root|filesystem|drive|everything|all files)\b|"
+        r"\bformat (the )?(hard )?disk\b|"
+        r"\b(cat|type)\s+/etc/passwd\b|"
+        r"\b(read|show|dump)\s+/etc/passwd\b",
         re.I,
     ), "file"),
     (re.compile(

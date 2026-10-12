@@ -292,9 +292,12 @@ def _is_destructive_fs(text: str) -> bool:
             r"\brm\s+-rf\b|"
             r"\bdelete all files\b|"
             r"\bdelete everything\b|"
-            r"\bwipe (the )?(disk|root|filesystem|drive)\b|"
+            r"\bdelete (the )?(system|all) files\b|"
+            r"\b(wipe|destroy|erase) (the )?(disk|root|filesystem|drive|everything|all files)\b|"
             r"\bformat (the )?(hard )?disk\b|"
-            r"\bremove all files in\s+/",
+            r"\bremove all files in\s+/|"
+            r"\b(cat|type)\s+/etc/passwd\b|"
+            r"\b(read|show|dump)\s+/etc/passwd\b",
             text or "",
             re.I,
         )
