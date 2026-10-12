@@ -116,16 +116,49 @@ def _is_code(text: str) -> bool:
     # Do not steal calculator / utility asks (factorial of 5, word count).
     # Algorithm names that contain "search" (binary/boyer-moore/...) are code
     # when a template hits — not web lookup.
+    # Cycle 566: verified template beats science_math false positives
+    # ("rectangle", "density") so min-area / dbscan synthesize, not search.
+    explicit_web = re.search(
+        r"\b(search for|search about|look up|look this up|news about|google)\b",
+        raw, re.I,
+    )
+    try:
+        from code_synth import match_template
+        hit = match_template(raw)
+        # Activation-function curriculum ("activation functions relu sigmoid")
+        # is the scratch lab, not a code synthesize, unless the user asked
+        # to write/implement a function.
+        lab_activation = hit is not None and hit.name in (
+            "relu", "sigmoid", "tanh", "leaky_relu", "softmax",
+        )
+        # Numeric science / utility asks ("area of a circle radius 2",
+        # "factorial of 5", "word count of: one two three") must stay calc
+        # even if a template exists. Algorithm titles without a value to
+        # compute (min-area rectangle, dbscan) still synthesize.
+        computational = False
+        try:
+            from science_math import looks_like_science_math
+            from utilities import looks_like_utility
+            has_value = bool(re.search(r"\d", raw))
+            computational = bool(looks_like_utility(raw)) or (
+                looks_like_science_math(raw) and has_value
+            )
+        except Exception:
+            computational = False
+        if (
+            hit is not None
+            and not explicit_web
+            and "?" not in raw
+            and not computational
+            and not (lab_activation and _is_lab(raw) and not _explicit_code_ask(raw))
+        ):
+            return True
+    except Exception:
+        pass
     if _is_math(raw) or "?" in raw:
         return False
     if re.search(r"\b(what|who|why|calculate|how many)\b", raw, re.I):
         return False
-    try:
-        from code_synth import match_template
-        if match_template(raw) is not None:
-            return True
-    except Exception:
-        pass
     if _is_search(raw) and not re.search(
         r"\b(binary|linear|interpolation|exponential|ternary|fibonacci|"
         r"boyer[- ]?moore|horspool|knuth|kmp|rabin[- ]?karp)[- ]?search\b|"
@@ -329,10 +362,19 @@ class Thinker:
         # Curriculum phrases ("activation functions relu sigmoid") match a
         # code template via keyword, but smoke/lab expects the scratch demo.
         # Explicit write/implement/leetcode asks still stay on the code path.
-        if _is_lab(r) and not _explicit_code_ask(r):
+        # Cycle 566: a verified function template (gradient_descent_1d,
+        # golden_section_search) is code, not the scratch-lab demo, unless
+        # the user asked to run the lab.
+        lab_demo = re.search(
+            r"\b(run the (from scratch |ml )?lab|scratch lab|from scratch|demo)\b",
+            r, re.I,
+        )
+        if _is_lab(r) and not _explicit_code_ask(r) and lab_demo:
             return "lab"
         if _is_code(r):
             return "code"
+        if _is_lab(r) and not _explicit_code_ask(r):
+            return "lab"
         if _is_data(r):
             return "data"
         if _is_lab(r):

@@ -116,10 +116,35 @@ def _wants_code_written(request: str) -> bool:
         text,
         re.I,
     )
-    if "?" in text or (
-        re.search(r"\b(search|look up|news about)\b", text, re.I) and not algo_search
-    ):
+    # Explicit web lookup is not a code write. Algorithm names containing
+    # "search" (binary search, golden section, hill climbing) are code.
+    explicit_web = re.search(
+        r"\b(search for|search about|look up|look this up|news about|google)\b",
+        text, re.I,
+    )
+    if "?" in text or (explicit_web and not algo_search):
         return False
+    # Cycle 566: a verified code template beats science_math / utility
+    # false positives ("rectangle", "density") and should synthesize, not
+    # be exec'd as Python (syntax error) or routed to calculator.
+    try:
+        from code_synth import match_template
+        if match_template(text) is not None and not explicit_web:
+            # Do not synthesize numeric science/utility computations.
+            computational = False
+            try:
+                from science_math import looks_like_science_math
+                from utilities import looks_like_utility
+                has_value = bool(re.search(r"\d", text))
+                computational = bool(looks_like_utility(text)) or (
+                    looks_like_science_math(text) and has_value
+                )
+            except Exception:
+                computational = False
+            if not computational:
+                return True
+    except Exception:
+        pass
     try:
         from science_math import looks_like_science_math
         if looks_like_science_math(text):
@@ -132,12 +157,6 @@ def _wants_code_written(request: str) -> bool:
             return False
     except Exception:
         pass
-    try:
-        from code_synth import match_template
-        if match_template(text) is not None:
-            return True
-    except Exception:
-        return False
     return False
 
 
@@ -1705,8 +1724,34 @@ class Orchestrator:
             re.I,
         )
         webish = re.search(r"\b(search|look up|news about|research)\b", request or "", re.I)
+        # Explicit web lookup (not an algorithm name that happens to contain "search").
+        explicit_web = re.search(
+            r"\b(search for|search about|look up|look this up|news about|google)\b",
+            request or "", re.I,
+        )
         if scores.get("code", 0) < 1.0 and not _looks_like_question(request):
-            if not webish or algo_search:
+            # Cycle 566: verified template beats lab/research keyword hits
+            # (gradient descent -> lab, golden section / hill climbing -> research)
+            # unless the user asked for a live web lookup.
+            if not explicit_web or algo_search:
+                try:
+                    from code_synth import match_template
+                    if match_template(request) is not None:
+                        computational = False
+                        try:
+                            from science_math import looks_like_science_math
+                            from utilities import looks_like_utility
+                            has_value = bool(re.search(r"\d", request or ""))
+                            computational = bool(looks_like_utility(request)) or (
+                                looks_like_science_math(request) and has_value
+                            )
+                        except Exception:
+                            computational = False
+                        if not computational:
+                            scores["code"] = 1.0
+                except Exception:
+                    pass
+            if scores.get("code", 0) < 1.0 and (not webish or algo_search):
                 protected_keys = ["calculator", "debug", "lab", "document", "chat"]
                 if not algo_search:
                     protected_keys.append("research")
