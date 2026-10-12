@@ -233,6 +233,9 @@ class CodeAgent:
             note = ""
             if verified and n_ex:
                 note = f"\n\nVerified against {n_ex} example(s)."
+            elif verified:
+                # Class / source-only templates (empty examples) still self-checked via exec.
+                note = "\n\nVerified."
             elif bundle.get("fallback"):
                 note = "\n\nDraft stub — paste a fenced snippet or name a known function (add, gcd, fibonacci, …)."
             content = (
