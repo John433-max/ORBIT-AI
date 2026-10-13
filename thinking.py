@@ -185,6 +185,28 @@ def _is_code(text: str) -> bool:
             return True
     except Exception:
         pass
+    # Bare implementation titles for curriculum algorithms are code even when
+    # the template pack is not loaded (GitHub slim code_synth). Conceptual
+    # forms ("what is gradient descent") stay lab via the question-form check.
+    if not re.search(
+        r"\b(what is|what\'s|what are|explain|how does|how do|"
+        r"tell me about|describe|define)\b",
+        raw,
+        re.I,
+    ) and not re.search(
+        r"\b(run the (from scratch |ml )?lab|scratch lab|from scratch|demo)\b",
+        raw,
+        re.I,
+    ) and re.search(
+        r"\b("
+        r"(?:(?:1d|momentum|nestorov|rmsprop|adam)\s+)?gradient descent|"
+        r"least squares|"
+        r"linear regression"
+        r")\b",
+        raw,
+        re.I,
+    ):
+        return True
     if _is_math(raw) or "?" in raw:
         return False
     if re.search(r"\b(what|who|why|calculate|how many)\b", raw, re.I):
