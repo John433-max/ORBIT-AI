@@ -244,7 +244,17 @@ class CodeAgent:
     name = "coding_agent"
 
     def run(self, request: str, context: dict) -> AgentResult:
-        if _wants_code_written(request):
+        # Cycle 607: bare algorithm titles that match a verified template
+        # (rk4, lagrange, …) must synthesize, not be exec'd as Python.
+        # Fenced snippets still go to the sandbox below.
+        template_hit = False
+        if not re.search(r"```", request or ""):
+            try:
+                from code_synth import match_template
+                template_hit = match_template(request) is not None
+            except Exception:
+                template_hit = False
+        if _wants_code_written(request) or template_hit:
             bundle = _synthesize_bundle(request) or {}
             src = str(bundle.get("source") or _synthesize_python(request))
             verified = bool(bundle.get("verified"))
