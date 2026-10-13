@@ -88,6 +88,19 @@ def test_binary_search_function_is_code_not_web():
     assert t.classify("what is your name") == "chat"
 
 
+def test_gradient_descent_question_is_lab_title_is_code():
+    """Conceptual ML asks stay on the scratch lab; implementation titles synthesize."""
+    t = Thinker({})
+    assert t.classify("what is gradient descent") == "lab"
+    assert t.classify("explain backpropagation") == "lab"
+    assert t.classify("what is overfitting") == "lab"
+    assert t.classify("1d gradient descent minimize function") == "code"
+    assert t.classify("momentum gradient descent") == "code"
+    assert t.classify("gradient descent minimize quadratic") == "code"
+    assert t.classify("write a python function for gradient descent") == "code"
+    assert t.classify("linear regression least squares slope intercept") == "code"
+
+
 def test_activation_functions_route_to_lab_not_relu_template():
     t = Thinker({})
     assert t.classify("activation functions relu sigmoid") == "lab"
@@ -123,3 +136,13 @@ def test_code_verb_factorial_is_code_not_search():
     assert "Here's what I found" not in result.answer
     assert any(c == "code a factorial function" for c in calls)
     assert not any(str(c).startswith("search:") for c in calls)
+
+
+def test_classify_runtime_status_is_chat():
+    """Bare status/doctor asks stay on chat, not research."""
+    t = Thinker({})
+    assert t.classify("status") == "chat"
+    assert t.classify("system status") == "chat"
+    assert t.classify("runtime status") == "chat"
+    assert t.classify("doctor") == "chat"
+    assert t.classify("orbit status") == "chat"

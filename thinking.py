@@ -125,11 +125,18 @@ def _is_code(text: str) -> bool:
     try:
         from code_synth import match_template
         hit = match_template(raw)
-        # Activation-function curriculum ("activation functions relu sigmoid")
-        # is the scratch lab, not a code synthesize, unless the user asked
-        # to write/implement a function.
-        lab_activation = hit is not None and hit.name in (
+        # Curriculum templates are educational demos (lab), not synthesizable
+        # algorithm titles. Implementation templates (gradient_descent_1d,
+        # momentum_gd_1d, …) stay on the code path unless the user asked a
+        # conceptual question ("what is", "explain").
+        curriculum_templates = (
             "relu", "sigmoid", "tanh", "leaky_relu", "softmax",
+            "overfitting", "backprop", "backpropagation",
+            "one_neuron", "three_neurons",
+        )
+        curriculum_hit = hit is not None and (
+            hit.name in curriculum_templates
+            or any(n in (hit.name or "") for n in ("overfit", "backprop"))
         )
         # Numeric science / utility asks ("area of a circle radius 2",
         # "factorial of 5", "word count of: one two three") must stay calc
@@ -145,12 +152,35 @@ def _is_code(text: str) -> bool:
             )
         except Exception:
             computational = False
+        # Conceptual lab asks ("what is gradient descent", "explain
+        # backpropagation") must not synthesize. Bare implementation titles
+        # ("1d gradient descent minimize function", "momentum gradient
+        # descent") must synthesize even though they mention the topic.
+        question_form = re.search(
+            r"\b(what is|what\'s|what are|explain|how does|how do|"
+            r"tell me about|describe|define)\b",
+            raw,
+            re.I,
+        )
+        lab_demo = re.search(
+            r"\b(run the (from scratch |ml )?lab|scratch lab|from scratch|demo)\b",
+            raw,
+            re.I,
+        )
+        conceptual_lab = (
+            not _explicit_code_ask(raw)
+            and (
+                curriculum_hit
+                or (question_form and (_is_lab(raw) or curriculum_hit))
+                or (lab_demo and _is_lab(raw))
+            )
+        )
         if (
             hit is not None
             and not explicit_web
             and "?" not in raw
             and not computational
-            and not (lab_activation and _is_lab(raw) and not _explicit_code_ask(raw))
+            and not conceptual_lab
         ):
             return True
     except Exception:
@@ -159,6 +189,7 @@ def _is_code(text: str) -> bool:
         return False
     if re.search(r"\b(what|who|why|calculate|how many)\b", raw, re.I):
         return False
+
     if _is_search(raw) and not re.search(
         r"\b(binary|linear|interpolation|exponential|ternary|fibonacci|"
         r"boyer[- ]?moore|horspool|knuth|kmp|rabin[- ]?karp)[- ]?search\b|"
