@@ -100,6 +100,92 @@ def templates():
             ((("USA",), True), (("FlaG",), False), (("Google",), True)),
         ),
         T(
+            "integer_to_roman",
+            "def integer_to_roman(num):\n"
+            '    """Convert a positive integer to a Roman numeral."""\n'
+            "    num = int(num)\n"
+            "    vals = [\n"
+            "        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),\n"
+            "        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),\n"
+            "        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I'),\n"
+            "    ]\n"
+            "    out = []\n"
+            "    for v, s in vals:\n"
+            "        if num >= v:\n"
+            "            k, num = divmod(num, v)\n"
+            "            out.append(s * k)\n"
+            "    return ''.join(out)\n",
+            lambda low: bool(
+                re.search(
+                    r"\binteger[_ ]to[_ ]roman\b|"
+                    r"\bint(?:eger)?[_ ]to[_ ]roman\b|"
+                    r"\bconvert(?:s|ing)? (?:an? )?integer to (?:a )?roman\b",
+                    low,
+                )
+            )
+            and "roman_to" not in low
+            and "from roman" not in low,
+            (((3,), "III"), ((58,), "LVIII"), ((1994,), "MCMXCIV")),
+        ),
+        T(
+            "valid_palindrome_ii",
+            "def valid_palindrome_ii(s):\n"
+            '    """True if s is a palindrome after deleting at most one char."""\n'
+            "    def ok(i, j):\n"
+            "        while i < j:\n"
+            "            if s[i] != s[j]:\n"
+            "                return False\n"
+            "            i += 1\n"
+            "            j -= 1\n"
+            "        return True\n"
+            "    i, j = 0, len(s) - 1\n"
+            "    while i < j:\n"
+            "        if s[i] != s[j]:\n"
+            "            return ok(i + 1, j) or ok(i, j - 1)\n"
+            "        i += 1\n"
+            "        j -= 1\n"
+            "    return True\n",
+            lambda low: bool(
+                re.search(
+                    r"\bvalid[_ ]palindrome[_ ]ii\b|"
+                    r"\bvalid palindrome ii\b|"
+                    r"\bpalindrome.{0,20}delete one\b|"
+                    r"\bdelete one character.{0,20}palindrome\b",
+                    low,
+                )
+            ),
+            ((("aba",), True), (("abca",), True), (("abc",), False)),
+        ),
+        T(
+            "my_sqrt",
+            "def my_sqrt(x):\n"
+            '    """Integer square root of a non-negative integer (floor)."""\n'
+            "    x = int(x)\n"
+            "    if x < 2:\n"
+            "        return x\n"
+            "    lo, hi = 1, x // 2\n"
+            "    ans = 1\n"
+            "    while lo <= hi:\n"
+            "        mid = (lo + hi) // 2\n"
+            "        if mid * mid <= x:\n"
+            "            ans = mid\n"
+            "            lo = mid + 1\n"
+            "        else:\n"
+            "            hi = mid - 1\n"
+            "    return ans\n",
+            lambda low: bool(
+                re.search(
+                    r"\bmy_sqrt\b|"
+                    r"\binteger[_ ]square[_ ]root\b|"
+                    r"\bsqrt\b.{0,20}\binteger\b|"
+                    r"\bfloor(?:ed)?[_ ]sqrt\b",
+                    low,
+                )
+            )
+            and "perfect" not in low,
+            (((4,), 2), ((8,), 2), ((0,), 0)),
+        ),
+        T(
             "rotate_string",
             "def rotate_string(s, k):\n"
             '    """Rotate string left by k positions."""\n'
