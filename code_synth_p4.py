@@ -67,6 +67,28 @@ def templates():
             ((("hello",), "holle"), (("leetcode",), "leotcede")),
         ),
         T(
+            "count_primes",
+            "def count_primes(n):\n"
+            '    """Count primes strictly less than n (sieve)."""\n'
+            "    n = int(n)\n"
+            "    if n <= 2:\n"
+            "        return 0\n"
+            "    sieve = [True] * n\n"
+            "    sieve[0] = sieve[1] = False\n"
+            "    p = 2\n"
+            "    while p * p < n:\n"
+            "        if sieve[p]:\n"
+            "            step = p\n"
+            "            start = p * p\n"
+            "            sieve[start:n:step] = [False] * (((n - 1 - start) // step) + 1)\n"
+            "        p += 1\n"
+            "    return sum(sieve)\n",
+            lambda low: bool(
+                re.search(r"\bcount(?:s|ing)? primes?\b|\bnumber of primes\b|\bsieve of eratosthenes\b|\bcount_primes\b", low)
+            ),
+            (((10,), 4), ((0,), 0), ((2,), 0)),
+        ),
+        T(
             "rotate_string",
             "def rotate_string(s, k):\n"
             '    """Rotate string left by k positions."""\n'
