@@ -79,7 +79,11 @@ def templates() -> list[Template]:
                     low,
                 )
             ),
-            ((("aAbBcC",), 2), (("AaAaAaaA",), 0), (("abBAcC",), 4)),
+            (
+                (("aAbBcC",), 2),
+                (("AaAaAaaA",), 0),
+                (("abBAcC",), 3),
+            ),
         ),
         T(
             "check_x_matrix",
