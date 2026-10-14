@@ -436,10 +436,19 @@ class Thinker:
             return "lab"
         if _is_math(r):
             return "calc"
+        # Document inventory / RAG before broad search (avoids web hits on "documents")
+        if _wants_extract(r) or re.search(
+            r"\b(document|pdf|docx|summarize)\b|"
+            r"\bwhat documents?( do you have| are (loaded|uploaded|available))?\b|"
+            r"\bwhich documents?( do you have| are (loaded|uploaded))?\b|"
+            r"\blist (my |the |uploaded )?documents?\b|"
+            r"\bshow (me )?(my |the |uploaded )?documents?\b",
+            r,
+            re.I,
+        ):
+            return "docs"
         if _is_search(r):
             return "search"
-        if _wants_extract(r) or re.search(r"\b(document|pdf|docx|summarize)\b", r, re.I):
-            return "docs"
         if _is_question(r):
             return "question"
         if re.match(r"^(hi|hello|hey|thanks|thank you|bye|good (morning|night))\b", r, re.I):
@@ -543,11 +552,19 @@ class Thinker:
             # from DocumentAgent) and must not fall through to the generic hedge.
             if not ok and step in ("docs", "docs_check"):
                 low = text.lower()
-                if (
+                # Honest RAG-empty / unsupported answers must stick, not fall
+                # through to the generic hedge. DocumentAgent returns ok=False
+                # when support is UNSUPPORTED even if the reply is useful.
+                honest_rag = (
                     "couldn't find document" in low
                     or "don't have a document loaded" in low
                     or "don't have any documents uploaded" in low
-                ):
+                    or "don't have any indexed documents" in low
+                    or "don't have verified information" in low
+                    or "couldn't find that in your documents" in low
+                    or "indexed documents" in low
+                )
+                if honest_rag:
                     thoughts.append(Thought("observe", "docs: honest empty RAG"))
                     answer = text
                     used.append(step)

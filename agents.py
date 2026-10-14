@@ -676,6 +676,32 @@ class DocumentAgent:
             except Exception:
                 docs = []
 
+        # Inventory / "what documents do you have" (must not fall through to web search)
+        if re.search(
+            r"\b(what|which|list|show)\b.*\bdocuments?\b|"
+            r"\bdocuments?\s+(do you have|are (loaded|uploaded|available)|list|inventory)\b|"
+            r"\blist (my |the |uploaded )?documents?\b",
+            low,
+        ):
+            if not docs:
+                return AgentResult(
+                    self.name, True,
+                    "I don't have any documents uploaded yet. Send a file (txt, md, pdf, docx) "
+                    "and I'll list it here.",
+                    raw={"docs": 0, **self._tool_meta("document.list", list_res)},
+                )
+            lines = []
+            for d in docs[:20]:
+                doc_id = d.get("id") or d.get("document_id")
+                name = d.get("filename") or d.get("name") or f"document {doc_id}"
+                lines.append(f"- #{doc_id}: {name}" if doc_id is not None else f"- {name}")
+            body = "\n".join(lines)
+            return AgentResult(
+                self.name, True,
+                f"Loaded documents ({len(docs)}):\n{body}",
+                raw={"docs": len(docs), **self._tool_meta("document.list", list_res)},
+            )
+
         # Extract full text of uploaded docs
         if re.search(r"extract\s+(the\s+)?text|show\s+(me\s+)?(the\s+)?text|read\s+(the\s+)?document", low):
             if not docs:
@@ -1456,7 +1482,12 @@ ROUTES = [
                 r"document #\d+|uploaded document|"
                 r"in (the|my) document|according to the (pdf|document|file)|"
                 r"extract (the )?text|extract text from|read (the )?document|"
-                r"show (me )?(the )?text|what does (this|the) (file|doc|document) say)\b", re.I), "document"),
+                r"show (me )?(the )?text|what does (this|the) (file|doc|document) say|"
+                r"what documents?( do you have| are (loaded|uploaded|available))?|"
+                r"list (my |the |uploaded )?documents?|"
+                r"which documents?( do you have| are (loaded|uploaded))?|"
+                r"show (me )?(my |the |uploaded )?documents?|"
+                r"documents? (list|inventory|loaded|uploaded))\b", re.I), "document"),
     (re.compile(
         r"\b(tinylm|gqa|swiglu|qk[- ]?norm|kv cache|int4|weight[- ]only quant|"
         r"tok/?s|tokens per second|bench(mark)? (the )?model|lab (status|bench)|"
@@ -1522,7 +1553,8 @@ AGENT_SIGNALS = {
     "debug": [r"\bcrash(es|ed|ing)?\b", r"\bbug\b", r"\bfails?\b", r"\bfailing\b", r"\bbroken\b",
               r"\bnot working\b", r"\bwhy (does|is|did|won't)\b.*\b(fail|crash|break)", r"\bstack trace\b"],
     "calculator": [r"\bfactorial\b", r"\bspeed of light\b", r"\bcompound interest\b", r"\bword count\b", r"\bwhat time\b", r"\bcalculate\b", r"\bhow much is\b", r"\bpercent(age)?\b", r"\bmultiply|divide|subtract\b", r"\btimes\b", r"\bplus\b", r"\bminus\b", r"\badd\s+\d", r"\bdivided by\b", r"\bmodulo\b", r"\bderivative\b", r"\bintegral\b", r"\bintegrate\b", r"\barea of\b", r"\bforce\b", r"\bgeometry\b", r"\bcalculus\b", r"\bphysics\b"],
-    "document": [r"\bpdf\b", r"\bdocx\b", r"\bmy notes\b", r"\bthis document\b", r"\bwhat does it say\b", r"\bextract\b", r"\btext from\b", r"\bupload\b"],
+    "document": [r"\bpdf\b", r"\bdocx\b", r"\bmy notes\b", r"\bthis document\b", r"\bwhat does it say\b", r"\bextract\b", r"\btext from\b", r"\bupload\b",
+                 r"\bwhat documents?\b", r"\blist documents?\b", r"\bdocuments? (loaded|uploaded|available)\b"],
     "lab": [r"\bquant\b", r"\brope\b", r"\byarn\b", r"\battention\b", r"\btransformer\b", r"\bgradient descent\b", r"\boverfitting\b", r"\bbackpropagation\b", r"\bfrom scratch\b",
             r"\beducational model\b", r"\btok/s\b", r"\binference speed\b"],
     "research": [r"\binvestigate\b", r"\bwhat is the latest\b", r"\bcurrent (state|status) of\b", r"\belements\b", r"\bhistory of\b", r"\bmeaning of\b"],
