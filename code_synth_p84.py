@@ -106,7 +106,7 @@ def templates() -> list[Template]:
             lambda low: bool(
     re.search(
         r"\bcounts?[_ ]the[_ ]digits[_ ]that[_ ]divide[_ ](?:(?:a|the)[_ ])?number\b|"
-        r"\bdigits[_ ]that[_ ]divide[_ ]the[_ ]number\b|"
+        r"\bdigits[_ ]that[_ ]divide[_ ](?:a|the)[_ ]number\b|"
         r"\bleetcode[_ ]2520\b|"
         r"\bcount_digits\b",
         low,
@@ -373,6 +373,11 @@ def templates() -> list[Template]:
         low,
     )
     and not re.search(r"\bmajority element\s*(ii|2)\b|\bn/?3\b|\bmore than n/?3\b", low)
+    # Boyer-Moore string search is a different algorithm (p254 boyer_moore).
+    and "string" not in low
+    and "search" not in low
+    and "pattern" not in low
+    and "horspool" not in low
 ),
             ((([3, 2, 3],), 3), (([1, 2, 1, 1, 3],), 1), (([1, 2],), None)),
         ),
@@ -396,7 +401,7 @@ def templates() -> list[Template]:
             lambda low: bool(
     re.search(
         r"\bmax(?:imum)?[- ]?subarray\b|"
-        r"\bkadane\b|"
+        r"\bkadanes?\b|"
         r"\blargest (?:contiguous )?subarray sum\b|"
         r"\bmaximum contiguous (?:subarray )?sum\b",
         low,
