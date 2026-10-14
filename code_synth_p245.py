@@ -89,8 +89,10 @@ def templates() -> list[Template]:
             "    return total\n",
             lambda low: bool(
                 re.search(
-                    r"\bprim(?:'s)?(?: algorithm)?\b|"
-                    r"\bprims algorithm\b",
+                    r"\bprims?(?:'s)?(?: algorithm)?\b|"
+                    r"\bprims algorithm\b|"
+                    r"\bprims mst\b|"
+                    r"\bprims minimum spanning\b",
                     low,
                 )
             )
