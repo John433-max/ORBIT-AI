@@ -135,8 +135,11 @@ def _is_code(text: str) -> bool:
         # and return memory or the toy-scale hedge. Other curriculum names
         # (relu, sigmoid, …) stay lab so "activation functions relu sigmoid"
         # still hits the scratch demo.
+        # Cycle 625: "tanh activation" matches the verified tanh template and
+        # a coding smoke row (code_2132). Keep it on the code path like
+        # leaky_relu / hardtanh; broad "activation functions …" still lab.
         curriculum_templates = (
-            "relu", "sigmoid", "tanh", "softmax",
+            "relu", "sigmoid", "softmax",
             "overfitting", "backprop", "backpropagation",
             "one_neuron", "three_neurons",
         )

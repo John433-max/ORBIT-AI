@@ -1478,7 +1478,7 @@ ROUTES = [
                 r"\bspeed of light\b|\bcompound interest\b|\bto the power of\b|"
                 r"\badd\s+-?\d+\.?\d*\s+(?:and|to)\s+-?\d+",
                 re.I), "calculator"),
-    (re.compile(r"\b(summarize document|summarize this|summarize the following|"
+    (re.compile(r"\b(summarize (the )?(document|doc|pdf|file)|summarize this|summarize the following|"
                 r"document #\d+|uploaded document|"
                 r"in (the|my) document|according to the (pdf|document|file)|"
                 r"extract (the )?text|extract text from|read (the )?document|"
@@ -1487,7 +1487,10 @@ ROUTES = [
                 r"list (my |the |uploaded )?documents?|"
                 r"which documents?( do you have| are (loaded|uploaded))?|"
                 r"show (me )?(my |the |uploaded )?documents?|"
-                r"documents? (list|inventory|loaded|uploaded))\b", re.I), "document"),
+                r"documents? (list|inventory|loaded|uploaded)|"
+                r"answer from (your |my |the |uploaded )?documents?|"
+                r"(query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?|"
+                r"\bfrom (your |my |the |uploaded )?documents?\b)\b", re.I), "document"),
     (re.compile(
         r"\b(tinylm|gqa|swiglu|qk[- ]?norm|kv cache|int4|weight[- ]only quant|"
         r"tok/?s|tokens per second|bench(mark)? (the )?model|lab (status|bench)|"
@@ -1554,7 +1557,8 @@ AGENT_SIGNALS = {
               r"\bnot working\b", r"\bwhy (does|is|did|won't)\b.*\b(fail|crash|break)", r"\bstack trace\b"],
     "calculator": [r"\bfactorial\b", r"\bspeed of light\b", r"\bcompound interest\b", r"\bword count\b", r"\bwhat time\b", r"\bcalculate\b", r"\bhow much is\b", r"\bpercent(age)?\b", r"\bmultiply|divide|subtract\b", r"\btimes\b", r"\bplus\b", r"\bminus\b", r"\badd\s+\d", r"\bdivided by\b", r"\bmodulo\b", r"\bderivative\b", r"\bintegral\b", r"\bintegrate\b", r"\barea of\b", r"\bforce\b", r"\bgeometry\b", r"\bcalculus\b", r"\bphysics\b"],
     "document": [r"\bpdf\b", r"\bdocx\b", r"\bmy notes\b", r"\bthis document\b", r"\bwhat does it say\b", r"\bextract\b", r"\btext from\b", r"\bupload\b",
-                 r"\bwhat documents?\b", r"\blist documents?\b", r"\bdocuments? (loaded|uploaded|available)\b"],
+                 r"\bwhat documents?\b", r"\blist documents?\b", r"\bdocuments? (loaded|uploaded|available)\b",
+                 r"\bfrom (your |my |the )?documents?\b", r"\banswer from documents?\b"],
     "lab": [r"\bquant\b", r"\brope\b", r"\byarn\b", r"\battention\b", r"\btransformer\b", r"\bgradient descent\b", r"\boverfitting\b", r"\bbackpropagation\b", r"\bfrom scratch\b",
             r"\beducational model\b", r"\btok/s\b", r"\binference speed\b"],
     "research": [r"\binvestigate\b", r"\bwhat is the latest\b", r"\bcurrent (state|status) of\b", r"\belements\b", r"\bhistory of\b", r"\bmeaning of\b"],
