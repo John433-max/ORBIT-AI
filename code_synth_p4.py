@@ -89,6 +89,17 @@ def templates():
             (((10,), 4), ((0,), 0), ((2,), 0)),
         ),
         T(
+            "detect_capital",
+            "def detect_capital(word):\n"
+            '    """True if capitalization is all-caps, all-lower, or Title."""\n'
+            "    w = str(word)\n"
+            "    return w.isupper() or w.islower() or w.istitle()\n",
+            lambda low: bool(
+                re.search(r"\bdetect[_ ]capital\b|\bdetect capital(?:ization)?\b|\bvalid capital(?:ization)?\b", low)
+            ),
+            ((("USA",), True), (("FlaG",), False), (("Google",), True)),
+        ),
+        T(
             "rotate_string",
             "def rotate_string(s, k):\n"
             '    """Rotate string left by k positions."""\n'
