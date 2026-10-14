@@ -129,8 +129,14 @@ def _is_code(text: str) -> bool:
         # algorithm titles. Implementation templates (gradient_descent_1d,
         # momentum_gd_1d, …) stay on the code path unless the user asked a
         # conceptual question ("what is", "explain").
+        # Cycle 624: bare "leaky relu" has a verified synthesizable template
+        # (code_synth_p324) and a coding smoke row. Do not force it into the
+        # curriculum/lab path — that made Thinker treat it as a statement
+        # and return memory or the toy-scale hedge. Other curriculum names
+        # (relu, sigmoid, …) stay lab so "activation functions relu sigmoid"
+        # still hits the scratch demo.
         curriculum_templates = (
-            "relu", "sigmoid", "tanh", "leaky_relu", "softmax",
+            "relu", "sigmoid", "tanh", "softmax",
             "overfitting", "backprop", "backpropagation",
             "one_neuron", "three_neurons",
         )
