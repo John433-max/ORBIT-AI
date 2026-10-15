@@ -1325,7 +1325,8 @@ def templates():
                 re.search(
                     r"\bqueue[- ]?using[- ]?stacks\b|"
                     r"\bqueue_using_stacks\b|"
-                    r"\bimplement(?:s|ing)?\b.{0,16}\bqueue\b.{0,24}\bstacks?\b|"
+                    r"\bqueue\b.{0,24}\busing\b.{0,12}\b(?:two[- ]?)?stacks?\b|"
+                    r"\bimplement(?:s|ing)?\b.{0,40}\bqueue\b.{0,24}\bstacks?\b|"
                     r"\bqueue from (two )?stacks\b",
                     low,
                 )

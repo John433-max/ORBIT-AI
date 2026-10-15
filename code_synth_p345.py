@@ -56,11 +56,10 @@ def templates() -> list[Template]:
     dfs(0)
     return ans
 ''',
-            lambda low: bool(
-                re.search(r"\bpalindrome\b", low)
-                and re.search(r"\b(partition|partitioning)\b", low)
-                and not re.search(r"\b(ii|2|min.?cut|minimum.?cuts?)\b", low)
-            ),
+            # Natural-language "palindrome partitioning" / LeetCode 131 is owned
+            # by palindrome_partition (smoke code_198 + test_p147). This alias
+            # only answers an explicit snake-name ask so it cannot steal.
+            lambda low: "palindrome_partitioning" in low,
             (
                 (("aab",), [["a", "a", "b"], ["aa", "b"]]),
                 (("a",), [["a"]]),
@@ -181,11 +180,10 @@ def templates() -> list[Template]:
     right = build_tree_pre_in(preorder[mid + 1:], inorder[mid + 1:])
     return [root_val, left, right]
 ''',
-            lambda low: bool(
-                re.search(r"\b(construct|build|from)\b", low)
-                and re.search(r"\bpreorder\b", low)
-                and re.search(r"\binorder\b", low)
-            ),
+            # Natural-language "construct/build binary tree from preorder and
+            # inorder" is owned by build_tree (smoke code_184 + test_p241).
+            # This alias only answers an explicit snake-name ask.
+            lambda low: "build_tree_pre_in" in low or "build tree pre in" in low,
             (
                 (([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]), [3, [9, None, None], [20, [15, None, None], [7, None, None]]]),
                 (([1], [1]), [1, None, None]),

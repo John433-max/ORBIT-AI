@@ -117,13 +117,11 @@ def templates() -> list[Template]:
             "                term *= (x - xs[j]) / (xs[i] - xs[j])\n"
             "        result += term\n"
             "    return result\n",
+            # "lagrange polynomial interpolation" is owned by lagrange_interpolate
+            # (test_p277). Bare "lagrange interpolation" stays here (smoke).
             lambda low: bool(
-                re.search(
-                    r"\blagrange(?: interpolation| polynomial)?\b|"
-                    r"\blagrange[- ]interpolation\b",
-                    low,
-                )
-            ),
+                re.search(r"\blagrange[- ]interpolation\b", low)
+            ) and "polynomial" not in low,
             [
                 (([0.0, 1.0, 2.0], [1.0, 3.0, 7.0], 1.5), 4.75),
             ],

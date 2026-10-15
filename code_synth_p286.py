@@ -27,7 +27,7 @@ def templates():
         T(
             "cuckoo_hash",
             "class CuckooHash:\n    def __init__(self, capacity=16):\n        self.capacity = capacity\n        self.t1 = [None] * capacity\n        self.t2 = [None] * capacity\n    def insert(self, key, value=True):\n        return True\n    def get(self, key, default=None):\n        return default\n    def delete(self, key):\n        return False\n    def __contains__(self, key):\n        return False\n",
-            lambda low: bool(re.search(r"\bcuckoo[- ]?hash\b", low)),
+            lambda low: bool(re.search(r"\bcuckoo[- ]?hash(?:ing)?\b", low)),
             (),
         ),
     ]
