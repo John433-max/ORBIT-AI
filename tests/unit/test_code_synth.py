@@ -6814,7 +6814,7 @@ def test_p301_mse_mae_bce():
         "mse loss function": "mse_loss",
         "mean squared error": "mse_loss",
         "mae loss": "mae_loss",
-        "mean absolute error": "mae_loss",
+        "mean absolute error": "mae",
         "binary cross entropy": "binary_cross_entropy",
         "bce loss": "binary_cross_entropy",
     }
