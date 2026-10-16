@@ -208,9 +208,12 @@ def _stem(w: str) -> str:
 
 
 def content_tokens(text_or_tokens) -> list:
-    """Lowercased non-stopword tokens from a string or token list."""
+    """Lowercased non-stopword tokens from a string or token list.
+
+    Digits are kept so exact numbers (March 12) outrank near-misses (12ish).
+    """
     if isinstance(text_or_tokens, str):
-        words = re.findall(r"[a-zA-Z']+", text_or_tokens.lower())
+        words = re.findall(r"[a-zA-Z0-9']+", text_or_tokens.lower())
     else:
         words = [str(w).lower() for w in text_or_tokens]
     return [w for w in words if w not in _STOPWORDS]
@@ -710,7 +713,7 @@ def query_aware_extract(text: str, query: str, n_sentences: int = 2) -> list:
         return []
     if len(sentences) <= n_sentences:
         return sentences
-    q_list = ordered_query_terms(re.findall(r"[a-zA-Z']+", query.lower()))
+    q_list = ordered_query_terms(re.findall(r"[a-zA-Z0-9']+", query.lower()))
     q_words = set(q_list)
     if not q_words:
         return extractive_summarize(text, n_sentences)
@@ -721,13 +724,15 @@ def query_aware_extract(text: str, query: str, n_sentences: int = 2) -> list:
         s_match = _token_match_set(stoks)
         overlap = len(q_match & s_match)
         pair = adjacent_pair_hits(stoks, q_list[:2]) if len(q_list) >= 2 else 0
-        # higher overlap first, then pair, then earlier sentence
-        scored.append((overlap, pair, -i, i, s))
+        span = min_cover_span(stoks, q_list)
+        # higher overlap, then pair hits, then tighter cover span, then earlier
+        span_key = -span if span is not None else -999
+        scored.append((overlap, pair, span_key, -i, i, s))
     scored.sort(reverse=True)
     top = scored[:n_sentences]
     if all(t[0] == 0 for t in top):
         return extractive_summarize(text, n_sentences)
-    return [s for *_, s in sorted(top, key=lambda t: t[3])]
+    return [s for *_, s in sorted(top, key=lambda t: t[4])]
 
 def _locked(method):
     def wrapper(self, *args, **kwargs):
@@ -762,14 +767,53 @@ class DocumentStore:
             except Exception:
                 pass
         self._conn.commit()
-        # warm embed cache from persisted blobs
-        try:
-            for cid, blob in self._conn.execute("SELECT chunk_id, vec FROM chunk_embeddings").fetchall():
-                arr = np.frombuffer(blob, dtype=np.float32)
-                if arr.size == self.dim:
-                    self._embed_cache[cid] = arr
-        except Exception:
-            pass
+        # Embeddings are loaded lazily via _load_embed / search so a
+        # reopened store starts with an empty cache (tests assert this).
+        self._embed_cache = {}
+
+    @staticmethod
+    def _decode_embed(blob):
+        """Decode a persisted embed blob (float64 preferred, float32 legacy)."""
+        if not blob:
+            return None
+        raw = bytes(blob)
+        n64 = len(raw) // 8
+        if n64 * 8 == len(raw) and n64 > 0:
+            arr = np.frombuffer(raw, dtype=np.float64)
+            if arr.size == 256 or arr.size > 0:
+                return arr
+        n32 = len(raw) // 4
+        if n32 * 4 == len(raw) and n32 > 0:
+            return np.frombuffer(raw, dtype=np.float32).astype(np.float64)
+        return None
+
+    @_locked
+    def _load_embed(self, chunk_id):
+        """Return cached or persisted embedding for a chunk, or None."""
+        cid = int(chunk_id)
+        cached = self._embed_cache.get(cid)
+        if cached is not None:
+            return cached
+        row = self._conn.execute(
+            "SELECT vec FROM chunk_embeddings WHERE chunk_id = ?", (cid,)
+        ).fetchone()
+        if not row or row[0] is None:
+            return None
+        arr = self._decode_embed(row[0])
+        if arr is not None:
+            self._embed_cache[cid] = arr
+        return arr
+
+    @_locked
+    def _persist_embed(self, chunk_id, vec):
+        """Write embedding to cache and DB (float64 for exact reload)."""
+        cid = int(chunk_id)
+        arr = np.asarray(vec, dtype=np.float64)
+        self._embed_cache[cid] = arr
+        self._conn.execute(
+            "INSERT OR REPLACE INTO chunk_embeddings (chunk_id, vec) VALUES (?, ?)",
+            (cid, arr.tobytes()),
+        )
 
     @_locked
     def add_document(self, filename: str, raw_bytes: bytes, chunk_size: int = 500, overlap: int = 80, parent_child: bool = False, parent_size: int = 1000, child_size: int = 250) -> dict:
@@ -808,11 +852,7 @@ class DocumentStore:
             cid = cur_c.lastrowid
             try:
                 vec = hash_embed(chunk, self.dim)
-                self._embed_cache[cid] = vec
-                self._conn.execute(
-                    "INSERT OR REPLACE INTO chunk_embeddings (chunk_id, vec) VALUES (?, ?)",
-                    (cid, np.asarray(vec, dtype=np.float32).tobytes()),
-                )
+                self._persist_embed(cid, vec)
             except Exception:
                 pass
         self._conn.commit()
@@ -868,7 +908,7 @@ class DocumentStore:
         dls = []
         df = {t: 0 for t in terms}
         for (text,) in rows:
-            words = re.findall(r"[a-zA-Z']+", (text or "").lower())
+            words = re.findall(r"[a-zA-Z0-9']+", (text or "").lower())
             toks = [w for w in words if w not in _STOPWORDS]
             dls.append(max(1, len(toks)))
             present = set(toks)
@@ -884,11 +924,12 @@ class DocumentStore:
         if not rows:
             return []
         q_vec = hash_embed(query, self.dim)
-        q_list = ordered_query_terms(re.findall(r"[a-zA-Z']+", (query or "").lower()))
+        q_list = ordered_query_terms(re.findall(r"[a-zA-Z0-9']+", (query or "").lower()))
         q_words = set(q_list)
         n_coll, avgdl, df = self._collection_bm25(q_words) if q_words else (0, 1.0, {})
         disc_terms = discriminative_query_terms(list(q_words), df, n_coll)
         scored = []
+        dirty = False
         for row in rows:
             if len(row) >= 8:
                 chunk_id, doc_id, filename, chunk_idx, page, section, text, parent_text = row[:8]
@@ -898,9 +939,13 @@ class DocumentStore:
             vec = self._embed_cache.get(chunk_id)
             if vec is None:
                 vec = hash_embed(text, self.dim)
-                self._embed_cache[chunk_id] = vec
+                try:
+                    self._persist_embed(chunk_id, vec)
+                    dirty = True
+                except Exception:
+                    self._embed_cache[chunk_id] = vec
             cos_sim = float(np.dot(q_vec, vec))
-            words = re.findall(r"[a-zA-Z']+", (text or "").lower())
+            words = re.findall(r"[a-zA-Z0-9']+", (text or "").lower())
             toks = words  # keep stopwords for span helpers that filter themselves
             content = [w for w in words if w not in _STOPWORDS]
             tf_map = {}
@@ -910,7 +955,7 @@ class DocumentStore:
             lexical_hit = bool(q_words & set(content))
             bm25 = 0.0
             doc_text = self.get_document_text(doc_id)
-            doc_toks = [w for w in re.findall(r"[a-zA-Z']+", (doc_text or "").lower()) if w not in _STOPWORDS]
+            doc_toks = [w for w in re.findall(r"[a-zA-Z0-9']+", (doc_text or "").lower()) if w not in _STOPWORDS]
             dl = max(1, len(doc_toks) if doc_toks else len(content))
             for t in q_words:
                 tf = tf_map.get(t, 0)
@@ -941,6 +986,11 @@ class DocumentStore:
             coverage = 0.0
             if disc_terms:
                 coverage = len(set(disc_terms) & set(content)) / max(1, len(disc_terms))
+            # Exact numeric tokens (12 vs 12ish) get a small rank boost.
+            digit_bonus = 0.0
+            q_digits = {t for t in q_words if t.isdigit()}
+            if q_digits:
+                digit_bonus = 0.04 * len(q_digits & set(content))
             score = (
                 0.55 * cos_sim
                 + 0.20 * overlap
@@ -952,6 +1002,7 @@ class DocumentStore:
                 + pair_b
                 + lead_b
                 + phrase
+                + digit_bonus
             )
             item = {
                 "chunk_id": chunk_id,
@@ -964,6 +1015,7 @@ class DocumentStore:
                 "score": score,
                 "cos": cos_sim,
                 "bm25": bm25,
+                "overlap": overlap,
                 "lexical_hit": lexical_hit,
                 "filename_bonus": fn_b,
                 "section_bonus": sec_b,
@@ -977,6 +1029,11 @@ class DocumentStore:
                 "parent_text": parent_text,
             }
             scored.append((lexical_hit, score, bm25, item))
+        if dirty:
+            try:
+                self._conn.commit()
+            except Exception:
+                pass
         scored.sort(key=lambda t: (t[0], t[1], t[2]), reverse=True)
         return [item for _, _, _, item in scored[:k]]
 
