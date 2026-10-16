@@ -787,8 +787,8 @@
 {"id": "code_749", "category": "coding", "input": "write a python function adding spaces to a string leetcode 2109", "expect_contains": ["def add_spaces", "Verified"]}
 {"id": "code_750", "category": "coding", "input": "write a python function remove digit from number to maximize result leetcode 2259", "expect_contains": ["def remove_digit", "Verified"]}
 {"id": "code_751", "category": "coding", "input": "write a python function maximum ice cream bars leetcode 1833", "expect_contains": ["def max_ice_cream", "Verified"]}
-{"id": "code_752", "category": "coding", "input": "write a python function sort the people leetcode 2418", "expect_contains": ["def sort_people", "def sort_the_people", "Verified"]}
-{"id": "code_753", "category": "coding", "input": "write a python function maximum units on a truck leetcode 1710", "expect_contains": ["def maximum_units", "def max_units_on_truck", "Verified"]}
+{"id": "code_752", "category": "coding", "input": "write a python function sort the people leetcode 2418", "expect_any": ["def sort_people", "def sort_the_people"], "expect_contains": ["Verified"]}
+{"id": "code_753", "category": "coding", "input": "write a python function maximum units on a truck leetcode 1710", "expect_any": ["def maximum_units", "def max_units_on_truck"], "expect_contains": ["Verified"]}
 {"id": "code_754", "category": "coding", "input": "write a python function remove all adjacent duplicates in string leetcode 1047", "expect_contains": ["def remove_all_adjacent_duplicates", "Verified"]}
 {"id": "code_755", "category": "coding", "input": "write a python function make the string great leetcode 1544", "expect_contains": ["def make_good", "Verified"]}
 {"id": "code_756", "category": "coding", "input": "write a python function rearrange spaces between words leetcode 1592", "expect_contains": ["def reorder_spaces", "Verified"]}
@@ -859,7 +859,7 @@
 {"id": "code_821", "category": "coding", "input": "write a python function find common elements between two arrays leetcode 2956", "expect_contains": ["def common_elements_two_arrays", "Verified"]}
 {"id": "code_822", "category": "coding", "input": "write a python function convert date to binary leetcode 3280", "expect_contains": ["def date_to_binary", "Verified"]}
 {"id": "code_823", "category": "coding", "input": "write a python function special array i leetcode 3151", "expect_contains": ["def special_array_i", "Verified"]}
-{"id": "code_824", "category": "coding", "input": "write a python function count pairs that form a complete day leetcode 3184", "expect_contains": ["def complete_day_pairs", "Verified"]}
+{"id": "code_824", "category": "coding", "input": "write a python function count pairs that form a complete day leetcode 3184", "expect_any": ["def complete_day_pairs", "def count_complete_day_pairs"], "expect_contains": ["Verified"]}
 {"id": "code_825", "category": "coding", "input": "write a python function minimum average of smallest and largest elements leetcode 3194", "expect_contains": ["def minimum_average", "Verified"]}
 {"id": "code_826", "category": "coding", "input": "write a python function two out of three leetcode 2032", "expect_contains": ["def two_out_of_three", "Verified"]}
 {"id": "code_827", "category": "coding", "input": "write a python function count elements with strictly smaller and greater leetcode 2148", "expect_contains": ["def count_elements_strict", "Verified"]}
