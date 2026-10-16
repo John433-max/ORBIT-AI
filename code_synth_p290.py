@@ -53,10 +53,13 @@ def templates() -> list[Template]:
             "            cand += arr[br * b : R + 1]\n"
             "            out.append(min(cand))\n"
             "    return out\n",
-            re.compile(
-                r"(?is)(?:sqrt[\s_-]*tree|sqrt[\s_-]*decompos).*"
-                r"(?:range[\s_-]*min|rmq)|"
-                r"(?:range[\s_-]*minimum[\s_-]*quer|rmq).*sqrt",
+            lambda q: bool(
+                re.search(
+                    r"(?:sqrt[\s_-]*tree|sqrt[\s_-]*decompos).*(?:range[\s_-]*min|rmq)|"
+                    r"(?:range[\s_-]*minimum[\s_-]*quer|rmq).*sqrt",
+                    q,
+                    re.I,
+                )
             ),
             examples=[(([3, 1, 4, 1, 5, 9], [(0, 2), (2, 5)]), [1, 1])],
         ),
@@ -81,9 +84,12 @@ def templates() -> list[Template]:
             "    left = max(0, left)\n"
             "    right = min(len(arr), right)\n"
             "    return sum(1 for x in arr[left:right] if x == value)\n",
-            re.compile(
-                r"(?is)wavelet[\s_-]*(?:matrix|tree).*rank|"
-                r"rank[\s_-]*query.*wavelet",
+            lambda q: bool(
+                re.search(
+                    r"wavelet[\s_-]*(?:matrix|tree).*rank|rank[\s_-]*query.*wavelet",
+                    q,
+                    re.I,
+                )
             ),
             examples=[(([1, 2, 1, 3, 1], 0, 5, 1), 3)],
         ),
@@ -122,7 +128,9 @@ def templates() -> list[Template]:
             "        if version is None:\n"
             "            version = len(self.roots) - 1\n"
             "        return self.roots[version].cnt\n",
-            re.compile(r"(?is)persistent[\s_-]*trie|trie[\s_-]*persistent"),
+            lambda q: bool(
+                re.search(r"persistent[\s_-]*trie|trie[\s_-]*persistent", q, re.I)
+            ),
             examples=None,
         ),
         T(
@@ -171,9 +179,13 @@ def templates() -> list[Template]:
             "            v = u\n"
             "        total_flow += add\n"
             "    return total_flow, total_cost, flow\n",
-            re.compile(
-                r"(?is)successive[\s_-]*shortest[\s_-]*path|"
-                r"min[\s_-]*cost[\s_-]*max[\s_-]*flow.*successive",
+            lambda q: bool(
+                re.search(
+                    r"successive[\s_-]*shortest[\s_-]*path|"
+                    r"min[\s_-]*cost[\s_-]*max[\s_-]*flow.*successive",
+                    q,
+                    re.I,
+                )
             ),
             examples=None,
         ),
@@ -198,8 +210,8 @@ def templates() -> list[Template]:
             "            factors.append(s[i : i + j - k])\n"
             "            i += j - k\n"
             "    return factors\n",
-            re.compile(
-                r"(?is)lyndon[\s_-]*factor|duval[\s_-]*(?:algo|factor)",
+            lambda q: bool(
+                re.search(r"lyndon[\s_-]*factor|duval[\s_-]*(?:algo|factor)", q, re.I)
             ),
             examples=[(("abcab",), ["abc", "ab"])],
         ),
@@ -232,9 +244,13 @@ def templates() -> list[Template]:
             "            s += sum(arr[br * b : R + 1])\n"
             "            out.append(s)\n"
             "    return out\n",
-            re.compile(
-                r"(?is)sqrt[\s_-]*decompos.*(?:range[\s_-]*sum|sum[\s_-]*quer)|"
-                r"(?:range[\s_-]*sum).*sqrt[\s_-]*decompos",
+            lambda q: bool(
+                re.search(
+                    r"sqrt[\s_-]*decompos.*(?:range[\s_-]*sum|sum[\s_-]*quer)|"
+                    r"(?:range[\s_-]*sum).*sqrt[\s_-]*decompos",
+                    q,
+                    re.I,
+                )
             ),
             examples=[(([1, 2, 3, 4, 5], [(0, 2), (1, 4)]), [6, 14])],
         ),
