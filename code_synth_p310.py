@@ -282,4 +282,33 @@ def templates() -> list[Template]:
                 ),
             ],
         ),
+        T(
+            "conjugate_gradient_1d",
+            "def conjugate_gradient_1d(f, df, x0, steps=20):\n"
+            '    """Educational 1-D conjugate gradient (Fletcher-Reeves, fixed step).\n'
+            "\n"
+            "    Returns (x, f(x)) rounded to 5 decimals.\n"
+            '    """\n'
+            "    x = float(x0)\n"
+            "    g = df(x)\n"
+            "    d = -g\n"
+            "    for _ in range(steps):\n"
+            "        alpha = 0.5\n"
+            "        x = x + alpha * d\n"
+            "        g_new = df(x)\n"
+            "        beta = (g_new * g_new) / (g * g + 1e-12)\n"
+            "        d = -g_new + beta * d\n"
+            "        g = g_new\n"
+            "        if abs(g) < 1e-8:\n"
+            "            break\n"
+            "    return round(x, 5), round(f(x), 5)\n",
+            lambda q: bool(
+                re.search(r"conjugate\s+gradient|fletcher[- ]reeves", q, re.I)
+                and re.search(r"1[- ]?d|one[- ]d|scalar", q, re.I)
+            ),
+            examples=(
+                ((lambda x: (x - 2) ** 2, lambda x: 2 * (x - 2), 0.0), (2.0, 0.0)),
+                ((lambda x: (x - 2) ** 2, lambda x: 2 * (x - 2), 10.0, 30), (2.0, 0.0)),
+            ),
+        ),
     ]
