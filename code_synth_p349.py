@@ -37,8 +37,8 @@ def bisection_method(f, a, b, tol=1e-6, max_iter=50):
     return bisection_root(f, a, b, tol, max_iter)
 ''',
             lambda low: bool(
-                re.search(r"\\bbisection\\b", low)
-                and re.search(r"\\b(finding|zero)\\b", low)
+                re.search(r"\bbisection\b", low)
+                and re.search(r"\b(finding|zero)\b", low)
             ),
             (
                 ((lambda x: x * x - 2, 1.0, 2.0), 1.4142141342163086),
@@ -66,11 +66,9 @@ def simpson_rule(f, a, b, n=50):
     """Alias for simpson_integrate_1d (educational)."""
     return simpson_integrate_1d(f, a, b, n)
 ''',
-            # Accept "simpson rule integration" / "simpson integrate".
-            # p306 owns bare "simpson rule" (no integrat).
             lambda low: bool(
-                re.search(r"\\bsimpson\\b", low)
-                and re.search(r"\\bintegrat(?:e|ion)?\\b", low)
+                re.search(r"\bsimpson\b", low)
+                and re.search(r"\bintegrat(?:e|ion)?\b", low)
             ),
             (
                 ((lambda x: x * x, 0.0, 1.0), 1.0 / 3.0),
