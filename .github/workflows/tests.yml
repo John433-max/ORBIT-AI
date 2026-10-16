@@ -33,13 +33,23 @@ jobs:
           fi
           python -c "import fastapi, uvicorn; print('api deps ok', fastapi.__version__)"
 
-      - name: Unit tests (always)
+      # Split unit tests: code_synth loads ~2k templates and can OOM the
+      # 7GB runner when run together with the rest of tests/unit.
+      - name: Unit tests (core, excl. code_synth)
         run: |
           python -m pytest --version
           if [ -d tests/unit ]; then
-            PYTHONPATH=. python -m pytest tests/unit -q --tb=short --maxfail=8
+            PYTHONPATH=. python -m pytest tests/unit --ignore=tests/unit/test_code_synth.py -q --tb=short --maxfail=10
           else
             echo "No tests/unit yet — skip"
+          fi
+
+      - name: Unit tests (code_synth)
+        run: |
+          if [ -f tests/unit/test_code_synth.py ]; then
+            PYTHONPATH=. python -m pytest tests/unit/test_code_synth.py -q --tb=line --maxfail=5
+          else
+            echo "test_code_synth.py not present — skip"
           fi
 
       - name: Agent tests (if present)

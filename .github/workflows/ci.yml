@@ -44,12 +44,22 @@ jobs:
             echo "ruff not installed — skip lint"
           fi
 
-      - name: Unit tests
+      # Split unit tests: code_synth loads ~2k templates and can OOM the 7GB
+      # runner when run in the same process as the rest of tests/unit.
+      - name: Unit tests (core, excl. code_synth)
         run: |
           if [ -d tests/unit ]; then
-            PYTHONPATH=. python -m pytest tests/unit -q --tb=line
+            PYTHONPATH=. python -m pytest tests/unit --ignore=tests/unit/test_code_synth.py -q --tb=line --maxfail=10
           else
             echo "No tests/unit — skip"
+          fi
+
+      - name: Unit tests (code_synth)
+        run: |
+          if [ -f tests/unit/test_code_synth.py ]; then
+            PYTHONPATH=. python -m pytest tests/unit/test_code_synth.py -q --tb=line --maxfail=5
+          else
+            echo "test_code_synth.py not present — skip"
           fi
 
       - name: Agent / tools tests (if present)
