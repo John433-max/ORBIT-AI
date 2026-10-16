@@ -58,7 +58,7 @@ def templates() -> list[Template]:
                 r"(?:range[\s_-]*min|rmq)|"
                 r"(?:range[\s_-]*minimum[\s_-]*quer|rmq).*sqrt",
             ),
-            examples=[([([3, 1, 4, 1, 5, 9], [(0, 2), (2, 5)]),], [1, 1])],
+            examples=[(([3, 1, 4, 1, 5, 9], [(0, 2), (2, 5)]), [1, 1])],
         ),
         T(
             "wavelet_matrix_rank",
@@ -85,7 +85,7 @@ def templates() -> list[Template]:
                 r"(?is)wavelet[\s_-]*(?:matrix|tree).*rank|"
                 r"rank[\s_-]*query.*wavelet",
             ),
-            examples=[([([1, 2, 1, 3, 1], 0, 5, 1),], 3)],
+            examples=[(([1, 2, 1, 3, 1], 0, 5, 1), 3)],
         ),
         T(
             "persistent_trie",
@@ -201,7 +201,7 @@ def templates() -> list[Template]:
             re.compile(
                 r"(?is)lyndon[\s_-]*factor|duval[\s_-]*(?:algo|factor)",
             ),
-            examples=[([("abcab",),], ["abc", "ab"])],
+            examples=[(("abcab",), ["abc", "ab"])],
         ),
         T(
             "sqrt_decomposition_range_sum",
@@ -236,6 +236,6 @@ def templates() -> list[Template]:
                 r"(?is)sqrt[\s_-]*decompos.*(?:range[\s_-]*sum|sum[\s_-]*quer)|"
                 r"(?:range[\s_-]*sum).*sqrt[\s_-]*decompos",
             ),
-            examples=[([([1, 2, 3, 4, 5], [(0, 2), (1, 4)]),], [6, 14])],
+            examples=[(([1, 2, 3, 4, 5], [(0, 2), (1, 4)]), [6, 14])],
         ),
     ]
