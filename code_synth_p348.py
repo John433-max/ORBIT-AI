@@ -27,7 +27,7 @@ def templates() -> list[Template]:
         _stooge(0, len(a) - 1)
     return a
 ''',
-            lambda low: bool(re.search(r"\\bstooge[- ]?sort\\b", low)),
+            lambda low: bool(re.search(r"\bstooge[- ]?sort\b", low)),
             (
                 (([3, 1, 2],), [1, 2, 3]),
             ),
