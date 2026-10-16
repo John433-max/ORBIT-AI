@@ -300,16 +300,22 @@ class CodeAgent:
             content = f"Ran the code in the sandbox. stdout:\n{stdout}"
             return AgentResult(self.name, True, content, raw=raw)
         # Denied or unknown tool: fall back so coding still works if the
-        # registry is missing python.execute.
+        # registry is missing python.execute (SAFE boundary). Meter success.
         if tool_res.error and ("permission" in tool_res.error or "Unknown tool" in tool_res.error):
             result = python_sandbox(code, timeout=3.0)
             raw.update(result if isinstance(result, dict) else {"fallback": result})
             raw["tool_fallback"] = True
-            if result.get("ok"):
-                content = f"Ran the code in the sandbox. stdout:\n{result['stdout']}"
+            fb_ok = bool(result.get("ok")) if isinstance(result, dict) else False
+            raw["tool_ok"] = fb_ok
+            try:
+                registry.record_fallback("python.execute", fb_ok)
+            except Exception:
+                pass
+            if fb_ok:
+                content = f"Ran the code in the sandbox. stdout:\n{result.get('stdout', '')}"
             else:
                 content = f"Sandbox execution failed: {result.get('error') or result.get('stderr')}"
-            return AgentResult(self.name, result.get("ok", False), content, raw=raw)
+            return AgentResult(self.name, fb_ok, content, raw=raw)
         err = tool_res.error or raw.get("error") or raw.get("stderr") or tool_res.content
         content = f"Sandbox execution failed: {err}"
         return AgentResult(self.name, False, content, raw=raw)
@@ -442,8 +448,16 @@ class ResearchAgent:
                 elif tool_res.error and (
                     "permission" in tool_res.error or "Unknown tool" in tool_res.error
                 ):
+                    # SAFE NETWORK deny → provider fallback; meter effective outcome.
                     raw = self._search_via_provider(request)
                     tool_meta["tool_fallback"] = True
+                    norm = _normalize_search_payload(raw)
+                    fb_ok = bool(norm.get("ok") and norm.get("results"))
+                    tool_meta["tool_ok"] = fb_ok
+                    try:
+                        registry.record_fallback("web.search", fb_ok)
+                    except Exception:
+                        pass
                 else:
                     raw = tool_res.data if tool_res.data is not None else {
                         "ok": False,
@@ -877,7 +891,7 @@ class FileAgent:
             )
         root = (context or {}).get("sandbox_root", ".")
         low = (request or "").lower()
-        if re.search(r"\b(list (the )?files|ls\b|dir\b|show files)\b", low):
+        if re.search(r"\b(list (my |the )?files|ls\b|dir\b|show files)\b", low):
             import os
             try:
                 entries = sorted(os.listdir(root))[:40]
@@ -1469,14 +1483,22 @@ ROUTES = [
     ), "code"),
     (re.compile(r"\b(traceback|Error:|Exception|ModuleNotFoundError|SyntaxError|NameError|"
                 r"TypeError|KeyError|IndexError|AttributeError|ZeroDivisionError|"
-                r"FileNotFoundError)\b"), "debug"),
+                r"FileNotFoundError)\b|"
+                r"\bdebug (this|my|the)\b|\bfix (this|my) (error|bug|code)\b",
+                re.I), "debug"),
     (re.compile(r"^\s*-?\d+\.?\d*\s*[\+\-\*/%\^]|% of|sqrt\(|square root|^\s*what is [\d.]+\s*[\+\-\*/]|"
                 r"\bfactorial\b|\d+\s*!|"
                 r"\b(what('?s| is) (the )?(time|date)|unix timestamp|"
                 r"word count|char(?:acter)? count|uppercase|lowercase|"
                 r"pretty[- ]?print json|validate json|sha256|md5)\b|"
                 r"\bspeed of light\b|\bcompound interest\b|\bto the power of\b|"
-                r"\badd\s+-?\d+\.?\d*\s+(?:and|to)\s+-?\d+",
+                r"\badd\s+-?\d+\.?\d*\s+(?:and|to)\s+-?\d+|"
+                # unit conversion + common constants (pi, e)
+                r"\bconvert\b.{0,40}\b(km|m|kg|g|celsius|fahrenheit|°?c|°?f|miles?|inches?|feet|lbs?)\b|"
+                r"\b\d+\s*(km|m|kg|g|celsius|fahrenheit|°c|°f|miles?|inches?|feet|lbs?)\s+to\b|"
+                r"\b\d+\s*(km|m|kg|g)\s+to\s+(km|m|kg|g)\b|"
+                r"\bwhat('?s| is)\s+(pi|π|e)\b|"
+                r"\b(value of|constant)\s+(pi|π)\b",
                 re.I), "calculator"),
     (re.compile(r"\b(summarize (the )?(document|doc|pdf|file)|summarize this|summarize the following|"
                 r"document #\d+|uploaded document|"
@@ -1484,6 +1506,7 @@ ROUTES = [
                 r"extract (the )?text|extract text from|read (the )?document|"
                 r"show (me )?(the )?text|what does (this|the) (file|doc|document) say|"
                 r"what documents?( do you have| are (loaded|uploaded|available))?|"
+                r"what is in (my |the |your )?documents?|"
                 r"list (my |the |uploaded )?documents?|"
                 r"which documents?( do you have| are (loaded|uploaded))?|"
                 r"show (me )?(my |the |uploaded )?documents?|"
@@ -1519,7 +1542,7 @@ ROUTES = [
     ), "research"),
     (re.compile(r"\b(trade|trading|backtest|portfolio|stock|pnl|sma)\b", re.I), "finance"),
     (re.compile(r"\b(layout|design|mockup|wireframe|landing page|ui)\b", re.I), "design"),
-    (re.compile(r"\b(read|open) [^\s]+\.\w+|\blist (the )?files\b|\bls\b|\bdir\b|\bshow files\b", re.I), "file"),
+    (re.compile(r"\b(read|open) [^\s]+\.\w+|\blist (my |the )?files\b|\bls\b|\bdir\b|\bshow files\b", re.I), "file"),
     (re.compile(
         r"\brm\s+-rf\b|\bdelete all files\b|\bdelete everything\b|"
         r"\bdelete (the )?(system|all) files\b|"
@@ -1555,7 +1578,7 @@ AGENT_SIGNALS = {
              r"\bwrite a function\b"],
     "debug": [r"\bcrash(es|ed|ing)?\b", r"\bbug\b", r"\bfails?\b", r"\bfailing\b", r"\bbroken\b",
               r"\bnot working\b", r"\bwhy (does|is|did|won't)\b.*\b(fail|crash|break)", r"\bstack trace\b"],
-    "calculator": [r"\bfactorial\b", r"\bspeed of light\b", r"\bcompound interest\b", r"\bword count\b", r"\bwhat time\b", r"\bcalculate\b", r"\bhow much is\b", r"\bpercent(age)?\b", r"\bmultiply|divide|subtract\b", r"\btimes\b", r"\bplus\b", r"\bminus\b", r"\badd\s+\d", r"\bdivided by\b", r"\bmodulo\b", r"\bderivative\b", r"\bintegral\b", r"\bintegrate\b", r"\barea of\b", r"\bforce\b", r"\bgeometry\b", r"\bcalculus\b", r"\bphysics\b"],
+    "calculator": [r"\bfactorial\b", r"\bspeed of light\b", r"\bcompound interest\b", r"\bword count\b", r"\bwhat time\b", r"\bcalculate\b", r"\bhow much is\b", r"\bpercent(age)?\b", r"\bmultiply|divide|subtract\b", r"\btimes\b", r"\bplus\b", r"\bminus\b", r"\badd\s+\d", r"\bsum\s+\d", r"\bhalf of\b", r"\bdivided by\b", r"\bmodulo\b", r"\bderivative\b", r"\bintegral\b", r"\bintegrate\b", r"\barea of\b", r"\bforce\b", r"\bgeometry\b", r"\bcalculus\b", r"\bphysics\b"],
     "document": [r"\bpdf\b", r"\bdocx\b", r"\bmy notes\b", r"\bthis document\b", r"\bwhat does it say\b", r"\bextract\b", r"\btext from\b", r"\bupload\b",
                  r"\bwhat documents?\b", r"\blist documents?\b", r"\bdocuments? (loaded|uploaded|available)\b",
                  r"\bfrom (your |my |the )?documents?\b", r"\banswer from documents?\b"],
@@ -1775,7 +1798,19 @@ class Orchestrator:
             r"\b(search for|search about|look up|look this up|news about|google)\b",
             request or "", re.I,
         )
-        if scores.get("code", 0) < 1.0 and not _looks_like_question(request):
+        # Cycle 642: bare titles starting with "is"/"are" ("is power of three")
+        # look like questions but match verified templates. No "?" and no
+        # explain/what-is form → still a code route.
+        bare_title = (
+            "?" not in (request or "")
+            and not re.search(
+                r"\b(what is|what\'s|what are|explain|how does|how do|"
+                r"tell me about|describe|define)\b",
+                request or "",
+                re.I,
+            )
+        )
+        if scores.get("code", 0) < 1.0 and (not _looks_like_question(request) or bare_title):
             # Cycle 566: verified template beats lab/research keyword hits
             # (gradient descent -> lab, golden section / hill climbing -> research)
             # unless the user asked for a live web lookup.
@@ -1787,7 +1822,7 @@ class Orchestrator:
                         try:
                             from science_math import looks_like_science_math
                             from utilities import looks_like_utility
-                            has_value = bool(re.search(r"\d", request or ""))
+                            has_value = bool(re.search(r"\b\d+\b", request or ""))
                             computational = bool(looks_like_utility(request)) or (
                                 looks_like_science_math(request) and has_value
                             )
@@ -1805,7 +1840,7 @@ class Orchestrator:
             try:
                 from science_math import looks_like_science_math
                 from utilities import looks_like_utility
-                has_value = bool(re.search(r"\d", request or ""))
+                has_value = bool(re.search(r"\b\d+\b", request or ""))
                 computational = bool(looks_like_utility(request)) or (
                     looks_like_science_math(request) and has_value
                 )
@@ -2043,11 +2078,21 @@ class Orchestrator:
         secondary = None
         # Multi-intent: strong runner-up (not chat) gets a brief appendix.
         # Never append research to pure identity/self questions.
+        # Cycle 2026-10-16: pure arithmetic / calculator wins must not pull
+        # DuckDuckGo secondary noise ("2+2" car-body style).
         _skip_secondary = bool(re.search(
             r"\b(what(?:'s| is) your name|who are you|what are you|"
             r"who (created|made|built) you|what created you|introduce yourself)\b",
             request or "", re.I,
         ))
+        if agent_key == "calculator" and re.search(
+            r"^[\s\d.+\-*/%!()^=xX]+$|"
+            r"\b(what is|calculate|compute)\s+[\d.+\-*/%!()^\s]+$|"
+            r"\b\d+\s*!\s*$",
+            request or "",
+            re.I,
+        ):
+            _skip_secondary = True
         try:
             ranked = sorted(
                 ((k, v) for k, v in (scores or {}).items() if k != agent_key and k != "chat"),

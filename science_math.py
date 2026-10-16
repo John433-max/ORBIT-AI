@@ -497,11 +497,16 @@ def looks_like_science_math(text: str) -> bool:
         "density", "momentum", "work", "cylinder", "cuboid", "interest",
         "celsius", "fahrenheit", "kilometers", "calculus", "geometry", "physics",
         "factorial", "gravitational", "planck", "avogadro",
+        # constants for "what is pi" routing
+        "pi", "π",
     )
     multi = (
         "second derivative", "area of", "circumference", "volume of",
         "kinetic energy", "potential energy", "surface area",
         "speed of light", "compound interest", "to the power", "d/dx",
+        # unit conversion phrases (km→m, °C→°F, …)
+        "convert ", " km to ", " m to ", " kg to ", " to m", " to km",
+        " to celsius", " to fahrenheit", "celsius to", "fahrenheit to",
     )
     if any(p in low for p in multi):
         return True

@@ -700,6 +700,106 @@ def _widen_loaded(tmpl: Template) -> Template:
             and "fahrenheit" not in low,
             tmpl.examples,
         )
+    # Cycle 644: smoke code_2033–2038 + natural phrasing gaps
+    if name == "candy":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(r"\bleetcode\s+135\b", low)
+                or (
+                    re.search(r"\bcandy\b", low)
+                    and not any(
+                        s in low
+                        for s in (
+                            "greatest number of candies",
+                            "kids with",
+                            "2928",
+                            "2144",
+                            "discount",
+                            "distribute candies",
+                            "fair candy",
+                            "negative",
+                            "1 bits",
+                            "one bits",
+                        )
+                    )
+                    and not ("limit" in low and "children" in low)
+                )
+            ),
+            tmpl.examples,
+        )
+    if name == "reverse_integer":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\breverse(?:\s+(?:an?|the))?\s+integers?\b|"
+                    r"\breverse_integer\b|"
+                    r"\breverse\s+digits\s+of\s+(?:an?\s+)?int",
+                    low,
+                )
+            )
+            and "string" not in low
+            and "list" not in low
+            and "words" not in low,
+            tmpl.examples,
+        )
+    if name == "multiply_strings":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(r"\bmultiply\b", low)
+                and re.search(r"\bstrings?\b", low)
+                and not re.search(r"\bcomplex\b", low)
+            ),
+            tmpl.examples,
+        )
+    if name == "mincost_tickets":
+        return Template(
+            name,
+            tmpl.source,
+            lambda low: bool(
+                re.search(
+                    r"\bmin(?:imum)?[_\s-]?cost[_\s-]?(?:for[_\s-]?)?tickets?\b|"
+                    r"\bmincost[_ ]tickets\b|"
+                    r"\bticket\s+cost\b.*\bdays\b|"
+                    r"\bleetcode\s+983\b",
+                    low,
+                )
+            ),
+            tmpl.examples,
+        )
+    # Cycle 405: largest_number (179) must not steal 747 / second-largest / 2231.
+    if name == "largest_number":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and "second" not in low
+            and "twice" not in low
+            and "747" not in low
+            and "dominant" not in low
+            and "digit swaps" not in low
+            and "parity" not in low
+            and "2231" not in low,
+            tmpl.examples,
+        )
+    # Cycle 405: bare LIS stays; "n log n" must hit lis_nlogn.
+    if name == "longest_increasing_subsequence":
+        prev = tmpl.match
+        return Template(
+            name,
+            tmpl.source,
+            lambda low, prev=prev: bool(prev(low))
+            and "n log n" not in low
+            and "nlogn" not in low
+            and "patience" not in low,
+            tmpl.examples,
+        )
     return tmpl
 
 
@@ -792,6 +892,19 @@ def _name_tokens(name: str) -> list[str]:
     return out
 
 
+# Short canonical names preferred on "write a function" / leetcode asks.
+# Bare phrases keep the longer descriptive aliases.
+_SHORT_FOR_WRITE = {
+    "longest_increasing_subsequence": "lis",
+    "minimum_path_sum": "min_path_sum",
+    "partition_equal_subset_sum": "can_partition",
+    "kth_largest_element": "find_kth_largest",
+    "excel_sheet_column_title": "convert_to_title",
+    "excel_sheet_column_number": "title_to_number",
+    "non_overlapping_intervals": "erase_overlap_intervals",
+}
+
+
 def score_template(request: str, tmpl: Template) -> float:
     """How many distinctive name tokens appear in the request."""
     low = _low(request)
@@ -856,6 +969,16 @@ def _match_template_uncached(request: str) -> Template | None:
             best = tmpl
             best_tok = tok
             best_score = score
+    # Cycle 405: "write a function …" / leetcode asks keep the short canonical
+    # name that unit tests + older smoke rows expect. Bare phrases stay on the
+    # longer p355 aliases (code_2045–2051).
+    if ("function" in low or "leetcode" in low or "write a" in low) and best is not None:
+        short_name = _SHORT_FOR_WRITE.get(best.name)
+        if short_name:
+            for tmpl in hits:
+                if tmpl.name == short_name:
+                    best = tmpl
+                    break
     return best
 
 

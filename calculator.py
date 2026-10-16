@@ -93,8 +93,12 @@ def calculate(expression: str) -> dict:
 
 
 _PERCENT_OF_RE = re.compile(
-    r"what\s+is\s+([\d.]+)\s*%\s+of\s+([\d.]+)|([\d.]+)\s*%\s+of\s+([\d.]+)", re.IGNORECASE)
-_MATH_DETECT_RE = re.compile(r"[\d].*[\+\-\*/\^%]|sqrt|square root|percent|average|mean|median")
+    r"(?:what\s+is\s+)?([\d.]+)\s*(?:%|percent(?:age)?)\s+of\s+([\d.]+)",
+    re.IGNORECASE,
+)
+_MATH_DETECT_RE = re.compile(
+    r"[\d].*[\+\-\*/\^%]|sqrt|square root|percent|average|mean|median|\badd\b|\bsum\b|\bhalf\b"
+)
 
 
 def looks_like_math(text: str) -> bool:
@@ -127,20 +131,34 @@ def _normalize_math_words(text: str) -> str:
     ]
     for pat, rep in replacements:
         s = re.sub(pat, rep, s, flags=re.I)
+    # "subtract A from B" → "B - A"
     m = re.search(r"\bsubtract\s+(-?\d+(?:\.\d+)?)\s+from\s+(-?\d+(?:\.\d+)?)", s, re.I)
     if m:
         s = f"{m.group(2)} - {m.group(1)}"
+    # "add A and B" / "sum A and B" → "A + B"
+    m = re.search(
+        r"\b(?:add|sum)\s+(-?\d+(?:\.\d+)?)\s+and\s+(-?\d+(?:\.\d+)?)",
+        s,
+        re.I,
+    )
+    if m:
+        s = f"{m.group(1)} + {m.group(2)}"
+    # "half of N" → "N / 2"
+    m = re.search(r"\bhalf\s+of\s+(-?\d+(?:\.\d+)?)", s, re.I)
+    if m:
+        s = f"{m.group(1)} / 2"
     return s
 
 
 def parse_and_calculate(text: str) -> dict:
     m = _PERCENT_OF_RE.search(text)
     if m:
-        groups = [g for g in m.groups() if g is not None]
-        if len(groups) == 2:
-            percent, value = float(groups[0]), float(groups[1])
-            return {"ok": True, "result": calculate_percentage_of(percent, value),
-                    "expression": f"{percent}% of {value}"}
+        percent, value = float(m.group(1)), float(m.group(2))
+        return {
+            "ok": True,
+            "result": calculate_percentage_of(percent, value),
+            "expression": f"{percent}% of {value}",
+        }
     normalized = _normalize_math_words(text)
     candidates = re.findall(r"[\d\.\s\+\-\*/\(\)%\^]+", normalized)
     candidates = [c.strip() for c in candidates if any(ch.isdigit() for ch in c)]

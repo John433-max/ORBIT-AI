@@ -2019,3 +2019,48 @@
 {"id": "code_2018", "category": "coding", "input": "kv cache append", "expect_contains": ["kv_cache_append", "Verified"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_2019", "category": "coding", "input": "swiglu activation", "expect_contains": ["swiglu", "Verified"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_2020", "category": "coding", "input": "bpe merge", "expect_contains": ["bpe_apply_merge", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2021", "category": "coding", "input": "is power of three", "expect_contains": ["is_power_of_three", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2022", "category": "coding", "input": "trailing zeroes", "expect_contains": ["trailing_zeroes", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2023", "category": "coding", "input": "binary watch", "expect_contains": ["binary_watch", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2024", "category": "coding", "input": "count sub islands", "expect_contains": ["count_sub_islands", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2025", "category": "coding", "input": "excel sheet column title", "expect_contains": ["excel_sheet_column_title", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2026", "category": "coding", "input": "letter case permutation", "expect_contains": ["letter_case_permutation", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2027", "category": "coding", "input": "expression add operators", "expect_contains": ["add_operators", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2028", "category": "coding", "input": "the skyline problem", "expect_contains": ["get_skyline", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2029", "category": "coding", "input": "basic calculator", "expect_contains": ["calculate", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2030", "category": "coding", "input": "max points on a line", "expect_contains": ["max_points", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2031", "category": "coding", "input": "minimum cost for tickets", "expect_contains": ["mincost_tickets", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2032", "category": "coding", "input": "maximum sum circular subarray", "expect_contains": ["max_subarray_sum_circular", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2033", "category": "coding", "input": "candy", "expect_contains": ["candy", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2034", "category": "coding", "input": "maximum binary tree", "expect_contains": ["construct_maximum_binary_tree", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2035", "category": "coding", "input": "delete node in a bst", "expect_contains": ["delete_node", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2036", "category": "coding", "input": "count binary substrings", "expect_contains": ["count_binary_substrings", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2037", "category": "coding", "input": "multiply strings", "expect_contains": ["multiply", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2038", "category": "coding", "input": "reverse integer", "expect_contains": ["reverse", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_2039", "category": "coding", "input": "largest number", "expect_contains": ["def largest_number", "Verified"]}
+{"id": "code_2040", "category": "coding", "input": "remove k digits", "expect_contains": ["def remove_k_digits", "Verified"]}
+{"id": "code_2041", "category": "coding", "input": "longest turbulent subarray", "expect_contains": ["def longest_turbulent_subarray", "Verified"]}
+{"id": "code_2042", "category": "coding", "input": "exclusive time of functions", "expect_contains": ["def exclusive_time_of_functions", "Verified"]}
+{"id": "code_2043", "category": "coding", "input": "my calendar book", "expect_contains": ["def my_calendar_book", "Verified"]}
+{"id": "code_2044", "category": "coding", "input": "replace words", "expect_contains": ["def replace_words", "Verified"]}
+{"id": "code_2045", "category": "coding", "input": "longest increasing subsequence", "expect_contains": ["def longest_increasing_subsequence", "Verified"]}
+{"id": "code_2046", "category": "coding", "input": "non overlapping intervals", "expect_contains": ["def non_overlapping_intervals", "Verified"]}
+{"id": "code_2047", "category": "coding", "input": "minimum path sum", "expect_contains": ["def minimum_path_sum", "Verified"]}
+{"id": "code_2048", "category": "coding", "input": "partition equal subset sum", "expect_contains": ["def partition_equal_subset_sum", "Verified"]}
+{"id": "code_2049", "category": "coding", "input": "climbing stairs", "expect_contains": ["def climbing_stairs", "Verified"]}
+{"id": "code_2050", "category": "coding", "input": "kth largest element", "expect_contains": ["def kth_largest_element", "Verified"]}
+{"id": "code_2051", "category": "coding", "input": "excel sheet column number", "expect_contains": ["def excel_sheet_column_number", "Verified"]}
+{"id": "code_2052", "category": "coding", "input": "nim game", "expect_contains": ["def nim_game", "Verified"]}
+{"id": "code_2053", "category": "coding", "input": "leetcode 263", "expect_contains": ["def is_ugly", "Verified"]}
+{"id": "code_2054", "category": "coding", "input": "valid perfect square", "expect_contains": ["def valid_perfect_square", "Verified"]}
+{"id": "code_2055", "category": "coding", "input": "contains nearby duplicate", "expect_contains": ["def contains_nearby_duplicate", "Verified"]}
+{"id": "code_2056", "category": "coding", "input": "search insert position", "expect_contains": ["def search_insert_position", "Verified"]}
+{"id": "code_2057", "category": "coding", "input": "find first and last position", "expect_contains": ["def find_first_and_last_position", "Verified"]}
+{"id": "code_2058", "category": "coding", "input": "non decreasing array", "expect_contains": ["def non_decreasing_array", "Verified"]}
+{"id": "code_2059", "category": "coding", "input": "maximum length of pair chain", "expect_contains": ["def maximum_length_of_pair_chain", "Verified"]}
+{"id": "code_2060", "category": "coding", "input": "stone game", "expect_contains": ["def stone_game", "Verified"]}
+{"id": "code_2061", "category": "coding", "input": "delete operation for two strings", "expect_contains": ["def delete_operation_for_two_strings", "Verified"]}
+{"id": "code_2062", "category": "coding", "input": "contains duplicate iii", "expect_contains": ["def contains_duplicate_iii", "Verified"]}
+{"id": "code_2063", "category": "coding", "input": "implement skip list", "expect_contains": ["def skip_list", "Verified"]}
+{"id": "code_2064", "category": "coding", "input": "weighted random sampling", "expect_contains": ["def weighted_choice", "Verified"]}
+{"id": "code_2065", "category": "coding", "input": "write bloom filter", "expect_contains": ["def bloom_filter", "Verified"]}

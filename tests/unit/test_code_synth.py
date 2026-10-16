@@ -6962,3 +6962,26 @@ def test_p312_llm_inference():
     assert match_template("softmax").name == "softmax"
     assert match_template("layer normalization").name == "layer_normalization"
     assert match_template("gelu").name == "gelu"
+
+
+def test_p402_skip_list_weighted_bloom():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "implement skip list": "skip_list",
+        "write a python skiplist": "skip_list",
+        "weighted random sampling": "weighted_choice",
+        "weighted_choice of items": "weighted_choice",
+        "write bloom filter": "bloom_filter",
+        "bloom filter python": "bloom_filter",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+    # Neighbors preserved
+    assert match_template("implement a bloom filter class").name == "bloom_filter_class"
+    assert match_template("cuckoo filter").name == "cuckoo_filter"
+    assert match_template("reservoir sampling").name == "reservoir_sampling"

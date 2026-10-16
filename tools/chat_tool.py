@@ -942,6 +942,10 @@ class ChatGenerateTool(BaseTool):
         self.tinylm_model = tinylm_model
         self.ckpt_path = ckpt_path
         self._tinylm_factory = None
+        # Per-conversation prefix-KV session map (Orchestrator.metrics chat_kv)
+        self.sessions: dict = {}
+        self.session: dict = {"hits": 0, "misses": 0, "turns": 0}
+        self.prefix_blocks: dict = {}
 
     def bind_tinylm(self, model=None, factory=None, preset=None, backend=None):
         """Cycle 65: attach a shared TinyLM (or factory) without rebuilding per call."""
@@ -972,11 +976,26 @@ class ChatGenerateTool(BaseTool):
         history=None,
         backend: str = None,
         use_cache: bool = True,
+        conversation_id: str = None,
         **_,
     ) -> ToolResult:
         request = (request or "").strip()
         if not request:
             return ToolResult(ok=False, content="", error="request is required")
+        # Track per-conversation prefix-KV sessions for metrics
+        if conversation_id:
+            slot = self.sessions.setdefault(
+                str(conversation_id), {"hits": 0, "misses": 0, "turns": 0}
+            )
+            slot["turns"] = int(slot.get("turns") or 0) + 1
+            # First turn is a miss; subsequent reuse counts as hit when cache path runs
+            if slot["turns"] == 1:
+                slot["misses"] = int(slot.get("misses") or 0) + 1
+                self.session["misses"] = int(self.session.get("misses") or 0) + 1
+            else:
+                slot["hits"] = int(slot.get("hits") or 0) + 1
+                self.session["hits"] = int(self.session.get("hits") or 0) + 1
+            self.session["turns"] = int(self.session.get("turns") or 0) + 1
         chosen = (backend if backend is not None else self.backend) or "auto"
         resolved = resolve_generate_backend(chosen, model=self.model, tokenizer=self.tokenizer)
         tinylm_model = self.tinylm_model
@@ -1001,3 +1020,58 @@ class ChatGenerateTool(BaseTool):
         if not data.get("ok"):
             return ToolResult(ok=False, content="", error=data.get("error") or "generate failed", data=data)
         return ToolResult(ok=True, content=data.get("text") or "", data=data)
+
+
+def chat_kv_session_stats(store) -> dict:
+    """Summarize per-conversation_id prefix-KV sessions for Orchestrator.metrics.
+
+    ``store`` is typically ChatGenerateTool.sessions (dict conversation_id → meta).
+    Missing / empty store yields zeros so metrics always include a chat_kv block.
+    Keys ``live`` and ``ids`` match test_orchestrator_chat_kv_sessions_per_conversation.
+    """
+    if not store or not isinstance(store, dict):
+        return {
+            "sessions": 0,
+            "live": 0,
+            "ids": [],
+            "hits": 0,
+            "misses": 0,
+            "turns": 0,
+            "by_conversation": {},
+        }
+    hits = misses = turns = 0
+    by = {}
+    ids = []
+    for cid, meta in store.items():
+        if not isinstance(meta, dict):
+            meta = {}
+        h = int(meta.get("hits") or 0)
+        m = int(meta.get("misses") or 0)
+        t = int(meta.get("turns") or 0)
+        hits += h
+        misses += m
+        turns += t
+        cid_s = str(cid)
+        ids.append(cid_s)
+        by[cid_s] = {"hits": h, "misses": m, "turns": t}
+    return {
+        "sessions": len(store),
+        "live": len(store),
+        "ids": ids,
+        "hits": hits,
+        "misses": misses,
+        "turns": turns,
+        "by_conversation": by,
+    }
+
+
+def prefix_block_stats(blocks) -> dict:
+    """Summarize shared system-prompt prefix-KV blocks (LRU map)."""
+    if not blocks or not isinstance(blocks, dict):
+        return {"blocks": 0, "hits": 0, "misses": 0}
+    hits = misses = 0
+    for meta in blocks.values():
+        if isinstance(meta, dict):
+            hits += int(meta.get("hits") or 0)
+            misses += int(meta.get("misses") or 0)
+    return {"blocks": len(blocks), "hits": hits, "misses": misses}

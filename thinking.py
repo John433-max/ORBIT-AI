@@ -349,7 +349,7 @@ def _is_debug(text: str) -> bool:
 def _is_file_op(text: str) -> bool:
     return bool(
         re.search(
-            r"\b(list (the )?files|show files|\bls\b|\bdir\b|"
+            r"\b(list (my |the )?files|show files|\bls\b|\bdir\b|"
             r"(read|open)\s+[^\s]+\.\w+)\b",
             text or "",
             re.I,
