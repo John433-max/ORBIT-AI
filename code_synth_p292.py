@@ -34,7 +34,7 @@ def templates() -> list[Template]:
             "        vhat = v / (1.0 - beta2 ** t)\n"
             "        x = x - lr * mhat / (math.sqrt(vhat) + eps)\n"
             "    return round(x, 5), round(f(x), 5)\n",
-            lambda q: bool(re.search(r"\\badam\\b.{0,20}(optim|1d|1-d|minimize)|adam optimizer", q, re.I)),
+            lambda q: bool(re.search(r"adam.{0,20}(optim|1d|1-d|minimize)|adam optimizer", q, re.I)),
             examples=(
                 ((lambda x: (x - 2) ** 2, lambda x: 2 * (x - 2), 0.0), (2.07576, 0.00574)),
                 ((lambda x: (x - 2) ** 2, lambda x: 2 * (x - 2), 5.0, 0.1, 0.9, 0.999, 100), (2.01934, 0.00037)),
@@ -55,7 +55,7 @@ def templates() -> list[Template]:
             "        v = beta * v - lr * g\n"
             "        x = x + v\n"
             "    return round(x, 5), round(f(x), 5)\n",
-            lambda q: bool(re.search(r"nesterov|nagh?b|accelerated\\s+gradient", q, re.I)),
+            lambda q: bool(re.search(r"nesterov|nagh?b|accelerated.gradient", q, re.I)),
             examples=(
                 ((lambda x: (x - 2) ** 2, lambda x: 2 * (x - 2), 0.0), (2.00032, 0.0)),
                 ((lambda x: (x - 2) ** 2, lambda x: 2 * (x - 2), 5.0, 0.1, 0.9, 80), (2.0, 0.0)),
@@ -82,7 +82,7 @@ def templates() -> list[Template]:
             "            break\n"
             "    return round(x, 5), round(f(x), 5)\n",
             lambda q: bool(
-                re.search(r"conjugate\\s+gradient|fletcher[- ]reeves", q, re.I)
+                re.search(r"conjugate.gradient|fletcher[- ]reeves", q, re.I)
                 and re.search(r"1[- ]?d|one[- ]d|scalar", q, re.I)
             ),
             examples=(
@@ -156,7 +156,7 @@ def templates() -> list[Template]:
             "                pop_x[i], pop_f[i] = trial, ft\n"
             "    best_i = min(range(pop), key=lambda i: pop_f[i])\n"
             "    return round(pop_x[best_i], 5), round(pop_f[best_i], 5)\n",
-            lambda q: bool(re.search(r"differential\\s+evolution|\\bde\\b.{0,12}optim", q, re.I)),
+            lambda q: ("differential evolution" in (q or "").lower()) or ("de" in (q or "").lower() and "optim" in (q or "").lower()),
             examples=(
                 ((lambda x: (x - 2) ** 2, (-5, 5), 10, 30, 1), (2.0, 0.0)),
                 ((lambda x: (x - 2) ** 2, (0, 10), 8, 40, 42), (2.0, 0.0)),
