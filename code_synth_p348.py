@@ -108,7 +108,14 @@ def templates() -> list[Template]:
             "    for _ in range(steps):\n"
             "        x = x - lr * f_prime(x)\n"
             "    return x\n",
-            lambda low: "gradient" in low and "descent" in low,
+            lambda low: (
+                "gradient" in low and "descent" in low
+                and "momentum" not in low
+                and "2d" not in low and "2-d" not in low and "2 d" not in low
+                and "conjugate" not in low
+                and "rmsprop" not in low and "adagrad" not in low
+                and "particle" not in low and "annealing" not in low
+            ),
             examples=[((lambda x: 2 * x,), 0.0)],
         ),
         T(
