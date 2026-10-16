@@ -1,8 +1,4 @@
-"""Cycle 594: cocktail sort, cycle sort, LZW, move-to-front, 2-opt TSP, binary GA.
-
-Educational pure-Python classics that previously returned None on match_template.
-Matchers kept narrow so they do not steal existing sort / TSP / search templates.
-"""
+"""Cycle 594: cocktail sort for CI unit tests."""
 from __future__ import annotations
 
 import re
@@ -38,7 +34,7 @@ def templates() -> list[Template]:
             "                swapped = True\n"
             "        start += 1\n"
             "    return a\n",
-            lambda q: bool(re.search(r"cocktail\\s+sort|shaker\\s+sort", q, re.I)),
+            lambda q: bool(re.search(r"cocktail\s+sort|shaker\s+sort", q, re.I)),
             examples=(([3, 1, 2],), [1, 2, 3]),
         ),
     ]
