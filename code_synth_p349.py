@@ -69,9 +69,33 @@ def simpson_rule(f, a, b, n=50):
             lambda low: bool(
                 re.search(r"\bsimpson\b", low)
                 and re.search(r"\bintegrat(?:e|ion)?\b", low)
+                and "rule" not in low
             ),
             (
                 ((lambda x: x * x, 0.0, 1.0), 1.0 / 3.0),
             ),
+        ),
+        T(
+            "secant_root",
+            "def secant_root(f, x0, x1, tol=1e-8, max_iter=50):\n"
+            '    """Secant method root finder (educational)."""\n'
+            "    a, b = float(x0), float(x1)\n"
+            "    fa, fb = f(a), f(b)\n"
+            "    for _ in range(max_iter):\n"
+            "        if abs(fb - fa) < 1e-18:\n"
+            "            return b\n"
+            "        x = b - fb * (b - a) / (fb - fa)\n"
+            "        if abs(x - b) < tol:\n"
+            "            return x\n"
+            "        a, fa = b, fb\n"
+            "        b, fb = x, f(x)\n"
+            "    return b\n",
+            lambda low: bool(
+                re.search(r"\bsecant\b", low)
+                and "root" in low
+                and "finder" not in low
+                and "newton" not in low
+            ),
+            examples=[((lambda x: x - 2, 0.0, 3.0), 2.0)],
         ),
     ]

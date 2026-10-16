@@ -39,7 +39,8 @@ def templates() -> list[Template]:
                     low,
                 )
             )
-            and "newton" not in low,
+            and "newton" not in low
+            and not ("root" in low and "finder" not in low),
             [
                 ((lambda x: x - 2, 0.0, 3.0), 2.0),
             ],
@@ -152,8 +153,7 @@ def templates() -> list[Template]:
             )
             and "romberg" not in low
             and "integrate_1d" not in low
-            and "1d" not in low
-            and "integration" not in low,
+            and "1d" not in low,
             [
                 ((lambda x: x * x, 0.0, 1.0, 2), 1.0 / 3.0),
             ],
