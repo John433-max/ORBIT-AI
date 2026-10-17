@@ -15,6 +15,8 @@ class Template:
 def _low(request: str) -> str:
     return (request or "").lower()
 
+_TWO = r"(two|2|a pair of)"
+
 def _widen_loaded(tmpl: Template) -> Template:
     return tmpl
 
@@ -60,6 +62,8 @@ def get_templates() -> list[Template]:
     if _CACHE is None:
         _CACHE = _templates()
     return _CACHE
+
+TEMPLATES = get_templates()  # compat alias for tests
 
 _SHORT_FOR_WRITE = {
     "longest_increasing_subsequence": "lis",
