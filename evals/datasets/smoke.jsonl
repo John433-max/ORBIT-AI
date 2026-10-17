@@ -2064,3 +2064,21 @@
 {"id": "code_2063", "category": "coding", "input": "implement skip list", "expect_contains": ["def skip_list", "Verified"]}
 {"id": "code_2064", "category": "coding", "input": "weighted random sampling", "expect_contains": ["def weighted_choice", "Verified"]}
 {"id": "code_2065", "category": "coding", "input": "write bloom filter", "expect_contains": ["def bloom_filter", "Verified"]}
+{"id": "code_2066", "category": "coding", "input": "sum of two integers", "expect_contains": ["def sum_of_two_integers", "Verified"]}
+{"id": "code_2067", "category": "coding", "input": "encode and decode strings", "expect_contains": ["def encode_decode_strings", "Verified"]}
+{"id": "code_2068", "category": "coding", "input": "can attend meetings", "expect_contains": ["def meeting_rooms", "Verified"]}
+{"id": "code_2069", "category": "coding", "input": "pascals triangle", "expect_contains": ["def pascals_triangle", "Verified"]}
+{"id": "code_2070", "category": "coding", "input": "simplify path", "expect_contains": ["def simplify_path", "Verified"]}
+{"id": "code_2071", "category": "coding", "input": "remove invalid parentheses", "expect_contains": ["def remove_invalid_parentheses", "Verified"]}
+{"id": "code_2072", "category": "coding", "input": "design circular deque", "expect_contains": ["def design_circular_deque", "Verified"]}
+{"id": "code_2073", "category": "coding", "input": "different ways to add parentheses", "expect_contains": ["def different_ways_add_parentheses", "Verified"]}
+{"id": "code_2074", "category": "coding", "input": "design hit counter", "expect_contains": ["def design_hit_counter", "Verified"]}
+{"id": "code_2075", "category": "coding", "input": "exam room", "expect_contains": ["def exam_room", "Verified"]}
+{"id": "code_2076", "category": "coding", "input": "range module", "expect_contains": ["def range_module", "Verified"]}
+{"id": "code_2077", "category": "coding", "input": "nested list weight sum", "expect_contains": ["def nested_list_weight_sum", "Verified"]}
+{"id": "code_2078", "category": "coding", "input": "nested list weight sum ii", "expect_contains": ["def nested_list_weight_sum_ii", "Verified"]}
+{"id": "code_2079", "category": "coding", "input": "design in-memory file system", "expect_contains": ["def design_in_memory_file_system", "Verified"]}
+{"id": "code_2080", "category": "coding", "input": "magic dictionary", "expect_contains": ["def magic_dictionary", "Verified"]}
+{"id": "code_2081", "category": "coding", "input": "add and search word data structure", "expect_contains": ["def add_and_search_words", "Verified"]}
+{"id": "code_2082", "category": "coding", "input": "maximum frequency stack", "expect_contains": ["def max_frequency_stack", "Verified"]}
+{"id": "code_2083", "category": "coding", "input": "design a stack with increment", "expect_contains": ["def design_stack_with_increment", "Verified"]}

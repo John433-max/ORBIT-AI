@@ -6985,3 +6985,81 @@ def test_p402_skip_list_weighted_bloom():
     assert match_template("implement a bloom filter class").name == "bloom_filter_class"
     assert match_template("cuckoo filter").name == "cuckoo_filter"
     assert match_template("reservoir sampling").name == "reservoir_sampling"
+
+
+def test_p404_sum_encode_meeting_pascal_path_parens():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "sum of two integers": "sum_of_two_integers",
+        "leetcode 371": "sum_of_two_integers",
+        "encode and decode strings": "encode_decode_strings",
+        "can attend meetings": "meeting_rooms",
+        "meeting rooms": "meeting_rooms",
+        "pascals triangle": "pascals_triangle",
+        "simplify path": "simplify_path",
+        "remove invalid parentheses": "remove_invalid_parentheses",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+    # Neighbors preserved
+    assert match_template("meeting rooms ii").name == "meeting_rooms_ii"
+    assert match_template("pascal triangle").name == "pascal_triangle"
+    assert match_template("is ugly").name == "is_ugly"
+
+
+def test_p405_deque_parens_hit_exam_range_nested():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "design circular deque": "design_circular_deque",
+        "different ways to add parentheses": "different_ways_add_parentheses",
+        "design hit counter": "design_hit_counter",
+        "exam room": "exam_room",
+        "range module": "range_module",
+        "nested list weight sum": "nested_list_weight_sum",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+    # Neighbors
+    assert match_template("design circular queue").name in (
+        "circular_queue",
+        "design_circular_queue",
+        "my_circular_queue",
+    )
+    assert match_template("sum list").name != "nested_list_weight_sum"
+
+
+def test_p406_nested_ii_fs_magic_search_freq_inc():
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "nested list weight sum ii": "nested_list_weight_sum_ii",
+        "design in-memory file system": "design_in_memory_file_system",
+        "magic dictionary": "magic_dictionary",
+        "add and search word data structure": "add_and_search_words",
+        "maximum frequency stack": "max_frequency_stack",
+        "design a stack with increment": "design_stack_with_increment",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None, f"no match for {ask!r}"
+        assert hit.name == name, f"{ask!r} -> {hit.name} expected {name}"
+        bundle = synthesize_and_verify(ask)
+        assert bundle.get("verified"), f"{ask!r} not verified: {bundle}"
+    # Neighbors preserved
+    assert match_template("nested list weight sum").name == "nested_list_weight_sum"
+    assert match_template("sum list").name != "nested_list_weight_sum_ii"
+    assert match_template("design circular queue").name in (
+        "circular_queue",
+        "design_circular_queue",
+        "my_circular_queue",
+    )
