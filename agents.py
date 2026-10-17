@@ -67,48 +67,51 @@ def _is_destructive_fs(text: str) -> bool:
 def _synthesize_python(request: str) -> str:
     try:
         from code_synth import synthesize_python
-
-        return synthesize_python(request)
+        got = synthesize_python(request)
+        if isinstance(got, str) and got.strip():
+            return got
     except Exception:
-        low = (request or "").lower()
-        if re.search(r"add(s|ing)?\b.{0,20}\b(two|2)\b.{0,20}\b(number|int|value)", low) or "adds two" in low:
-            return (
-                "def add(a, b):\n"
-                '    """Return the sum of a and b."""\n'
-                "    return a + b\n"
-            )
-        if re.search(r"\b(multiply|product of)\b.{0,20}\b(two|2)\b", low):
-            return (
-                "def multiply(a, b):\n"
-                '    """Return the product of a and b."""\n'
-                "    return a * b\n"
-            )
-        if "binary search" in low and "tree" not in low:
-            return (
-                "def binary_search(arr, target):\n"
-                '    """Return index of target in sorted arr, or -1."""\n'
-                "    lo, hi = 0, len(arr) - 1\n"
-                "    while lo <= hi:\n"
-                "        mid = (lo + hi) // 2\n"
-                "        if arr[mid] == target:\n"
-                "            return mid\n"
-                "        if arr[mid] < target:\n"
-                "            lo = mid + 1\n"
-                "        else:\n"
-                "            hi = mid - 1\n"
-                "    return -1\n"
-            )
-        if "recover binary search tree" in low or "recover_bst" in low:
-            return (
-                "def recover_bst(root):\n"
-                '    """Recover a BST where two nodes were swapped."""\n'
-                "    return root\n"
-            )
+        pass
+    low = (request or "").lower()
+    if re.search(r"add(s|ing)?\b.{0,20}\b(two|2)\b.{0,20}\b(number|int|value)", low) or "adds two" in low:
         return (
-            "def solution():\n"
-            '    """Generated stub — install code_synth for full templates."""\n'
-            "    pass\n"
+            "def add(a, b):\n"
+            '    """Return the sum of a and b."""\n'
+            "    return a + b\n"
         )
+    if re.search(r"\b(multiply|product of)\b.{0,20}\b(two|2)\b", low):
+        return (
+            "def multiply(a, b):\n"
+            '    """Return the product of a and b."""\n'
+            "    return a * b\n"
+        )
+    if "binary search" in low and "tree" not in low:
+        return (
+            "def binary_search(arr, target):\n"
+            '    """Return index of target in sorted arr, or -1."""\n'
+            "    lo, hi = 0, len(arr) - 1\n"
+            "    while lo <= hi:\n"
+            "        mid = (lo + hi) // 2\n"
+            "        if arr[mid] == target:\n"
+            "            return mid\n"
+            "        if arr[mid] < target:\n"
+            "            lo = mid + 1\n"
+            "        else:\n"
+            "            hi = mid - 1\n"
+            "    return -1\n"
+        )
+    if "recover binary search tree" in low or "recover_bst" in low:
+        return (
+            "def recover_bst(root):\n"
+            '    """Recover a BST where two nodes were swapped."""\n'
+            "    return root\n"
+        )
+    return (
+        "def solution():\n"
+        '    """Generated stub — install code_synth for full templates."""\n'
+        "    pass\n"
+    )
+
 
 
 class CodeAgent:
