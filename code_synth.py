@@ -76,10 +76,10 @@ _SHORT_FOR_WRITE = {
     "maximum_subarray": "max_subarray",
     "product_of_array_except_self": "product_except_self",
     "spiral_matrix": "spiral_order",
-    "trie_class": "implement_trie",
-    "implement_trie": "implement_trie",
     "evaluate_division": "calcEquation",
-    "maximum_performance_of_a_team": "maxPerformance",
+    "maximum_performance_of_a_team": "max_team_performance",
+    "roman_to_integer": "roman_to_int",
+    "trapping_rain_water": "trap_rain_water",
 }
 
 def _name_tokens(name: str) -> list[str]:
@@ -103,40 +103,60 @@ def iter_matching(request: str) -> list[Template]:
             continue
     return hits
 
-_MATCH_CACHE_MAX = 2048
 _MATCH_CACHE: OrderedDict[str, Template | None] = OrderedDict()
+_MATCH_CACHE_MAX = 2048
 
 def match_template(request: str) -> Template | None:
-    key = (request or "").strip().lower()
+    key = _low(request)
     if key in _MATCH_CACHE:
         _MATCH_CACHE.move_to_end(key)
         return _MATCH_CACHE[key]
     hits = iter_matching(request)
-    winner = hits[0] if hits else None
-    if winner and len(hits) > 1:
-        wtok = set(_name_tokens(winner.name))
-        for h in hits[1:]:
-            htok = set(_name_tokens(h.name))
-            if wtok < htok and all(t in _low(request) for t in (htok - wtok)):
-                winner = h
-                wtok = htok
-    _MATCH_CACHE[key] = winner
+    if not hits:
+        hit = None
+    else:
+        low = key
+        best = hits[0]
+        best_tok = set(_name_tokens(best.name))
+        best_score = score_template(request, best)
+        for tmpl in hits[1:]:
+            tok = set(_name_tokens(tmpl.name))
+            extra = tok - best_tok
+            score = score_template(request, tmpl)
+            if extra and best_tok <= tok and all(t in low for t in extra):
+                best, best_tok, best_score = tmpl, tok, score
+                continue
+            if score > best_score and score >= 2:
+                best, best_tok, best_score = tmpl, tok, score
+        if ("function" in low or "leetcode" in low or "write a" in low) and best is not None:
+            short_name = _SHORT_FOR_WRITE.get(best.name)
+            if short_name:
+                for tmpl in hits:
+                    if tmpl.name == short_name:
+                        best = tmpl
+                        break
+        hit = best
+    _MATCH_CACHE[key] = hit
+    _MATCH_CACHE.move_to_end(key)
     while len(_MATCH_CACHE) > _MATCH_CACHE_MAX:
         _MATCH_CACHE.popitem(last=False)
-    return winner
-
-def _rewrite_def_name(source: str, new_name: str) -> str:
-    return re.sub(r"^def\s+\w+", f"def {new_name}", source, count=1, flags=re.M)
+    return hit
 
 def fallback_source(request: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", _low(request))[:40].strip("_") or "solve"
     return (
         f"def {slug}(*args, **kwargs):\n"
         f'    """Draft from: {(request or "").strip()[:120]}"""\n'
-        "    raise NotImplementedError(\"Paste a fenced snippet to run it, or specify the function body.\")\n"
+        "    raise NotImplementedError('Paste a fenced snippet to run it, or specify the function body.')\n"
     )
 
-def synthesize_python(request: str) -> str:
+def _rewrite_def_name(source: str, short: str) -> str:
+    m = re.match(r"(def\s+)([A-Za-z_]\w*)", source or "")
+    if not m or not short:
+        return source
+    return source[: m.start(2)] + short + source[m.end(2) :]
+
+def synthesize_python(request: str) -> str | None:
     tmpl = match_template(request)
     if tmpl is None:
         return fallback_source(request)
@@ -151,33 +171,55 @@ def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[
     """Execute template source against examples; return ok/error dict."""
     ns: dict[str, Any] = {}
     try:
-        exec(source, ns, ns)
+        exec(source or "", ns, ns)
     except Exception as e:
-        return {"ok": False, "error": f"exec: {e}", "name": None}
+        return {"ok": False, "error": str(e), "name": None, "checked": 0}
     fn = None
-    name = None
-    for k, v in ns.items():
-        if callable(v) and not k.startswith("_"):
-            fn = v
-            name = k
-            break
+    for v in ns.values():
+        if callable(v) and getattr(v, "__name__", "").startswith(("_",)) is False:
+            # prefer top-level def matching common pattern
+            if getattr(v, "__code__", None) is not None:
+                fn = v
+                break
     if fn is None:
-        return {"ok": False, "error": "no callable", "name": None}
-    if not examples:
-        return {"ok": True, "name": name, "error": None}
-    try:
+        for k, v in ns.items():
+            if callable(v) and not k.startswith("_"):
+                fn = v
+                break
+    if fn is None:
+        return {"ok": False, "error": "no callable", "name": None, "checked": 0}
+    checked = 0
+    if examples:
         for args, expected in examples:
-            got = fn(*args) if isinstance(args, tuple) else fn(args)
+            try:
+                if isinstance(args, tuple):
+                    got = fn(*args)
+                else:
+                    got = fn(args)
+            except Exception as e:
+                return {"ok": False, "error": str(e), "name": getattr(fn, "__name__", None), "checked": checked}
             if got != expected:
-                return {"ok": False, "error": f"example fail: {got!r} != {expected!r}", "name": name}
-    except Exception as e:
-        return {"ok": False, "error": f"run: {e}", "name": name}
-    return {"ok": True, "name": name, "error": None}
+                return {
+                    "ok": False,
+                    "error": f"expected {expected!r} got {got!r}",
+                    "name": getattr(fn, "__name__", None),
+                    "checked": checked,
+                }
+            checked += 1
+    return {"ok": True, "error": None, "name": getattr(fn, "__name__", None), "checked": checked}
 
 def synthesize_and_verify(request: str) -> dict[str, Any]:
     tmpl = match_template(request)
     if tmpl is None:
-        return {"ok": False, "source": None, "error": "no template", "name": None}
+        return {
+            "ok": False,
+            "source": fallback_source(request),
+            "error": "no template",
+            "name": None,
+            "verified": False,
+            "fallback": True,
+            "checked": 0,
+        }
     src = synthesize_python(request)
     check = verify_source(src or "", tmpl.examples)
     return {
@@ -186,8 +228,9 @@ def synthesize_and_verify(request: str) -> dict[str, Any]:
         "name": check.get("name") or getattr(tmpl, "name", None),
         "error": check.get("error"),
         "verified": bool(check.get("ok")),
+        "fallback": False,
+        "checked": int(check.get("checked") or 0),
     }
-
 
 def __getattr__(name: str):
     if name == "TEMPLATES":
