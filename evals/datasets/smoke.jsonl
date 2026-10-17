@@ -1919,43 +1919,42 @@
 {"id": "code_gd_1d", "category": "coding", "input": "1d gradient descent minimize function", "expect_contains": ["def gradient_descent_1d", "return"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_smith_waterman", "category": "coding", "input": "smith waterman local alignment score", "expect_contains": ["def smith_waterman", "return"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_needleman", "category": "coding", "input": "needleman wunsch global alignment", "expect_contains": ["def needleman_wunsch", "return"], "expect_not_contains": ["toy-scale"]}
-
-{"id": "code_1922", "kind": "coding", "prompt": "implement bisection method root finding", "expect_contains": "bisection_root"}
-{"id": "code_1923", "kind": "coding", "prompt": "secant method root", "expect_contains": "secant_root"}
-{"id": "code_1924", "kind": "coding", "prompt": "golden section search minimize", "expect_contains": "golden_section_search"}
-{"id": "code_1925", "kind": "coding", "prompt": "geohash encode latitude longitude", "expect_contains": "geohash_encode"}
-{"id": "code_1926", "kind": "coding", "prompt": "geohash decode string", "expect_contains": "geohash_decode"}
-{"id": "code_1927", "kind": "coding", "prompt": "dbscan density based clustering", "expect_contains": "dbscan_demo"}
-{"id": "code_1928", "kind": "coding", "prompt": "simulated annealing to minimize a function", "expect_contains": "simulated_annealing_1d"}
-{"id": "code_1929", "kind": "coding", "prompt": "particle swarm optimization", "expect_contains": "particle_swarm_1d"}
-{"id": "code_1930", "kind": "coding", "prompt": "hill climbing search", "expect_contains": "hill_climbing_1d"}
-{"id": "code_1931", "kind": "coding", "prompt": "rmsprop optimizer", "expect_contains": "rmsprop_1d"}
-{"id": "code_1932", "kind": "coding", "prompt": "adagrad adaptive gradient", "expect_contains": "adagrad_1d"}
-{"id": "code_1933", "kind": "coding", "prompt": "momentum gradient descent", "expect_contains": "momentum_gd_1d"}
-{"id": "code_1934", "kind": "coding", "prompt": "adam optimizer 1d minimize", "expect_contains": "adam_1d"}
-{"id": "code_1935", "kind": "coding", "prompt": "nesterov accelerated gradient", "expect_contains": "nesterov_1d"}
-{"id": "code_1936", "kind": "coding", "prompt": "conjugate gradient fletcher reeves", "expect_contains": "conjugate_gradient_1d"}
-{"id": "code_1937", "kind": "coding", "prompt": "monte carlo integration 1d", "expect_contains": "monte_carlo_integrate_1d"}
-{"id": "code_1938", "kind": "coding", "prompt": "simpson rule integration", "expect_contains": "simpson_integrate_1d"}
-{"id": "code_1939", "kind": "coding", "prompt": "differential evolution optimizer", "expect_contains": "differential_evolution_1d"}
-{"id": "code_1940", "kind": "coding", "prompt": "cocktail sort shaker sort", "expect_contains": "cocktail_sort"}
-{"id": "code_1941", "kind": "coding", "prompt": "cycle sort minimize writes", "expect_contains": "cycle_sort"}
-{"id": "code_1942", "kind": "coding", "prompt": "lzw compress string", "expect_contains": "lzw_compress"}
-{"id": "code_1943", "kind": "coding", "prompt": "move to front transform", "expect_contains": "move_to_front"}
-{"id": "code_1944", "kind": "coding", "prompt": "2-opt tsp local search", "expect_contains": "two_opt_tsp"}
-{"id": "code_1945", "kind": "coding", "prompt": "genetic algorithm binary ones", "expect_contains": "genetic_algorithm_ones"}
-{"id": "code_1946", "kind": "coding", "prompt": "stooge sort recursive", "expect_contains": "stooge_sort"}
-{"id": "code_1947", "kind": "coding", "prompt": "bitonic sort power of two", "expect_contains": "bitonic_sort"}
-{"id": "code_1948", "kind": "coding", "prompt": "bidirectional bfs shortest path", "expect_contains": "bidirectional_bfs"}
-{"id": "code_1949", "kind": "coding", "prompt": "christofides tsp approximation", "expect_contains": "christofides_tsp"}
-{"id": "code_1950", "kind": "coding", "prompt": "gradient descent minimize quadratic", "expect_contains": "gradient_descent_1d"}
-{"id": "code_1951", "kind": "coding", "prompt": "lu decomposition factorization", "expect_contains": "lu_decomposition"}
-{"id": "code_1952", "kind": "coding", "prompt": "comb sort with shrink factor", "expect_contains": "comb_sort"}
-{"id": "code_1953", "kind": "coding", "prompt": "gnome sort garden gnome", "expect_contains": "gnome_sort"}
-{"id": "code_1954", "kind": "coding", "prompt": "odd-even brick sort", "expect_contains": "odd_even_sort"}
-{"id": "code_1955", "kind": "coding", "prompt": "gale shapley stable marriage", "expect_contains": "gale_shapley"}
-{"id": "code_1956", "kind": "coding", "prompt": "bead sort gravity abacus", "expect_contains": "bead_sort"}
-{"id": "code_1957", "kind": "coding", "prompt": "pigeonhole sort integers", "expect_contains": "pigeonhole_sort"}
+{"id": "code_1922", "expect_contains": ["bisection_root"], "input": "implement bisection method root finding", "category": "coding"}
+{"id": "code_1923", "expect_contains": ["secant_root"], "input": "secant method root", "category": "coding"}
+{"id": "code_1924", "expect_contains": ["golden_section_search"], "input": "golden section search minimize", "category": "coding"}
+{"id": "code_1925", "expect_contains": ["geohash_encode"], "input": "geohash encode latitude longitude", "category": "coding"}
+{"id": "code_1926", "expect_contains": ["geohash_decode"], "input": "geohash decode string", "category": "coding"}
+{"id": "code_1927", "expect_contains": ["dbscan_demo"], "input": "dbscan density based clustering", "category": "coding"}
+{"id": "code_1928", "expect_contains": ["simulated_annealing_1d"], "input": "simulated annealing to minimize a function", "category": "coding"}
+{"id": "code_1929", "expect_contains": ["particle_swarm_1d"], "input": "particle swarm optimization", "category": "coding"}
+{"id": "code_1930", "expect_contains": ["hill_climbing_1d"], "input": "hill climbing search", "category": "coding"}
+{"id": "code_1931", "expect_contains": ["rmsprop_1d"], "input": "rmsprop optimizer", "category": "coding"}
+{"id": "code_1932", "expect_contains": ["adagrad_1d"], "input": "adagrad adaptive gradient", "category": "coding"}
+{"id": "code_1933", "expect_contains": ["momentum_gd_1d"], "input": "momentum gradient descent", "category": "coding"}
+{"id": "code_1934", "expect_contains": ["adam_1d"], "input": "adam optimizer 1d minimize", "category": "coding"}
+{"id": "code_1935", "expect_contains": ["nesterov_1d"], "input": "nesterov accelerated gradient", "category": "coding"}
+{"id": "code_1936", "expect_contains": ["conjugate_gradient"], "input": "conjugate gradient fletcher reeves", "category": "coding"}
+{"id": "code_1937", "expect_contains": ["monte_carlo_integrate_1d"], "input": "monte carlo integration 1d", "category": "coding"}
+{"id": "code_1938", "expect_contains": ["simpson_rule"], "input": "simpson rule integration", "category": "coding"}
+{"id": "code_1939", "expect_contains": ["differential_evolution_1d"], "input": "differential evolution optimizer", "category": "coding"}
+{"id": "code_1940", "expect_contains": ["cocktail_sort"], "input": "cocktail sort shaker sort", "category": "coding"}
+{"id": "code_1941", "expect_contains": ["cycle_sort"], "input": "cycle sort minimize writes", "category": "coding"}
+{"id": "code_1942", "expect_contains": ["lzw_compress"], "input": "lzw compress string", "category": "coding"}
+{"id": "code_1943", "expect_contains": ["move_to_front"], "input": "move to front transform", "category": "coding"}
+{"id": "code_1944", "expect_contains": ["two_opt_tsp"], "input": "2-opt tsp local search", "category": "coding"}
+{"id": "code_1945", "expect_contains": ["genetic_algorithm_ones"], "input": "genetic algorithm binary ones", "category": "coding"}
+{"id": "code_1946", "expect_contains": ["stooge_sort"], "input": "stooge sort recursive", "category": "coding"}
+{"id": "code_1947", "expect_contains": ["bitonic_sort"], "input": "bitonic sort power of two", "category": "coding"}
+{"id": "code_1948", "expect_contains": ["bidirectional_bfs"], "input": "bidirectional bfs shortest path", "category": "coding"}
+{"id": "code_1949", "expect_contains": ["christofides_tsp"], "input": "christofides tsp approximation", "category": "coding"}
+{"id": "code_1950", "expect_contains": ["gradient_descent_1d"], "input": "gradient descent minimize quadratic", "category": "coding"}
+{"id": "code_1951", "expect_contains": ["lu_decomposition"], "input": "lu decomposition factorization", "category": "coding"}
+{"id": "code_1952", "expect_contains": ["comb_sort"], "input": "comb sort with shrink factor", "category": "coding"}
+{"id": "code_1953", "expect_contains": ["gnome_sort"], "input": "gnome sort garden gnome", "category": "coding"}
+{"id": "code_1954", "expect_contains": ["odd_even_sort"], "input": "odd-even brick sort", "category": "coding"}
+{"id": "code_1955", "expect_contains": ["gale_shapley"], "input": "gale shapley stable marriage", "category": "coding"}
+{"id": "code_1956", "expect_contains": ["bead_sort"], "input": "bead sort gravity abacus", "category": "coding"}
+{"id": "code_1957", "expect_contains": ["pigeonhole_sort"], "input": "pigeonhole sort integers", "category": "coding"}
 {"id": "code_1958", "category": "coding", "input": "library sort gapped insertion", "expect_contains": ["library_sort", "Verified"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_1959", "category": "coding", "input": "bogo sort seeded demo", "expect_contains": ["bogo_sort", "Verified"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_1960", "category": "coding", "input": "spaghetti sort analog", "expect_contains": ["spaghetti_sort", "Verified"], "expect_not_contains": ["toy-scale"]}

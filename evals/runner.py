@@ -45,12 +45,16 @@ def _normalize_row(row: dict) -> dict:
     """Accept both legacy 'input' and pack-style 'prompt' / 'kind' keys.
 
     Some smoke rows (code packs) were appended with prompt+kind instead of
-    input+category. Without this, run_eval raises KeyError and the suite
-    never finishes.
+    input+category, and with expect_contains as a bare string. Without this,
+    run_eval raises KeyError, or score_row iterates characters of the string
+    and can pass for the wrong reason.
     """
     needs_copy = (
         ("input" not in row and row.get("prompt"))
         or ("category" not in row and row.get("kind"))
+        or isinstance(row.get("expect_contains"), str)
+        or isinstance(row.get("expect_any"), str)
+        or isinstance(row.get("expect_not_contains"), str)
     )
     if not needs_copy:
         return row
@@ -59,6 +63,10 @@ def _normalize_row(row: dict) -> dict:
         row["input"] = row["prompt"]
     if "category" not in row and row.get("kind"):
         row["category"] = row["kind"]
+    for key in ("expect_contains", "expect_any", "expect_not_contains"):
+        val = row.get(key)
+        if isinstance(val, str):
+            row[key] = [val]
     return row
 
 
