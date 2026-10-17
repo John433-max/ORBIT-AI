@@ -51,7 +51,7 @@ def templates() -> list[Template]:
             lambda low: (
                 "excel sheet column number" in low
                 or "column title to number" in low
-                # Exact LC 171; avoid substring collision with LC 1716 (leetcode bank)
+                # Exact LC 171; avoid 1716 (leetcode bank / total_money)
                 or ("leetcode 171" in low and "leetcode 1716" not in low)
             ),
             examples=[(("A",), 1), (("AB",), 28), (("ZY",), 701)],
@@ -84,10 +84,11 @@ def templates() -> list[Template]:
     return n == 1
 ''',
             lambda low: (
-                ("ugly" in low and "number" in low)
+                "is ugly" in low
                 or "leetcode 263" in low
+                or ("ugly number" in low and "nth" not in low and "n-th" not in low)
             ),
-            examples=[((6,), True), ((14,), False), ((1,), True)],
+            examples=[((6,), True), ((1,), True), ((14,), False)],
         ),
         T(
             "valid_perfect_square",
@@ -131,8 +132,8 @@ def templates() -> list[Template]:
 ''',
             lambda low: (
                 "search insert position" in low
-                # Exact LC 35; avoid 350/354/357… substring hits
-                or ("leetcode 35" in low and not any(f"leetcode 35{d}" in low for d in "0123456789"))
+                # Exact LC 35 only (word boundary — not 354/357/3576/…)
+                or bool(__import__("re").search(r"\\bleetcode\\s*35\\b", low))
             ),
             examples=[
                 (([1, 3, 5, 6], 5), 2),
