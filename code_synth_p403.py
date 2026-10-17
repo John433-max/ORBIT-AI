@@ -5,6 +5,8 @@ search_insert_position, multiply_strings — educational pure-Python.
 """
 from __future__ import annotations
 
+import re
+
 from code_synth import Template
 
 T = Template
@@ -133,7 +135,7 @@ def templates() -> list[Template]:
             lambda low: (
                 "search insert position" in low
                 # Exact LC 35 only (word boundary — not 354/357/3576/…)
-                or bool(__import__("re").search(r"\\bleetcode\\s*35\\b", low))
+                or bool(re.search(r"\bleetcode\s*35\b", low))
             ),
             examples=[
                 (([1, 3, 5, 6], 5), 2),
