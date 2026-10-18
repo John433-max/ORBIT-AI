@@ -77,7 +77,7 @@ _SHORT_FOR_WRITE = {
     "product_of_array_except_self": "product_except_self",
     "spiral_matrix": "spiral_order",
     "evaluate_division": "calcEquation",
-    "maximum_performance_of_a_team": "maxPerformance",  # code_1110 / LC 1383 camelCase
+    "maximum_performance_of_a_team": "max_team_performance",  # selects p146 template whose source is def maxPerformance (LC 1383 / code_1110)
     "roman_to_integer": "roman_to_int",
     "trapping_rain_water": "trap_rain_water",
 }
@@ -191,7 +191,7 @@ def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[
     if examples:
         for args, expected in examples:
             try:
-                if isinstance(args, tuple):
+                if isinstance(args, (tuple, list)):
                     got = fn(*args)
                 else:
                     got = fn(args)
