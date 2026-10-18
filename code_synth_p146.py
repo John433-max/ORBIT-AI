@@ -23,7 +23,13 @@ def _ipo(low: str) -> bool:
 
 
 def _performance(low: str) -> bool:
-    return "performance of a team" in low or "maximum performance" in low and "team" in low
+    # camelCase maxPerformance (LC 1383 / smoke code_1110) and phrase forms
+    compact = low.replace(" ", "").replace("_", "")
+    return (
+        "performance of a team" in low
+        or ("maximum performance" in low and "team" in low)
+        or "maxperformance" in compact
+    )
 
 
 def _furthest(low: str) -> bool:
