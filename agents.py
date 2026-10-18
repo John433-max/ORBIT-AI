@@ -32,6 +32,12 @@ def _wants_code_written(request: str) -> bool:
         return False
     raw = request or ""
     low = raw.lower()
+    # Pure computational asks (no write verb) stay on calculator, not code templates.
+    if re.search(
+        r"\bfactorial of\s+\d+\b|\bwhat is\s+\d+\s*!\b|\bcompute\s+factorial\b",
+        low,
+    ) and not re.search(r"\b(write|implement|create|define|make|code)\b", low):
+        return False
     if re.search(
         r"\b(write|implement|create|define|make|code)\b.{0,80}\b("
         r"function|def |class |script|program|module|code|factorial)\b|"
@@ -150,7 +156,7 @@ def _is_computational_math(request: str) -> bool:
 
 
 class CodeAgent:
-    name = "code"
+    name = "coding_agent"
 
     def run(self, request: str, context=None):
         if _is_destructive_fs(request):
@@ -168,7 +174,7 @@ class CodeAgent:
 
 
 class ResearchAgent:
-    name = "research"
+    name = "research_agent"
 
     def run(self, request: str, context=None):
         try:
@@ -206,6 +212,14 @@ class CalculatorAgent:
                 return AgentResult(self.name, True, str(out), raw={"math": True})
         except Exception:
             pass
+        # Safe arithmetic fallback for bare expressions like "12*3" when science_math is absent.
+        expr = (request or "").strip()
+        if re.fullmatch(r"[0-9\.\+\-\*/\(\)\s]+", expr) and any(op in expr for op in "+-*/"):
+            try:
+                val = eval(expr, {"__builtins__": {}}, {})  # noqa: S307 — digits/ops only
+                return AgentResult(self.name, True, str(val), raw={"math": True, "fallback": "eval"})
+            except Exception:
+                pass
         return AgentResult(self.name, False, "Could not evaluate.", raw={})
 
 
