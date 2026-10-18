@@ -27,6 +27,10 @@ def templates() -> list[Template]:
                 and "magic" not in low
                 and "perfect" not in low
                 and "difference" not in low
+                and "distinct" not in low
+                and "subarray" not in low
+                and "sorted" not in low
+                and "977" not in low
             ),
             (
                 (([1, 2, 3],), 14),
