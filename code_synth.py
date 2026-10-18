@@ -77,7 +77,7 @@ _SHORT_FOR_WRITE = {
     "product_of_array_except_self": "product_except_self",
     "spiral_matrix": "spiral_order",
     "evaluate_division": "calcEquation",
-    "maximum_performance_of_a_team": "max_team_performance",
+    "maximum_performance_of_a_team": "maxPerformance",  # code_1110 / LC 1383 camelCase
     "roman_to_integer": "roman_to_int",
     "trapping_rain_water": "trap_rain_water",
 }
@@ -177,7 +177,6 @@ def verify_source(source: str, examples: Sequence[tuple] | None = None) -> dict[
     fn = None
     for v in ns.values():
         if callable(v) and getattr(v, "__name__", "").startswith(("_",)) is False:
-            # prefer top-level def matching common pattern
             if getattr(v, "__code__", None) is not None:
                 fn = v
                 break
