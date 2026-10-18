@@ -23,13 +23,15 @@ def _widen_loaded(tmpl: Template) -> Template:
 def _templates() -> list[Template]:
     out: list[Template] = []
     seen: set[str] = set()
-    packs: list[tuple[int, str]] = []
+    packs: list[tuple[tuple, str]] = []
     root = pathlib.Path(__file__).resolve().parent
     for path in _glob.glob(str(root / "code_synth_p*.py")):
         name = pathlib.Path(path).name
-        m = re.match(r"code_synth_p(\d+)\.py$", name)
+        # Numeric packs (p12) and lettered extras (p1b, p1c) both ship templates().
+        m = re.match(r"code_synth_p(\d+)([a-z]?)\.py$", name)
         if m:
-            packs.append((int(m.group(1)), pathlib.Path(path).stem))
+            packs.append(((int(m.group(1)), m.group(2)), pathlib.Path(path).stem))
+    # Higher numeric packs win name collisions; lettered extras fill gaps (p1b after p1).
     packs.sort(key=lambda t: t[0], reverse=True)
     for num, name in packs:
         try:
