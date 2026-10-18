@@ -42,7 +42,6 @@ def templates() -> list[Template]:
 ''',
             lambda low: bool(
                 re.search(
-                    r"\blargest[_ ]number\b|"
                     r"\bform(?:\s+the)?\s+largest\s+number\b|"
                     r"\barrange\s+(?:numbers\s+)?to\s+form\s+(?:the\s+)?largest\b|"
                     r"\bleetcode\s+179\b",
@@ -51,7 +50,11 @@ def templates() -> list[Template]:
             )
             and "values" not in low
             and "good integer" not in low
-            and "population" not in low,
+            and "population" not in low
+            and "twice" not in low
+            and "second" not in low
+            and "parity" not in low
+            and "swaps" not in low,
             (
                 (([10, 2],), "210"),
                 (([3, 30, 34, 5, 9],), "9534330"),
