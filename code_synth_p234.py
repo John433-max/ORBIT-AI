@@ -26,7 +26,7 @@ def templates() -> list[Template]:
             "    if text == \"\":\n"
             "        return 0\n"
             "    return len(text.splitlines())\n",
-            lambda low: bool(re.search(r"\b(number of|count) lines\b", low))
+            lambda low: bool(re.search(r"\\b(number of|count) lines\\b", low))
             and "online" not in low,
             (
                 (("a\nb",), 2),
@@ -65,7 +65,7 @@ def templates() -> list[Template]:
             "def indices_of(items, value):\n"
             '    """Every index where items equals value."""\n'
             "    return [i for i, x in enumerate(items) if x == value]\n",
-            lambda low: "indices of" in low and "matrix" not in low,
+            lambda low: "indices of" in low and "matrix" not in low and "vowel" not in low and "mountain" not in low and "stable" not in low,
             (
                 (([1, 2, 1, 3], 1), [0, 2]),
                 ((["a", "b"], "z"), []),
