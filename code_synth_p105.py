@@ -45,7 +45,20 @@ def templates() -> list[Template]:
             "def sum(num1, num2):\n"
             "    return add_two_integers(num1, num2)\n",
             lambda low: bool(
-                re.search(r"\bleetcode 2235\b|\badd two integers\b", low)
+                re.search(r"\bleetcode 2235\b", low)
+                or (
+                    re.search(
+                        r"\badd(?:s|ing)?\s+(?:two|2)\s+(?:numbers?|integers?|ints?|values?)\b|"
+                        r"\bsum\s+of\s+(?:two|2)\s+(?:numbers?|integers?|ints?)\b|"
+                        r"\bfunction\s+that\s+adds?\s+(?:two|2)\s+(?:numbers?|integers?)\b|"
+                        r"\badds?\s+(?:two|2)\s+(?:numbers?|integers?)\b",
+                        low,
+                    )
+                    and not re.search(
+                        r"\b(linked\s*list|lists?|binary|digits?|array form|ii)\b",
+                        low,
+                    )
+                )
             ),
             (
                 ((12, 5), 17),
