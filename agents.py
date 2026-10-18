@@ -121,7 +121,8 @@ def _explicit_write_ask(request: str) -> bool:
         re.search(
             r"\b(write|implement|create|define|make)\b.{0,40}\b("
             r"function|def |class |script|program|code)\b|"
-            r"\bpython function\b|\bin python\b",
+            r"\bpython function\b|\bin python\b|"
+            r"\bleetcode\s*\d+\b",
             request or "",
             re.I,
         )
