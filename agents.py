@@ -490,7 +490,7 @@ class Orchestrator:
         low = (request or "").lower()
         # Document / RAG before research so "search from the documents" stays local.
         if re.search(
-            r"\bsummarize document\b|document\s*#\s*\d+|"
+            r"\bsummarize (the |this |a |an )?documents?\b|document\s*#\s*\d+|"
             r"summarize this:|\bwhat documents?\b|\blist documents?\b|"
             r"\baccording to the documents?\b|\bin the documents?\b|"
             r"\bfrom (your |my |the |uploaded )?documents?\b|"
