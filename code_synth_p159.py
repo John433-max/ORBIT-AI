@@ -28,7 +28,9 @@ def templates() -> list[Template]:
             and "list" not in low
             and "left" not in low
             and "right" not in low
-            and "position" not in low,
+            and "position" not in low
+            and "goal" not in low
+            and "obtained" not in low,
             ((("abcde", "cdeab"), True), (("abc", "acb"), False)),
         ),
         T(

@@ -18,11 +18,11 @@ def templates():
                 re.search(
                     r"\blast n\b|\blast[_ ]n[_ ](?:items|elements)\b|"
                     r"\btakes? the last n\b|\breturns? the last n\b|"
+                    r"\bdrop(?:s|ped)? the last n\b|"
                     r"\blast[_ ]n\b",
                     low,
                 )
             )
-            and "drop" not in low
             and "remove" not in low,
             ((([1, 2, 3, 4, 5], 2), [4, 5]),),
         ),

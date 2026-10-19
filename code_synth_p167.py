@@ -117,6 +117,9 @@ def templates() -> list[Template]:
                 and ("kilometer" in low or "kilometre" in low or "km" in low)
                 and "to mile" not in low
                 and "from km" not in low
+                and "per hour" not in low
+                and "mph" not in low
+                and "hour" not in low
             ),
             (
                 ((0,), 0.0),

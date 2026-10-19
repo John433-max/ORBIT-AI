@@ -127,7 +127,7 @@ def templates() -> list[Template]:
             lambda low: bool(
                 re.search(
                     r"\bsecond[_ ]largest[_ ]digit\b|"
-                    r"\bsecond[_ ]highest\b|"
+                    r"\bsecond[_ ]highest[_ ]digit\b|"
                     r"\bleetcode 1796\b",
                     low,
                 )
