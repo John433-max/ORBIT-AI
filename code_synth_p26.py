@@ -102,7 +102,9 @@ def templates() -> list[Template]:
                 re.search(
                     r"\bfind[_ ]max[_ ]average\b|"
                     r"\bmaximum average subarray\b|"
-                    r"\bmax average of (?:any |a )?subarray\b",
+                    r"\bmax(?:imum)? average of (?:any |a )?subarray\b|"
+                    r"\bfinds? the maximum average of a subarray\b|"
+                    r"\bmaximum average of a subarray of length\b",
                     low,
                 )
                 and "moving" not in low
