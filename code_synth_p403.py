@@ -68,7 +68,7 @@ def templates() -> list[Template]:
     """
     return n % 4 != 0
 ''',
-            lambda low: ("nim game" in low or "leetcode 292" in low),
+            lambda low: ("nim game" in low or "leetcode 292" in low) and "can win" not in low and "can_win" not in low,
             examples=[((1,), True), ((2,), True), ((4,), False)],
         ),
         T(

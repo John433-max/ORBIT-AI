@@ -89,6 +89,7 @@ def templates() -> list[Template]:
                 and "even" not in low
                 and "vowel" not in low
                 and "consonant" not in low
+                and "word" not in low
             ),
             (
                 (([1, 2, 2, 3],), 2),

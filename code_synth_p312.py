@@ -51,7 +51,8 @@ def templates() -> list[Template]:
                 re.search(r"\btop[- ]?k(?: sampling| indices| filter)?\b", low)
             )
             and "top-p" not in low
-            and "nucleus" not in low,
+            and "nucleus" not in low
+            and "frequent" not in low,
             (
                 (([1.0, 3.0, 2.0, 0.5], 2), [1, 2]),
                 (([5.0, 5.0, 1.0], 2), [0, 1]),

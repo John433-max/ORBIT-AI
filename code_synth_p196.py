@@ -104,6 +104,9 @@ def templates() -> list[Template]:
                 and "increasing" in low
                 and "non-decreasing" not in low
                 and "subsequence" not in low
+                and "operation" not in low
+                and "column" not in low
+                and "leetcode 3402" not in low
             ),
             (
                 (([1, 2, 4],), True),

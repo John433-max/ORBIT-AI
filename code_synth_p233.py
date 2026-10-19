@@ -74,6 +74,7 @@ def templates() -> list[Template]:
                 and "word" not in low
                 and "unique" not in low
                 and "non" not in low
+                and "repeat" not in low
             ),
             (
                 (("orbit", 3), "orb"),

@@ -140,7 +140,10 @@ def templates() -> list[Template]:
                 )
             )
             and "centroid" not in low
-            and "link" not in low,
+            and "link" not in low
+            and "binary tree" not in low
+            and "maximum path sum" not in low
+            and "max path sum" not in low,
             (
                 (
                     (

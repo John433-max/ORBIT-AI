@@ -74,10 +74,13 @@ def templates() -> list[Template]:
             "        if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]):\n"
             "            total += grid[nr][nc]\n"
             "    return total\n",
-            lambda low: bool(
-                re.search(r"\bleetcode\s*3242\b", low)
-                or "neighbor sum" in low
-                or "adjacent sum" in low and "neighbor" in low
+            lambda low: (
+                bool(
+                    re.search(r"\bleetcode\s*3242\b", low)
+                    or "neighbor sum" in low
+                    or "adjacent sum" in low and "neighbor" in low
+                )
+                and "diagonal" not in low
             ),
             examples=(
                 (([[0, 1, 2], [3, 4, 5], [6, 7, 8]], 1), 6),
