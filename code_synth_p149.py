@@ -44,7 +44,7 @@ def _candy(low: str) -> bool:
         return False
     return bool(re.search(r"\bleetcode 135\b", low)) or (
         "candy" in low and ("rating" in low or "neighbor" in low)
-    )
+    ) or low.strip() == "candy"
 
 
 def _paint(low: str) -> bool:

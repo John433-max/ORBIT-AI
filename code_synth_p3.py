@@ -2504,7 +2504,8 @@ def templates():
                 re.search(
                     r"\bcandy\b.{0,24}\bratings?\b|"
                     r"\bratings?\b.{0,24}\bcand(?:y|ies)\b|"
-                    r"\bdistribute cand(?:y|ies)\b",
+                    r"\bdistribute cand(?:y|ies)\b|"
+                    r"^candy$",
                     low,
                 )
                 and "kids" not in low
@@ -4677,7 +4678,7 @@ def templates():
             "    return out\n",
             lambda low: bool(
                 re.search(
-                    r"\breverse(?: an | the )?integers?\b|"
+                    r"\breverse(?:\s+(?:an|the))?\s+integers?\b|"
                     r"\breverse_integer\b|"
                     r"\breverse digits of (an? )?int",
                     low,

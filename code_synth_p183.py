@@ -66,6 +66,11 @@ def templates() -> list[Template]:
                 and "tree" not in low
                 and "linked" not in low
                 and "1290" not in low
+                and "changes" not in low
+                and "alternating" not in low
+                and "beautiful" not in low
+                and "1758" not in low
+                and "2914" not in low
             ),
             (
                 ((0,), "0"),

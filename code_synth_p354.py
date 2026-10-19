@@ -44,7 +44,9 @@ def templates() -> list[Template]:
                 re.search(
                     r"\bform(?:\s+the)?\s+largest\s+number\b|"
                     r"\barrange\s+(?:numbers\s+)?to\s+form\s+(?:the\s+)?largest\b|"
-                    r"\bleetcode\s+179\b",
+                    r"\bleetcode\s+179\b|"
+                    r"^largest number$|"
+                    r"\blargest number\b",
                     low,
                 )
             )
