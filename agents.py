@@ -488,6 +488,19 @@ class Orchestrator:
         if _wants_code_written(request):
             return "code"
         low = (request or "").lower()
+        # Document / RAG before research so "search from the documents" stays local.
+        if re.search(
+            r"\bsummarize document\b|document\s*#\s*\d+|"
+            r"summarize this:|\bwhat documents?\b|\blist documents?\b|"
+            r"\baccording to the documents?\b|\bin the documents?\b|"
+            r"\bfrom (your |my |the |uploaded )?documents?\b|"
+            r"\b(answer|query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?\b|"
+            r"\bno documents?\b|"
+            r"\b(knowledge base|indexed documents?)\b|"
+            r"\bupload(ed)? documents?\b",
+            low,
+        ):
+            return "document"
         if re.search(
             r"\b(search|look up|news about|find information|research)\b|"
             r"\bfind recent (papers|news|articles)\b",
@@ -510,14 +523,6 @@ class Orchestrator:
                 return "calculator"
         except Exception:
             pass
-        if re.search(
-            r"\bsummarize document\b|document\s*#\s*\d+|"
-            r"summarize this:|\bwhat documents\b|\blist documents\b|"
-            r"\baccording to the document\b|\bin the document\b|"
-            r"\bfrom the document\b|\bno document\b",
-            low,
-        ):
-            return "document"
         if re.search(
             r"\b(remember|my name is|favorite color|what is my name|what is my favorite)\b",
             low,
