@@ -60,6 +60,10 @@ def templates() -> list[Template]:
                 and "remove" not in low
                 and "linked" not in low
                 and "first" not in low
+                and "last n" not in low
+                and "last_n" not in low
+                and "takes the last n" not in low
+                and "take the last n" not in low
             ),
             (
                 (([1, 2, 3],), 3),
