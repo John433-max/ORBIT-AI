@@ -113,7 +113,16 @@ def templates() -> list[Template]:
             "        a.append(x)\n"
             "        b.append(y)\n"
             "    return a, b\n",
-            lambda low: bool(re.search(r"\bsplit pairs\b|\bunzip pairs\b|\bpair.?lists\b", low)),
+            lambda low: bool(
+                re.search(
+                    r"\bsplits? pairs\b|"
+                    r"\bsplits? pairs into two lists\b|"
+                    r"\bunzip pairs\b|"
+                    r"\bpair.?lists\b|"
+                    r"\bsplit[_ ]pair[_ ]lists\b",
+                    low,
+                )
+            ),
             (
                 (([(1, 2), (3, 4)],), ([1, 3], [2, 4])),
                 (([],), ([], [])),
