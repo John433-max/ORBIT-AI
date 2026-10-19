@@ -1,33 +1,38 @@
 # Improvement Cycle — CI matcher fixes (2026-10-19)
 
 ## Problem
-Tests workflow run 39194733341 failed on `Unit tests (code_synth)` after
-`fix(code_synth): restore p407 RLE decompress matcher` (1f3ed90).
+Tests workflow consistently failed on `Unit tests (code_synth)` (runs 39195723997
+on ce18004, 39196224805 on c8f7e76, and prior). Several template matchers were
+too narrow or too broad, so `match_template` returned the wrong name or None.
 
-Root cause: several template matchers were too broad or too narrow.
+## Root causes
+| Ask | Wrong / None | Expected | Pack |
+|---|---|---|---|
+| tree diameter of an undirected tree | diameter_of_binary_tree | tree_diameter | p2 (optional binary) |
+| construct … preorder and inorder traversal | inorder_traversal | build_tree | p3 |
+| sums digits of a number | None | digit_sum | p230 |
+| pairs adjacent elements | None | pairwise | p230 |
+| splits pairs into two lists | None | split_pair_lists | p237 |
+| removes duplicate characters preserving order | None | unique_chars | p161 |
+| index of the maximum value | None | argmax_list | p407 |
 
-| Ask | Wrong / None | Expected |
-|---|---|---|
-| tree diameter of an undirected tree | diameter_of_binary_tree | tree_diameter |
-| construct binary tree from preorder and inorder | inorder_traversal | build_tree |
-| takes the last n elements | last_element | last_n |
-| sums digits of a number | None | digit_sum |
-| pairs adjacent elements | None | pairwise |
-| counts lines in text | None | line_count |
+## Changes
+- `code_synth_p2.py`: diameter_of_binary_tree excludes "undirected"
+- `code_synth_p3.py`: inorder_traversal excludes construct/build/preorder/postorder
+- `code_synth_p230.py`: digit_sum accepts "sums digits"; pairwise accepts "pairs adjacent"
+- `code_synth_p237.py`: split_pair_lists accepts "splits pairs"
+- `code_synth_p161.py`: unique_chars accepts "duplicate characters preserving order"
+- `code_synth_p407.py`: argmax_list accepts "index of the maximum value"
 
-## Changes (local + pushed)
-- `code_synth_p2.py`: require `binary tree` in diameter_of_binary_tree; exclude undirected
-- `code_synth_p3.py`: inorder_traversal excludes preorder/postorder/construct/build
-- `code_synth_p4.py`: last_n does not claim drops (drop_last owns remove); keeps of-a-list path
-- `code_synth_p209.py`: last_element excludes last-n (PUSHED 3d26981)
-- `code_synth_p230.py`: digit_sum accepts sums digits; pairwise accepts pairs adjacent
-- `code_synth_p234.py`: line_count accepts counts lines in text (PUSHED c8f7e76)
-
-## Tests (local)
-- test_p204, test_p209, test_cycle525/526/527, test_p241, test_p277: 7 passed
-- Probes coding/search/identity: OK
+## Tests
+- test_cycle525_take_drop_factors_letters_trim: pass
+- test_p241_sudoku_and_matcher_fixes: pass
+- test_add_multiply_subtract + thinking + code_route: 17 pass
 - doctor: READY
+- probes: coding → coding_agent + real `add`; search → research_agent; identity → main_chat_agent
 
-## Remaining push
-Full `code_synth_p2.py`, `code_synth_p3.py`, `code_synth_p230.py`, complete `code_synth_p4.py`
-still need to land on main for full CI green.
+## Next
+Push focused packs to main so CI Tests goes green.
+
+## GitHub
+Pushed cc19d6d to main.
