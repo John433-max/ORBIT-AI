@@ -266,12 +266,12 @@ def try_physics(text: str) -> Optional[Dict[str, Any]]:
         pe = mass * 9.81 * h
         return {"ok": True, "kind": "physics", "pretty": f"PE = mgh = {mass}×9.81×{h} = {pe:g} J", "result": pe}
 
-    # v = d/t
+    # v = d/t  (require both distance and time numbers)
     m = re.search(
-        r"speed|velocity.*?(?:distance|d)\s*[:=]?\s*([\d.]+).*?(?:time|t)\s*[:=]?\s*([\d.]+)",
+        r"(?:speed|velocity).{0,40}(?:distance|d)\s*[:=]?\s*([\d.]+).{0,40}(?:time|t)\s*[:=]?\s*([\d.]+)",
         t,
     )
-    if m:
+    if m and "light" not in t:
         d, tm = float(m.group(1)), float(m.group(2))
         if tm != 0:
             v = d / tm
@@ -353,12 +353,126 @@ def try_units_convert(text: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+
+
+def try_constants(text: str) -> Optional[Dict[str, Any]]:
+    """Named physical/math constants (honest fixed values)."""
+    t = (text or "").lower()
+    table = {
+        "speed of light": ("c", 299_792_458, "m/s"),
+        "speed of light in vacuum": ("c", 299_792_458, "m/s"),
+        "gravitational acceleration": ("g", 9.80665, "m/s²"),
+        "gravity on earth": ("g", 9.80665, "m/s²"),
+        "planck constant": ("h", 6.62607015e-34, "J·s"),
+        "avogadro": ("N_A", 6.02214076e23, "1/mol"),
+        "boltzmann": ("k_B", 1.380649e-23, "J/K"),
+        "gas constant": ("R", 8.314462618, "J/(mol·K)"),
+        "electron charge": ("e", 1.602176634e-19, "C"),
+        "pi": ("π", 3.141592653589793, ""),
+        "euler number": ("e", 2.718281828459045, ""),
+    }
+    for key, (sym, val, unit) in table.items():
+        if key in t or (key == "pi" and re.search(r"\b(what is )?pi\b", t)):
+            unit_s = f" {unit}" if unit else ""
+            if isinstance(val, (int, float)) and float(val).is_integer() and abs(val) >= 1:
+                pretty = f"{sym} ≈ {int(val)}{unit_s}"
+            else:
+                pretty = f"{sym} ≈ {val:g}{unit_s}"
+            return {
+                "ok": True,
+                "kind": "constant",
+                "result": val,
+                "pretty": pretty,
+            }
+    if re.search(r"\bspeed of light\b", t):
+        return {
+            "ok": True,
+            "kind": "constant",
+            "result": 299_792_458,
+            "pretty": "c ≈ 299792458 m/s (exact SI definition)",
+        }
+    return None
+
+
+def try_power(text: str) -> Optional[Dict[str, Any]]:
+    """N to the power of M / N^M."""
+    m = re.search(
+        r"([\d.]+)\s*(?:to the power of|\^|\*\*)\s*([\d.]+)",
+        text or "",
+        re.I,
+    )
+    if not m:
+        m = re.search(r"what is\s+([\d.]+)\s*\^\s*([\d.]+)", text or "", re.I)
+    if not m:
+        return None
+    base, exp = float(m.group(1)), float(m.group(2))
+    if abs(exp) > 1000 or (abs(base) > 1e6 and abs(exp) > 20):
+        return {"ok": False, "error": "exponent too large", "kind": "power"}
+    try:
+        val = base ** exp
+    except OverflowError:
+        return {"ok": False, "error": "overflow", "kind": "power"}
+    return {
+        "ok": True,
+        "kind": "power",
+        "result": val,
+        "pretty": f"{base:g}^{exp:g} = {val:g}",
+    }
+
+
+def try_compound_interest(text: str) -> Optional[Dict[str, Any]]:
+    """Compound interest: principal at rate% for n years (annual)."""
+    m = re.search(
+        r"(?:compound interest\s+)?([\d.]+)\s*(?:at|@)\s*([\d.]+)\s*%\s*(?:for|over)\s*([\d.]+)\s*years?",
+        text or "",
+        re.I,
+    )
+    if not m:
+        m = re.search(
+            r"compound interest.*?principal\s*[:=]?\s*([\d.]+).*?rate\s*[:=]?\s*([\d.]+).*?(?:years?|n)\s*[:=]?\s*([\d.]+)",
+            text or "",
+            re.I,
+        )
+    if not m:
+        return None
+    p, r, n = float(m.group(1)), float(m.group(2)), float(m.group(3))
+    amount = p * ((1 + r / 100.0) ** n)
+    interest = amount - p
+    return {
+        "ok": True,
+        "kind": "finance",
+        "result": amount,
+        "pretty": (
+            f"Compound interest: P={p:g}, r={r:g}%, n={n:g} → "
+            f"A=P(1+r)^n = {amount:.4f} (interest {interest:.4f})"
+        ),
+    }
+
+
+def try_factorial(text: str) -> Optional[Dict[str, Any]]:
+    """factorial of N / N! for small non-negative integers."""
+    import math as _math
+    import re as _re
+    m = _re.search(
+        r"factorial\s+(?:of\s+)?(\d+)|(\d+)\s*factorial\b|(\d+)\s*!",
+        text or "",
+        _re.I,
+    )
+    if not m:
+        return None
+    n = int(m.group(1) or m.group(2) or m.group(3))
+    if n > 20:
+        return {"ok": False, "error": "factorial limited to n<=20", "kind": "factorial"}
+    return {"ok": True, "kind": "factorial", "result": _math.factorial(n),
+            "pretty": f"{n}! = {_math.factorial(n)}"}
+
+
 def solve_science_math(text: str) -> Dict[str, Any]:
     """
     Try calculus → geometry → physics.
     Returns {ok, pretty/result, kind} or {ok: False, error}.
     """
-    for fn in (try_calculus, try_geometry, try_physics, try_units_convert):
+    for fn in (try_constants, try_power, try_compound_interest, try_factorial, try_calculus, try_geometry, try_physics, try_units_convert):
         try:
             out = fn(text)
         except Exception as e:
@@ -368,15 +482,36 @@ def solve_science_math(text: str) -> Dict[str, Any]:
     return {"ok": False, "error": "no closed-form science/math match", "kind": None}
 
 
+
 def looks_like_science_math(text: str) -> bool:
+    """Heuristic for routing to CalculatorAgent / science helpers.
+
+    Single-token keys use word boundaries so "mass" does not match
+    "massey" (Berlekamp–Massey coding template). Multi-word phrases
+    match as substrings.
+    """
     low = (text or "").lower()
-    keys = (
-        "derivative", "differentiate", "integral", "integrate", "d/dx", "limit", "second derivative",
-        "area of", "circumference", "volume of", "triangle", "circle",
-        "rectangle", "sphere", "hypotenuse", "pythagorean",
-        "force", "mass", "acceleration", "kinetic energy", "potential energy",
-        "velocity", "newton", "ohm", "voltage", "density", "momentum", "work",
-        "surface area", "cylinder", "cuboid", "interest", "celsius", "fahrenheit", "kilometers",
-        "calculus", "geometry", "physics",
+    # Newton-Raphson / Newton's method is a coding template, not F=ma.
+    if re.search(r"\bnewton[- ]?raphson\b|\bnewton'?s? method\b", low):
+        return False
+    single = (
+        "derivative", "differentiate", "integral", "integrate", "limit",
+        "triangle", "circle", "rectangle", "sphere", "hypotenuse", "pythagorean",
+        "force", "mass", "acceleration", "velocity", "newton", "ohm", "voltage",
+        "density", "momentum", "work", "cylinder", "cuboid", "interest",
+        "celsius", "fahrenheit", "kilometers", "calculus", "geometry", "physics",
+        "factorial", "gravitational", "planck", "avogadro",
+        # constants for "what is pi" routing
+        "pi", "π",
     )
-    return any(k in low for k in keys)
+    multi = (
+        "second derivative", "area of", "circumference", "volume of",
+        "kinetic energy", "potential energy", "surface area",
+        "speed of light", "compound interest", "to the power", "d/dx",
+        # unit conversion phrases (km→m, °C→°F, …)
+        "convert ", " km to ", " m to ", " kg to ", " to m", " to km",
+        " to celsius", " to fahrenheit", "celsius to", "fahrenheit to",
+    )
+    if any(p in low for p in multi):
+        return True
+    return any(re.search(rf"\b{re.escape(k)}\b", low) for k in single)
