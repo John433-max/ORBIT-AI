@@ -72,8 +72,12 @@ class OrbitAI:
         )
 
     def _try_load_checkpoint(self) -> None:
-        from bpe_tokenizer import BPETokenizer
-        from train import build_model_from_checkpoint
+        try:
+            from bpe_tokenizer import BPETokenizer
+            from train import build_model_from_checkpoint
+        except ImportError:
+            # Slim checkouts omit train.py; agents still run via Orchestrator + TinyLM.
+            return
 
         candidates = [
             ("bpe_tokenizer_large.json", "checkpoint_large.npz"),

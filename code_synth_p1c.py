@@ -346,6 +346,7 @@ def templates():
                 )
                 and "reorder" not in low
                 and "rearranged" not in low
+                and "bitonic" not in low
             ),
             (((1,), True), ((2,), True), ((3,), False), ((0,), False), ((8,), True)),
         ),
