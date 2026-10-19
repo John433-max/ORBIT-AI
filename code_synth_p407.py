@@ -66,7 +66,7 @@ def templates() -> list[Template]:
             "        if x > best:\n"
             "            best, best_i = x, i\n"
             "    return best_i\n",
-            lambda low: bool(re.search(r"\bargmax\b", low)),
+            lambda low: bool(re.search(r"\bargmax\b", low)) or ("index" in low and "maximum" in low) or ("index" in low and "max" in low and "value" in low),
             [(([1, 3, 2],), 1), (([],), -1), (([5],), 0)],
         ),
         T(

@@ -67,7 +67,11 @@ def templates() -> list[Template]:
             "            best = x\n"
             "            best_i = i\n"
             "    return best_i\n",
-            lambda low: "argmax" in low
+            lambda low: (
+                "argmax" in low
+                or ("index" in low and "maximum" in low)
+                or ("index" in low and "max" in low and "value" in low)
+            )
             and "matrix" not in low
             and "axis" not in low,
             ((([1, 5, 3, 5],), 1), (([],), -1)),

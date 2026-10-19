@@ -70,8 +70,17 @@ def templates() -> list[Template]:
             "        seen.add(ch)\n"
             "        out.append(ch)\n"
             "    return \"\".join(out)\n",
-            lambda low: bool(re.search(r"\bunique\b", low))
-            and bool(re.search(r"\bcharacters?\b|\bchars?\b", low))
+            lambda low: (
+                (
+                    bool(re.search(r"\bunique\b", low))
+                    and bool(re.search(r"\bcharacters?\b|\bchars?\b", low))
+                )
+                or (
+                    "duplicate" in low
+                    and "character" in low
+                    and ("preserv" in low or "order" in low)
+                )
+            )
             and "list" not in low,
             ((("abca",), "abc"), (("",), "")),
         ),

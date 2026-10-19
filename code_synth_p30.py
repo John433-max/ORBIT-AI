@@ -187,7 +187,8 @@ def templates() -> list[Template]:
                     r"\binsert[_ ]into[_ ]bst\b|"
                     r"\binsert into (?:a |the )?bst\b|"
                     r"\binsert (?:a )?value into (?:a |the )?(?:binary search tree|bst)\b|"
-                    r"\bbst insert\b",
+                    r"\bbst insert\b|"
+                    r"\bbinary search tree insert\b",
                     low,
                 )
             ),

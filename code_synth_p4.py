@@ -139,6 +139,47 @@ def templates():
             (((4,), 2), ((8,), 2), ((0,), 0)),
         ),
         T(
+            "count_primes",
+            "def count_primes(n):\n"
+            '    """Count primes strictly less than n (LeetCode 204)."""\n'
+            "    n = int(n)\n"
+            "    if n < 3:\n"
+            "        return 0\n"
+            "    sieve = [True] * n\n"
+            "    sieve[0] = sieve[1] = False\n"
+            "    for i in range(2, int(n ** 0.5) + 1):\n"
+            "        if sieve[i]:\n"
+            "            sieve[i * i : n : i] = [False] * len(range(i * i, n, i))\n"
+            "    return sum(sieve)\n",
+            lambda low: bool(
+                re.search(
+                    r"\bcount[_ ]primes\b|"
+                    r"\bcounts primes less than\b|"
+                    r"\bprimes less than n\b|"
+                    r"\bleetcode 204\b",
+                    low,
+                )
+            )
+            and "is prime" not in low
+            and "check" not in low,
+            (((10,), 4), ((0,), 0), ((1,), 0)),
+        ),
+        T(
+            "detect_capital",
+            "def detect_capital(word):\n"
+            '    """True if word uses capitals correctly (LeetCode 520)."""\n'
+            "    return word.isupper() or word.islower() or word.istitle()\n",
+            lambda low: bool(
+                re.search(
+                    r"\bdetect[_ ]capital\b|"
+                    r"\bdetect capital use\b|"
+                    r"\bleetcode 520\b",
+                    low,
+                )
+            ),
+            ((("USA",), True), (("FlaG",), False), (("leetcode",), True)),
+        ),
+        T(
             "rotate_string",
             "def rotate_string(s, k):\n"
             '    """Rotate string left by k positions."""\n'

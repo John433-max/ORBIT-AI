@@ -1249,6 +1249,7 @@ def templates():
                     r"\bdiameter_of_binary_tree\b",
                     low,
                 )
+                and "undirected" not in low
             ),
             (
                 (([1, [2, [4, None, None], [5, None, None]], [3, None, None]],), 3),

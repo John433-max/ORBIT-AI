@@ -166,6 +166,7 @@ def templates() -> list[Template]:
                     r"\brotat(?:e|es|ing) an array to the right\b|"
                     r"\brotat(?:e|es|ing) an array right\b|"
                     r"\brotate an array right by\b|"
+                    r"\brotate an array\b|"
                     r"\bright rotat(?:e|es) an array\b",
                     low,
                 )

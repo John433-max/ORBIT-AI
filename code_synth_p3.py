@@ -933,6 +933,10 @@ def templates():
                     r"\binorder_traversal\b",
                     low,
                 )
+                and "construct" not in low
+                and "build" not in low
+                and "preorder" not in low
+                and "postorder" not in low
             ),
             (
                 (([1, None, [2, [3, None, None], None]],), [1, 3, 2]),
@@ -3579,6 +3583,7 @@ def templates():
             lambda low: bool(
                 re.search(
                     r"\bdesigns? (?:a )?hashmap\b|"
+                    r"\bdesigns? (?:a )?hash map\b|"
                     r"\bmyhashmap\b|"
                     r"\bdesign_hashmap\b|"
                     r"\bimplement(?:s|ing)? (?:a )?hashmap\b",

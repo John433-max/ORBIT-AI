@@ -108,7 +108,9 @@ def templates() -> list[Template]:
                 re.search(
                     r"\bbusy[_ ]student\b|"
                     r"\bstudents doing homework at (?:a )?given time\b|"
-                    r"\bnumber of students doing homework\b",
+                    r"\bnumber of students doing homework\b|"
+                    r"\bcounts? students doing homework\b|"
+                    r"\bstudents doing homework at (?:a )?query time\b",
                     low,
                 )
             ),

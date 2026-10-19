@@ -46,6 +46,8 @@ def templates() -> list[Template]:
             lambda low: (
                 "pairwise" in low
                 or ("consecutive" in low and "pair" in low and "group" not in low)
+                or ("pairs" in low and "adjacent" in low)
+                or ("adjacent" in low and "element" in low and "pair" in low)
             )
             and "sum" not in low
             and "difference" not in low
@@ -70,6 +72,7 @@ def templates() -> list[Template]:
                 (
                     "sum of digits" in low
                     or "sums the digits" in low
+                    or "sums digits" in low
                     or "sum the digits" in low
                     or "digit sum" in low
                 )
