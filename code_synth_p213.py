@@ -42,7 +42,13 @@ def templates() -> list[Template]:
             "        if items[i] == value:\n"
             "            return i\n"
             "    return -1\n",
-            lambda low: "last index" in low and "first" not in low,
+            lambda low: (
+                "last index" in low
+                and "first" not in low
+                # Do not steal Jump Game II / min-jumps-to-last-index (LeetCode 45).
+                and "jump" not in low
+                and "jumps" not in low
+            ),
             (
                 (([1, 2, 1, 3], 1), 2),
                 (([4, 5], 9), -1),
