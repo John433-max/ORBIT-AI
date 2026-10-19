@@ -26,7 +26,15 @@ def templates() -> list[Template]:
             "    if text == \"\":\n"
             "        return 0\n"
             "    return len(text.splitlines())\n",
-            lambda low: bool(re.search(r"\\b(number of|count) lines\\b", low))
+            lambda low: bool(
+                re.search(
+                    r"\b(number of|count|counts) lines\b|"
+                    r"\blines in (?:a |the )?(?:string|text)\b|"
+                    r"\bline count\b|"
+                    r"\bcounts? lines in text\b",
+                    low,
+                )
+            )
             and "online" not in low,
             (
                 (("a\nb",), 2),
