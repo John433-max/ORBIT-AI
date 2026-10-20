@@ -28,3 +28,28 @@ def test_recover_bst_title_routes_to_code():
     assert "def recover_bst" in result["content"]
     assert "Verified" in result["content"]
     assert "NotImplementedError" not in result["content"]
+
+
+def test_look_this_up_and_google_route_to_research():
+    """Priority-2: phrasing variants must hit ResearchAgent, not chat hedge."""
+    orch = Orchestrator()
+    for prompt in (
+        "look this up: quantum computing breakthrough",
+        "look that up",
+        "look it up please",
+        "google fusion energy",
+        "web search fusion energy",
+        "search the web for fusion",
+    ):
+        assert orch.route(prompt) == "research", prompt
+        result = orch.handle(prompt)
+        assert result["agent"] == "research_agent", prompt
+        low = (result["content"] or "").lower()
+        assert "toy-scale" not in low
+        assert any(
+            phrase in low
+            for phrase in ("no live web", "can't complete this search", "here's what i found", "sources:")
+        ), result["content"]
+    # Must not steal code or identity.
+    assert orch.route("write a python function that adds two numbers") == "code"
+    assert orch.route("what is your name") == "chat"

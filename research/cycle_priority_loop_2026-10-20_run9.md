@@ -1,41 +1,50 @@
-# ORBIT Priority Loop — 2026-10-20 run9
+# ORBIT Improvement Run — 2026-10-20 run9
 
 ## Baseline
-- doctor: READY (2 non-blocking: fastapi/uvicorn missing, Ollama connection refused)
-- smoke accuracy: 100.00%  2083/2083
-  - coding: 2021/2021
-  - search: 9/9
-  - rag: 6/6
-  - permission: 10/10
-  - lab: 7/7
-  - math/science/chat/memory/instruction/hallucination/tool_selection: all 100%
+- doctor: READY (3 non-blocking: PyYAML optional, fastapi/uvicorn warning, Ollama optional/refused)
+- smoke accuracy: 1.0 (2083/2083) from evals/results/latest.json (2026-10-20T06:16:59Z)
 - probes:
-  - coding → coding_agent + verified `def add(a, b)` + binary_search
-  - search → honest "No live web available..."
-  - identity → "I'm ORBIT. Named after the project..."
-  - permission → deny destructive fs
-  - rag-empty → "No documents loaded..."
+  - coding → coding_agent + verified `def add(a, b)`
+  - search "search for recent news…" → research_agent, honest no-live-web
+  - identity → "I'm ORBIT…"
+  - **gap:** "look this up: quantum computing breakthrough" and "google fusion energy" routed to chat
 
 ## Chosen priority
-None failing. Priority queue items 1–3 satisfied; 5–6 correct by design.
-Item 4 (GitHub parity): local agents.py ~22.5KB CI-surface works; full historical 71KB not required while CI green.
+2. Research/search path — phrasing variants of "look up" / "google" missed ResearchAgent.
 
-## Changes
-No code changes. Verification-only run after background task completion.
+## Research
+Existing route already claimed "search", "look up", "news about". The code-exclusion regex already listed "look this up" and "google", but `_route` never mapped those phrases to research, so they fell through to MainChatAgent.
+
+## Implementation
+- agents.py: expand research route to `look this up|look that up|look it up|google|web search|search the web`
+- tests/unit/test_code_route_search.py: new test for the variants; code and identity still asserted
+- evals/datasets/smoke.jsonl: search_10 ("look this up…"), search_11 ("google fusion energy")
+
+## Files Changed
+- agents.py
+- tests/unit/test_code_route_search.py
+- evals/datasets/smoke.jsonl
 
 ## Tests
-- doctor READY
-- eval 2083/2083 (latest.json)
-- five probes pass (code/search/identity/permission/rag-empty)
+- unit: test_code_route_search (3 functions) pass via direct call
+- targeted score of search_1–search_11 + code_1 + perm_1 + chat_1: 14/14
+- doctor: READY
+- focused eval (non-coding 64 + 8 coding samples, 72 rows): 72/72 including search 11/11
+- full 2085-row smoke not re-run this cycle (coding verify ~0.6s/row ≈ 20 min); no coding row matches the new phrases
 
 ## Benchmark before → after
-Unchanged (ceiling for current smoke set).
+| Probe | Before | After |
+|---|---|---|
+| look this up: … | chat / hedge | research_agent / no-live-web |
+| google fusion energy | chat / hedge | research_agent / no-live-web |
+| write a python function that adds two numbers | coding_agent | coding_agent (unchanged) |
+| what is your name | main_chat_agent identity | unchanged |
+| implement binary search | coding_agent | unchanged |
 
-## GitHub push
-YES — research docs run5–run9 (docs only, no secrets)
+## Result
+Research phrasing gap closed. No regression on code, identity, or permission paths.
 
 ## Next priority remaining
-1. Optional eval expansion (multi-turn coding, more RAG-empty variants) if accuracy ever slips.
-2. GitHub pack parity for remaining code_synth_p* if CI needs full tree (currently slim+packs sufficient).
-3. Serve extras (fastapi) only on user request.
-4. Ollama preferred when healthy; TinyLM educational fallback correct.
+3. Optional full smoke re-run when wall time allows (2085 rows).
+5. Model provider defaults already prefer Ollama when healthy.
+6. Serve/deps already documented; doctor warning only.

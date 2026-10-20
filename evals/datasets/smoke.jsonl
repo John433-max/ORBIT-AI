@@ -2081,3 +2081,5 @@
 {"id": "code_2081", "category": "coding", "input": "add and search word data structure", "expect_contains": ["def add_and_search_words", "Verified"]}
 {"id": "code_2082", "category": "coding", "input": "maximum frequency stack", "expect_contains": ["def max_frequency_stack", "Verified"]}
 {"id": "code_2083", "category": "coding", "input": "design a stack with increment", "expect_contains": ["def design_stack_with_increment", "Verified"]}
+{"id": "search_10", "category": "search", "input": "look this up: quantum computing breakthrough", "expect_not_contains": ["toy-scale", "educational model"], "expect_any": ["quantum", "don't have live web", "no live web", "can't complete this search", "Sources:"]}
+{"id": "search_11", "category": "search", "input": "google fusion energy", "expect_not_contains": ["toy-scale", "educational model"], "expect_any": ["fusion", "don't have live web", "no live web", "can't complete this search", "Sources:"]}

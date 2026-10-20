@@ -501,8 +501,13 @@ class Orchestrator:
             low,
         ):
             return "document"
+        # Priority-2 research intents. "look this up" / bare "google …" were
+        # falling through to chat (honest hedge) instead of ResearchAgent.
+        # Algorithm titles with "search" are already claimed by _wants_code_written.
         if re.search(
-            r"\b(search|look up|news about|find information|research)\b|"
+            r"\b(search|look up|look this up|look that up|look it up|"
+            r"news about|find information|research|google|"
+            r"web search|search the web)\b|"
             r"\bfind recent (papers|news|articles)\b",
             low,
         ):
