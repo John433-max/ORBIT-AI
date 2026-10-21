@@ -36,7 +36,7 @@ def _wants_code_written(request: str) -> bool:
     if re.search(
         r"\bfactorial of\s+\d+\b|\bwhat is\s+\d+\s*!\b|\bcompute\s+factorial\b",
         low,
-    ) and not re.search(r"\b(write|implement|create|define|make|code)\b", low):
+    ) and not re.search(r"\b(write|implement|create|define|make|code|build)\b", low):
         return False
     # Prose / content asks are not code synthesis ("write about fusion",
     # "write a blog post"). Must run before the article-skipping identifier
@@ -49,8 +49,8 @@ def _wants_code_written(request: str) -> bool:
     ):
         return False
     if re.search(
-        r"\b(write|implement|create|define|make|code)\b.{0,80}\b("
-        r"function|def |class |script|program|module|code|factorial)\b|"
+        r"\b(write|implement|create|define|make|code|build)\b.{0,80}\b("
+        r"function|def|class|script|program|module|code|factorial)\b|"
         r"\bpython function\b|"
         r"\bimplement\b.{0,40}\bin python\b|"
         r"\b(implement|write|create|define)\b\s+(?:(?:a|an|the|some|simple|basic|small)\s+)*[a-z_][a-z0-9_]{2,}\b|"
@@ -178,7 +178,7 @@ def _synthesize_python(request: str) -> str:
             "    return a * b\n"
         )
     if re.search(r"\b(simple )?calculator\b", low) and re.search(
-        r"\b(write|implement|create|define|make|code)\b", low
+        r"\b(write|implement|create|define|make|code|build)\b", low
     ):
         return (
             "def calculate(a, op, b):\n"
@@ -197,7 +197,7 @@ def _synthesize_python(request: str) -> str:
         )
     # Common template-miss coding asks: return real code instead of the miss message.
     if re.search(r"\b(hello|hello[- ]world)\b", low) and re.search(
-        r"\b(write|implement|create|define|make|code|script|program)\b", low
+        r"\b(write|implement|create|define|make|code|script|program|build)\b", low
     ):
         return (
             "def hello(name='world'):\n"
@@ -207,7 +207,7 @@ def _synthesize_python(request: str) -> str:
             "    return msg\n"
         )
     if re.search(r"\b(web )?scrap(?:e|er|ing)\b", low) and re.search(
-        r"\b(write|implement|create|define|make|code|script)\b", low
+        r"\b(write|implement|create|define|make|code|script|build)\b", low
     ):
         return (
             "def scrape_text(url, timeout=15):\n"
@@ -217,14 +217,56 @@ def _synthesize_python(request: str) -> str:
             "    with urllib.request.urlopen(req, timeout=timeout) as resp:\n"
             "        return resp.read().decode('utf-8', errors='replace')\n"
         )
+    # Template-miss class asks: real binary-tree class instead of the hedge.
+    if re.search(r"\bbinary\s+tree\b", low) and re.search(
+        r"\b(class|build|write|implement|create|define|make|code)\b", low
+    ) and not re.search(
+        r"\b(invert|diameter|serialize|deserialize|cameras?|path sum|level order|"
+        r"max(?:imum)? depth|height of)\b", low
+    ):
+        return (
+            "class TreeNode:\n"
+            "    def __init__(self, val=0, left=None, right=None):\n"
+            "        self.val = val\n"
+            "        self.left = left\n"
+            "        self.right = right\n"
+            "\n"
+            "class BinaryTree:\n"
+            '    """Minimal binary tree with BST insert and in-order walk."""\n'
+            "    def __init__(self, root=None):\n"
+            "        self.root = root\n"
+            "\n"
+            "    def insert(self, val):\n"
+            "        def _ins(node, val):\n"
+            "            if node is None:\n"
+            "                return TreeNode(val)\n"
+            "            if val < node.val:\n"
+            "                node.left = _ins(node.left, val)\n"
+            "            else:\n"
+            "                node.right = _ins(node.right, val)\n"
+            "            return node\n"
+            "        self.root = _ins(self.root, val)\n"
+            "        return self\n"
+            "\n"
+            "    def inorder(self):\n"
+            "        out = []\n"
+            "        def _walk(node):\n"
+            "            if node is None:\n"
+            "                return\n"
+            "            _walk(node.left)\n"
+            "            out.append(node.val)\n"
+            "            _walk(node.right)\n"
+            "        _walk(self.root)\n"
+            "        return out\n"
+        )
     return ""
 
 
 def _explicit_write_ask(request: str) -> bool:
     return bool(
         re.search(
-            r"\b(write|implement|create|define|make)\b.{0,40}\b("
-            r"function|def |class |script|program|code)\b|"
+            r"\b(write|implement|create|define|make|build)\b.{0,40}\b("
+            r"function|def|class|script|program|code)\b|"
             r"\bpython function\b|\bin python\b|"
             r"\bleetcode\s*\d+\b",
             request or "",
