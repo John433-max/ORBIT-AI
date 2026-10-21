@@ -42,3 +42,20 @@ def test_weak_chat_uses_model_provider():
     assert "forty-two" in body, body
     raw = out.get("raw") or {}
     assert raw.get("source") == "model_provider", raw
+
+
+def test_generic_hedge_question_uses_research():
+    """Unmatched factual questions must not stay on the generic ORBIT hedge."""
+    orch = Orchestrator(sandbox_root=".")
+    out = orch.handle("what is the capital of France")
+    assert out.get("ok"), out
+    body = out.get("content") or ""
+    low = body.lower()
+    assert "how can i help" not in low, body
+    assert (
+        "no live web" in low
+        or "paris" in low
+        or "sources:" in low
+    ), body
+    raw = out.get("raw") or {}
+    assert raw.get("source") in ("research_fallback", "model_provider"), raw

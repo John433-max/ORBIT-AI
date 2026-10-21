@@ -2097,3 +2097,4 @@
 {"id": "code_build_2", "category": "coding", "input": "build a class for a binary tree", "expect_contains": ["class TreeNode", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
 {"id": "code_build_3", "category": "coding", "input": "build a function that adds two numbers", "expect_contains": ["def add", "Verified"], "expect_not_contains": ["toy-scale"]}
 {"id": "code_delete_key_1", "category": "coding", "input": "write a function that deletes a key from a dict", "expect_contains": ["def delete_key", "Verified"], "expect_not_contains": ["def dict_keys", "NotImplemented", "toy-scale"]}
+{"id": "search_general_1", "category": "search", "input": "what is the capital of France", "expect_any": ["Paris", "no live web", "don't have live web", "Sources:"], "expect_not_contains": ["How can I help", "toy-scale"]}

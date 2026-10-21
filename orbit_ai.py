@@ -62,6 +62,15 @@ class OrbitAI:
 
         from agents import Orchestrator
 
+        model_router = None
+        if load_model:
+            try:
+                from orbit.models.router import ModelRouter
+
+                model_router = ModelRouter()
+            except Exception:
+                model_router = None
+
         self.orch = Orchestrator(
             sandbox_root=str(self.root),
             chat_model=self.model,
@@ -69,6 +78,7 @@ class OrbitAI:
             memory_db_path=memory_db_path,
             document_db_path=document_db_path,
             conversation_db_path=conversation_db_path,
+            model_router=model_router,
         )
 
     def _try_load_checkpoint(self) -> None:

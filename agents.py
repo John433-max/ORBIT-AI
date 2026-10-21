@@ -586,6 +586,16 @@ except Exception:
         return bool(re.search(r"gradient descent|overfitting|backprop|from scratch|activation", low))
 
 
+def _is_tinylm_router(router) -> bool:
+    """True when the configured provider is the educational TinyLM fallback."""
+    try:
+        provider = getattr(router, "provider", None)
+        name = (getattr(provider, "name", "") or "").lower()
+        return name in ("tinylm", "tiny")
+    except Exception:
+        return False
+
+
 def _looks_like_question(text: str) -> bool:
     t = (text or "").strip()
     return t.endswith("?") or bool(re.match(r"^(what|who|when|where|why|how|is|are|can|does)\b", t, re.I))
@@ -720,14 +730,36 @@ class Orchestrator:
             verified = AgentResult("main_chat_agent", False, f"Error: {e}", raw={"error": str(e)})
             agent_key = "chat"
         content = (verified.content or "").strip()
-
+        hedge = content.strip().lower() in {
+            "i'm orbit, a modular local agent runtime. how can i help?",
+            "i'm orbit, a modular local agent runtime. how can i help",
+        }
         weak = verified.agent in ("main_chat_agent", "chat") and (
             "don't have a solid answer" in content.lower()
             or "toy-scale" in content.lower()
             or len(content) < 12
+            or hedge
         )
         if weak and _looks_like_question(request):
-            if "research" in self.agents:
+            # Prefer a healthy non-educational provider (Ollama / OpenAI / GGUF)
+            # over the generic hedge. TinyLM stays the educational fallback and
+            # is not used to invent facts; research gives an honest offline note.
+            if self.model_router is not None and not _is_tinylm_router(self.model_router):
+                try:
+                    prov = self.generate_via_provider(request)
+                    text = (prov.get("text") or "").strip() if isinstance(prov, dict) else ""
+                    if prov.get("ok") and text:
+                        verified = AgentResult(
+                            "main_chat_agent",
+                            True,
+                            text,
+                            raw={"source": "model_provider", "provider": prov, "route": agent_key},
+                        )
+                        content = text
+                        weak = False
+                except Exception:
+                    pass
+            if weak and "research" in self.agents:
                 try:
                     alt = self.agents["research"].run(request, ctx)
                     alt_c = (alt.content or "").strip()
@@ -736,7 +768,7 @@ class Orchestrator:
                             "main_chat_agent",
                             True,
                             alt_c,
-                            raw={"source": "research_fallback", "inner": alt.raw},
+                            raw={"source": "research_fallback", "inner": alt.raw, "route": agent_key},
                         )
                         content = alt_c
                         weak = False
