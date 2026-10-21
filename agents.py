@@ -172,6 +172,28 @@ def _synthesize_python(request: str) -> str:
             "        return a / b\n"
             "    raise ValueError(f'unsupported operator: {op}')\n"
         )
+    # Common template-miss coding asks: return real code instead of the miss message.
+    if re.search(r"\b(hello|hello[- ]world)\b", low) and re.search(
+        r"\b(write|implement|create|define|make|code|script|program)\b", low
+    ):
+        return (
+            "def hello(name='world'):\n"
+            '    """Print a greeting."""\n'
+            "    msg = f'Hello, {name}!'\n"
+            "    print(msg)\n"
+            "    return msg\n"
+        )
+    if re.search(r"\b(web )?scrap(?:e|er|ing)\b", low) and re.search(
+        r"\b(write|implement|create|define|make|code|script)\b", low
+    ):
+        return (
+            "def scrape_text(url, timeout=15):\n"
+            '    """Fetch a page and return its text (stdlib only)."""\n'
+            "    import urllib.request\n"
+            "    req = urllib.request.Request(url, headers={'User-Agent': 'ORBIT/1.0'})\n"
+            "    with urllib.request.urlopen(req, timeout=timeout) as resp:\n"
+            "        return resp.read().decode('utf-8', errors='replace')\n"
+        )
     return ""
 
 

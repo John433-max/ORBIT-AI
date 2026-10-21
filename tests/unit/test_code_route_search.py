@@ -93,3 +93,22 @@ def test_implement_article_phrase_routes_to_code_not_hedge():
     assert "def calculate" in out["content"]
     assert "toy-scale" not in out["content"].lower()
     assert "I'm ORBIT" not in out["content"]
+
+
+def test_generic_coding_asks_return_real_code_not_miss():
+    """Hello / scraper asks route to CodeAgent and return real source."""
+    orch = Orchestrator()
+    hello = orch.handle("make a script that prints hello")
+    assert hello["agent"] == "coding_agent"
+    assert "def hello" in hello["content"]
+    assert "couldn't synthesize" not in hello["content"].lower()
+    assert "I'm ORBIT" not in hello["content"]
+
+    scrape = orch.handle("write a web scraper")
+    assert scrape["agent"] == "coding_agent"
+    assert "def scrape_text" in scrape["content"]
+    assert "couldn't synthesize" not in scrape["content"].lower()
+
+    # Prose still stays off the code path.
+    about = orch.handle("write about fusion energy")
+    assert about["agent"] == "main_chat_agent"
