@@ -7063,3 +7063,22 @@ def test_p406_nested_ii_fs_magic_search_freq_inc():
         "design_circular_queue",
         "my_circular_queue",
     )
+
+
+def test_delete_key_not_dict_keys():
+    """delete/remove/pop a key must not be stolen by dict_keys."""
+    from code_synth import match_template, synthesize_and_verify
+
+    asks = {
+        "write a function that deletes a key from a dict": "delete_key",
+        "write a function that removes a key from a dictionary": "delete_key",
+        "implement a function to pop a key from a dict": "delete_key",
+    }
+    for ask, name in asks.items():
+        hit = match_template(ask)
+        assert hit is not None and hit.name == name, (ask, None if hit is None else hit.name)
+        out = synthesize_and_verify(ask)
+        assert out["verified"] and not out["fallback"], (ask, out)
+        assert "def delete_key" in out["source"]
+    hit = match_template("write a function that returns keys of a dictionary")
+    assert hit is not None and hit.name == "dict_keys", hit.name if hit else None

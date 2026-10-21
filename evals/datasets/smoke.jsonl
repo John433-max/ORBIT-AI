@@ -2096,3 +2096,4 @@
 {"id": "code_build_1", "category": "coding", "input": "build a binary tree class", "expect_contains": ["class BinaryTree", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
 {"id": "code_build_2", "category": "coding", "input": "build a class for a binary tree", "expect_contains": ["class TreeNode", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
 {"id": "code_build_3", "category": "coding", "input": "build a function that adds two numbers", "expect_contains": ["def add", "Verified"], "expect_not_contains": ["toy-scale"]}
+{"id": "code_delete_key_1", "category": "coding", "input": "write a function that deletes a key from a dict", "expect_contains": ["def delete_key", "Verified"], "expect_not_contains": ["def dict_keys", "NotImplemented", "toy-scale"]}
