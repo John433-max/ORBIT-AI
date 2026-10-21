@@ -53,3 +53,22 @@ def test_look_this_up_and_google_route_to_research():
     # Must not steal code or identity.
     assert orch.route("write a python function that adds two numbers") == "code"
     assert orch.route("what is your name") == "chat"
+
+
+def test_document_inventory_phrases_route_to_document():
+    """Possessive / show / which inventory asks hit DocumentAgent, not chat."""
+    orch = Orchestrator()
+    for q in (
+        "list my documents",
+        "list the documents",
+        "list uploaded documents",
+        "show me my documents",
+        "show my documents",
+        "which documents are loaded",
+        "which documents do you have",
+        "what documents do you have",
+    ):
+        assert orch._route(q) == "document", q
+        out = orch.handle(q)
+        assert out.get("agent") == "document", q
+        assert "no documents loaded" in (out.get("content") or "").lower(), q

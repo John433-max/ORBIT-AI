@@ -490,9 +490,17 @@ class Orchestrator:
             return "code"
         low = (request or "").lower()
         # Document / RAG before research so "search from the documents" stays local.
+        # Document inventory / RAG-empty before chat. Possessive and
+        # "show/which" forms ("list my documents", "show me my documents",
+        # "which documents are loaded") previously fell through to the
+        # generic main_chat hedge instead of the honest empty-RAG reply.
         if re.search(
             r"\bsummarize (the |this |a |an )?documents?\b|document\s*#\s*\d+|"
-            r"summarize this:|\bwhat documents?\b|\blist documents?\b|"
+            r"summarize this:|"
+            r"\bwhat documents?( do you have| are (loaded|uploaded|available))?\b|"
+            r"\bwhich documents?( do you have| are (loaded|uploaded|available))?\b|"
+            r"\blist (my |the |uploaded )?documents?\b|"
+            r"\bshow (me )?(my |the |uploaded )?documents?\b|"
             r"\baccording to the documents?\b|\bin the documents?\b|"
             r"\bfrom (your |my |the |uploaded )?documents?\b|"
             r"\b(answer|query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?\b|"
