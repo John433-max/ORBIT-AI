@@ -53,9 +53,18 @@ def _wants_code_written(request: str) -> bool:
         r"function|def |class |script|program|module|code|factorial)\b|"
         r"\bpython function\b|"
         r"\bimplement\b.{0,40}\bin python\b|"
-        r"\b(binary search|recover binary search tree|factorial function)\b|"
         r"\b(implement|write|create|define)\b\s+(?:(?:a|an|the|some|simple|basic|small)\s+)*[a-z_][a-z0-9_]{2,}\b|"
         r"\bleetcode\s*\d+\b",
+        low,
+    ):
+        return True
+    # Bare algorithm titles ("binary search", "factorial function") are code
+    # asks unless the user is asking for an explanation ("how does X work").
+    if re.search(
+        r"\b(binary search|recover binary search tree|factorial function)\b",
+        low,
+    ) and not re.search(
+        r"\b(what is|what's|what are|explain|how does|tell me about|describe|define)\b",
         low,
     ):
         return True
@@ -70,6 +79,20 @@ def _wants_code_written(request: str) -> bool:
     if re.search(r"^\s*write\b", low) and not re.search(
         r"\b(about|blog|story|poem|letter|email|essay|summary|article|review|report)\b",
         low,
+    ):
+        return True
+    # "how do I / how to / how can I … in python" (or coding verb / algorithm)
+    # is a code ask. Pure numeric science stays on calculator; "how does X work"
+    # stays explain (matched later by the generic how-do exclusion).
+    if re.search(
+        r"\b(how do i|how to|how can i)\b.{0,100}\b("
+        r"in python|function|implement|write|code|"
+        r"reverse|sort|binary search|prime|palindrome|factorial function)\b",
+        low,
+    ) and not re.search(r"\bhow does\b", low) and not (
+        re.search(r"\b(calculate|compute|what is)\b", low)
+        and re.search(r"\b\d+\b", low)
+        and not re.search(r"\b(write|implement|create|define|make|code|function)\b", low)
     ):
         return True
     if re.search(

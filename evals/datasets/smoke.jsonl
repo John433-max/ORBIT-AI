@@ -2088,3 +2088,8 @@
 {"id": "rag_list_2", "category": "rag", "input": "show me my documents", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
 {"id": "rag_list_3", "category": "rag", "input": "which documents are loaded", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
 {"id": "rag_list_4", "category": "rag", "input": "list the documents", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "code_howto_1", "category": "coding", "input": "how do I reverse a string in python", "expect_contains": ["def reverse_string", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "code_howto_2", "category": "coding", "input": "how to reverse a string in python", "expect_contains": ["def reverse_string", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "code_howto_3", "category": "coding", "input": "how do I implement binary search", "expect_contains": ["def binary_search", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "code_howto_4", "category": "coding", "input": "how can I write a function that adds two numbers", "expect_contains": ["def add", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "code_howto_5", "category": "coding", "input": "how do I sort a list in python", "expect_contains": ["def sort_list", "Verified"], "expect_not_contains": ["toy-scale", "How can I help"]}
