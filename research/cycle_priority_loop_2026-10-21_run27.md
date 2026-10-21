@@ -22,19 +22,20 @@
 ## Tests
 - doctor READY
 - pytest tests/unit/test_code_route_search.py + test_thinking.py + test_permissions_and_state.py: 21 passed
+- smoke eval: 2090/2090 = 100% (2026-10-21_051840_eval.json)
 - probes: add/calculator/search/identity/prose exclusion OK
 - calculator ops: + - * / and ZeroDivisionError verified
 
 ## Benchmark before → after
 | Metric | Before | After | Diff |
 |---|---:|---:|---:|
-| smoke accuracy | 100% (2090/2090) | (eval running) | — |
+| smoke accuracy | 100% (2090/2090) | 100% (2090/2090) | 0 |
 | "implement a simple calculator" | chat hedge | coding_agent + def calculate | fixed |
 | "write about fusion energy" | chat | chat | held |
 | search / identity probes | pass | pass | — |
 
 ## GitHub push
-Pending eval confirmation.
+YES — 28986bf fix(code): route "implement a …" phrases to CodeAgent
 
 ## Next priority remaining
 Priority 2–6 still green (honest offline search, identity, eval coverage, local==main for tracked sources before this change, auto prefers Ollama, API deps optional).
