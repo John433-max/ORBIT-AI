@@ -72,3 +72,24 @@ def test_document_inventory_phrases_route_to_document():
         out = orch.handle(q)
         assert out.get("agent") == "document", q
         assert "no documents loaded" in (out.get("content") or "").lower(), q
+
+
+def test_implement_article_phrase_routes_to_code_not_hedge():
+    """Priority-1: 'implement a ...' must hit CodeAgent, not the chat hedge."""
+    from agents import _wants_code_written, Orchestrator
+
+    assert _wants_code_written("implement a simple calculator")
+    assert _wants_code_written("write a simple calculator")
+    assert _wants_code_written("write a web scraper")
+    assert not _wants_code_written("write about fusion energy")
+    assert not _wants_code_written("write a blog post about AI")
+    assert not _wants_code_written("write a story")
+
+    orch = Orchestrator()
+    assert orch.route("implement a simple calculator") == "code"
+    assert orch.route("write about fusion energy") == "chat"
+    out = orch.handle("implement a simple calculator")
+    assert out["agent"] == "coding_agent"
+    assert "def calculate" in out["content"]
+    assert "toy-scale" not in out["content"].lower()
+    assert "I'm ORBIT" not in out["content"]

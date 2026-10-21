@@ -38,14 +38,37 @@ def _wants_code_written(request: str) -> bool:
         low,
     ) and not re.search(r"\b(write|implement|create|define|make|code)\b", low):
         return False
+    # Prose / content asks are not code synthesis ("write about fusion",
+    # "write a blog post"). Must run before the article-skipping identifier
+    # pattern, which would otherwise treat "about"/"blog" as the target.
+    if re.search(
+        r"^\s*write\s+(about|a |an |the )?(blog|story|poem|letter|email|essay|"
+        r"summary|article|review|report)\b|"
+        r"^\s*write\s+about\b",
+        low,
+    ):
+        return False
     if re.search(
         r"\b(write|implement|create|define|make|code)\b.{0,80}\b("
         r"function|def |class |script|program|module|code|factorial)\b|"
         r"\bpython function\b|"
         r"\bimplement\b.{0,40}\bin python\b|"
         r"\b(binary search|recover binary search tree|factorial function)\b|"
-        r"\b(implement|write|create|define)\b\s+[a-z_][a-z0-9_]{2,}\b|"
+        r"\b(implement|write|create|define)\b\s+(?:(?:a|an|the|some|simple|basic|small)\s+)*[a-z_][a-z0-9_]{2,}\b|"
         r"\bleetcode\s*\d+\b",
+        low,
+    ):
+        return True
+    # Leading implement/write/code is a code ask ("implement a simple calculator")
+    # even when the next token is an article. Prose and web lookups stay off code.
+    if re.search(r"^\s*(implement|code)\b", low) and not re.search(
+        r"\b(search for|look up|look this up|news about|google|blog post|story|poem|"
+        r"letter|email|essay|summary|article)\b",
+        low,
+    ):
+        return True
+    if re.search(r"^\s*write\b", low) and not re.search(
+        r"\b(about|blog|story|poem|letter|email|essay|summary|article|review|report)\b",
         low,
     ):
         return True
@@ -130,6 +153,24 @@ def _synthesize_python(request: str) -> str:
             "def multiply(a, b):\n"
             '    """Return the product of a and b."""\n'
             "    return a * b\n"
+        )
+    if re.search(r"\b(simple )?calculator\b", low) and re.search(
+        r"\b(write|implement|create|define|make|code)\b", low
+    ):
+        return (
+            "def calculate(a, op, b):\n"
+            '    """Four-function calculator: +, -, *, /."""\n'
+            "    if op == '+':\n"
+            "        return a + b\n"
+            "    if op == '-':\n"
+            "        return a - b\n"
+            "    if op == '*':\n"
+            "        return a * b\n"
+            "    if op == '/':\n"
+            "        if b == 0:\n"
+            "            raise ZeroDivisionError('division by zero')\n"
+            "        return a / b\n"
+            "    raise ValueError(f'unsupported operator: {op}')\n"
         )
     return ""
 
