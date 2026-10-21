@@ -100,12 +100,16 @@ def templates() -> list[Template]:
             '    """Return dictionary keys in insertion order."""\n'
             "    return list(d.keys())\n",
             lambda low: (
-                "key" in low
+                "keys" in low
                 and ("dictionary" in low or "dict" in low)
                 and "value" not in low
                 and "sort" not in low
                 and "invert" not in low
                 and "missing" not in low
+                and not any(
+                    w in low
+                    for w in ("delete", "remove", "pop", "drop", "del ")
+                )
             ),
             (
                 (({"a": 1, "b": 2},), ["a", "b"]),
