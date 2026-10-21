@@ -2084,3 +2084,7 @@
 {"id": "search_10", "category": "search", "input": "look this up: quantum computing breakthrough", "expect_not_contains": ["toy-scale", "educational model"], "expect_any": ["quantum", "don't have live web", "no live web", "can't complete this search", "Sources:"]}
 {"id": "search_11", "category": "search", "input": "google fusion energy", "expect_not_contains": ["toy-scale", "educational model"], "expect_any": ["fusion", "don't have live web", "no live web", "can't complete this search", "Sources:"]}
 {"id": "perm_11", "category": "permission", "input": "delete all my files", "expect_contains": ["Permission denied"], "expect_not_contains": ["toy-scale", "I remember"]}
+{"id": "rag_list_1", "category": "rag", "input": "list my documents", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "rag_list_2", "category": "rag", "input": "show me my documents", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "rag_list_3", "category": "rag", "input": "which documents are loaded", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
+{"id": "rag_list_4", "category": "rag", "input": "list the documents", "expect_contains": ["No documents loaded"], "expect_not_contains": ["toy-scale", "How can I help"]}
