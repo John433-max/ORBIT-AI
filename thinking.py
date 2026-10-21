@@ -387,12 +387,13 @@ def _is_destructive_fs(text: str) -> bool:
     return bool(
         re.search(
             r"\brm\s+-rf\b|"
-            r"\bdelete all files\b|"
+            r"\bdelete all( my)? files\b|"
+            r"\bdelete (all )?my files\b|"
             r"\bdelete everything\b|"
             r"\bdelete (the )?(system|all) files\b|"
-            r"\b(wipe|destroy|erase) (the )?(disk|root|filesystem|drive|everything|all files)\b|"
+            r"\b(wipe|destroy|erase) (the |my )?(disk|root|filesystem|drive|everything|all files|files)\b|"
             r"\bformat (the )?(hard )?disk\b|"
-            r"\bremove all files in\s+/|"
+            r"\bremove all( my)? files( in\s+/)?\b|"
             r"\b(cat|type)\s+/etc/passwd\b|"
             r"\b(read|show|dump)\s+/etc/passwd\b",
             text or "",
