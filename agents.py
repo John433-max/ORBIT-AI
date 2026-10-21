@@ -50,7 +50,8 @@ def _wants_code_written(request: str) -> bool:
         return False
     if re.search(
         r"\b(write|implement|create|define|make|code|build)\b.{0,80}\b("
-        r"function|def|class|script|program|module|code|factorial)\b|"
+        r"function|def|class|script|program|module|code|factorial|"
+        r"scraper|parser|tool|utility|crawler|calculator)\b|"
         r"\bpython function\b|"
         r"\bimplement\b.{0,40}\bin python\b|"
         r"\b(implement|write|create|define)\b\s+(?:(?:a|an|the|some|simple|basic|small)\s+)*[a-z_][a-z0-9_]{2,}\b|"
@@ -258,6 +259,35 @@ def _synthesize_python(request: str) -> str:
             "            _walk(node.right)\n"
             "        _walk(self.root)\n"
             "        return out\n"
+        )
+    # Generic class ask that missed every template: still return real code.
+    if re.search(r"\bclass\b", low) and re.search(
+        r"\b(write|implement|create|define|make|code|build)\b", low
+    ):
+        m = re.search(
+            r"\bclass\s+for\s+(?:a|an|the)?\s*([a-z0-9][a-z0-9 ]{1,40})",
+            low,
+        )
+        raw_name = (m.group(1) if m else "item").strip()
+        raw_name = re.sub(r"\b(in|using|with|that)\b.*$", "", raw_name).strip()
+        parts = [w for w in re.split(r"[^a-z0-9]+", raw_name) if w]
+        cls = "".join(w.capitalize() for w in parts[:3]) or "Item"
+        return (
+            f"class {cls}:\n"
+            f'    """Simple {raw_name or cls} object."""\n'
+            "    def __init__(self, name=''):\n"
+            "        self.name = name\n"
+            "        self.balance = 0\n"
+            "\n"
+            "    def deposit(self, amount):\n"
+            "        amount = float(amount)\n"
+            "        if amount < 0:\n"
+            "            raise ValueError('amount must be non-negative')\n"
+            "        self.balance += amount\n"
+            "        return self.balance\n"
+            "\n"
+            "    def __repr__(self):\n"
+            f"        return f'{cls}({{self.name!r}}, balance={{self.balance}})'\n"
         )
     return ""
 

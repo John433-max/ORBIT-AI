@@ -112,3 +112,26 @@ def test_generic_coding_asks_return_real_code_not_miss():
     # Prose still stays off the code path.
     about = orch.handle("write about fusion energy")
     assert about["agent"] == "main_chat_agent"
+
+
+def test_build_scraper_and_class_return_real_code():
+    """Priority-1: build-scraper and class asks route to CodeAgent with real source."""
+    from agents import _wants_code_written, Orchestrator
+
+    assert _wants_code_written("build a simple web scraper")
+    assert _wants_code_written("create a class for a bank account")
+    assert not _wants_code_written("write about fusion energy")
+
+    orch = Orchestrator()
+    scrape = orch.handle("build a simple web scraper")
+    assert scrape["agent"] == "coding_agent"
+    assert "def scrape_text" in scrape["content"]
+    assert "couldn't synthesize" not in scrape["content"].lower()
+    assert "I'm ORBIT" not in scrape["content"]
+
+    klass = orch.handle("create a class for a bank account")
+    assert klass["agent"] == "coding_agent"
+    assert "class BankAccount" in klass["content"]
+    assert "couldn't synthesize" not in klass["content"].lower()
+    assert "I'm ORBIT" not in klass["content"]
+

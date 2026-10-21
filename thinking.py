@@ -94,7 +94,8 @@ def _is_code(text: str) -> bool:
         r"```|^\s*def |import |print\(|"
         r"write (a |some )?code|"
         r"\b(write|implement|create|define|make|code|program|build)\b.{0,80}\b("
-        r"function|def|class|script|program|module|code)\b|"
+        r"function|def|class|script|program|module|code|"
+        r"scraper|parser|tool|utility|crawler|calculator)\b|"
         r"\bpython function\b|"
         r"\bimplement\b.{0,40}\bin python\b|"
         r"\bcode\s+(a|an|the)?\s*(python\s+)?(function|class|script|program)\b",
