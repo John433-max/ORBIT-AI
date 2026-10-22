@@ -372,6 +372,42 @@ class ResearchAgent:
                 )
         except Exception:
             pass
+        # Offline educational fallback: conceptual algorithm asks
+        # ("how does binary search work") still route here, but when a
+        # verified code_synth template exists, return it as a local
+        # reference instead of a pure dead-end offline message.
+        # Live news/lookup phrases stay on the honest offline message.
+        low = (request or "").lower()
+        wants_news = bool(
+            re.search(
+                r"\b(news|recent|today|latest|current events|google|look up papers)\b",
+                low,
+            )
+        )
+        conceptual = bool(
+            re.search(
+                r"\b(how does|how do|explain|what is|what's|what are|describe|define|"
+                r"tell me about)\b",
+                low,
+            )
+        )
+        if conceptual and not wants_news:
+            try:
+                src = _synthesize_python(request)
+                if src and not _is_code_synth_stub(src):
+                    body = (
+                        "No live web available in this environment. "
+                        "Here is a local reference implementation that shows how it works:\n\n"
+                        f"```python\n{src.strip()}\n```\nVerified."
+                    )
+                    return AgentResult(
+                        self.name,
+                        True,
+                        body,
+                        raw={"offline": True, "edu_template": True, "route": "research"},
+                    )
+            except Exception:
+                pass
         return AgentResult(
             self.name,
             True,

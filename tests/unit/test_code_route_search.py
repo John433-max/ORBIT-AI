@@ -192,3 +192,24 @@ def test_file_inventory_phrases_stay_sandbox_not_research():
         assert "sandbox" in low or "files" in low, out.get("content")
         assert "no live web" not in low, out.get("content")
         assert "how can i help" not in low, out.get("content")
+
+
+def test_offline_algorithm_explainer_returns_local_template():
+    """Offline research: conceptual algorithm asks get a code_synth reference.
+
+    News/lookup phrases must stay on the pure offline message (no template).
+    """
+    orch = Orchestrator()
+    how = orch.handle("how does binary search work")
+    assert how["agent"] == "research_agent"
+    body = how.get("content") or ""
+    assert "No live web" in body or "live web" in body.lower()
+    assert "def binary_search" in body
+    assert "Verified" in body
+    assert how.get("raw", {}).get("edu_template") is True or "def binary_search" in body
+
+    news = orch.handle("search for recent news about fusion energy")
+    assert news["agent"] == "research_agent"
+    nbody = news.get("content") or ""
+    assert "def " not in nbody
+    assert "live web" in nbody.lower() or "No live web" in nbody
