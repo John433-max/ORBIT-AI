@@ -109,9 +109,9 @@ def test_generic_coding_asks_return_real_code_not_miss():
     assert "def scrape_text" in scrape["content"]
     assert "couldn't synthesize" not in scrape["content"].lower()
 
-    # Prose still stays off the code path.
+    # Prose stays off the code path; weak chat falls through to research.
     about = orch.handle("write about fusion energy")
-    assert about["agent"] == "main_chat_agent"
+    assert about["agent"] == "research_agent"
 
 
 def test_build_scraper_and_class_return_real_code():
@@ -152,10 +152,11 @@ def test_tell_me_about_routes_to_research_not_hedge():
     assert "ORBIT" in (ident.get("content") or "")
     assert "no live web" not in (ident.get("content") or "").lower()
 
-    # Prose still routes to chat, but the hedge falls through to an honest note.
+    # Prose still routes to chat, but the hedge falls through to research
+    # (honest offline note); agent label reflects research_agent.
     assert orch.route("write about fusion energy") == "chat"
     about = orch.handle("write about fusion energy")
-    assert about["agent"] == "main_chat_agent"
+    assert about["agent"] == "research_agent"
     about_low = (about.get("content") or "").lower()
     assert "how can i help" not in about_low
     assert "no live web" in about_low or "fusion" in about_low

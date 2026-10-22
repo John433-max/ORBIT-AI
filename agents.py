@@ -838,8 +838,10 @@ class Orchestrator:
                     alt = self.agents["research"].run(request, ctx)
                     alt_c = (alt.content or "").strip()
                     if alt.ok and alt_c and "can't complete this search" not in alt_c.lower():
+                        # Label as research_agent so metrics/probes reflect the
+                        # honest offline (or live) research path, not chat hedge.
                         verified = AgentResult(
-                            "main_chat_agent",
+                            "research_agent",
                             True,
                             alt_c,
                             raw={"source": "research_fallback", "inner": alt.raw, "route": agent_key},
