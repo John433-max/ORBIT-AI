@@ -515,7 +515,11 @@ class MainChatAgent:
     def run(self, request: str, context=None):
         raw = request or ""
         low = raw.lower()
-        if re.search(r"\b(what is your name|who are you|your name|who created you)\b", low):
+        if re.search(
+            r"\b(what is your name|who are you|your name|who created you|"
+            r"tell me about (yourself|you))\b",
+            low,
+        ):
             return AgentResult(
                 "main_chat_agent",
                 True,
@@ -599,6 +603,24 @@ def _is_tinylm_router(router) -> bool:
 def _looks_like_question(text: str) -> bool:
     t = (text or "").strip()
     return t.endswith("?") or bool(re.match(r"^(what|who|when|where|why|how|is|are|can|does)\b", t, re.I))
+
+
+def _looks_like_knowledge(text: str) -> bool:
+    """Factual or prose asks that should not stay on the generic hedge.
+
+    Question forms already qualify. Also cover imperative knowledge asks
+    ("tell me about SPARC tokamak", "write about fusion energy") that do
+    not start with a wh-word. Identity and code synthesis are handled
+    earlier and are not knowledge fallbacks.
+    """
+    if _looks_like_question(text):
+        return True
+    return bool(re.search(
+        r"\b(tell me about|tell me more about|write about|write a blog|"
+        r"describe|explain)\b",
+        text or "",
+        re.I,
+    ))
 
 
 class Orchestrator:
@@ -695,6 +717,14 @@ class Orchestrator:
             low,
         ):
             return "research"
+        # Knowledge asks without a search verb. "tell me about SPARC
+        # tokamak" previously fell through to the generic chat hedge.
+        # Identity ("tell me about yourself") and lab topics stay put.
+        if re.search(r"\btell me (more )?about\b", low) and not re.search(
+            r"\b(yourself|you|orbit|your name)\b", low
+        ):
+            if not (_looks_like_lab(request) and not _wants_code_written(request)):
+                return "research"
         if re.search(r"\b(what is your name|who are you)\b", low):
             return "chat"
         if re.search(r"[0-9]+\s*[\+\-\*/]\s*[0-9]+", low) or re.search(
@@ -740,7 +770,7 @@ class Orchestrator:
             or len(content) < 12
             or hedge
         )
-        if weak and _looks_like_question(request):
+        if weak and _looks_like_knowledge(request):
             # Prefer a healthy non-educational provider (Ollama / OpenAI / GGUF)
             # over the generic hedge. TinyLM stays the educational fallback and
             # is not used to invent facts; research gives an honest offline note.

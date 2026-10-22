@@ -135,3 +135,27 @@ def test_build_scraper_and_class_return_real_code():
     assert "couldn't synthesize" not in klass["content"].lower()
     assert "I'm ORBIT" not in klass["content"]
 
+
+def test_tell_me_about_routes_to_research_not_hedge():
+    """Priority-2: 'tell me about X' is a knowledge ask, not the chat hedge."""
+    orch = Orchestrator()
+    assert orch.route("tell me about SPARC tokamak") == "research"
+    out = orch.handle("tell me about SPARC tokamak")
+    assert out["agent"] == "research_agent"
+    low = (out.get("content") or "").lower()
+    assert "how can i help" not in low
+    assert "no live web" in low or "sparc" in low
+
+    # Identity stays on chat, not research.
+    assert orch.route("tell me about yourself") == "chat"
+    ident = orch.handle("tell me about yourself")
+    assert "ORBIT" in (ident.get("content") or "")
+    assert "no live web" not in (ident.get("content") or "").lower()
+
+    # Prose still routes to chat, but the hedge falls through to an honest note.
+    assert orch.route("write about fusion energy") == "chat"
+    about = orch.handle("write about fusion energy")
+    assert about["agent"] == "main_chat_agent"
+    about_low = (about.get("content") or "").lower()
+    assert "how can i help" not in about_low
+    assert "no live web" in about_low or "fusion" in about_low
