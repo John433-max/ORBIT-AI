@@ -313,6 +313,11 @@ def _explicit_write_ask(request: str) -> bool:
 
 def _is_computational_math(request: str) -> bool:
     low = (request or "").lower()
+    # Conceptual explainers ("how does factorial work") are not arithmetic.
+    if re.search(r"\bhow (does|do)\b.+\bwork\b", low) and not re.search(
+        r"\b(force|energy|joule|newton|physics|mechanical)\b", low
+    ):
+        return False
     if re.search(r"[0-9]+\s*[\+\-\*/]\s*[0-9]+", low):
         return True
     try:
@@ -756,12 +761,22 @@ class Orchestrator:
                 return "research"
         if re.search(r"\b(what is your name|who are you)\b", low):
             return "chat"
-        if re.search(r"[0-9]+\s*[\+\-\*/]\s*[0-9]+", low) or re.search(
-            r"\b(calculate|compute|factorial|percent|percentage)\b|"
-            r"\b\d+\s+times\s+\d+\b|"
-            r"\badd\s+\d+\s+and\s+\d+\b|"
-            r"\b(what is|what's)\s+\d",
-            low,
+        # Skip conceptual "how does X work" (already excluded in
+        # _is_computational_math); do not let bare "factorial" steal it.
+        if not (
+            re.search(r"\bhow (does|do)\b.+\bwork\b", low)
+            and not re.search(
+                r"\b(force|energy|joule|newton|physics|mechanical)\b", low
+            )
+        ) and (
+            re.search(r"[0-9]+\s*[\+\-\*/]\s*[0-9]+", low)
+            or re.search(
+                r"\b(calculate|compute|factorial|percent|percentage)\b|"
+                r"\b\d+\s+times\s+\d+\b|"
+                r"\badd\s+\d+\s+and\s+\d+\b|"
+                r"\b(what is|what's)\s+\d",
+                low,
+            )
         ):
             return "calculator"
         try:

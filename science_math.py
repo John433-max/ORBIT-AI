@@ -494,16 +494,23 @@ def looks_like_science_math(text: str) -> bool:
     # Newton-Raphson / Newton's method is a coding template, not F=ma.
     if re.search(r"\bnewton[- ]?raphson\b|\bnewton'?s? method\b", low):
         return False
+    # Conceptual "how does X work" / "how do X work" are explanations, not
+    # physics work (W=F·d). Bare "work" alone was stealing algorithm explainers.
+    if re.search(r"\bhow (does|do)\b.+\bwork\b", low) and not re.search(
+        r"\b(force|energy|joule|newton|physics|mechanical)\b", low
+    ):
+        return False
     single = (
         "derivative", "differentiate", "integral", "integrate", "limit",
         "triangle", "circle", "rectangle", "sphere", "hypotenuse", "pythagorean",
         "force", "mass", "acceleration", "velocity", "newton", "ohm", "voltage",
-        "density", "momentum", "work", "cylinder", "cuboid", "interest",
+        "density", "momentum", "cylinder", "cuboid", "interest",
         "celsius", "fahrenheit", "kilometers", "calculus", "geometry", "physics",
         "factorial", "gravitational", "planck", "avogadro",
         # constants for "what is pi" routing
         "pi", "π",
     )
+    # Physics "work" only with force/energy context (not "how does X work").
     multi = (
         "second derivative", "area of", "circumference", "volume of",
         "kinetic energy", "potential energy", "surface area",
@@ -511,6 +518,7 @@ def looks_like_science_math(text: str) -> bool:
         # unit conversion phrases (km→m, °C→°F, …)
         "convert ", " km to ", " m to ", " kg to ", " to m", " to km",
         " to celsius", " to fahrenheit", "celsius to", "fahrenheit to",
+        "work done", "work equals", "calculate work", "compute work",
     )
     if any(p in low for p in multi):
         return True
