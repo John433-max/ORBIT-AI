@@ -101,6 +101,15 @@ def test_gradient_descent_question_is_lab_title_is_code():
     assert t.classify("linear regression least squares slope intercept") == "code"
 
 
+def test_neural_network_and_transformer_route_to_lab():
+    """Conceptual NN / transformer explainers go to the scratch lab, not research."""
+    t = Thinker({})
+    assert t.classify("how does a neural network work") == "lab"
+    assert t.classify("what is a neural network") == "lab"
+    assert t.classify("how does a transformer work") == "lab"
+    assert t.classify("what is a transformer") == "lab"
+
+
 def test_activation_functions_route_to_lab_not_relu_template():
     t = Thinker({})
     assert t.classify("activation functions relu sigmoid") == "lab"

@@ -2099,3 +2099,5 @@
 {"id": "code_delete_key_1", "category": "coding", "input": "write a function that deletes a key from a dict", "expect_contains": ["def delete_key", "Verified"], "expect_not_contains": ["def dict_keys", "NotImplemented", "toy-scale"]}
 {"id": "search_general_1", "category": "search", "input": "what is the capital of France", "expect_any": ["Paris", "no live web", "don't have live web", "Sources:"], "expect_not_contains": ["How can I help", "toy-scale"]}
 {"id": "search_tell_about_1", "category": "search", "input": "tell me about SPARC tokamak", "expect_not_contains": ["toy-scale", "educational model", "How can I help"], "expect_any": ["SPARC", "tokamak", "no live web", "don't have live web", "Sources:"]}
+{"id": "lab_nn", "category": "lab", "input": "how does a neural network work", "expect_contains": ["XOR", "neuron", "three_neurons"]}
+{"id": "lab_transformer", "category": "lab", "input": "how does a transformer work", "expect_contains": ["next-token", "next_token"]}
