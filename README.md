@@ -117,9 +117,12 @@ cd ORBIT-AI
 python3 -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+# HTTP API + Web UI (optional; doctor warns if missing):
+pip install -r requirements-api.txt
 # Optional: pip install -r requirements-torch.txt
 ```
 
+Core agents / TinyLM / eval work without FastAPI. See [SETUP.md](SETUP.md).
 Copy `.env.example` → `.env` as needed.
 
 ---
