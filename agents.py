@@ -642,7 +642,7 @@ except Exception:
         return bool(
             re.search(
                 r"gradient descent|overfitting|backprop|from scratch|activation|"
-                r"neural network|transformer",
+                r"neural network|transformer|(self[- ]?)?attention",
                 low,
             )
         )

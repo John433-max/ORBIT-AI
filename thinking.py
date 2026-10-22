@@ -263,8 +263,12 @@ def _is_lab(text: str) -> bool:
             r"gradient descent|overfitting|backpropagation|backprop|"
             r"activation functions?|next[- ]token|tiny (language )?model|"
             r"xor (neural |network|problem)?|does ai think|"
-            r"neural network|how (does|do) (a |an )?(neural|transformer)|"
-            r"what is (a |an )?(neural network|transformer))\b",
+            r"neural network|"
+            r"(self[- ])?attention|"
+            r"transformers?\b|"
+            r"how (does|do) (a |an )?(neural|transformer)|"
+            r"what is (a |an )?(neural network|transformer|self[- ]?attention)|"
+            r"explain (a |an |the )?(neural network|transformer|attention))\b",
             text or "",
             re.I,
         )

@@ -23,8 +23,12 @@ def looks_like_lab(text: str) -> bool:
             r"gradient descent|overfitting|backpropagation|backprop|"
             r"activation functions?|next token|tiny language model|"
             r"xor demo|does ai think|"
-            r"neural network|how (does|do) (a |an )?(neural|transformer)|"
-            r"what is (a |an )?(neural network|transformer))\b",
+            r"neural network|"
+            r"(self[- ])?attention|"
+            r"transformers?\b|"
+            r"how (does|do) (a |an )?(neural|transformer)|"
+            r"what is (a |an )?(neural network|transformer|self[- ]?attention)|"
+            r"explain (a |an |the )?(neural network|transformer|attention))\b",
             low,
         )
     )
@@ -67,10 +71,12 @@ class LabAgent:
             or "tiny model" in low
         ):
             want = "next_token"
-        # Conceptual NN / transformer explainers → nearest educational demo
+        # Conceptual NN / transformer / attention explainers → nearest educational demo
         if want is None and re.search(r"\bneural network\b", low):
             want = "three_neurons"
-        if want is None and re.search(r"\btransformer\b", low):
+        if want is None and re.search(r"\btransformers?\b", low):
+            want = "next_token"
+        if want is None and re.search(r"\b(self[- ]?)?attention\b", low):
             want = "next_token"
 
         teach = {

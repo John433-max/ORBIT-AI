@@ -102,12 +102,16 @@ def test_gradient_descent_question_is_lab_title_is_code():
 
 
 def test_neural_network_and_transformer_route_to_lab():
-    """Conceptual NN / transformer explainers go to the scratch lab, not research."""
+    """Conceptual NN / transformer / attention explainers go to the scratch lab, not research."""
     t = Thinker({})
     assert t.classify("how does a neural network work") == "lab"
     assert t.classify("what is a neural network") == "lab"
     assert t.classify("how does a transformer work") == "lab"
     assert t.classify("what is a transformer") == "lab"
+    assert t.classify("explain transformers") == "lab"
+    assert t.classify("explain how transformers work") == "lab"
+    assert t.classify("how does attention work in transformers") == "lab"
+    assert t.classify("what is self-attention") == "lab"
 
 
 def test_activation_functions_route_to_lab_not_relu_template():
