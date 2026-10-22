@@ -2101,3 +2101,5 @@
 {"id": "search_tell_about_1", "category": "search", "input": "tell me about SPARC tokamak", "expect_not_contains": ["toy-scale", "educational model", "How can I help"], "expect_any": ["SPARC", "tokamak", "no live web", "don't have live web", "Sources:"]}
 {"id": "lab_nn", "category": "lab", "input": "how does a neural network work", "expect_contains": ["XOR", "neuron", "three_neurons"]}
 {"id": "lab_transformer", "category": "lab", "input": "how does a transformer work", "expect_contains": ["next-token", "next_token"]}
+{"id": "chat_orbit_self", "category": "chat", "input": "what is ORBIT", "expect_contains": ["ORBIT"], "expect_not_contains": ["no live web", "toy-scale"]}
+{"id": "chat_who_orbit", "category": "chat", "input": "who is orbit", "expect_contains": ["ORBIT"], "expect_not_contains": ["no live web", "toy-scale"]}

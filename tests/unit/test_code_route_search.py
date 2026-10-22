@@ -213,3 +213,21 @@ def test_offline_algorithm_explainer_returns_local_template():
     nbody = news.get("content") or ""
     assert "def " not in nbody
     assert "live web" in nbody.lower() or "No live web" in nbody
+
+
+def test_self_identity_orbit_name_not_research():
+    """'what is ORBIT' / 'who is orbit' stay on chat identity, not web research."""
+    orch = Orchestrator()
+    assert orch.route("what is ORBIT") == "chat"
+    assert orch.route("who is orbit") == "chat"
+    assert orch.route("what is orbit AI") == "chat"
+    assert orch.route("what is your name") == "chat"
+    for q in ("what is ORBIT", "who is orbit", "what is orbit AI"):
+        out = orch.handle(q)
+        assert out["agent"] == "main_chat_agent"
+        assert "ORBIT" in out["content"]
+        assert "no live web" not in out["content"].lower()
+        assert (out.get("raw") or {}).get("identity") is True
+    # Astronomy must not be claimed as self-identity.
+    astro = orch.handle("what is the orbit of the earth")
+    assert (astro.get("raw") or {}).get("identity") is not True

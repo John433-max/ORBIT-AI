@@ -558,7 +558,13 @@ class MainChatAgent:
         low = raw.lower()
         if re.search(
             r"\b(what is your name|who are you|your name|who created you|"
-            r"tell me about (yourself|you))\b",
+            r"tell me about (yourself|you)|"
+            r"what(?:'s| is) (you|orbit(?:[\s-]?ai)?)|"
+            r"who(?:'s| is) (you|orbit(?:[\s-]?ai)?))\b",
+            low,
+        ) and not re.search(
+            r"\borbit of\b|\borbital\b|\borbit around\b|"
+            r"\b(earth|moon|planet|satellite|mars|sun)(?:'s)? orbit\b",
             low,
         ):
             return AgentResult(
@@ -801,7 +807,16 @@ class Orchestrator:
         ):
             if not (_looks_like_lab(request) and not _wants_code_written(request)):
                 return "research"
-        if re.search(r"\b(what is your name|who are you)\b", low):
+        if re.search(
+            r"\b(what is your name|who are you|your name|"
+            r"what(?:'s| is) (you|orbit(?:[\s-]?ai)?)|"
+            r"who(?:'s| is) (you|orbit(?:[\s-]?ai)?))\b",
+            low,
+        ) and not re.search(
+            r"\borbit of\b|\borbital\b|\borbit around\b|"
+            r"\b(earth|moon|planet|satellite|mars|sun)(?:'s)? orbit\b",
+            low,
+        ):
             return "chat"
         # Skip conceptual "how does X work" (already excluded in
         # _is_computational_math); do not let bare "factorial" steal it.

@@ -309,14 +309,29 @@ def _is_status(text: str) -> bool:
 
 
 def _is_self_identity(text: str) -> bool:
-    """Questions about ORBIT's own name/identity — not user profile, not web research."""
+    """Questions about ORBIT's own name/identity — not user profile, not web research.
+
+    "what is ORBIT" / "who is orbit" must stay on the identity path so a live
+    web lookup cannot return movie or astronomy results. Orbital mechanics
+    ("orbit of the earth", "orbital period") are excluded.
+    """
+    raw = text or ""
+    if re.search(
+        r"\borbit of\b|\borbital\b|\borbit around\b|"
+        r"\b(earth|moon|planet|satellite|mars|sun)(?:'s)? orbit\b",
+        raw,
+        re.I,
+    ):
+        return False
     return bool(
         re.search(
             r"\bwhat(?:'s| is) your name\b|\btell me (about )?yourself\b|"
             r"\bintroduce yourself\b|\byour name\b|"
             r"\bwho (created|made|built) you\b|\bwhat created you\b|"
-            r"\bwho(?:'s| is) your creator\b",
-            text or "",
+            r"\bwho(?:'s| is) your creator\b|"
+            r"\bwhat(?:'s| is) (you|orbit(?:[\s-]?ai)?)\b|"
+            r"\bwho(?:'s| is) (you|orbit(?:[\s-]?ai)?)\b",
+            raw,
             re.I,
         )
     )

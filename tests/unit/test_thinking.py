@@ -86,6 +86,9 @@ def test_binary_search_function_is_code_not_web():
     assert t.classify("find latest news on tokamak reactors") == "search"
     assert t.classify("papers about stellarator design") == "search"
     assert t.classify("what is your name") == "chat"
+    assert t.classify("what is ORBIT") == "chat"
+    assert t.classify("who is orbit") == "chat"
+    assert t.classify("what is orbit AI") == "chat"
 
 
 def test_gradient_descent_question_is_lab_title_is_code():
