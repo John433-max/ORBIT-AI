@@ -159,3 +159,35 @@ def test_tell_me_about_routes_to_research_not_hedge():
     about_low = (about.get("content") or "").lower()
     assert "how can i help" not in about_low
     assert "no live web" in about_low or "fusion" in about_low
+
+
+def test_file_inventory_phrases_stay_sandbox_not_research():
+    """Sandbox file listing must not weak-fall through to ResearchAgent."""
+    from agents import Orchestrator, _looks_like_file_inventory, _looks_like_knowledge
+
+    for q in (
+        "list files",
+        "what files are in the sandbox",
+        "which files are available",
+        "show me the files",
+        "what's in the sandbox",
+        "files in the workspace",
+    ):
+        assert _looks_like_file_inventory(q), q
+        assert not _looks_like_knowledge(q), q
+
+    orch = Orchestrator()
+    for q in (
+        "list files",
+        "what files are in the sandbox",
+        "which files are available",
+        "show me the files",
+        "what's in the sandbox",
+    ):
+        assert orch.route(q) == "chat", q
+        out = orch.handle(q)
+        assert out["agent"] == "main_chat_agent", q
+        low = (out.get("content") or "").lower()
+        assert "sandbox" in low or "files" in low, out.get("content")
+        assert "no live web" not in low, out.get("content")
+        assert "how can i help" not in low, out.get("content")

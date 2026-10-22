@@ -563,7 +563,18 @@ class MainChatAgent:
                     f"n={len(nums)} mean={mean:g} min={min(nums):g} max={max(nums):g}",
                     raw={"stats": True},
                 )
-        if re.search(r"\blist files\b", low):
+        # Sandbox file inventory (not document RAG). Keep ahead of the
+        # generic hedge so "what files…" / "show files" never weak-fall
+        # through to ResearchAgent's offline note.
+        if re.search(
+            r"\blist files\b|"
+            r"\b(what|which) files?\b|"
+            r"\bshow (me )?(the )?files?\b|"
+            r"\bfiles? (in|on) (the )?(sandbox|workspace|directory|folder|cwd)\b|"
+            r"\b(list|show) (the )?(sandbox|workspace) (files?|contents?)\b|"
+            r"\bwhat('s| is) in (the )?(sandbox|workspace|directory|folder)\b",
+            low,
+        ):
             return AgentResult(
                 "main_chat_agent",
                 True,
@@ -605,14 +616,32 @@ def _looks_like_question(text: str) -> bool:
     return t.endswith("?") or bool(re.match(r"^(what|who|when|where|why|how|is|are|can|does)\b", t, re.I))
 
 
+def _looks_like_file_inventory(text: str) -> bool:
+    """Local sandbox file listing asks — not web knowledge or document RAG."""
+    low = (text or "").lower()
+    return bool(
+        re.search(
+            r"\blist files\b|"
+            r"\b(what|which) files?\b|"
+            r"\bshow (me )?(the )?files?\b|"
+            r"\bfiles? (in|on) (the )?(sandbox|workspace|directory|folder|cwd)\b|"
+            r"\b(list|show) (the )?(sandbox|workspace) (files?|contents?)\b|"
+            r"\bwhat('s| is) in (the )?(sandbox|workspace|directory|folder)\b",
+            low,
+        )
+    )
+
+
 def _looks_like_knowledge(text: str) -> bool:
     """Factual or prose asks that should not stay on the generic hedge.
 
     Question forms already qualify. Also cover imperative knowledge asks
     ("tell me about SPARC tokamak", "write about fusion energy") that do
-    not start with a wh-word. Identity and code synthesis are handled
-    earlier and are not knowledge fallbacks.
+    not start with a wh-word. Identity, code synthesis, and local file
+    inventory are handled earlier and are not knowledge fallbacks.
     """
+    if _looks_like_file_inventory(text):
+        return False
     if _looks_like_question(text):
         return True
     return bool(re.search(
