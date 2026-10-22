@@ -262,7 +262,9 @@ def _is_lab(text: str) -> bool:
             r"tinylm lab|lab (status|bench)|"
             r"gradient descent|overfitting|backpropagation|backprop|"
             r"activation functions?|next[- ]token|tiny (language )?model|"
-            r"xor (neural |network|problem)?|does ai think)\b",
+            r"xor (neural |network|problem)?|does ai think|"
+            r"neural network|how (does|do) (a |an )?(neural|transformer)|"
+            r"what is (a |an )?(neural network|transformer))\b",
             text or "",
             re.I,
         )

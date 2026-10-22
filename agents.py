@@ -603,7 +603,13 @@ except Exception:
             return AgentResult(self.name, False, "lab unavailable")
     def _looks_like_lab(text):
         low = (text or "").lower()
-        return bool(re.search(r"gradient descent|overfitting|backprop|from scratch|activation", low))
+        return bool(
+            re.search(
+                r"gradient descent|overfitting|backprop|from scratch|activation|"
+                r"neural network|transformer",
+                low,
+            )
+        )
 
 
 def _is_tinylm_router(router) -> bool:
