@@ -4,21 +4,22 @@
 
 **Broken commits:** `78696b35`, `31154b44`
 
-**Last good remote agents.py:** commit `0f8523425cf4b0ad2c785fe15044620523596c59` (before those two).
+**Additional broken (2026-10-23):** commit `a8b03f316e5040c9c318038ed0ebc9f0c9822bae` titled "fix(agents): restore full agents.py after empty push" actually wrote only `PLACEHOLDER_SEE_NEXT` (20 bytes). CI Tests run 40038822119 failed with exit code 2 on Python 3.11/3.12 (unit tests core step).
 
-**Local source of truth:** `/home/workdir/artifacts/orbit/agents.py` (~103KB) includes:
-- Full orchestrator + agents
-- RAG-empty fix: route `summarize my uploaded report` → `document_agent` with honest empty message
+**Last good remote agents.py:** commit `0f8523425cf4b0ad2c785fe15044620523596c59` (full ~108KB file with Orchestrator, CodeAgent, ResearchAgent, etc.).
 
-**Restore (from a machine with the full tree):**
+**Local source of truth:** `/home/workdir/artifacts/orbit/agents.py`
+
+**Restore (from a machine with the full tree or git):**
 ```bash
 cd /path/to/ORBIT-AI
-cp /home/workdir/artifacts/orbit/agents.py ./agents.py   # or from your local copy
+git checkout 0f8523425cf4b0ad2c785fe15044620523596c59 -- agents.py
+# or cp from local full copy
 git add agents.py
-git commit -m "fix: restore full agents.py after placeholder incident + RAG-empty report route"
+git commit -m "fix: restore full agents.py from 0f85234 after placeholder pushes"
 git push origin main
 ```
 
-Or reset file from last good commit then re-apply the ROUTES/AGENT_SIGNALS/DocumentAgent empty-path edits in `research/cycle_rag_empty_route.md`.
+**Do not** leave `agents.py` as PLACEHOLDER — CI and runtime will break (import/syntax/test collection fail).
 
-**Do not** leave `agents.py` as PLACEHOLDER — CI and runtime will break.
+MCP `push_files` has repeatedly truncated large `agents.py` payloads to a placeholder string; use native git for files >~50KB.
