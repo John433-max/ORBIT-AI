@@ -355,6 +355,38 @@ class CodeAgent:
         )
 
 
+
+_OFFLINE_FACTS = (
+    (r"\bcapital of france\b", "The capital of France is Paris."),
+    (r"\bcapital of japan\b", "The capital of Japan is Tokyo."),
+    (r"\bcapital of germany\b", "The capital of Germany is Berlin."),
+    (r"\bcapital of italy\b", "The capital of Italy is Rome."),
+    (r"\bcapital of spain\b", "The capital of Spain is Madrid."),
+    (r"\bcapital of the united kingdom\b|\bcapital of (?:the )?uk\b|\bcapital of england\b",
+     "The capital of the United Kingdom is London."),
+    (r"\bcapital of canada\b", "The capital of Canada is Ottawa."),
+    (r"\bcapital of australia\b", "The capital of Australia is Canberra."),
+    (r"\bcapital of india\b", "The capital of India is New Delhi."),
+    (r"\bcapital of china\b", "The capital of China is Beijing."),
+    (r"\bcapital of brazil\b", "The capital of Brazil is Brasília."),
+)
+
+
+def _offline_static_fact(request: str):
+    """Return a short known-stable fact, or None.
+
+    Only fixed geography. News, prices, and current office-holders stay on
+    the honest no-live-web path.
+    """
+    low = (request or "").lower()
+    if re.search(r"\b(news|recent|today|latest|price|cost|president|prime minister)\b", low):
+        return None
+    for pat, ans in _OFFLINE_FACTS:
+        if re.search(pat, low):
+            return ans
+    return None
+
+
 class ResearchAgent:
     name = "research_agent"
 
@@ -409,6 +441,17 @@ class ResearchAgent:
                     )
             except Exception:
                 pass
+        # Stable offline facts (geography / fixed knowledge). Do not use for
+        # news, prices, or office-holders that change. Label as offline so we
+        # never claim a live web result.
+        fact = _offline_static_fact(request)
+        if fact and not wants_news:
+            return AgentResult(
+                self.name,
+                True,
+                fact + " (offline known fact; no live web in this environment)",
+                raw={"offline": True, "static_fact": True, "route": "research"},
+            )
         return AgentResult(
             self.name,
             True,
@@ -573,6 +616,14 @@ class MainChatAgent:
                 True,
                 "I'm ORBIT. Named after the project that built me, not the other way around.",
                 raw={"identity": True},
+            )
+        fact = _offline_static_fact(request)
+        if fact:
+            return AgentResult(
+                "main_chat_agent",
+                True,
+                fact + " (offline known fact; no live web in this environment)",
+                raw={"static_fact": True, "offline": True},
             )
         if re.search(r"\bwhat can you do\b", low):
             return AgentResult(

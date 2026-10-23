@@ -2103,3 +2103,7 @@
 {"id": "lab_transformer", "category": "lab", "input": "how does a transformer work", "expect_contains": ["next-token", "next_token"]}
 {"id": "chat_orbit_self", "category": "chat", "input": "what is ORBIT", "expect_contains": ["ORBIT"], "expect_not_contains": ["no live web", "toy-scale"]}
 {"id": "chat_who_orbit", "category": "chat", "input": "who is orbit", "expect_contains": ["ORBIT"], "expect_not_contains": ["no live web", "toy-scale"]}
+{"id": "fact_capital_fr", "category": "search", "input": "what is the capital of France", "expect_contains": ["Paris"]}
+{"id": "fact_capital_jp", "category": "search", "input": "capital of Japan", "expect_contains": ["Tokyo"]}
+{"id": "fact_capital_de", "category": "search", "input": "what is the capital of Germany", "expect_contains": ["Berlin"]}
+{"id": "search_news_still_offline", "category": "search", "input": "search for recent news about fusion energy", "expect_contains": ["No live web"]}
