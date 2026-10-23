@@ -125,8 +125,9 @@ def _wants_code_written(request: str) -> bool:
 
 
 DENY_FS_MSG = (
-    "I can't do that. ORBIT refuses destructive filesystem commands "
-    "(delete all files, rm -rf /, wipe disk). Permission denied."
+    "I can't do that. ORBIT refuses destructive or sensitive filesystem "
+    "access (delete all files, rm -rf /, wipe disk, reading /etc/passwd "
+    "or private keys). Permission denied."
 )
 
 
