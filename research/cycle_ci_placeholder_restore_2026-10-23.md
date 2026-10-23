@@ -33,3 +33,20 @@ Unit tests exited 2 because agents.py was overwritten with the single word "plac
 - Monitor CI on be4b9c5
 - Continue coding/research path probes if any residual hedge
 - GitHub parity for remaining local-only files if needed
+
+---
+
+## Follow-up verification (event run 39902455993 / commit 8ba5c73)
+
+Triggered by Tests workflow failure on 8ba5c73 (25s, exit 2).
+
+Local (2026-10-23 ~04:51 UTC):
+- HEAD / origin/main: f3173f1 (docs after be4b9c5 full restore)
+- agents.py: 982 lines, 0 PLACEHOLDER tokens, syntax OK
+- doctor: READY (API deps + Ollama optional)
+- smoke latest.json: 2109/2109 = 1.0
+- probes: coding → coding_agent + Verified add(); search → research_agent honest no-live-web; identity → main_chat_agent ORBIT
+- pytest tests/unit excl. code_synth: 95 passed, 1 skipped
+- pytest tests/security: 13 passed
+
+Conclusion: failure was on intermediate 8ba5c73; subsequent be4b9c5 / f3173f1 already restored the CI surface. No further code change required this run.
