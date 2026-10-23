@@ -12,8 +12,8 @@ Unit tests exited 2 because agents.py was overwritten with the single word "plac
 ## Changes
 - Diagnosed remote agents.py at 8aa62e4 was literally "placeholder" (1 line).
 - Concurrent incomplete restore 8ba5c73 only recovered AgentResult (22 lines).
-- Restored full 982-line CI-surface agents.py from local good commit 2de848e.
-- Commit 66e2756 pushed to main.
+- Restored full 982-line CI-surface agents.py.
+- Intermediate docs commit 747fe98 accidentally truncated agents.py again; fixed in be4b9c5.
 
 ## Tests
 - Local core unit tests (excl. code_synth): 95 passed, 1 skipped
@@ -25,10 +25,11 @@ Unit tests exited 2 because agents.py was overwritten with the single word "plac
 - No inference benchmark change (routing surface only)
 
 ## GitHub push: YES
-- https://github.com/John433-max/ORBIT-AI/commit/66e2756
-- "fix(agents): restore full 982-line agents.py (CI surface)"
+- https://github.com/John433-max/ORBIT-AI/commit/be4b9c5
+- "fix(agents): re-restore full agents.py (docs commit accidentally truncated it)"
+- Prior: 66e2756 full restore, 747fe98 docs (regressed), be4b9c5 final
 
 ## Next priority remaining
-- Monitor CI on 66e2756
+- Monitor CI on be4b9c5
 - Continue coding/research path probes if any residual hedge
 - GitHub parity for remaining local-only files if needed
