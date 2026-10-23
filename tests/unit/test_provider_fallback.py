@@ -45,16 +45,19 @@ def test_weak_chat_uses_model_provider():
 
 
 def test_generic_hedge_question_uses_research():
-    """Unmatched factual questions must not stay on the generic ORBIT hedge."""
+    """Unmatched factual questions must not stay on the generic ORBIT hedge.
+
+    Known offline static facts (e.g. capital of France) are answered directly
+    by the static-fact path; this covers a question that still falls through.
+    """
     orch = Orchestrator(sandbox_root=".")
-    out = orch.handle("what is the capital of France")
+    out = orch.handle("who invented the telephone")
     assert out.get("ok"), out
     body = out.get("content") or ""
     low = body.lower()
     assert "how can i help" not in low, body
     assert (
         "no live web" in low
-        or "paris" in low
         or "sources:" in low
     ), body
     raw = out.get("raw") or {}
