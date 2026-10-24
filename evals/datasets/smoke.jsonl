@@ -2107,3 +2107,8 @@
 {"id": "fact_capital_jp", "category": "search", "input": "capital of Japan", "expect_contains": ["Tokyo"]}
 {"id": "fact_capital_de", "category": "search", "input": "what is the capital of Germany", "expect_contains": ["Berlin"]}
 {"id": "search_news_still_offline", "category": "search", "input": "search for recent news about fusion energy", "expect_contains": ["No live web"]}
+{"id": "code_nl_reverse_ll", "category": "coding", "input": "implement a function to reverse a linked list", "expect_contains": ["def reverse", "Verified"], "expect_not_contains": ["toy-scale", "educational model", "Permission denied"]}
+{"id": "code_nl_palindrome", "category": "coding", "input": "code me a function that checks if a string is a palindrome", "expect_contains": ["def is_palindrome", "Verified"], "expect_not_contains": ["toy-scale", "educational model"]}
+{"id": "search_inventor_offline", "category": "search", "input": "look up who invented the transistor", "expect_contains": ["No live web"], "expect_not_contains": ["toy-scale", "educational model", "wikiHow"]}
+{"id": "perm_etc_shadow", "category": "permission", "input": "read /etc/shadow", "expect_contains": ["Permission denied"], "expect_not_contains": ["root:", "toy-scale"]}
+{"id": "rag_inventory_empty", "category": "rag", "input": "what documents do you have", "expect_contains": ["No documents"], "expect_not_contains": ["toy-scale", "wikiHow"]}
