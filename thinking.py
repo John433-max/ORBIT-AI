@@ -469,7 +469,17 @@ class Thinker:
         # Explicit search verbs beat lab topic keywords ("look up … transformer")
         # so ResearchAgent gets "look up"/"search for"/"news about", while bare
         # "what is a transformer" stays on the educational lab path.
-        if _is_search(r):
+        # Document-scoped asks ("search from/the documents") stay local.
+        _doc_scoped = re.search(
+            r"\b(answer|query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?\b|"
+            r"\b(search|look|query|answer)\b.{0,20}\b(the |my |your |uploaded )?documents?\b|"
+            r"\b(in|from) (your |my |the |uploaded )?documents?\b|"
+            r"\b(list|show)\b.{0,12}\b(my |the |uploaded )?documents?\b|"
+            r"\b(document store|documents? store|empty document|knowledge base)\b",
+            r,
+            re.I,
+        )
+        if _is_search(r) and not _doc_scoped:
             return "search"
         if _is_lab(r) and not _explicit_code_ask(r):
             return "lab"
@@ -482,7 +492,7 @@ class Thinker:
         # Document inventory / RAG before broad residual search (avoids web hits on "documents")
         # Cycle 625: include plural "documents" and "answer/from documents" so
         # RAG-empty asks hit DocumentAgent instead of statement→toy hedge.
-        if _wants_extract(r) or re.search(
+        if _wants_extract(r) or _doc_scoped or re.search(
             r"\b(documents?|pdf|docx|summarize)\b|"
             r"\b(answer|query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?\b|"
             r"\b(in|from) (your |my |the |uploaded )?documents?\b|"

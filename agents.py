@@ -821,6 +821,30 @@ class Orchestrator:
         if _is_computational_math(request) and not _explicit_write_ask(request):
             return "calculator"
         low = (request or "").lower()
+        # Document / RAG before research so "search from the documents" and
+        # "search the documents" stay local (honest empty-RAG), while bare
+        # "look up who invented the transformer" still hits ResearchAgent.
+        # Inventory / "show/which" forms previously fell through to chat.
+        if re.search(
+            r"\bsummarize (the |this |a |an )?documents?\b|document\s*#\s*\d+|"
+            r"summarize this:|"
+            r"\bwhat documents?( do you have| are (loaded|uploaded|available))?\b|"
+            r"\bwhich documents?( do you have| are (loaded|uploaded|available))?\b|"
+            r"\blist (my |the |uploaded )?documents?\b|"
+            r"\bshow (me )?(my |the |uploaded )?documents?\b|"
+            r"\baccording to the documents?\b|\bin the documents?\b|"
+            r"\bfrom (your |my |the |uploaded )?documents?\b|"
+            r"\b(answer|query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?\b|"
+            r"\b(search|look|query|answer)\b.{0,20}\b(the |my |your |uploaded )?documents?\b|"
+            r"\bno documents?\b|"
+            r"\b(knowledge base|indexed documents?)\b|"
+            r"\bupload(ed)? documents?\b|"
+            # "document store" / empty-store inventory (RAG-empty honest path)
+            r"\b(document store|documents? store|empty document)\b|"
+            r"\bsummarize .{0,24}\bdocument store\b",
+            low,
+        ):
+            return "document"
         # Priority-2 research intents before broad lab topic keywords so
         # "look up who invented the transformer" hits ResearchAgent, not LabAgent.
         if re.search(
@@ -835,30 +859,6 @@ class Orchestrator:
             return "lab"
         if _wants_code_written(request):
             return "code"
-        # Document / RAG before residual research so "search from the documents" stays local.
-        # Document inventory / RAG-empty before chat. Possessive and
-        # "show/which" forms ("list my documents", "show me my documents",
-        # "which documents are loaded") previously fell through to the
-        # generic main_chat hedge instead of the honest empty-RAG reply.
-        if re.search(
-            r"\bsummarize (the |this |a |an )?documents?\b|document\s*#\s*\d+|"
-            r"summarize this:|"
-            r"\bwhat documents?( do you have| are (loaded|uploaded|available))?\b|"
-            r"\bwhich documents?( do you have| are (loaded|uploaded|available))?\b|"
-            r"\blist (my |the |uploaded )?documents?\b|"
-            r"\bshow (me )?(my |the |uploaded )?documents?\b|"
-            r"\baccording to the documents?\b|\bin the documents?\b|"
-            r"\bfrom (your |my |the |uploaded )?documents?\b|"
-            r"\b(answer|query|search|look)\b.{0,40}\bfrom (your |my |the |uploaded )?documents?\b|"
-            r"\bno documents?\b|"
-            r"\b(knowledge base|indexed documents?)\b|"
-            r"\bupload(ed)? documents?\b|"
-            # "document store" / empty-store inventory (RAG-empty honest path)
-            r"\b(document store|documents? store|empty document)\b|"
-            r"\bsummarize .{0,24}\bdocument store\b",
-            low,
-        ):
-            return "document"
         # Knowledge asks without a search verb. "tell me about SPARC
         # tokamak" previously fell through to the generic chat hedge.
         # Identity ("tell me about yourself") and lab topics stay put.

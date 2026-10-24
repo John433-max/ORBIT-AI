@@ -231,3 +231,20 @@ def test_self_identity_orbit_name_not_research():
     # Astronomy must not be claimed as self-identity.
     astro = orch.handle("what is the orbit of the earth")
     assert (astro.get("raw") or {}).get("identity") is not True
+
+def test_search_over_lab_keeps_document_scoped_local():
+    """Explicit search verbs beat lab keywords, but document-scoped asks stay local."""
+    orch = Orchestrator()
+    assert orch.route("look up who invented the transformer") == "research"
+    assert orch.route("what is a transformer") == "lab"
+    assert orch.route("search for recent news about fusion energy") == "research"
+    for q in (
+        "search from the documents",
+        "search the documents",
+        "look up from the documents",
+        "list my documents",
+    ):
+        assert orch.route(q) == "document", q
+    assert orch.route("what is your name") == "chat"
+    assert orch.route("write a python function that adds two numbers") == "code"
+
